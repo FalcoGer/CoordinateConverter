@@ -239,19 +239,12 @@ namespace CoordinateConverter
         {
             char[] validSingleCharacters = { '°', '.', '\'' };
             // allow numbers or any of the validSingleCharacters as long as they aren't in the text already
-            if (
+            e.Handled = !(
                 (e.KeyChar >= '0' && e.KeyChar <= '9') ||
                 (e.KeyChar == ' ') ||
                 (validSingleCharacters.Contains(e.KeyChar) && ((TextBox)sender).Text.Contains(e.KeyChar)) ||
                 (e.KeyChar < 32)
-            )
-            {
-                e.Handled = true;
-            }
-            else
-            {
-                e.Handled = false;
-            }
+            );
         }
         #endregion // LLDecimal
 

@@ -131,8 +131,7 @@ namespace CoordinateConverter
             this.RB_BullsE.Location = new System.Drawing.Point(242, 4);
             this.RB_BullsE.Name = "RB_BullsE";
             this.RB_BullsE.Size = new System.Drawing.Size(32, 17);
-            this.RB_BullsE.TabIndex = 31;
-            this.RB_BullsE.TabStop = true;
+            this.RB_BullsE.TabIndex = 2;
             this.RB_BullsE.Text = "E";
             this.RB_BullsE.UseVisualStyleBackColor = true;
             // 
@@ -143,7 +142,7 @@ namespace CoordinateConverter
             this.RB_BullsW.Location = new System.Drawing.Point(203, 4);
             this.RB_BullsW.Name = "RB_BullsW";
             this.RB_BullsW.Size = new System.Drawing.Size(36, 17);
-            this.RB_BullsW.TabIndex = 30;
+            this.RB_BullsW.TabIndex = 1;
             this.RB_BullsW.Text = "W";
             this.RB_BullsW.UseVisualStyleBackColor = true;
             // 
@@ -155,7 +154,7 @@ namespace CoordinateConverter
             this.TB_BullsLon.MaxLength = 16;
             this.TB_BullsLon.Name = "TB_BullsLon";
             this.TB_BullsLon.Size = new System.Drawing.Size(191, 20);
-            this.TB_BullsLon.TabIndex = 27;
+            this.TB_BullsLon.TabIndex = 0;
             // 
             // GrpBox_Bulls
             // 
@@ -166,7 +165,7 @@ namespace CoordinateConverter
             this.GrpBox_Bulls.Location = new System.Drawing.Point(613, 12);
             this.GrpBox_Bulls.Name = "GrpBox_Bulls";
             this.GrpBox_Bulls.Size = new System.Drawing.Size(283, 100);
-            this.GrpBox_Bulls.TabIndex = 14;
+            this.GrpBox_Bulls.TabIndex = 1;
             this.GrpBox_Bulls.TabStop = false;
             this.GrpBox_Bulls.Text = "Bullseye";
             // 
@@ -176,7 +175,7 @@ namespace CoordinateConverter
             this.label4.Location = new System.Drawing.Point(6, 79);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(135, 13);
-            this.label4.TabIndex = 21;
+            this.label4.TabIndex = 2;
             this.label4.Text = "Bullseye coordinates in L/L";
             // 
             // Pnl_BullsEasting
@@ -187,7 +186,7 @@ namespace CoordinateConverter
             this.Pnl_BullsEasting.Location = new System.Drawing.Point(3, 49);
             this.Pnl_BullsEasting.Name = "Pnl_BullsEasting";
             this.Pnl_BullsEasting.Size = new System.Drawing.Size(277, 27);
-            this.Pnl_BullsEasting.TabIndex = 15;
+            this.Pnl_BullsEasting.TabIndex = 1;
             // 
             // Pnl_BullsNorthing
             // 
@@ -197,7 +196,7 @@ namespace CoordinateConverter
             this.Pnl_BullsNorthing.Location = new System.Drawing.Point(3, 16);
             this.Pnl_BullsNorthing.Name = "Pnl_BullsNorthing";
             this.Pnl_BullsNorthing.Size = new System.Drawing.Size(277, 27);
-            this.Pnl_BullsNorthing.TabIndex = 16;
+            this.Pnl_BullsNorthing.TabIndex = 0;
             // 
             // TB_BullsLat
             // 
@@ -207,7 +206,7 @@ namespace CoordinateConverter
             this.TB_BullsLat.MaxLength = 16;
             this.TB_BullsLat.Name = "TB_BullsLat";
             this.TB_BullsLat.Size = new System.Drawing.Size(191, 20);
-            this.TB_BullsLat.TabIndex = 26;
+            this.TB_BullsLat.TabIndex = 0;
             // 
             // RB_BullsN
             // 
@@ -217,8 +216,7 @@ namespace CoordinateConverter
             this.RB_BullsN.Location = new System.Drawing.Point(203, 4);
             this.RB_BullsN.Name = "RB_BullsN";
             this.RB_BullsN.Size = new System.Drawing.Size(33, 17);
-            this.RB_BullsN.TabIndex = 28;
-            this.RB_BullsN.TabStop = true;
+            this.RB_BullsN.TabIndex = 1;
             this.RB_BullsN.Text = "N";
             this.RB_BullsN.UseVisualStyleBackColor = true;
             // 
@@ -229,7 +227,7 @@ namespace CoordinateConverter
             this.RB_BullsS.Location = new System.Drawing.Point(242, 4);
             this.RB_BullsS.Name = "RB_BullsS";
             this.RB_BullsS.Size = new System.Drawing.Size(32, 17);
-            this.RB_BullsS.TabIndex = 29;
+            this.RB_BullsS.TabIndex = 2;
             this.RB_BullsS.Text = "S";
             this.RB_BullsS.UseVisualStyleBackColor = true;
             // 
@@ -249,7 +247,7 @@ namespace CoordinateConverter
             this.GrpBox_Output.Location = new System.Drawing.Point(0, 269);
             this.GrpBox_Output.Name = "GrpBox_Output";
             this.GrpBox_Output.Size = new System.Drawing.Size(908, 151);
-            this.GrpBox_Output.TabIndex = 15;
+            this.GrpBox_Output.TabIndex = 2;
             this.GrpBox_Output.TabStop = false;
             this.GrpBox_Output.Text = "Output";
             // 
@@ -259,7 +257,7 @@ namespace CoordinateConverter
             this.label12.Location = new System.Drawing.Point(3, 127);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(41, 13);
-            this.label12.TabIndex = 20;
+            this.label12.TabIndex = 9;
             this.label12.Text = "BULLS";
             // 
             // label11
@@ -268,7 +266,7 @@ namespace CoordinateConverter
             this.label11.Location = new System.Drawing.Point(3, 101);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(31, 13);
-            this.label11.TabIndex = 18;
+            this.label11.TabIndex = 8;
             this.label11.Text = "UTM";
             // 
             // TB_Out_Bulls
@@ -279,7 +277,8 @@ namespace CoordinateConverter
             this.TB_Out_Bulls.Name = "TB_Out_Bulls";
             this.TB_Out_Bulls.ReadOnly = true;
             this.TB_Out_Bulls.Size = new System.Drawing.Size(855, 20);
-            this.TB_Out_Bulls.TabIndex = 21;
+            this.TB_Out_Bulls.TabIndex = 4;
+            this.TB_Out_Bulls.TabStop = false;
             this.TB_Out_Bulls.Text = "Enter Coordinates";
             // 
             // label10
@@ -288,7 +287,7 @@ namespace CoordinateConverter
             this.label10.Location = new System.Drawing.Point(3, 75);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(39, 13);
-            this.label10.TabIndex = 18;
+            this.label10.TabIndex = 7;
             this.label10.Text = "MGRS";
             // 
             // TB_Out_UTM
@@ -299,7 +298,8 @@ namespace CoordinateConverter
             this.TB_Out_UTM.Name = "TB_Out_UTM";
             this.TB_Out_UTM.ReadOnly = true;
             this.TB_Out_UTM.Size = new System.Drawing.Size(855, 20);
-            this.TB_Out_UTM.TabIndex = 19;
+            this.TB_Out_UTM.TabIndex = 3;
+            this.TB_Out_UTM.TabStop = false;
             this.TB_Out_UTM.Text = "Enter Coordinates";
             // 
             // TB_Out_MGRS
@@ -310,7 +310,8 @@ namespace CoordinateConverter
             this.TB_Out_MGRS.Name = "TB_Out_MGRS";
             this.TB_Out_MGRS.ReadOnly = true;
             this.TB_Out_MGRS.Size = new System.Drawing.Size(855, 20);
-            this.TB_Out_MGRS.TabIndex = 19;
+            this.TB_Out_MGRS.TabIndex = 2;
+            this.TB_Out_MGRS.TabStop = false;
             this.TB_Out_MGRS.Text = "Enter Coordinates";
             // 
             // label9
@@ -319,7 +320,7 @@ namespace CoordinateConverter
             this.label9.Location = new System.Drawing.Point(3, 23);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(24, 13);
-            this.label9.TabIndex = 18;
+            this.label9.TabIndex = 5;
             this.label9.Text = "L/L";
             // 
             // label8
@@ -328,7 +329,7 @@ namespace CoordinateConverter
             this.label8.Location = new System.Drawing.Point(3, 49);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(47, 13);
-            this.label8.TabIndex = 16;
+            this.label8.TabIndex = 6;
             this.label8.Text = "L/L Dec";
             // 
             // TB_Out_LL
@@ -339,7 +340,8 @@ namespace CoordinateConverter
             this.TB_Out_LL.Name = "TB_Out_LL";
             this.TB_Out_LL.ReadOnly = true;
             this.TB_Out_LL.Size = new System.Drawing.Size(855, 20);
-            this.TB_Out_LL.TabIndex = 19;
+            this.TB_Out_LL.TabIndex = 0;
+            this.TB_Out_LL.TabStop = false;
             this.TB_Out_LL.Text = "Enter Coordinates";
             // 
             // TB_Out_LLDec
@@ -350,7 +352,8 @@ namespace CoordinateConverter
             this.TB_Out_LLDec.Name = "TB_Out_LLDec";
             this.TB_Out_LLDec.ReadOnly = true;
             this.TB_Out_LLDec.Size = new System.Drawing.Size(855, 20);
-            this.TB_Out_LLDec.TabIndex = 17;
+            this.TB_Out_LLDec.TabIndex = 1;
+            this.TB_Out_LLDec.TabStop = false;
             this.TB_Out_LLDec.Text = "Enter Coordinates";
             // 
             // GrpBox_Input
@@ -362,7 +365,7 @@ namespace CoordinateConverter
             this.GrpBox_Input.Location = new System.Drawing.Point(12, 12);
             this.GrpBox_Input.Name = "GrpBox_Input";
             this.GrpBox_Input.Size = new System.Drawing.Size(590, 251);
-            this.GrpBox_Input.TabIndex = 1;
+            this.GrpBox_Input.TabIndex = 0;
             this.GrpBox_Input.TabStop = false;
             this.GrpBox_Input.Text = "Input";
             // 
@@ -399,7 +402,7 @@ namespace CoordinateConverter
             this.label7.Location = new System.Drawing.Point(6, 69);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(227, 13);
-            this.label7.TabIndex = 24;
+            this.label7.TabIndex = 2;
             this.label7.Text = "Example: 57° 25\' 66.23\" N / 047° 55\' 42.52\" E";
             // 
             // panel1
@@ -412,7 +415,7 @@ namespace CoordinateConverter
             this.panel1.Location = new System.Drawing.Point(6, 39);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(537, 27);
-            this.panel1.TabIndex = 21;
+            this.panel1.TabIndex = 1;
             // 
             // TB_LL_Lon
             // 
@@ -422,7 +425,7 @@ namespace CoordinateConverter
             this.TB_LL_Lon.MaxLength = 16;
             this.TB_LL_Lon.Name = "TB_LL_Lon";
             this.TB_LL_Lon.Size = new System.Drawing.Size(451, 20);
-            this.TB_LL_Lon.TabIndex = 3;
+            this.TB_LL_Lon.TabIndex = 2;
             this.TB_LL_Lon.TextChanged += new System.EventHandler(this.TB_LL_Lon_TextChanged);
             this.TB_LL_Lon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_KeyPress);
             // 
@@ -433,7 +436,7 @@ namespace CoordinateConverter
             this.RB_LL_W.Location = new System.Drawing.Point(463, 4);
             this.RB_LL_W.Name = "RB_LL_W";
             this.RB_LL_W.Size = new System.Drawing.Size(36, 17);
-            this.RB_LL_W.TabIndex = 6;
+            this.RB_LL_W.TabIndex = 0;
             this.RB_LL_W.Text = "W";
             this.RB_LL_W.UseVisualStyleBackColor = true;
             this.RB_LL_W.CheckedChanged += new System.EventHandler(this.RB_LL_CheckedChanged);
@@ -446,8 +449,7 @@ namespace CoordinateConverter
             this.RB_LL_E.Location = new System.Drawing.Point(502, 4);
             this.RB_LL_E.Name = "RB_LL_E";
             this.RB_LL_E.Size = new System.Drawing.Size(32, 17);
-            this.RB_LL_E.TabIndex = 7;
-            this.RB_LL_E.TabStop = true;
+            this.RB_LL_E.TabIndex = 1;
             this.RB_LL_E.Text = "E";
             this.RB_LL_E.UseVisualStyleBackColor = true;
             this.RB_LL_E.CheckedChanged += new System.EventHandler(this.RB_LL_CheckedChanged);
@@ -462,7 +464,7 @@ namespace CoordinateConverter
             this.panel2.Location = new System.Drawing.Point(6, 6);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(537, 27);
-            this.panel2.TabIndex = 22;
+            this.panel2.TabIndex = 0;
             // 
             // TB_LL_Lat
             // 
@@ -472,7 +474,7 @@ namespace CoordinateConverter
             this.TB_LL_Lat.MaxLength = 16;
             this.TB_LL_Lat.Name = "TB_LL_Lat";
             this.TB_LL_Lat.Size = new System.Drawing.Size(451, 20);
-            this.TB_LL_Lat.TabIndex = 2;
+            this.TB_LL_Lat.TabIndex = 0;
             this.TB_LL_Lat.TextChanged += new System.EventHandler(this.TB_LL_Lat_TextChanged);
             this.TB_LL_Lat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_KeyPress);
             // 
@@ -484,8 +486,7 @@ namespace CoordinateConverter
             this.RB_LL_N.Location = new System.Drawing.Point(463, 4);
             this.RB_LL_N.Name = "RB_LL_N";
             this.RB_LL_N.Size = new System.Drawing.Size(33, 17);
-            this.RB_LL_N.TabIndex = 4;
-            this.RB_LL_N.TabStop = true;
+            this.RB_LL_N.TabIndex = 1;
             this.RB_LL_N.Text = "N";
             this.RB_LL_N.UseVisualStyleBackColor = true;
             this.RB_LL_N.CheckedChanged += new System.EventHandler(this.RB_LL_CheckedChanged);
@@ -497,7 +498,7 @@ namespace CoordinateConverter
             this.RB_LL_S.Location = new System.Drawing.Point(502, 4);
             this.RB_LL_S.Name = "RB_LL_S";
             this.RB_LL_S.Size = new System.Drawing.Size(32, 17);
-            this.RB_LL_S.TabIndex = 5;
+            this.RB_LL_S.TabIndex = 2;
             this.RB_LL_S.Text = "S";
             this.RB_LL_S.UseVisualStyleBackColor = true;
             this.RB_LL_S.CheckedChanged += new System.EventHandler(this.RB_LL_CheckedChanged);
@@ -521,7 +522,7 @@ namespace CoordinateConverter
             this.label13.Location = new System.Drawing.Point(6, 69);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(211, 13);
-            this.label13.TabIndex = 25;
+            this.label13.TabIndex = 2;
             this.label13.Text = "Example: 42° 07.9623\' N / 175° 45.0295\' E";
             // 
             // panel3
@@ -534,7 +535,7 @@ namespace CoordinateConverter
             this.panel3.Location = new System.Drawing.Point(6, 39);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(537, 27);
-            this.panel3.TabIndex = 21;
+            this.panel3.TabIndex = 1;
             // 
             // TB_LLDec_Lon
             // 
@@ -544,7 +545,7 @@ namespace CoordinateConverter
             this.TB_LLDec_Lon.MaxLength = 16;
             this.TB_LLDec_Lon.Name = "TB_LLDec_Lon";
             this.TB_LLDec_Lon.Size = new System.Drawing.Size(451, 20);
-            this.TB_LLDec_Lon.TabIndex = 9;
+            this.TB_LLDec_Lon.TabIndex = 0;
             this.TB_LLDec_Lon.TextChanged += new System.EventHandler(this.TB_LLDecimal_Lon_TextChanged);
             this.TB_LLDec_Lon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_Decimal_KeyPress);
             // 
@@ -555,7 +556,7 @@ namespace CoordinateConverter
             this.RB_LLDec_W.Location = new System.Drawing.Point(463, 4);
             this.RB_LLDec_W.Name = "RB_LLDec_W";
             this.RB_LLDec_W.Size = new System.Drawing.Size(36, 17);
-            this.RB_LLDec_W.TabIndex = 12;
+            this.RB_LLDec_W.TabIndex = 1;
             this.RB_LLDec_W.Text = "W";
             this.RB_LLDec_W.UseVisualStyleBackColor = true;
             this.RB_LLDec_W.CheckedChanged += new System.EventHandler(this.RB_LLDecimal_CheckedChanged);
@@ -568,8 +569,7 @@ namespace CoordinateConverter
             this.RB_LLDec_E.Location = new System.Drawing.Point(502, 4);
             this.RB_LLDec_E.Name = "RB_LLDec_E";
             this.RB_LLDec_E.Size = new System.Drawing.Size(32, 17);
-            this.RB_LLDec_E.TabIndex = 13;
-            this.RB_LLDec_E.TabStop = true;
+            this.RB_LLDec_E.TabIndex = 2;
             this.RB_LLDec_E.Text = "E";
             this.RB_LLDec_E.UseVisualStyleBackColor = true;
             this.RB_LLDec_E.CheckedChanged += new System.EventHandler(this.RB_LLDecimal_CheckedChanged);
@@ -584,7 +584,7 @@ namespace CoordinateConverter
             this.panel4.Location = new System.Drawing.Point(6, 6);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(537, 27);
-            this.panel4.TabIndex = 22;
+            this.panel4.TabIndex = 0;
             // 
             // TB_LLDec_Lat
             // 
@@ -594,7 +594,7 @@ namespace CoordinateConverter
             this.TB_LLDec_Lat.MaxLength = 16;
             this.TB_LLDec_Lat.Name = "TB_LLDec_Lat";
             this.TB_LLDec_Lat.Size = new System.Drawing.Size(451, 20);
-            this.TB_LLDec_Lat.TabIndex = 8;
+            this.TB_LLDec_Lat.TabIndex = 0;
             this.TB_LLDec_Lat.TextChanged += new System.EventHandler(this.TB_LLDecimal_Lat_TextChanged);
             this.TB_LLDec_Lat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_Decimal_KeyPress);
             // 
@@ -606,8 +606,7 @@ namespace CoordinateConverter
             this.RB_LLDec_N.Location = new System.Drawing.Point(463, 4);
             this.RB_LLDec_N.Name = "RB_LLDec_N";
             this.RB_LLDec_N.Size = new System.Drawing.Size(33, 17);
-            this.RB_LLDec_N.TabIndex = 10;
-            this.RB_LLDec_N.TabStop = true;
+            this.RB_LLDec_N.TabIndex = 1;
             this.RB_LLDec_N.Text = "N";
             this.RB_LLDec_N.UseVisualStyleBackColor = true;
             this.RB_LLDec_N.CheckedChanged += new System.EventHandler(this.RB_LLDecimal_CheckedChanged);
@@ -619,7 +618,7 @@ namespace CoordinateConverter
             this.RB_LLDec_S.Location = new System.Drawing.Point(502, 4);
             this.RB_LLDec_S.Name = "RB_LLDec_S";
             this.RB_LLDec_S.Size = new System.Drawing.Size(32, 17);
-            this.RB_LLDec_S.TabIndex = 11;
+            this.RB_LLDec_S.TabIndex = 2;
             this.RB_LLDec_S.Text = "S";
             this.RB_LLDec_S.UseVisualStyleBackColor = true;
             this.RB_LLDec_S.CheckedChanged += new System.EventHandler(this.RB_LLDecimal_CheckedChanged);
@@ -647,7 +646,8 @@ namespace CoordinateConverter
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
             this.textBox7.Size = new System.Drawing.Size(567, 140);
-            this.textBox7.TabIndex = 18;
+            this.textBox7.TabIndex = 2;
+            this.textBox7.TabStop = false;
             this.textBox7.Text = resources.GetString("textBox7.Text");
             // 
             // label6
@@ -656,7 +656,7 @@ namespace CoordinateConverter
             this.label6.Location = new System.Drawing.Point(3, 44);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(133, 13);
-            this.label6.TabIndex = 22;
+            this.label6.TabIndex = 1;
             this.label6.Text = "Example: 37 T GG 433245";
             // 
             // panel5
@@ -670,7 +670,7 @@ namespace CoordinateConverter
             this.panel5.Location = new System.Drawing.Point(3, 6);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(569, 35);
-            this.panel5.TabIndex = 22;
+            this.panel5.TabIndex = 0;
             // 
             // TB_MGRS_SubgridIdent
             // 
@@ -678,7 +678,7 @@ namespace CoordinateConverter
             this.TB_MGRS_SubgridIdent.MaxLength = 2;
             this.TB_MGRS_SubgridIdent.Name = "TB_MGRS_SubgridIdent";
             this.TB_MGRS_SubgridIdent.Size = new System.Drawing.Size(34, 20);
-            this.TB_MGRS_SubgridIdent.TabIndex = 16;
+            this.TB_MGRS_SubgridIdent.TabIndex = 2;
             this.TB_MGRS_SubgridIdent.TextChanged += new System.EventHandler(this.InputMGRSChanged);
             this.TB_MGRS_SubgridIdent.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_MGRS_SubgridIdent_KeyPress);
             // 
@@ -690,7 +690,7 @@ namespace CoordinateConverter
             this.TB_MGRS_Fraction.MaxLength = 11;
             this.TB_MGRS_Fraction.Name = "TB_MGRS_Fraction";
             this.TB_MGRS_Fraction.Size = new System.Drawing.Size(446, 20);
-            this.TB_MGRS_Fraction.TabIndex = 17;
+            this.TB_MGRS_Fraction.TabIndex = 3;
             this.TB_MGRS_Fraction.TextChanged += new System.EventHandler(this.InputMGRSChanged);
             this.TB_MGRS_Fraction.Enter += new System.EventHandler(this.TB_MGRS_Fraction_Enter);
             this.TB_MGRS_Fraction.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_MGRS_Fraction_KeyPress);
@@ -702,7 +702,7 @@ namespace CoordinateConverter
             this.TB_MGRS_NorthGrid.MaxLength = 1;
             this.TB_MGRS_NorthGrid.Name = "TB_MGRS_NorthGrid";
             this.TB_MGRS_NorthGrid.Size = new System.Drawing.Size(34, 20);
-            this.TB_MGRS_NorthGrid.TabIndex = 15;
+            this.TB_MGRS_NorthGrid.TabIndex = 1;
             this.TB_MGRS_NorthGrid.TextChanged += new System.EventHandler(this.InputMGRSChanged);
             this.TB_MGRS_NorthGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_NorthGrid_KeyPress);
             // 
@@ -712,7 +712,7 @@ namespace CoordinateConverter
             this.TB_MGRS_EastGrid.MaxLength = 2;
             this.TB_MGRS_EastGrid.Name = "TB_MGRS_EastGrid";
             this.TB_MGRS_EastGrid.Size = new System.Drawing.Size(34, 20);
-            this.TB_MGRS_EastGrid.TabIndex = 14;
+            this.TB_MGRS_EastGrid.TabIndex = 0;
             this.TB_MGRS_EastGrid.TextChanged += new System.EventHandler(this.InputMGRSChanged);
             this.TB_MGRS_EastGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_EastGrid_KeyPress);
             // 
@@ -739,7 +739,8 @@ namespace CoordinateConverter
             this.textBox9.Name = "textBox9";
             this.textBox9.ReadOnly = true;
             this.textBox9.Size = new System.Drawing.Size(567, 140);
-            this.textBox9.TabIndex = 23;
+            this.textBox9.TabIndex = 2;
+            this.textBox9.TabStop = false;
             this.textBox9.Text = resources.GetString("textBox9.Text");
             // 
             // label5
@@ -748,7 +749,7 @@ namespace CoordinateConverter
             this.label5.Location = new System.Drawing.Point(3, 44);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(201, 13);
-            this.label5.TabIndex = 22;
+            this.label5.TabIndex = 1;
             this.label5.Text = "Example: 37 T 377298.745 1483034.794";
             // 
             // panel8
@@ -761,7 +762,7 @@ namespace CoordinateConverter
             this.panel8.Location = new System.Drawing.Point(3, 6);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(569, 35);
-            this.panel8.TabIndex = 22;
+            this.panel8.TabIndex = 0;
             // 
             // TB_UTM_NorthGrid
             // 
@@ -769,7 +770,7 @@ namespace CoordinateConverter
             this.TB_UTM_NorthGrid.MaxLength = 1;
             this.TB_UTM_NorthGrid.Name = "TB_UTM_NorthGrid";
             this.TB_UTM_NorthGrid.Size = new System.Drawing.Size(34, 20);
-            this.TB_UTM_NorthGrid.TabIndex = 20;
+            this.TB_UTM_NorthGrid.TabIndex = 1;
             this.TB_UTM_NorthGrid.TextChanged += new System.EventHandler(this.InputUTMChanged);
             this.TB_UTM_NorthGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_NorthGrid_KeyPress);
             // 
@@ -790,7 +791,7 @@ namespace CoordinateConverter
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(483, 26);
-            this.tableLayoutPanel1.TabIndex = 21;
+            this.tableLayoutPanel1.TabIndex = 2;
             // 
             // TB_UTM_Easting
             // 
@@ -800,7 +801,7 @@ namespace CoordinateConverter
             this.TB_UTM_Easting.MaxLength = 16;
             this.TB_UTM_Easting.Name = "TB_UTM_Easting";
             this.TB_UTM_Easting.Size = new System.Drawing.Size(235, 20);
-            this.TB_UTM_Easting.TabIndex = 21;
+            this.TB_UTM_Easting.TabIndex = 0;
             this.TB_UTM_Easting.TextChanged += new System.EventHandler(this.InputUTMChanged);
             this.TB_UTM_Easting.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RB_UTM_Northing_Easting_KeyPress);
             // 
@@ -812,7 +813,7 @@ namespace CoordinateConverter
             this.TB_UTM_Northing.MaxLength = 16;
             this.TB_UTM_Northing.Name = "TB_UTM_Northing";
             this.TB_UTM_Northing.Size = new System.Drawing.Size(236, 20);
-            this.TB_UTM_Northing.TabIndex = 22;
+            this.TB_UTM_Northing.TabIndex = 1;
             this.TB_UTM_Northing.TextChanged += new System.EventHandler(this.InputUTMChanged);
             this.TB_UTM_Northing.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RB_UTM_Northing_Easting_KeyPress);
             // 
@@ -822,7 +823,7 @@ namespace CoordinateConverter
             this.TB_UTM_EastGrid.MaxLength = 2;
             this.TB_UTM_EastGrid.Name = "TB_UTM_EastGrid";
             this.TB_UTM_EastGrid.Size = new System.Drawing.Size(34, 20);
-            this.TB_UTM_EastGrid.TabIndex = 19;
+            this.TB_UTM_EastGrid.TabIndex = 0;
             this.TB_UTM_EastGrid.TextChanged += new System.EventHandler(this.InputUTMChanged);
             this.TB_UTM_EastGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_EastGrid_KeyPress);
             // 
@@ -845,7 +846,7 @@ namespace CoordinateConverter
             this.label3.Location = new System.Drawing.Point(6, 69);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(117, 13);
-            this.label3.TabIndex = 21;
+            this.label3.TabIndex = 2;
             this.label3.Text = "Example: 206° / 23 nmi";
             // 
             // panel9
@@ -857,7 +858,7 @@ namespace CoordinateConverter
             this.panel9.Location = new System.Drawing.Point(6, 39);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(537, 27);
-            this.panel9.TabIndex = 21;
+            this.panel9.TabIndex = 1;
             // 
             // label2
             // 
@@ -866,7 +867,7 @@ namespace CoordinateConverter
             this.label2.Location = new System.Drawing.Point(511, 6);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(23, 13);
-            this.label2.TabIndex = 21;
+            this.label2.TabIndex = 1;
             this.label2.Text = "nmi";
             // 
             // TB_Bulls_Range
@@ -877,7 +878,7 @@ namespace CoordinateConverter
             this.TB_Bulls_Range.MaxLength = 4;
             this.TB_Bulls_Range.Name = "TB_Bulls_Range";
             this.TB_Bulls_Range.Size = new System.Drawing.Size(502, 20);
-            this.TB_Bulls_Range.TabIndex = 25;
+            this.TB_Bulls_Range.TabIndex = 0;
             // 
             // panel10
             // 
@@ -888,7 +889,7 @@ namespace CoordinateConverter
             this.panel10.Location = new System.Drawing.Point(6, 6);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(537, 27);
-            this.panel10.TabIndex = 22;
+            this.panel10.TabIndex = 0;
             // 
             // label1
             // 
@@ -897,7 +898,7 @@ namespace CoordinateConverter
             this.label1.Location = new System.Drawing.Point(507, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(27, 13);
-            this.label1.TabIndex = 23;
+            this.label1.TabIndex = 1;
             this.label1.Text = "Deg";
             // 
             // TB_Bulls_Angle
@@ -908,7 +909,7 @@ namespace CoordinateConverter
             this.TB_Bulls_Angle.MaxLength = 3;
             this.TB_Bulls_Angle.Name = "TB_Bulls_Angle";
             this.TB_Bulls_Angle.Size = new System.Drawing.Size(502, 20);
-            this.TB_Bulls_Angle.TabIndex = 24;
+            this.TB_Bulls_Angle.TabIndex = 0;
             this.TB_Bulls_Angle.TextChanged += new System.EventHandler(this.TB_Bulls_Angle_TextChanged);
             // 
             // LbL_Error
@@ -920,7 +921,7 @@ namespace CoordinateConverter
             this.LbL_Error.Location = new System.Drawing.Point(610, 115);
             this.LbL_Error.Name = "LbL_Error";
             this.LbL_Error.Size = new System.Drawing.Size(58, 13);
-            this.LbL_Error.TabIndex = 21;
+            this.LbL_Error.TabIndex = 3;
             this.LbL_Error.Text = "<ERROR>";
             this.LbL_Error.Visible = false;
             // 
