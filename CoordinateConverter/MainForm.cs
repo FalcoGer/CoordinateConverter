@@ -12,6 +12,7 @@ namespace CoordinateConverter
      * Input Bullseye coordinates
      * Calculating Coordinate from bulls + offset
      * Calculating bullsoffset from coordinate
+     * Insert units °, ', " when defocussing L/L and L/L Decimal Textboxes
      */
     public partial class MainForm : Form
     {
@@ -90,7 +91,6 @@ namespace CoordinateConverter
                         double sec = double.Parse(strLat.Substring(4), System.Globalization.CultureInfo.InvariantCulture);
 
                         lat = (RB_LL_N.Checked ? 1 : -1) * (deg + min / 60 + sec / 3600);
-                        Console.WriteLine("Lat: " + lat.ToString());
                     }
                     // get Lon
                     {
@@ -101,7 +101,6 @@ namespace CoordinateConverter
                         double sec = double.Parse(strLon.Substring(5), System.Globalization.CultureInfo.InvariantCulture);
 
                         lon = (RB_LL_E.Checked ? 1 : -1) * (deg + min / 60 + sec / 3600);
-                        Console.WriteLine("Lon: " + lon.ToString());
                     }
 
                     input = new CoordinateSharp.Coordinate(lat, lon);
@@ -196,7 +195,6 @@ namespace CoordinateConverter
                         double min = double.Parse(strLat.Substring(2), System.Globalization.CultureInfo.InvariantCulture);
 
                         lat = (RB_LL_N.Checked ? 1 : -1) * (deg + min / 60);
-                        Console.WriteLine("Lat: " + lat.ToString());
                     }
 
                     {
@@ -206,7 +204,6 @@ namespace CoordinateConverter
                         double min = double.Parse(strLon.Substring(3), System.Globalization.CultureInfo.InvariantCulture);
 
                         lon = (RB_LL_E.Checked ? 1 : -1) * (deg + min / 60);
-                        Console.WriteLine("Lon: " + lon.ToString());
                     }
 
                     input = new CoordinateSharp.Coordinate(lat, lon);
