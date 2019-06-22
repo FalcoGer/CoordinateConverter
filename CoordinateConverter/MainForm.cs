@@ -28,11 +28,11 @@ namespace CoordinateConverter
         /// <summary>
         /// Regex for Latitude. Allows valid numbers 0-90, 0-59, 0-59 and coordinate units, optional decimal part for seconds
         /// </summary>
-        private const string REGEX_LL_DECIMAL_LAT = @"(?:[0-8]\d|90)\s*°?\s*[0-5]\d\s*(?:\.\d+)?\s*'?$";
+        private const string REGEX_LL_DECIMAL_LAT = @"^(?:[0-8]\d|90)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
         /// <summary>
         /// Regex for Longditude. Allows valid numbers 0-180, 0-59, 0-59 and coordinate units, optional decimal part for seconds
         /// </summary>
-        private const string REGEX_LL_DECIMAL_LON = @"(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*(?:\.\d+)?\s*'?$";
+        private const string REGEX_LL_DECIMAL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
 
         private readonly System.Drawing.Color ERROR_COLOR = System.Drawing.Color.Pink;
 
@@ -242,7 +242,7 @@ namespace CoordinateConverter
             e.Handled = !(
                 (e.KeyChar >= '0' && e.KeyChar <= '9') ||
                 (e.KeyChar == ' ') ||
-                (validSingleCharacters.Contains(e.KeyChar) && ((TextBox)sender).Text.Contains(e.KeyChar)) ||
+                (validSingleCharacters.Contains(e.KeyChar) && !(((TextBox)sender).Text.Contains(e.KeyChar))) ||
                 (e.KeyChar < 32)
             );
         }
