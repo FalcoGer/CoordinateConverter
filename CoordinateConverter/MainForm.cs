@@ -23,7 +23,7 @@ namespace CoordinateConverter
         /// </summary>
         private const string REGEX_LL_LAT = @"^(?:[0-8]\d|90)\s*°?\s*[0-5]\d\s*'?\s*[0-5]\d(?:\.\d+)?\s*(?:\""|'')?$";
         /// <summary>
-        /// Regex for Longditude. Allows valid numbers 0-180, 0-59, 0-59 and coordinate units, optional decimal part for seconds
+        /// Regex for Longitude. Allows valid numbers 0-180, 0-59, 0-59 and coordinate units, optional decimal part for seconds
         /// </summary>
         private const string REGEX_LL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*'?\s*[0-5]\d(?:\.\d+)?\s*(?:\""|'')?$";
         /// <summary>
@@ -31,7 +31,7 @@ namespace CoordinateConverter
         /// </summary>
         private const string REGEX_LL_DECIMAL_LAT = @"^(?:[0-8]\d|90)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
         /// <summary>
-        /// Regex for Longditude. Allows valid numbers 0-180, 0-59, 0-59 and coordinate units, optional decimal part for seconds
+        /// Regex for Longitude. Allows valid numbers 0-180, 0-59, 0-59 and coordinate units, optional decimal part for seconds
         /// </summary>
         private const string REGEX_LL_DECIMAL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
 
@@ -274,7 +274,7 @@ namespace CoordinateConverter
                 TB_MGRS_NorthGrid.BackColor = ERROR_COLOR; 
             }
 
-            // Check Longditude GridCoordinate
+            // Check Longitude GridCoordinate
             int lonz = 0;
             if (int.TryParse(TB_MGRS_EastGrid.Text, out lonz))
             {
@@ -411,7 +411,7 @@ namespace CoordinateConverter
                 TB_UTM_NorthGrid.BackColor = ERROR_COLOR;
             }
 
-            // Check Longditude GridCoordinate
+            // Check Longitude GridCoordinate
             int lonz = 0;
             if (int.TryParse(TB_UTM_EastGrid.Text, out lonz))
             {
