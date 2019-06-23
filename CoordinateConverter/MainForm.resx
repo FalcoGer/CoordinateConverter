@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="textBox7.Text" xml:space="preserve">
-    <value>MGRS uses the same grid as UTM, and divides each grid into 10000m² sub-grids indexed with a pair of letters, seemingly with no coherency in the lettering from one sub-grid into the other over big grid boundries.
-The number following the subgrid indication consists of an even number of digits and divides the subgrids into up to meter precision parts.
-The first half of the number indicates the parts to the east, the second one to the north from the subgrid south west corner.</value>
+    <value>MGRS, or Military Grid Reference System, uses the same grid layout as UTM.
+Each of those grids is divided into sub grids, indexed with two letters. Those grids are 10000m x 10000m size.
+From those sub grids you indicate a specific position with a set of numbers. Depending on the length of those numbers, you can indicate precision in up to 1m steps.</value>
   </data>
   <data name="textBox9.Text" xml:space="preserve">
-    <value>UTM divides the earth into 60 bands of longditude (1-60) and 20 bands of lattitude (C-X, without O and I) and 4 regions for the poles (A/B and Y/Z)
-From those positions an easting and a northing is given, which offset the grid this many meters.
-</value>
+    <value>UTM, or Universal Transverse Mercator, divides the earth into a grid of 20 bands of latitude labeled C through X, omitting I and O, 60 bands of longitude labeled 01 through 60. From that grid's south west corner, you go to the east and to the north, indicated by the easting and northing part of the coordinates in meters.
+Some UTM grids have been adjusted to include countries so they are not split.
+The poles are separated into Grids A/B for the south pole and Y/Z for the north pole. Those grids are not supported.</value>
   </data>
 </root>

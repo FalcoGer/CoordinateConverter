@@ -917,13 +917,13 @@ namespace CoordinateConverter
             this.label1.TabIndex = 1;
             this.label1.Text = "Deg";
             // 
-            // TB_Bulls_Angle
+            // TB_Bulls_Bearing
             // 
             this.TB_Bulls_Bearing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_Bulls_Bearing.Location = new System.Drawing.Point(3, 3);
             this.TB_Bulls_Bearing.MaxLength = 3;
-            this.TB_Bulls_Bearing.Name = "TB_Bulls_Angle";
+            this.TB_Bulls_Bearing.Name = "TB_Bulls_Bearing";
             this.TB_Bulls_Bearing.Size = new System.Drawing.Size(502, 20);
             this.TB_Bulls_Bearing.TabIndex = 0;
             this.TB_Bulls_Bearing.TextChanged += new System.EventHandler(this.TB_Bulls_Bearing_TextChanged);

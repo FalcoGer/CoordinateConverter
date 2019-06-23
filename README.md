@@ -85,7 +85,7 @@ Enter your easting and your northing in m into textbox 3 and 4. Decimals are all
 ## Explaination of UTM
 UTM, or Universal Transverse Mercator, divides the earth into a grid of 20 bands of latitude labeled C through X, omitting I and O, 60 bands of longitude labeled 01 through 60. From that grid's south west corner, you go to the east and to the north, indicated by the easting and northing part of the coordinates in meters.  
 Some UTM grids have been adjusted to include countries so they are not split.  
-The poles are Seperated into Grids A/B for the south pole and Y/Z for the north pole. Those grids are not supported.
+The poles are separated into Grids A/B for the south pole and Y/Z for the north pole. Those grids are not supported.
 
 # Bullseye
 
