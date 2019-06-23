@@ -90,7 +90,6 @@ The poles are Seperated into Grids A/B for the south pole and Y/Z for the north 
 # Bullseye
 
 ## Usage for entering Bullseye coordinates
-*The bullseye feature is currently not implemented.*  
 A valid bullseye must be described by entering it's coordinates into the bullseye panel in L/L format. The same constraints as L/L conversion apply.  
 Enter a bearing from 0 through 360 in whole degrees. Decimals are not allowed.  
 Enter a range in whole nautical miles. Decimals are not allowed.

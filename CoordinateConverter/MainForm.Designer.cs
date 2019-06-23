@@ -99,7 +99,7 @@ namespace CoordinateConverter
             this.TB_Bulls_Range = new System.Windows.Forms.TextBox();
             this.panel10 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.TB_Bulls_Angle = new System.Windows.Forms.TextBox();
+            this.TB_Bulls_Bearing = new System.Windows.Forms.TextBox();
             this.LbL_Error = new System.Windows.Forms.Label();
             this.GrpBox_Bulls.SuspendLayout();
             this.Pnl_BullsEasting.SuspendLayout();
@@ -132,8 +132,10 @@ namespace CoordinateConverter
             this.RB_BullsE.Name = "RB_BullsE";
             this.RB_BullsE.Size = new System.Drawing.Size(32, 17);
             this.RB_BullsE.TabIndex = 2;
+            this.RB_BullsE.TabStop = true;
             this.RB_BullsE.Text = "E";
             this.RB_BullsE.UseVisualStyleBackColor = true;
+            this.RB_BullsE.CheckedChanged += new System.EventHandler(this.RB_Bulls_CheckedChanged);
             // 
             // RB_BullsW
             // 
@@ -145,6 +147,7 @@ namespace CoordinateConverter
             this.RB_BullsW.TabIndex = 1;
             this.RB_BullsW.Text = "W";
             this.RB_BullsW.UseVisualStyleBackColor = true;
+            this.RB_BullsW.CheckedChanged += new System.EventHandler(this.RB_Bulls_CheckedChanged);
             // 
             // TB_BullsLon
             // 
@@ -155,6 +158,8 @@ namespace CoordinateConverter
             this.TB_BullsLon.Name = "TB_BullsLon";
             this.TB_BullsLon.Size = new System.Drawing.Size(191, 20);
             this.TB_BullsLon.TabIndex = 0;
+            this.TB_BullsLon.TextChanged += new System.EventHandler(this.TB_BullsLon_TextChanged);
+            this.TB_BullsLon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_KeyPress);
             // 
             // GrpBox_Bulls
             // 
@@ -207,6 +212,8 @@ namespace CoordinateConverter
             this.TB_BullsLat.Name = "TB_BullsLat";
             this.TB_BullsLat.Size = new System.Drawing.Size(191, 20);
             this.TB_BullsLat.TabIndex = 0;
+            this.TB_BullsLat.TextChanged += new System.EventHandler(this.TB_BullsLat_TextChanged);
+            this.TB_BullsLat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_KeyPress);
             // 
             // RB_BullsN
             // 
@@ -217,8 +224,10 @@ namespace CoordinateConverter
             this.RB_BullsN.Name = "RB_BullsN";
             this.RB_BullsN.Size = new System.Drawing.Size(33, 17);
             this.RB_BullsN.TabIndex = 1;
+            this.RB_BullsN.TabStop = true;
             this.RB_BullsN.Text = "N";
             this.RB_BullsN.UseVisualStyleBackColor = true;
+            this.RB_BullsN.CheckedChanged += new System.EventHandler(this.RB_Bulls_CheckedChanged);
             // 
             // RB_BullsS
             // 
@@ -230,6 +239,7 @@ namespace CoordinateConverter
             this.RB_BullsS.TabIndex = 2;
             this.RB_BullsS.Text = "S";
             this.RB_BullsS.UseVisualStyleBackColor = true;
+            this.RB_BullsS.CheckedChanged += new System.EventHandler(this.RB_Bulls_CheckedChanged);
             // 
             // GrpBox_Output
             // 
@@ -450,6 +460,7 @@ namespace CoordinateConverter
             this.RB_LL_E.Name = "RB_LL_E";
             this.RB_LL_E.Size = new System.Drawing.Size(32, 17);
             this.RB_LL_E.TabIndex = 1;
+            this.RB_LL_E.TabStop = true;
             this.RB_LL_E.Text = "E";
             this.RB_LL_E.UseVisualStyleBackColor = true;
             this.RB_LL_E.CheckedChanged += new System.EventHandler(this.RB_LL_CheckedChanged);
@@ -487,6 +498,7 @@ namespace CoordinateConverter
             this.RB_LL_N.Name = "RB_LL_N";
             this.RB_LL_N.Size = new System.Drawing.Size(33, 17);
             this.RB_LL_N.TabIndex = 1;
+            this.RB_LL_N.TabStop = true;
             this.RB_LL_N.Text = "N";
             this.RB_LL_N.UseVisualStyleBackColor = true;
             this.RB_LL_N.CheckedChanged += new System.EventHandler(this.RB_LL_CheckedChanged);
@@ -570,6 +582,7 @@ namespace CoordinateConverter
             this.RB_LLDec_E.Name = "RB_LLDec_E";
             this.RB_LLDec_E.Size = new System.Drawing.Size(32, 17);
             this.RB_LLDec_E.TabIndex = 2;
+            this.RB_LLDec_E.TabStop = true;
             this.RB_LLDec_E.Text = "E";
             this.RB_LLDec_E.UseVisualStyleBackColor = true;
             this.RB_LLDec_E.CheckedChanged += new System.EventHandler(this.RB_LLDecimal_CheckedChanged);
@@ -607,6 +620,7 @@ namespace CoordinateConverter
             this.RB_LLDec_N.Name = "RB_LLDec_N";
             this.RB_LLDec_N.Size = new System.Drawing.Size(33, 17);
             this.RB_LLDec_N.TabIndex = 1;
+            this.RB_LLDec_N.TabStop = true;
             this.RB_LLDec_N.Text = "N";
             this.RB_LLDec_N.UseVisualStyleBackColor = true;
             this.RB_LLDec_N.CheckedChanged += new System.EventHandler(this.RB_LLDecimal_CheckedChanged);
@@ -879,13 +893,15 @@ namespace CoordinateConverter
             this.TB_Bulls_Range.Name = "TB_Bulls_Range";
             this.TB_Bulls_Range.Size = new System.Drawing.Size(502, 20);
             this.TB_Bulls_Range.TabIndex = 0;
+            this.TB_Bulls_Range.TextChanged += new System.EventHandler(this.TB_Bulls_Range_TextChanged);
+            this.TB_Bulls_Range.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_Bulls_Range_KeyPress);
             // 
             // panel10
             // 
             this.panel10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel10.Controls.Add(this.label1);
-            this.panel10.Controls.Add(this.TB_Bulls_Angle);
+            this.panel10.Controls.Add(this.TB_Bulls_Bearing);
             this.panel10.Location = new System.Drawing.Point(6, 6);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(537, 27);
@@ -903,14 +919,15 @@ namespace CoordinateConverter
             // 
             // TB_Bulls_Angle
             // 
-            this.TB_Bulls_Angle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TB_Bulls_Bearing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_Bulls_Angle.Location = new System.Drawing.Point(3, 3);
-            this.TB_Bulls_Angle.MaxLength = 3;
-            this.TB_Bulls_Angle.Name = "TB_Bulls_Angle";
-            this.TB_Bulls_Angle.Size = new System.Drawing.Size(502, 20);
-            this.TB_Bulls_Angle.TabIndex = 0;
-            this.TB_Bulls_Angle.TextChanged += new System.EventHandler(this.TB_Bulls_Angle_TextChanged);
+            this.TB_Bulls_Bearing.Location = new System.Drawing.Point(3, 3);
+            this.TB_Bulls_Bearing.MaxLength = 3;
+            this.TB_Bulls_Bearing.Name = "TB_Bulls_Angle";
+            this.TB_Bulls_Bearing.Size = new System.Drawing.Size(502, 20);
+            this.TB_Bulls_Bearing.TabIndex = 0;
+            this.TB_Bulls_Bearing.TextChanged += new System.EventHandler(this.TB_Bulls_Bearing_TextChanged);
+            this.TB_Bulls_Bearing.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_Bulls_Bearing_KeyPress);
             // 
             // LbL_Error
             // 
@@ -1033,7 +1050,7 @@ namespace CoordinateConverter
         private System.Windows.Forms.TextBox TB_Bulls_Range;
         private System.Windows.Forms.Panel panel10;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox TB_Bulls_Angle;
+        private System.Windows.Forms.TextBox TB_Bulls_Bearing;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TextBox TB_UTM_NorthGrid;
         private System.Windows.Forms.TextBox textBox9;

@@ -38,7 +38,7 @@ namespace CoordinateConverter
         private readonly System.Drawing.Color ERROR_COLOR = System.Drawing.Color.Pink;
 
         private CoordinateSharp.Coordinate input = new CoordinateSharp.Coordinate(0.0, 0.0);
-        private CoordinateSharp.Coordinate bullseye = new CoordinateSharp.Coordinate(0.0, 0.0);
+        private Bullseye bulls = null;
 
         #region "Input"
 
@@ -392,6 +392,24 @@ namespace CoordinateConverter
             e.Handled = !((e.KeyChar >= 'A' && e.KeyChar <= 'Z') || (e.KeyChar < 32));
         }
 
+        private void TB_MGRS_Fraction_Enter(object sender, EventArgs e)
+        {
+            // remove space in the middle
+            TB_MGRS_Fraction.Text = TB_MGRS_Fraction.Text.Replace(" ", "");
+            TB_MGRS_Fraction.MaxLength = 10;
+        }
+
+        private void TB_MGRS_Fraction_Leave(object sender, EventArgs e)
+        {
+            // add space in the middle
+            TB_MGRS_Fraction.MaxLength = 11;
+            if (TB_MGRS_Fraction.Text.Length > 0 && TB_MGRS_Fraction.Text.Length % 2 == 0)
+            {
+                TB_MGRS_Fraction.Text = TB_MGRS_Fraction.Text.Insert(TB_MGRS_Fraction.Text.Length / 2, " ");
+            }
+            TB_MGRS_Fraction.Text = TB_MGRS_Fraction.Text;
+        }
+
         #endregion // MGRS
 
         #region "UTM"
@@ -496,6 +514,185 @@ namespace CoordinateConverter
         }
 
         #endregion
+
+        #region "BULLS"
+        private bool CheckAndMarkBulls()
+        {
+            if (bulls == null)
+            {
+                throw new Exception("Bullseye not set.");
+            }
+            else
+            {
+                bool ok = true;
+                double chk = 0.0;
+                // check bearing
+                if (double.TryParse(TB_Bulls_Bearing.Text, out chk))
+                {
+                    TB_Bulls_Bearing.BackColor = default;
+                }
+                else
+                {
+                    ok = false;
+                    TB_Bulls_Bearing.BackColor = ERROR_COLOR;
+                }
+                // check range
+                if (double.TryParse(TB_Bulls_Range.Text, out chk))
+                {
+                    TB_Bulls_Range.BackColor = default;
+                }
+                else
+                {
+                    ok = false;
+                    TB_Bulls_Range.BackColor = ERROR_COLOR;
+                }
+
+                return ok;
+            }
+        }
+
+        private void CalcBulls()
+        {
+            try
+            {
+                LbL_Error.Visible = false;
+
+                if (CheckAndMarkBulls())
+                {
+                    double bearing = double.Parse(TB_Bulls_Bearing.Text);
+                    double range = double.Parse(TB_Bulls_Range.Text);
+
+                    input = bulls.GetOffsetPosition(new BRA(bearing: bearing, range: range));
+                    DisplayCoordinates();
+                }
+            }
+            catch (Exception e)
+            {
+                LbL_Error.Visible = true;
+                LbL_Error.Text = e.Message;
+            }
+        }
+
+        private void TB_Bulls_Bearing_TextChanged(object sender, EventArgs e)
+        {
+            CalcBulls();
+        }
+
+        private void TB_Bulls_Bearing_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // allow any number
+            e.Handled = !(
+                (e.KeyChar >= '0' && e.KeyChar <= '9') ||
+                (e.KeyChar < 32)
+            );
+        }
+
+        private void TB_Bulls_Range_TextChanged(object sender, EventArgs e)
+        {
+            CalcBulls();
+        }
+
+        private void TB_Bulls_Range_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // allow any number
+            e.Handled = !(
+                (e.KeyChar >= '0' && e.KeyChar <= '9') ||
+                (e.KeyChar < 32)
+            );
+        }
+
+        #endregion
+
+        #region "SETBULLS"
+        private bool CheckAndMarkSetBulls()
+        {
+            bool ok = true;
+
+            // TB Lat
+            if (Regex.IsMatch(TB_BullsLat.Text, REGEX_LL_LAT))
+            {
+                TB_BullsLat.BackColor = default;
+            }
+            else
+            {
+                ok = false;
+                TB_BullsLat.BackColor = ERROR_COLOR;
+            }
+
+            // TB Lon
+            if (Regex.IsMatch(TB_BullsLon.Text, REGEX_LL_LON))
+            {
+                TB_BullsLon.BackColor = default;
+            }
+            else
+            {
+                ok = false;
+                TB_BullsLon.BackColor = ERROR_COLOR;
+            }
+
+            return ok;
+        }
+
+        // KeyPress events reused from L/L input
+        private void SetBulls()
+        {
+            try
+            {
+                LbL_Error.Visible = false;
+
+                if (CheckAndMarkSetBulls())
+                {
+                    double lat = 0.0;
+                    double lon = 0.0;
+                    // get Lat
+                    {
+                        string strLat = TB_BullsLat.Text; // Lat = N/S
+                        strLat = strLat.Replace("°", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty).Replace(" ", string.Empty).Trim();
+                        double deg = int.Parse(strLat.Substring(0, 2), System.Globalization.CultureInfo.InvariantCulture);
+                        double min = int.Parse(strLat.Substring(2, 2), System.Globalization.CultureInfo.InvariantCulture);
+                        double sec = double.Parse(strLat.Substring(4), System.Globalization.CultureInfo.InvariantCulture);
+
+                        lat = (RB_BullsN.Checked ? 1 : -1) * (deg + min / 60 + sec / 3600);
+                    }
+                    // get Lon
+                    {
+                        string strLon = TB_BullsLon.Text; // Lon = E/W
+                        strLon = strLon.Replace("°", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty).Replace(" ", string.Empty).Trim();
+                        double deg = int.Parse(strLon.Substring(0, 3), System.Globalization.CultureInfo.InvariantCulture);
+                        double min = int.Parse(strLon.Substring(3, 2), System.Globalization.CultureInfo.InvariantCulture);
+                        double sec = double.Parse(strLon.Substring(5), System.Globalization.CultureInfo.InvariantCulture);
+
+                        lon = (RB_BullsE.Checked ? 1 : -1) * (deg + min / 60 + sec / 3600);
+                    }
+
+                    bulls = new Bullseye(new CoordinateSharp.Coordinate(lat, lon));
+                    DisplayCoordinates();
+                }
+            }
+            catch (Exception e)
+            {
+                LbL_Error.Visible = true;
+                LbL_Error.Text = e.Message;
+            }
+        }
+
+        private void TB_BullsLat_TextChanged(object sender, EventArgs e)
+        {
+            SetBulls();
+        }
+
+        private void TB_BullsLon_TextChanged(object sender, EventArgs e)
+        {
+            SetBulls();
+        }
+
+        private void RB_Bulls_CheckedChanged(object sender, EventArgs e)
+        {
+            SetBulls();
+        }
+
+        #endregion
+
         #endregion // Input
 
         /// <summary>
@@ -539,31 +736,15 @@ namespace CoordinateConverter
                 TB_Out_UTM.Text = utm.ToString();
 
                 // Out Bulls
-                TB_Out_Bulls.Text = "TODO";
+                if (bulls == null)
+                {
+                    TB_Out_Bulls.Text = "Bullseye not set";
+                }
+                else
+                {
+                    TB_Out_Bulls.Text = bulls.GetBRA(input).ToString();
+                }
             }
-        }
-
-        private void TB_Bulls_Angle_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TB_MGRS_Fraction_Enter(object sender, EventArgs e)
-        {
-            // remove space in the middle
-            TB_MGRS_Fraction.Text = TB_MGRS_Fraction.Text.Replace(" ", "");
-            TB_MGRS_Fraction.MaxLength = 10;
-        }
-
-        private void TB_MGRS_Fraction_Leave(object sender, EventArgs e)
-        {
-            // add space in the middle
-            TB_MGRS_Fraction.MaxLength = 11;
-            if (TB_MGRS_Fraction.Text.Length > 0 && TB_MGRS_Fraction.Text.Length % 2 == 0)
-            {
-                TB_MGRS_Fraction.Text = TB_MGRS_Fraction.Text.Insert(TB_MGRS_Fraction.Text.Length / 2, " ");
-            }
-            TB_MGRS_Fraction.Text = TB_MGRS_Fraction.Text;
         }
     }
 }
