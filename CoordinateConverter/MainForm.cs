@@ -194,7 +194,7 @@ namespace CoordinateConverter
                         double deg = int.Parse(strLat.Substring(0, 2), System.Globalization.CultureInfo.InvariantCulture);
                         double min = double.Parse(strLat.Substring(2), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lat = (RB_LL_N.Checked ? 1 : -1) * (deg + min / 60);
+                        lat = (RB_LLDec_N.Checked ? 1 : -1) * (deg + min / 60);
                     }
 
                     {
@@ -203,7 +203,7 @@ namespace CoordinateConverter
                         double deg = int.Parse(strLon.Substring(0, 3), System.Globalization.CultureInfo.InvariantCulture);
                         double min = double.Parse(strLon.Substring(3), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lon = (RB_LL_E.Checked ? 1 : -1) * (deg + min / 60);
+                        lon = (RB_LLDec_E.Checked ? 1 : -1) * (deg + min / 60);
                     }
 
                     input = new CoordinateSharp.Coordinate(lat, lon);
