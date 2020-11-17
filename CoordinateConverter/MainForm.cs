@@ -90,7 +90,7 @@ namespace CoordinateConverter
                         double min = int.Parse(strLat.Substring(2, 2), System.Globalization.CultureInfo.InvariantCulture);
                         double sec = double.Parse(strLat.Substring(4), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lat = (RB_LL_N.Checked ? 1 : -1) * (deg + min / 60 + sec / 3600);
+                        lat = (RB_LL_N.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
                     }
                     // get Lon
                     {
@@ -100,7 +100,7 @@ namespace CoordinateConverter
                         double min = int.Parse(strLon.Substring(3, 2), System.Globalization.CultureInfo.InvariantCulture);
                         double sec = double.Parse(strLon.Substring(5), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lon = (RB_LL_E.Checked ? 1 : -1) * (deg + min / 60 + sec / 3600);
+                        lon = (RB_LL_E.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
                     }
 
                     input = new CoordinateSharp.Coordinate(lat, lon);
@@ -194,7 +194,7 @@ namespace CoordinateConverter
                         double deg = int.Parse(strLat.Substring(0, 2), System.Globalization.CultureInfo.InvariantCulture);
                         double min = double.Parse(strLat.Substring(2), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lat = (RB_LLDec_N.Checked ? 1 : -1) * (deg + min / 60);
+                        lat = (RB_LLDec_N.Checked ? 1 : -1) * (deg + (min / 60));
                     }
 
                     {
@@ -203,7 +203,7 @@ namespace CoordinateConverter
                         double deg = int.Parse(strLon.Substring(0, 3), System.Globalization.CultureInfo.InvariantCulture);
                         double min = double.Parse(strLon.Substring(3), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lon = (RB_LLDec_E.Checked ? 1 : -1) * (deg + min / 60);
+                        lon = (RB_LLDec_E.Checked ? 1 : -1) * (deg + (min / 60));
                     }
 
                     input = new CoordinateSharp.Coordinate(lat, lon);
@@ -264,7 +264,7 @@ namespace CoordinateConverter
             bool ok = true;
             // Check Latitude GridCoordinate
             string latz = TB_MGRS_NorthGrid.Text.ToUpperInvariant();
-            if (!(latz.Length != 1 || (latz[0] == 'I' || latz[0] == 'O'))) // Must be single character which is not I or O
+            if (!(latz.Length != 1 || latz[0] == 'I' || latz[0] == 'O')) // Must be single character which is not I or O
             {
                 TB_MGRS_NorthGrid.BackColor = default;
             }
@@ -275,8 +275,7 @@ namespace CoordinateConverter
             }
 
             // Check Longitude GridCoordinate
-            int lonz = 0;
-            if (int.TryParse(TB_MGRS_EastGrid.Text, out lonz))
+            if (int.TryParse(TB_MGRS_EastGrid.Text, out int lonz))
             {
                 if (lonz >= 1 && lonz <= 60)
                 {
@@ -323,8 +322,7 @@ namespace CoordinateConverter
                     string strEasting = strFraction.Substring(0, strFraction.Length / 2).PadRight(5, '0');
                     string strNorthing = strFraction.Substring(strFraction.Length / 2).PadRight(5, '0');
                     // Check Easting
-                    double check = 0.0;
-                    if (double.TryParse(strEasting, out check))
+                    if (double.TryParse(strEasting, out double check))
                     {
                         TB_MGRS_Fraction.BackColor = default;
                     }
@@ -419,7 +417,7 @@ namespace CoordinateConverter
 
             // Check Latitude GridCoordinate
             string latz = TB_UTM_NorthGrid.Text.ToUpperInvariant();
-            if (!(latz.Length != 1 || (latz[0] == 'I' || latz[0] == 'O'))) // Must be single character which is not I or O
+            if (!(latz.Length != 1 || latz[0] == 'I' || latz[0] == 'O')) // Must be single character which is not I or O
             {
                 TB_UTM_NorthGrid.BackColor = default;
             }
@@ -430,8 +428,7 @@ namespace CoordinateConverter
             }
 
             // Check Longitude GridCoordinate
-            int lonz = 0;
-            if (int.TryParse(TB_UTM_EastGrid.Text, out lonz))
+            if (int.TryParse(TB_UTM_EastGrid.Text, out int lonz))
             {
                 if (lonz >= 1 && lonz <= 60)
                 {
@@ -449,8 +446,7 @@ namespace CoordinateConverter
                 TB_UTM_EastGrid.BackColor = ERROR_COLOR;
             }
             // Check Easting
-            double chk = 0.0;
-            if (double.TryParse(TB_UTM_Easting.Text, out chk))
+            if (double.TryParse(TB_UTM_Easting.Text, out _))
             {
                 TB_UTM_Easting.BackColor = default;
             }
@@ -459,8 +455,9 @@ namespace CoordinateConverter
                 ok = false;
                 TB_UTM_Easting.BackColor = ERROR_COLOR;
             }
+
             // Check Northing
-            if (double.TryParse(TB_UTM_Northing.Text, out chk))
+            if (double.TryParse(TB_UTM_Northing.Text, out _))
             {
                 TB_UTM_Northing.BackColor = default;
             }
@@ -486,7 +483,7 @@ namespace CoordinateConverter
                     double easting = double.Parse(TB_UTM_Easting.Text);
                     double northing = double.Parse(TB_UTM_Northing.Text);
 
-                    var utm = new CoordinateSharp.UniversalTransverseMercator(latz: latz, longz: lonz, est: easting, nrt: northing);
+                    CoordinateSharp.UniversalTransverseMercator utm = new CoordinateSharp.UniversalTransverseMercator(latz: latz, longz: lonz, est: easting, nrt: northing);
                     input = CoordinateSharp.UniversalTransverseMercator.ConvertUTMtoLatLong(utm);
                     DisplayCoordinates();
                 }
@@ -525,9 +522,8 @@ namespace CoordinateConverter
             else
             {
                 bool ok = true;
-                double chk = 0.0;
                 // check bearing
-                if (double.TryParse(TB_Bulls_Bearing.Text, out chk))
+                if (double.TryParse(TB_Bulls_Bearing.Text, out _))
                 {
                     TB_Bulls_Bearing.BackColor = default;
                 }
@@ -537,7 +533,7 @@ namespace CoordinateConverter
                     TB_Bulls_Bearing.BackColor = ERROR_COLOR;
                 }
                 // check range
-                if (double.TryParse(TB_Bulls_Range.Text, out chk))
+                if (double.TryParse(TB_Bulls_Range.Text, out _))
                 {
                     TB_Bulls_Range.BackColor = default;
                 }
@@ -652,7 +648,7 @@ namespace CoordinateConverter
                         double min = int.Parse(strLat.Substring(2, 2), System.Globalization.CultureInfo.InvariantCulture);
                         double sec = double.Parse(strLat.Substring(4), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lat = (RB_BullsN.Checked ? 1 : -1) * (deg + min / 60 + sec / 3600);
+                        lat = (RB_BullsN.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
                     }
                     // get Lon
                     {
@@ -662,7 +658,7 @@ namespace CoordinateConverter
                         double min = int.Parse(strLon.Substring(3, 2), System.Globalization.CultureInfo.InvariantCulture);
                         double sec = double.Parse(strLon.Substring(5), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lon = (RB_BullsE.Checked ? 1 : -1) * (deg + min / 60 + sec / 3600);
+                        lon = (RB_BullsE.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
                     }
 
                     bulls = new Bullseye(new CoordinateSharp.Coordinate(lat, lon));
@@ -708,16 +704,18 @@ namespace CoordinateConverter
             if (input != null)
             {
                 // General FormatOptions
-                CoordinateSharp.CoordinateFormatOptions formatOptions = new CoordinateSharp.CoordinateFormatOptions();
-                formatOptions.Display_Degree_Symbol = true;
-                formatOptions.Display_Minute_Symbol = true;
-                formatOptions.Display_Seconds_Symbol = true;
-                formatOptions.Display_Leading_Zeros = true;
-                formatOptions.Display_Trailing_Zeros = true;
+                CoordinateSharp.CoordinateFormatOptions formatOptions = new CoordinateSharp.CoordinateFormatOptions
+                {
+                    Display_Degree_Symbol = true,
+                    Display_Minute_Symbol = true,
+                    Display_Seconds_Symbol = true,
+                    Display_Leading_Zeros = true,
+                    Display_Trailing_Zeros = true,
 
-                // Out LL
-                formatOptions.Format = CoordinateSharp.CoordinateFormatType.Degree_Minutes_Seconds;
-                formatOptions.Round = 2;
+                    // Out LL
+                    Format = CoordinateSharp.CoordinateFormatType.Degree_Minutes_Seconds,
+                    Round = 2
+                };
                 input.FormatOptions = formatOptions;
                 TB_Out_LL.Text = input.Display.Replace("º", "°").Replace(",", ".");
 

@@ -36,8 +36,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CoordinateSharp, Version=1.1.5.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CoordinateSharp.1.1.5.2\lib\net40\CoordinateSharp.dll</HintPath>
+    <Reference Include="CoordinateSharp, Version=2.8.1.1, Culture=neutral, PublicKeyToken=f45e02df057b7725, processorArchitecture=MSIL">
+      <HintPath>..\packages\CoordinateSharp.2.8.1.1\lib\net40\CoordinateSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

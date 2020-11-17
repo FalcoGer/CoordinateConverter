@@ -23,12 +23,7 @@ namespace CoordinateConverter
 
         public Bullseye(Coordinate bullseyeCoord)
         {
-            if (bullseyeCoord == null)
-            {
-                throw new ArgumentNullException(nameof(bullseyeCoord));
-            }
-
-            this.bullseyeCoord = bullseyeCoord;
+            this.bullseyeCoord = bullseyeCoord ?? throw new ArgumentNullException(nameof(bullseyeCoord));
         }
 
         public void SetBullseye(double lat, double lon)
