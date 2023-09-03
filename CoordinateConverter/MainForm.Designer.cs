@@ -413,7 +413,7 @@ namespace CoordinateConverter
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(227, 13);
             this.label7.TabIndex = 2;
-            this.label7.Text = "Example: 57° 25\' 66.23\" N / 047° 55\' 42.52\" E";
+            this.label7.Text = "Example: 57° 25\' 46.23\" N / 047° 55\' 42.52\" E";
             // 
             // panel1
             // 
