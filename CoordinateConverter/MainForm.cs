@@ -961,8 +961,11 @@ namespace CoordinateConverter
 
         private void dgv_CoordinateList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            input = dataEntries.ElementAt(e.RowIndex).Clone(dataEntries.Count);
-            RefreshCoordinates(true);
+            if (e.RowIndex >= 0)
+            {
+                input = dataEntries.ElementAt(e.RowIndex).Clone(dataEntries.Count);
+                RefreshCoordinates(true);
+            }
         }
 
         private void dgv_CoordinateList_CellContentClick(object objSender, DataGridViewCellEventArgs e)

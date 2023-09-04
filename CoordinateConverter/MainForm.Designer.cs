@@ -425,7 +425,8 @@ namespace CoordinateConverter
             // 
             // tb_Label
             // 
-            this.tb_Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_Label.Location = new System.Drawing.Point(308, 222);
             this.tb_Label.MaxLength = 12;
             this.tb_Label.Name = "tb_Label";
@@ -450,6 +451,7 @@ namespace CoordinateConverter
             // 
             // tb_Altitude
             // 
+            this.tb_Altitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.tb_Altitude.Location = new System.Drawing.Point(54, 222);
             this.tb_Altitude.MaxLength = 6;
             this.tb_Altitude.Name = "tb_Altitude";
@@ -481,7 +483,8 @@ namespace CoordinateConverter
             // 
             // TC_Input
             // 
-            this.TC_Input.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TC_Input.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TC_Input.Controls.Add(this.TabPage_LatLon);
             this.TC_Input.Controls.Add(this.tabPage1);
@@ -1092,7 +1095,8 @@ namespace CoordinateConverter
             // 
             this.dgv_CoordinateList.AllowUserToAddRows = false;
             this.dgv_CoordinateList.AllowUserToDeleteRows = false;
-            this.dgv_CoordinateList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dgv_CoordinateList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_CoordinateList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_CoordinateList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
