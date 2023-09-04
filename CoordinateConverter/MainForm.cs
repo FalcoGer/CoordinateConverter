@@ -16,7 +16,6 @@ namespace CoordinateConverter
     public partial class MainForm : Form
     {
         #region "RegexConstants"
-        #endregion
         /// <summary>
         /// Regex for Latitude. Allows valid numbers 0-90, 0-59, 0-59 and coordinate units, optional decimal part for seconds
         /// </summary>
@@ -33,7 +32,7 @@ namespace CoordinateConverter
         /// Regex for Longitude. Allows valid numbers 0-180, 0-59, 0-59 and coordinate units, optional decimal part for seconds
         /// </summary>
         private const string REGEX_LL_DECIMAL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
-
+        #endregion
         private const string PREFIX_NAME_BTN_DELETE = "btn_DataRowDelete_";
 
         private readonly System.Drawing.Color ERROR_COLOR = System.Drawing.Color.Pink;
