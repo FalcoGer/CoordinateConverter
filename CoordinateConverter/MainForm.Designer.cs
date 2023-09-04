@@ -1139,7 +1139,7 @@ namespace CoordinateConverter
             this.colCoordinates.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colCoordinates.DataPropertyName = "CoordinateStr";
             this.colCoordinates.HeaderText = "Coordinates";
-            this.colCoordinates.MinimumWidth = 50;
+            this.colCoordinates.MinimumWidth = 180;
             this.colCoordinates.Name = "colCoordinates";
             this.colCoordinates.ReadOnly = true;
             this.colCoordinates.ToolTipText = "Coordinate of the point.";
