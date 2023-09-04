@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,10 +9,6 @@ namespace CoordinateConverter
 {
     /*
      * TODOs
-     * Checking Input BULLS
-     * Input Bullseye coordinates
-     * Calculating Coordinate from bulls + offset
-     * Calculating bullsoffset from coordinate
      * Insert units °, ', " when defocussing L/L and L/L Decimal Textboxes
      */
     public partial class MainForm : Form
@@ -35,10 +32,13 @@ namespace CoordinateConverter
         /// </summary>
         private const string REGEX_LL_DECIMAL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
 
+        private const string PREFIX_NAME_BTN_DELETE = "btn_DataRowDelete_";
+
         private readonly System.Drawing.Color ERROR_COLOR = System.Drawing.Color.Pink;
 
-        private CoordinateSharp.Coordinate input = new CoordinateSharp.Coordinate(0.0, 0.0);
+        private CoordinateDataEntry input = null;
         private Bullseye bulls = null;
+        private List<CoordinateDataEntry> dataEntries = new List<CoordinateDataEntry>();
 
         #region "Input"
 
@@ -66,7 +66,7 @@ namespace CoordinateConverter
             else
             {
                 ok = false;
-                TB_LL_Lon.BackColor = ERROR_COLOR;                
+                TB_LL_Lon.BackColor = ERROR_COLOR;
             }
 
             return ok;
@@ -76,7 +76,7 @@ namespace CoordinateConverter
         {
             try
             {
-                LbL_Error.Visible = false;
+                lbl_Error.Visible = false;
 
                 if (CheckAndMarkLL())
                 {
@@ -103,14 +103,14 @@ namespace CoordinateConverter
                         lon = (RB_LL_E.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
                     }
 
-                    input = new CoordinateSharp.Coordinate(lat, lon);
+                    input = new CoordinateDataEntry(dataEntries.Count, new CoordinateSharp.Coordinate(lat, lon));
                     DisplayCoordinates();
                 }
             }
             catch (Exception e)
             {
-                LbL_Error.Visible = true;
-                LbL_Error.Text = e.Message;
+                lbl_Error.Visible = true;
+                lbl_Error.Text = e.Message;
             }
         }
 
@@ -123,7 +123,7 @@ namespace CoordinateConverter
         {
             CalcLL();
         }
-        
+
         private void RB_LL_CheckedChanged(object sender, EventArgs e)
         {
             CalcLL();
@@ -181,7 +181,7 @@ namespace CoordinateConverter
         {
             try
             {
-                LbL_Error.Visible = false;
+                lbl_Error.Visible = false;
 
                 if (CheckAndMarkLLDecimal())
                 {
@@ -206,14 +206,14 @@ namespace CoordinateConverter
                         lon = (RB_LLDec_E.Checked ? 1 : -1) * (deg + (min / 60));
                     }
 
-                    input = new CoordinateSharp.Coordinate(lat, lon);
+                    input = new CoordinateDataEntry(dataEntries.Count, new CoordinateSharp.Coordinate(lat, lon));
                     DisplayCoordinates();
                 }
             }
             catch (Exception e)
             {
-                LbL_Error.Visible = true;
-                LbL_Error.Text = e.Message;
+                lbl_Error.Visible = true;
+                lbl_Error.Text = e.Message;
             }
         }
 
@@ -271,7 +271,7 @@ namespace CoordinateConverter
             else
             {
                 ok = false;
-                TB_MGRS_NorthGrid.BackColor = ERROR_COLOR; 
+                TB_MGRS_NorthGrid.BackColor = ERROR_COLOR;
             }
 
             // Check Longitude GridCoordinate
@@ -351,7 +351,7 @@ namespace CoordinateConverter
         {
             try
             {
-                LbL_Error.Visible = false;
+                lbl_Error.Visible = false;
 
                 if (CheckAndMarkMGRS())
                 {
@@ -363,17 +363,17 @@ namespace CoordinateConverter
                     double northing = double.Parse(fractionText.Substring(fractionText.Length / 2).PadRight(5, '0'));
 
                     CoordinateSharp.MilitaryGridReferenceSystem mgrs = new CoordinateSharp.MilitaryGridReferenceSystem(latz: latz, longz: lonz, d: digraph, e: easting, n: northing);
-                    input = CoordinateSharp.MilitaryGridReferenceSystem.MGRStoLatLong(mgrs);
+                    input = new CoordinateDataEntry(dataEntries.Count, CoordinateSharp.MilitaryGridReferenceSystem.MGRStoLatLong(mgrs));
                     DisplayCoordinates();
                 }
             }
             catch (Exception e)
             {
-                LbL_Error.Visible = true;
-                LbL_Error.Text = e.Message;
+                lbl_Error.Visible = true;
+                lbl_Error.Text = e.Message;
             }
         }
-        
+
         private void InputMGRSChanged(object sender, EventArgs e)
         {
             CalcMGRS();
@@ -474,7 +474,7 @@ namespace CoordinateConverter
         {
             try
             {
-                LbL_Error.Visible = false;
+                lbl_Error.Visible = false;
 
                 if (CheckAndMarkUTM())
                 {
@@ -484,14 +484,14 @@ namespace CoordinateConverter
                     double northing = double.Parse(TB_UTM_Northing.Text);
 
                     CoordinateSharp.UniversalTransverseMercator utm = new CoordinateSharp.UniversalTransverseMercator(latz: latz, longz: lonz, est: easting, nrt: northing);
-                    input = CoordinateSharp.UniversalTransverseMercator.ConvertUTMtoLatLong(utm);
+                    input = new CoordinateDataEntry(dataEntries.Count, CoordinateSharp.UniversalTransverseMercator.ConvertUTMtoLatLong(utm));
                     DisplayCoordinates();
                 }
             }
             catch (Exception e)
             {
-                LbL_Error.Visible = true;
-                LbL_Error.Text = e.Message;
+                lbl_Error.Visible = true;
+                lbl_Error.Text = e.Message;
             }
         }
 
@@ -551,21 +551,21 @@ namespace CoordinateConverter
         {
             try
             {
-                LbL_Error.Visible = false;
+                lbl_Error.Visible = false;
 
                 if (CheckAndMarkBulls())
                 {
                     double bearing = double.Parse(TB_Bulls_Bearing.Text);
                     double range = double.Parse(TB_Bulls_Range.Text);
 
-                    input = bulls.GetOffsetPosition(new BRA(bearing: bearing, range: range));
+                    input = new CoordinateDataEntry(dataEntries.Count, bulls.GetOffsetPosition(new BRA(bearing: bearing, range: range)));
                     DisplayCoordinates();
                 }
             }
             catch (Exception e)
             {
-                LbL_Error.Visible = true;
-                LbL_Error.Text = e.Message;
+                lbl_Error.Visible = true;
+                lbl_Error.Text = e.Message;
             }
         }
 
@@ -597,99 +597,277 @@ namespace CoordinateConverter
             );
         }
 
-        #endregion
-
-        #region "SETBULLS"
-        private bool CheckAndMarkSetBulls()
+        private void btn_SetBE_Click(object sender, EventArgs e)
         {
-            bool ok = true;
-
-            // TB Lat
-            if (Regex.IsMatch(TB_BullsLat.Text, REGEX_LL_LAT))
+            lbl_Error.Visible = false;
+            if (input == null)
             {
-                TB_BullsLat.BackColor = default;
+                lbl_Error.Text = "Input invalid";
+                lbl_Error.Visible = true;
+                return;
             }
-            else
-            {
-                ok = false;
-                TB_BullsLat.BackColor = ERROR_COLOR;
-            }
-
-            // TB Lon
-            if (Regex.IsMatch(TB_BullsLon.Text, REGEX_LL_LON))
-            {
-                TB_BullsLon.BackColor = default;
-            }
-            else
-            {
-                ok = false;
-                TB_BullsLon.BackColor = ERROR_COLOR;
-            }
-
-            return ok;
+            bulls = new Bullseye(input.Coordinate);
+            lbl_BENorthing.Text = bulls.GetBullseye().Latitude.ToString().Replace("º", "°").Replace(",", ".").Replace("N ", "N  ").Replace("S ", "S  ");
+            lbl_BEEasting.Text = bulls.GetBullseye().Longitude.ToString().Replace("º", "°").Replace(",", ".");
+            DisplayCoordinates();
         }
 
-        // KeyPress events reused from L/L input
-        private void SetBulls()
+        #endregion
+
+        private void RefreshInputID()
         {
-            try
+            if (input == null) { return; }
+            input = new CoordinateDataEntry(dataEntries.Count, input.Coordinate, input.Altitude, input.Name);
+        }
+        #endregion
+
+        #region Output
+
+        private void DisplayCoordinates()
+        {
+            if (input != null)
             {
-                LbL_Error.Visible = false;
+                TB_Out_LL.Text = input.getCoordinateStrLL();
+                TB_Out_LLDec.Text = input.getCoordinateStrLLDec();
+                TB_Out_MGRS.Text = input.getCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
+                TB_Out_UTM.Text = input.getCoordinateStrUTM();
+                TB_Out_Bulls.Text = input.getCoordinateStrBullseye(bulls);
+            }
+        }
 
-                if (CheckAndMarkSetBulls())
-                {
-                    double lat = 0.0;
-                    double lon = 0.0;
-                    // get Lat
-                    {
-                        string strLat = TB_BullsLat.Text; // Lat = N/S
-                        strLat = strLat.Replace("°", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty).Replace(" ", string.Empty).Trim();
-                        double deg = int.Parse(strLat.Substring(0, 2), System.Globalization.CultureInfo.InvariantCulture);
-                        double min = int.Parse(strLat.Substring(2, 2), System.Globalization.CultureInfo.InvariantCulture);
-                        double sec = double.Parse(strLat.Substring(4), System.Globalization.CultureInfo.InvariantCulture);
+        private void nud_MGRS_Precision_ValueChanged(object sender, EventArgs e)
+        {
+            DisplayCoordinates();
+            RefreshDataGrid();
+        }
 
-                        lat = (RB_BullsN.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
-                    }
-                    // get Lon
-                    {
-                        string strLon = TB_BullsLon.Text; // Lon = E/W
-                        strLon = strLon.Replace("°", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty).Replace(" ", string.Empty).Trim();
-                        double deg = int.Parse(strLon.Substring(0, 3), System.Globalization.CultureInfo.InvariantCulture);
-                        double min = int.Parse(strLon.Substring(3, 2), System.Globalization.CultureInfo.InvariantCulture);
-                        double sec = double.Parse(strLon.Substring(5), System.Globalization.CultureInfo.InvariantCulture);
+        #region GridView
 
-                        lon = (RB_BullsE.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
-                    }
-
-                    bulls = new Bullseye(new CoordinateSharp.Coordinate(lat, lon));
-                    DisplayCoordinates();
+        private void RefreshDataGrid()
+        {
+            var result = dataEntries.Select(
+                entry => new {
+                    ID = entry.Id,
+                    Name = entry.Name,
+                    CoordinateStr = GetEntryCoordinateStr(entry),
+                    Altitude = entry.Altitude
                 }
-            }
-            catch (Exception e)
+            ).ToList();
+
+            dgv_CoordinateList.DataSource = result;
+
+            // Deselect all cells and all rows
+            foreach (DataGridViewRow row in dgv_CoordinateList.Rows)
             {
-                LbL_Error.Visible = true;
-                LbL_Error.Text = e.Message;
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    cell.Selected = false;
+                }
+                row.Selected = false;
             }
         }
 
-        private void TB_BullsLat_TextChanged(object sender, EventArgs e)
+        private void dgv_CoordinateList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            SetBulls();
+            if (e.RowIndex >= 0)
+            {
+                input = dataEntries.ElementAtOrDefault(e.RowIndex);
+                DisplayCoordinates();
+            }
         }
 
-        private void TB_BullsLon_TextChanged(object sender, EventArgs e)
+        private void dgv_CoordinateList_CellContentClick(object objSender, DataGridViewCellEventArgs e)
         {
-            SetBulls();
+            DataGridView sender = objSender as DataGridView;
+
+            if (sender.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            {
+                // A button cell was clicked
+                if (e.ColumnIndex == 0) // delete
+                {
+                    dataEntries.RemoveAt(e.RowIndex);
+                }
+
+                RefreshDataGrid();
+            }
         }
 
-        private void RB_Bulls_CheckedChanged(object sender, EventArgs e)
+        private string GetEntryCoordinateStr(CoordinateDataEntry entry)
         {
-            SetBulls();
+            string coordStr = null;
+            if (rb_Format_LL.Checked)
+            {
+                coordStr = entry.getCoordinateStrLL();
+            }
+            else if (rb_Format_LLDec.Checked)
+            {
+                coordStr = entry.getCoordinateStrLLDec();
+            }
+            else if (rb_Format_MGRS.Checked)
+            {
+                coordStr = entry.getCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
+            }
+            else if (rb_Format_UTM.Checked)
+            {
+                coordStr = entry.getCoordinateStrUTM();
+            }
+            else if (rb_Format_BE.Checked)
+            {
+                coordStr = entry.getCoordinateStrBullseye(bulls);
+            }
+            if (string.IsNullOrEmpty(coordStr)) { throw new NotImplementedException("Couldn't format coordinate to string."); }
+
+            return coordStr;
         }
 
+        /// <summary>
+        /// Handles the Click event of the btn_Add control.
+        /// Adds the current output into the <see cref="dgv_CoordinateList"/>
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btn_Add_Click(object sender, EventArgs e)
+        {
+            lbl_Error.Visible = false;
+            if (input == null)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = "Invalid input";
+                return;
+            }
+            RefreshInputID();
+            dataEntries.Add(input);
+            RefreshDataGrid();
+        }
+
+        private void btn_MoveUp_Click(object sender, EventArgs e)
+        {
+            lbl_Error.Visible = false;
+
+            int? idx = null;
+            if (dgv_CoordinateList.SelectedCells.Count == 1)
+            {
+                idx = dgv_CoordinateList.SelectedCells[0].RowIndex;
+            }
+            else if (dgv_CoordinateList.SelectedRows.Count == 1)
+            {
+                idx = dgv_CoordinateList.SelectedRows[0].Index;
+            }
+
+            if (idx is null)
+            {
+
+                lbl_Error.Visible = true;
+                lbl_Error.Text = "Need to select exactly one row or one cell.";
+                return;
+            }
+
+            int tgt = idx.Value - 1;
+            if (swapRows(idx.Value, tgt))
+            {
+                dgv_CoordinateList.Rows[tgt].Selected = true;
+            }
+        }
+
+        private void btn_MoveDown_Click(object sender, EventArgs e)
+        {
+            lbl_Error.Visible = false;
+
+            int? idx = null;
+            if (dgv_CoordinateList.SelectedCells.Count == 1)
+            {
+                idx = dgv_CoordinateList.SelectedCells[0].RowIndex;
+            }
+            else if (dgv_CoordinateList.SelectedRows.Count == 1)
+            {
+                idx = dgv_CoordinateList.SelectedRows[0].Index;
+            }
+
+            if (idx is null)
+            {
+
+                lbl_Error.Visible = true;
+                lbl_Error.Text = "Need to select exactly one row or one cell.";
+                return;
+            }
+
+            int tgt = idx.Value + 1;
+            if (swapRows(idx.Value, tgt))
+            {
+                dgv_CoordinateList.Rows[tgt].Selected = true;
+            }
+        }
+
+        private bool swapRows(int idx, int targetIdx)
+        {
+            lbl_Error.Visible = false;
+            if (idx < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(idx) + " < 0");
+            }
+            if (idx >= dgv_CoordinateList.RowCount)
+            {
+                throw new ArgumentOutOfRangeException(nameof(idx) + " > Rowcount");
+            }
+            if (targetIdx < 0 || targetIdx >= dgv_CoordinateList.RowCount)
+            {
+                return false; // just ignore button presses when already at top/bottom
+            }
+            CoordinateDataEntry entry = dataEntries[idx];
+            CoordinateDataEntry other = dataEntries[targetIdx];
+            entry.SwapIds(other);
+            dataEntries.Sort((a,b) => a.Id.CompareTo(b.Id));
+            RefreshDataGrid();
+            return true;
+        }
+
+        private void rb_Format_LL_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((RadioButton)sender).Checked)
+            {
+                RefreshDataGrid();
+            }
+        }
+
+        private void rb_Format_LLDec_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((RadioButton)sender).Checked)
+            {
+                RefreshDataGrid();
+            }
+        }
+
+        private void rb_Format_MGRS_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((RadioButton)sender).Checked)
+            {
+                RefreshDataGrid();
+            }
+        }
+
+        private void rb_Format_UTM_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((RadioButton)sender).Checked)
+            {
+                RefreshDataGrid();
+            }
+        }
+
+        private void rb_Format_BE_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((RadioButton)sender).Checked)
+            {
+                RefreshDataGrid();
+            }
+        }
+
+        private void dgv_CoordinateList_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            dataEntries.RemoveAt(e.Row.Index);
+        }
         #endregion
 
-        #endregion // Input
+        #endregion
 
         /// <summary>
         /// CTOR
@@ -698,51 +876,6 @@ namespace CoordinateConverter
         {
             InitializeComponent();
         }
-        
-        private void DisplayCoordinates()
-        {
-            if (input != null)
-            {
-                // General FormatOptions
-                CoordinateSharp.CoordinateFormatOptions formatOptions = new CoordinateSharp.CoordinateFormatOptions
-                {
-                    Display_Degree_Symbol = true,
-                    Display_Minute_Symbol = true,
-                    Display_Seconds_Symbol = true,
-                    Display_Leading_Zeros = true,
-                    Display_Trailing_Zeros = true,
 
-                    // Out LL
-                    Format = CoordinateSharp.CoordinateFormatType.Degree_Minutes_Seconds,
-                    Round = 2
-                };
-                input.FormatOptions = formatOptions;
-                TB_Out_LL.Text = input.Display.Replace("º", "°").Replace(",", ".");
-
-                // Out LL Decimal
-                formatOptions.Format = CoordinateSharp.CoordinateFormatType.Degree_Decimal_Minutes;
-                formatOptions.Round = 4;
-                input.FormatOptions = formatOptions;
-                TB_Out_LLDec.Text = input.Display.Replace("º", "°").Replace(",", ".");
-
-                // Out MGRS
-                CoordinateSharp.MilitaryGridReferenceSystem mgrs = input.MGRS;
-                TB_Out_MGRS.Text = mgrs.ToString();
-
-                // Out UTM
-                CoordinateSharp.UniversalTransverseMercator utm = input.UTM;
-                TB_Out_UTM.Text = utm.ToString();
-
-                // Out Bulls
-                if (bulls == null)
-                {
-                    TB_Out_Bulls.Text = "Bullseye not set";
-                }
-                else
-                {
-                    TB_Out_Bulls.Text = bulls.GetBRA(input).ToString();
-                }
-            }
-        }
     }
 }
