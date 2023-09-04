@@ -9,7 +9,9 @@ namespace CoordinateConverter
 {
     /*
      * TODOs
-     * Insert units °, ', " when defocussing L/L and L/L Decimal Textboxes
+     * Save/Load point list
+     * Import point list to AH64 DCS
+     * Import point list to other aircraft
      */
     public partial class MainForm : Form
     {
@@ -39,11 +41,17 @@ namespace CoordinateConverter
         private CoordinateDataEntry input = null;
         private Bullseye bulls = null;
         private List<CoordinateDataEntry> dataEntries = new List<CoordinateDataEntry>();
+        public System.Globalization.CultureInfo CI = System.Globalization.CultureInfo.InvariantCulture;
+
+        private string oldAltitudeUnit;
 
         #region "Input"
 
-        #region "LL"
-
+        #region "LL"        
+        /// <summary>
+        /// Checks the LL textboxes and marks them as error if format invalid.
+        /// </summary>
+        /// <returns>true if valid, otherwise false</returns>
         private bool CheckAndMarkLL()
         {
             bool ok = true;
@@ -71,7 +79,9 @@ namespace CoordinateConverter
 
             return ok;
         }
-
+        /// <summary>
+        /// Calculates the Coordinates from the LL textboxes.
+        /// </summary>
         private void CalcLL()
         {
             try
@@ -103,8 +113,13 @@ namespace CoordinateConverter
                         lon = (RB_LL_E.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
                     }
 
-                    input = new CoordinateDataEntry(dataEntries.Count, new CoordinateSharp.Coordinate(lat, lon));
-                    DisplayCoordinates();
+                    CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(lat, lon);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), tb_Label.Text);
+                    RefreshCoordinates(false);
+                }
+                else
+                {
+                    input = null;
                 }
             }
             catch (Exception e)
@@ -127,6 +142,7 @@ namespace CoordinateConverter
         private void RB_LL_CheckedChanged(object sender, EventArgs e)
         {
             CalcLL();
+            RefreshCoordinates(true);
         }
 
         private void TB_LL_KeyPress(object sender, KeyPressEventArgs e)
@@ -149,7 +165,11 @@ namespace CoordinateConverter
         }
         #endregion // LL
 
-        #region "LLDecimal"
+        #region "LLDecimal"        
+        /// <summary>
+        /// Checks the LL Decimal textboxes and marks them as error if format invalid.
+        /// </summary>
+        /// <returns>true if valid, otherwise false</returns>
         private bool CheckAndMarkLLDecimal()
         {
             bool ok = true;
@@ -177,6 +197,9 @@ namespace CoordinateConverter
             return ok;
         }
 
+        /// <summary>
+        /// Calculates the coordinates from the ll decimal textboxes.
+        /// </summary>
         private void CalcLLDecimal()
         {
             try
@@ -206,8 +229,13 @@ namespace CoordinateConverter
                         lon = (RB_LLDec_E.Checked ? 1 : -1) * (deg + (min / 60));
                     }
 
-                    input = new CoordinateDataEntry(dataEntries.Count, new CoordinateSharp.Coordinate(lat, lon));
-                    DisplayCoordinates();
+                    CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(lat, lon);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), tb_Label.Text);
+                    RefreshCoordinates(false);
+                }
+                else
+                {
+                    input = null;
                 }
             }
             catch (Exception e)
@@ -230,6 +258,7 @@ namespace CoordinateConverter
         private void RB_LLDecimal_CheckedChanged(object sender, EventArgs e)
         {
             CalcLLDecimal();
+            RefreshCoordinates(true);
         }
 
         private void TB_LL_Decimal_KeyPress(object sender, KeyPressEventArgs e)
@@ -246,63 +275,70 @@ namespace CoordinateConverter
         #endregion // LLDecimal
 
         #region "UTM/MGRS GRID"
-        private void TB_UTM_MGRS_EastGrid_KeyPress(object sender, KeyPressEventArgs e)
+        private void TB_UTM_MGRS_LongZone_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = !((e.KeyChar >= '0' && e.KeyChar <= '9') || (e.KeyChar < 32));
+            // only allow numbers and control characters (backspace + delete)
+            e.Handled = !((e.KeyChar >= '0' && e.KeyChar <= '9') || (e.KeyChar < 0x20) || e.KeyChar == 0x7F);
         }
 
-        private void TB_UTM_MGRS_NorthGrid_KeyPress(object sender, KeyPressEventArgs e)
+        private void TB_UTM_MGRS_LatZone_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.KeyChar = char.ToUpperInvariant(e.KeyChar);
             e.Handled = !((e.KeyChar >= 'A' && e.KeyChar <= 'Z' && e.KeyChar != 'O' && e.KeyChar != 'I') || (e.KeyChar < 32));
         }
         #endregion
 
-        #region "MGRS"
+        #region "MGRS"        
+        /// <summary>
+        /// Checks the MGRS textboxes and marks them as error if format invalid.
+        /// </summary>
+        /// <returns>true if valid, otherwise false</returns>
         private bool CheckAndMarkMGRS()
         {
             bool ok = true;
             // Check Latitude GridCoordinate
-            string latz = TB_MGRS_NorthGrid.Text.ToUpperInvariant();
+            string latz = TB_MGRS_LatZone.Text.ToUpperInvariant();
             if (!(latz.Length != 1 || latz[0] == 'I' || latz[0] == 'O')) // Must be single character which is not I or O
             {
-                TB_MGRS_NorthGrid.BackColor = default;
+                TB_MGRS_LatZone.BackColor = default;
             }
             else
             {
                 ok = false;
-                TB_MGRS_NorthGrid.BackColor = ERROR_COLOR;
+                TB_MGRS_LatZone.BackColor = ERROR_COLOR;
             }
 
             // Check Longitude GridCoordinate
-            if (int.TryParse(TB_MGRS_EastGrid.Text, out int lonz))
+            if (int.TryParse(TB_MGRS_LongZone.Text, out int lonz))
             {
                 if (lonz >= 1 && lonz <= 60)
                 {
-                    TB_MGRS_EastGrid.BackColor = default;
+                    TB_MGRS_LongZone.BackColor = default;
                 }
                 else
                 {
                     ok = false;
-                    TB_MGRS_EastGrid.BackColor = ERROR_COLOR;
+                    TB_MGRS_LongZone.BackColor = ERROR_COLOR;
                 }
             }
             else
             {
                 ok = false;
-                TB_MGRS_EastGrid.BackColor = ERROR_COLOR;
+                TB_MGRS_LongZone.BackColor = ERROR_COLOR;
             }
 
             // Check Digraph
-            string digraph = TB_MGRS_SubgridIdent.Text;
-            if (digraph.Length == 2 && !(digraph.Select(x => { return char.ToUpperInvariant(x) >= 'A' && char.ToUpperInvariant(x) <= 'Z'; }).Contains(false)))
+            string digraph = TB_MGRS_Digraph.Text;
+            if (digraph.Length == 2 &&
+                digraph[0] >= 'A' && digraph[0] <= 'Z' && digraph[0] != 'I' && digraph[0] != 'O' &&
+                digraph[1] >= 'A' && digraph[1] <= 'V' && digraph[1] != 'I' && digraph[1] != 'O')
             {
-                TB_MGRS_SubgridIdent.BackColor = default;
+                TB_MGRS_Digraph.BackColor = default;
             }
             else
             {
                 ok = false;
-                TB_MGRS_SubgridIdent.BackColor = ERROR_COLOR;
+                TB_MGRS_Digraph.BackColor = ERROR_COLOR;
             }
             // Check Fraction
             string strFraction = TB_MGRS_Fraction.Text.Replace(" ", "");
@@ -347,6 +383,9 @@ namespace CoordinateConverter
             return ok;
         }
 
+        /// <summary>
+        /// Calculates the coordnates from the MGRS textboxes.
+        /// </summary>
         private void CalcMGRS()
         {
             try
@@ -355,16 +394,21 @@ namespace CoordinateConverter
 
                 if (CheckAndMarkMGRS())
                 {
-                    string latz = TB_MGRS_NorthGrid.Text.ToUpperInvariant();
-                    int lonz = int.Parse(TB_MGRS_EastGrid.Text);
-                    string digraph = TB_MGRS_SubgridIdent.Text.ToUpperInvariant();
+                    string latz = TB_MGRS_LatZone.Text.ToUpperInvariant();
+                    int lonz = int.Parse(TB_MGRS_LongZone.Text);
+                    string digraph = TB_MGRS_Digraph.Text.ToUpperInvariant();
                     string fractionText = TB_MGRS_Fraction.Text.Replace(" ", "");
                     double easting = double.Parse(fractionText.Substring(0, fractionText.Length / 2).PadRight(5, '0'));
                     double northing = double.Parse(fractionText.Substring(fractionText.Length / 2).PadRight(5, '0'));
 
                     CoordinateSharp.MilitaryGridReferenceSystem mgrs = new CoordinateSharp.MilitaryGridReferenceSystem(latz: latz, longz: lonz, d: digraph, e: easting, n: northing);
-                    input = new CoordinateDataEntry(dataEntries.Count, CoordinateSharp.MilitaryGridReferenceSystem.MGRStoLatLong(mgrs));
-                    DisplayCoordinates();
+                    CoordinateSharp.Coordinate coordinate = CoordinateSharp.MilitaryGridReferenceSystem.MGRStoLatLong(mgrs);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), tb_Label.Text);
+                    RefreshCoordinates(false);
+                }
+                else
+                {
+                    input = null;
                 }
             }
             catch (Exception e)
@@ -384,10 +428,10 @@ namespace CoordinateConverter
             e.Handled = !((e.KeyChar >= '0' && e.KeyChar <= '9') || (e.KeyChar < 32));
         }
 
-        private void TB_MGRS_SubgridIdent_KeyPress(object sender, KeyPressEventArgs e)
+        private void TB_MGRS_Digraph_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.KeyChar = char.ToUpperInvariant(e.KeyChar);
-            e.Handled = !((e.KeyChar >= 'A' && e.KeyChar <= 'Z') || (e.KeyChar < 32));
+            e.Handled = !((e.KeyChar >= 'A' && e.KeyChar <= 'Z') || (e.KeyChar < 0x20));
         }
 
         private void TB_MGRS_Fraction_Enter(object sender, EventArgs e)
@@ -400,6 +444,8 @@ namespace CoordinateConverter
         private void TB_MGRS_Fraction_Leave(object sender, EventArgs e)
         {
             // add space in the middle
+            RefreshCoordinates(true);
+
             TB_MGRS_Fraction.MaxLength = 11;
             if (TB_MGRS_Fraction.Text.Length > 0 && TB_MGRS_Fraction.Text.Length % 2 == 0)
             {
@@ -416,37 +462,37 @@ namespace CoordinateConverter
             bool ok = true;
 
             // Check Latitude GridCoordinate
-            string latz = TB_UTM_NorthGrid.Text.ToUpperInvariant();
+            string latz = TB_UTM_LatZone.Text.ToUpperInvariant();
             if (!(latz.Length != 1 || latz[0] == 'I' || latz[0] == 'O')) // Must be single character which is not I or O
             {
-                TB_UTM_NorthGrid.BackColor = default;
+                TB_UTM_LatZone.BackColor = default;
             }
             else
             {
                 ok = false;
-                TB_UTM_NorthGrid.BackColor = ERROR_COLOR;
+                TB_UTM_LatZone.BackColor = ERROR_COLOR;
             }
 
             // Check Longitude GridCoordinate
-            if (int.TryParse(TB_UTM_EastGrid.Text, out int lonz))
+            if (int.TryParse(TB_UTM_LongZone.Text, out int lonz))
             {
                 if (lonz >= 1 && lonz <= 60)
                 {
-                    TB_UTM_EastGrid.BackColor = default;
+                    TB_UTM_LongZone.BackColor = default;
                 }
                 else
                 {
                     ok = false;
-                    TB_UTM_EastGrid.BackColor = ERROR_COLOR;
+                    TB_UTM_LongZone.BackColor = ERROR_COLOR;
                 }
             }
             else
             {
                 ok = false;
-                TB_UTM_EastGrid.BackColor = ERROR_COLOR;
+                TB_UTM_LongZone.BackColor = ERROR_COLOR;
             }
             // Check Easting
-            if (double.TryParse(TB_UTM_Easting.Text, out _))
+            if (double.TryParse(TB_UTM_Easting.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI, out _))
             {
                 TB_UTM_Easting.BackColor = default;
             }
@@ -457,7 +503,7 @@ namespace CoordinateConverter
             }
 
             // Check Northing
-            if (double.TryParse(TB_UTM_Northing.Text, out _))
+            if (double.TryParse(TB_UTM_Northing.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI, out _))
             {
                 TB_UTM_Northing.BackColor = default;
             }
@@ -478,14 +524,19 @@ namespace CoordinateConverter
 
                 if (CheckAndMarkUTM())
                 {
-                    string latz = TB_UTM_NorthGrid.Text.ToUpperInvariant();
-                    int lonz = int.Parse(TB_UTM_EastGrid.Text);
-                    double easting = double.Parse(TB_UTM_Easting.Text);
-                    double northing = double.Parse(TB_UTM_Northing.Text);
+                    string latz = TB_UTM_LatZone.Text.ToUpperInvariant();
+                    int lonz = int.Parse(TB_UTM_LongZone.Text, CI);
+                    double easting = double.Parse(TB_UTM_Easting.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI);
+                    double northing = double.Parse(TB_UTM_Northing.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI);
 
                     CoordinateSharp.UniversalTransverseMercator utm = new CoordinateSharp.UniversalTransverseMercator(latz: latz, longz: lonz, est: easting, nrt: northing);
-                    input = new CoordinateDataEntry(dataEntries.Count, CoordinateSharp.UniversalTransverseMercator.ConvertUTMtoLatLong(utm));
-                    DisplayCoordinates();
+                    CoordinateSharp.Coordinate coordinate = CoordinateSharp.UniversalTransverseMercator.ConvertUTMtoLatLong(utm);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), tb_Label.Text);
+                    RefreshCoordinates(false);
+                }
+                else
+                {
+                    input = null;
                 }
             }
             catch (Exception e)
@@ -523,7 +574,7 @@ namespace CoordinateConverter
             {
                 bool ok = true;
                 // check bearing
-                if (double.TryParse(TB_Bulls_Bearing.Text, out _))
+                if (double.TryParse(TB_Bulls_Bearing.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI, out _))
                 {
                     TB_Bulls_Bearing.BackColor = default;
                 }
@@ -533,7 +584,7 @@ namespace CoordinateConverter
                     TB_Bulls_Bearing.BackColor = ERROR_COLOR;
                 }
                 // check range
-                if (double.TryParse(TB_Bulls_Range.Text, out _))
+                if (double.TryParse(TB_Bulls_Range.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI, out _))
                 {
                     TB_Bulls_Range.BackColor = default;
                 }
@@ -555,11 +606,16 @@ namespace CoordinateConverter
 
                 if (CheckAndMarkBulls())
                 {
-                    double bearing = double.Parse(TB_Bulls_Bearing.Text);
-                    double range = double.Parse(TB_Bulls_Range.Text);
+                    double bearing = double.Parse(TB_Bulls_Bearing.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI);
+                    double range = double.Parse(TB_Bulls_Range.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI);
 
-                    input = new CoordinateDataEntry(dataEntries.Count, bulls.GetOffsetPosition(new BRA(bearing: bearing, range: range)));
-                    DisplayCoordinates();
+                    CoordinateSharp.Coordinate coordinate = bulls.GetOffsetPosition(new BRA(bearing: bearing, range: range));
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), tb_Label.Text);
+                    RefreshCoordinates(false);
+                }
+                else
+                {
+                    input = null;
                 }
             }
             catch (Exception e)
@@ -576,10 +632,13 @@ namespace CoordinateConverter
 
         private void TB_Bulls_Bearing_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // allow any number
+            bool tbHasDecimalPoint = ((TextBox)sender).Text.Contains(".");
+            // allow any number and a single decimal point
             e.Handled = !(
                 (e.KeyChar >= '0' && e.KeyChar <= '9') ||
-                (e.KeyChar < 32)
+                (!tbHasDecimalPoint && e.KeyChar == '.') || 
+                (e.KeyChar < 0x20) ||
+                (e.KeyChar == 0x7F)
             );
         }
 
@@ -590,10 +649,13 @@ namespace CoordinateConverter
 
         private void TB_Bulls_Range_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // allow any number
+            bool tbHasDecimalPoint = ((TextBox)sender).Text.Contains(".");
+            // allow any number and a single decimal point
             e.Handled = !(
                 (e.KeyChar >= '0' && e.KeyChar <= '9') ||
-                (e.KeyChar < 32)
+                (!tbHasDecimalPoint && e.KeyChar == '.') ||
+                (e.KeyChar < 0x20) ||
+                (e.KeyChar == 0x7F)
             );
         }
 
@@ -607,23 +669,154 @@ namespace CoordinateConverter
                 return;
             }
             bulls = new Bullseye(input.Coordinate);
-            lbl_BENorthing.Text = bulls.GetBullseye().Latitude.ToString().Replace("º", "°").Replace(",", ".").Replace("N ", "N  ").Replace("S ", "S  ");
-            lbl_BEEasting.Text = bulls.GetBullseye().Longitude.ToString().Replace("º", "°").Replace(",", ".");
-            DisplayCoordinates();
+
+            CoordinateSharp.CoordinatePart lat = input.Coordinate.Latitude;
+            CoordinateSharp.CoordinatePart lon = input.Coordinate.Longitude;
+
+            // LL
+            lbl_BENorthing.Text = lat.Position.ToString().PadRight(3, ' ') + lat.Degrees.ToString(CI).PadLeft(2, '0') + "°" + lat.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lat.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
+            lbl_BEEasting.Text = lon.Position.ToString().PadRight(2, ' ') + lon.Degrees.ToString(CI).PadLeft(3, '0') + "°" + lon.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lon.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
+
+            RefreshCoordinates(true);
         }
 
         #endregion
 
-        private void RefreshInputID()
+        #region MiscInput
+
+        private void tb_Altitude_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (input == null) { return; }
-            input = new CoordinateDataEntry(dataEntries.Count, input.Coordinate, input.Altitude, input.Name);
+            // only allow numbers and control characters (backspace + delete)
+            e.Handled = !((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar < 0x20 || e.KeyChar == 0x7F);
         }
+
+        private void tb_Label_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // only allow numbers, letters, space and control characters (backspace + delete)
+            e.Handled = !(
+                (e.KeyChar >= '0' && e.KeyChar <= '9') ||
+                (e.KeyChar >= 'a' && e.KeyChar <= 'z') ||
+                (e.KeyChar >= 'A' && e.KeyChar <= 'Z') ||
+                e.KeyChar <= 0x20 ||
+                e.KeyChar == 0x7F
+            );
+        }
+        private void tb_Altitude_TextChanged(object sender, EventArgs e)
+        {
+            int altitude = 0;
+            if (tb_Altitude.Text == string.Empty || !int.TryParse(tb_Altitude.Text, out altitude))
+            {
+                tb_Altitude.Text = "0";
+                altitude = 0;
+            }
+
+            if (input != null)
+            {
+                if (cb_AltitudeUnit.Text == "ft")
+                {
+                    input.AltitudeInFt = altitude;
+                }
+                else if (cb_AltitudeUnit.Text == "m")
+                {
+                    input.AltitudeInM = altitude;
+                }
+                else
+                {
+                    throw new NotImplementedException("Altitude unit not implemented");
+                }
+            }
+        }
+
+        private double GetAltitudeInM()
+        {
+            lbl_Error.Visible = false;
+
+            int altitude;
+            if (!int.TryParse(tb_Altitude.Text, out altitude))
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = "Could not parse altitude as a whole number.";
+                return 0.0;
+            }
+
+            if (cb_AltitudeUnit.Text == "m")
+            {
+                return altitude;
+            }
+            if (cb_AltitudeUnit.Text == "ft")
+            {
+                return altitude / CoordinateDataEntry.FT_PER_M;
+            }
+            throw new NotImplementedException("Altitude unit not implemented.");
+        }
+
+        private void cb_AltitudeUnit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lbl_Error.Visible = false;
+
+            if (input != null)
+            {
+                if (cb_AltitudeUnit.Text == "ft")
+                {
+                    tb_Altitude.Text = ((int)Math.Round(input.AltitudeInFt)).ToString();
+                }
+                else if (cb_AltitudeUnit.Text == "m")
+                {
+                    tb_Altitude.Text = ((int)Math.Round(input.AltitudeInM)).ToString();
+                }
+                else
+                {
+                    throw new NotImplementedException("Altitude unit not implemented");
+                }
+            }
+            else
+            {
+                int oldAltitudeValue;
+                if (!int.TryParse(tb_Altitude.Text, out oldAltitudeValue))
+                {
+                    lbl_Error.Visible = true;
+                    lbl_Error.Text = "Could not parse altitude as a whole number.";
+                    return;
+                }
+
+                if (cb_AltitudeUnit.Text == "ft" && oldAltitudeUnit == "m")
+                {
+                    tb_Altitude.Text = ((int)Math.Round(oldAltitudeValue * CoordinateDataEntry.FT_PER_M)).ToString();
+                }
+                else if (cb_AltitudeUnit.Text == "m")
+                {
+                    tb_Altitude.Text = ((int)Math.Round(oldAltitudeValue / CoordinateDataEntry.FT_PER_M)).ToString();
+                }
+                else
+                {
+                    throw new NotImplementedException("Altitude unit not implemented");
+                }
+            }
+
+            oldAltitudeUnit = cb_AltitudeUnit.Text;
+            RefreshDataGrid();
+        }
+
+        private void tb_Label_TextChanged(object sender, EventArgs e)
+        {
+            if (input != null)
+            {
+                input.Name = tb_Label.Text;
+            }
+        }
+
+        private void TB_Input_Leave(object sender, EventArgs e)
+        {
+            RefreshCoordinates(true);
+        }
+
+        #endregion
+
         #endregion
 
         #region Output
 
-        private void DisplayCoordinates()
+        private void RefreshCoordinates(bool updateInputfields)
         {
             if (input != null)
             {
@@ -632,12 +825,112 @@ namespace CoordinateConverter
                 TB_Out_MGRS.Text = input.getCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
                 TB_Out_UTM.Text = input.getCoordinateStrUTM();
                 TB_Out_Bulls.Text = input.getCoordinateStrBullseye(bulls);
+
+                tb_Altitude.Text = Math.Round(cb_AltitudeUnit.Text == "ft" ? input.AltitudeInFt : input.AltitudeInM).ToString();
+                tb_Label.Text = input.Name;
+
+                if (updateInputfields)
+                {
+                    CoordinateSharp.CoordinatePart lat = input.Coordinate.Latitude;
+                    CoordinateSharp.CoordinatePart lon = input.Coordinate.Longitude;
+                    CoordinateSharp.UniversalTransverseMercator utm = input.Coordinate.UTM;
+
+                    // LL
+                    TB_LL_Lat.TextChanged -= TB_LL_Lat_TextChanged;
+                    TB_LL_Lat.Text = lat.Degrees.ToString(CI).PadLeft(2, '0') + "°" + lat.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lat.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
+                    TB_LL_Lat.TextChanged += TB_LL_Lat_TextChanged;
+                    
+                    TB_LL_Lon.TextChanged -= TB_LL_Lon_TextChanged;
+                    TB_LL_Lon.Text = lon.Degrees.ToString(CI).PadLeft(3, '0') + "°" + lon.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lon.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
+                    TB_LL_Lon.TextChanged += TB_LL_Lon_TextChanged;
+
+                    List<Control> controls =  new List<Control>() { RB_LL_N, RB_LL_S, RB_LL_E, RB_LL_W };
+                    foreach (RadioButton rb in controls)
+                    {
+                        rb.CheckedChanged -= RB_LL_CheckedChanged;
+                    }
+                    RB_LL_N.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.N;
+                    RB_LL_S.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.S;
+                    RB_LL_E.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.E;
+                    RB_LL_W.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.W;
+                    foreach (RadioButton rb in controls)
+                    {
+                        rb.CheckedChanged += RB_LL_CheckedChanged;
+                    }
+
+                    // LL Dec
+                    TB_LLDec_Lat.TextChanged -= TB_LLDecimal_Lat_TextChanged;
+                    TB_LLDec_Lat.Text = lat.Degrees.ToString(CI).PadLeft(2, '0') + "°" + Math.Round(lat.DecimalMinute, 4).ToString(CI).PadLeft(2, '0');
+                    TB_LLDec_Lat.TextChanged += TB_LLDecimal_Lat_TextChanged;
+                    
+                    TB_LLDec_Lon.TextChanged -= TB_LLDecimal_Lon_TextChanged;
+                    TB_LLDec_Lon.Text = lon.Degrees.ToString(CI).PadLeft(3, '0') + "°" + Math.Round(lon.DecimalMinute, 4).ToString(CI).PadLeft(2, '0');
+                    TB_LLDec_Lon.TextChanged += TB_LLDecimal_Lon_TextChanged;
+
+                    controls = new List<Control>() { RB_LLDec_N, RB_LLDec_S, RB_LLDec_E, RB_LLDec_W };
+                    foreach (RadioButton rb in controls)
+                    {
+                        rb.CheckedChanged -= RB_LLDecimal_CheckedChanged;
+                    }
+                    RB_LLDec_N.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.N;
+                    RB_LLDec_S.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.S;
+                    RB_LLDec_E.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.E;
+                    RB_LLDec_W.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.W;
+                    foreach (RadioButton rb in controls)
+                    {
+                        rb.CheckedChanged += RB_LLDecimal_CheckedChanged;
+                    }
+
+                    // MGRS
+                    controls = new List<Control>() { TB_MGRS_LongZone, TB_MGRS_LatZone, TB_MGRS_Digraph, TB_MGRS_Fraction };
+                    foreach (TextBox tb in controls)
+                    {
+                        tb.TextChanged -= InputMGRSChanged;
+                    }
+                    string mgrsText = input.getCoordinateStrMGRS();
+                    TB_MGRS_LongZone.Text = mgrsText.Substring(0, 2);
+                    TB_MGRS_LatZone.Text = mgrsText.Substring(2,1); // one space after this
+                    TB_MGRS_Digraph.Text = mgrsText.Substring(4,2); // one space after this
+                    TB_MGRS_Fraction.Text = mgrsText.Substring(7).Remove(5, 1); // remove center space
+                    foreach (TextBox tb in controls)
+                    {
+                        tb.TextChanged += InputMGRSChanged;
+                    }
+
+                    // UTM
+                    controls = new List<Control>() { TB_UTM_LongZone, TB_UTM_LatZone, TB_UTM_Easting, TB_UTM_Northing };
+                    foreach (TextBox tb in controls)
+                    {
+                        tb.TextChanged -= InputUTMChanged;
+                    }
+                    TB_UTM_LongZone.Text = utm.LongZone.ToString().PadLeft(2, '0');
+                    TB_UTM_LatZone.Text = utm.LatZone;
+                    TB_UTM_Easting.Text = Math.Round(utm.Easting, 3).ToString(CI);
+                    TB_UTM_Northing.Text = Math.Round(utm.Northing, 3).ToString(CI);
+                    foreach (TextBox tb in controls)
+                    {
+                        tb.TextChanged += InputUTMChanged;
+                    }
+
+                    if (bulls != null)
+                    {
+                        BRA bra = bulls.GetBRA(input.Coordinate);
+
+                        TB_Bulls_Bearing.TextChanged -= TB_Bulls_Bearing_TextChanged;
+                        TB_Bulls_Bearing.Text = Math.Round(bra.Bearing, 1).ToString(CI);
+                        TB_Bulls_Bearing.TextChanged += TB_Bulls_Bearing_TextChanged;
+
+                        TB_Bulls_Range.TextChanged -= TB_Bulls_Range_TextChanged;
+                        TB_Bulls_Range.Text = Math.Round(bra.Range, 2).ToString(CI);
+                        TB_Bulls_Range.TextChanged += TB_Bulls_Range_TextChanged;
+                    }
+                }
             }
         }
 
         private void nud_MGRS_Precision_ValueChanged(object sender, EventArgs e)
         {
-            DisplayCoordinates();
+            RefreshCoordinates(false);
             RefreshDataGrid();
         }
 
@@ -650,9 +943,9 @@ namespace CoordinateConverter
                     ID = entry.Id,
                     Name = entry.Name,
                     CoordinateStr = GetEntryCoordinateStr(entry),
-                    Altitude = entry.Altitude
+                    Altitude = Math.Round(cb_AltitudeUnit.Text == "m" ? entry.AltitudeInM : entry.AltitudeInFt),
                 }
-            ).ToList();
+            ).OrderBy(x => x.ID).ToList();
 
             dgv_CoordinateList.DataSource = result;
 
@@ -667,13 +960,10 @@ namespace CoordinateConverter
             }
         }
 
-        private void dgv_CoordinateList_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dgv_CoordinateList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
-            {
-                input = dataEntries.ElementAtOrDefault(e.RowIndex);
-                DisplayCoordinates();
-            }
+            input = dataEntries.ElementAt(e.RowIndex).Clone(dataEntries.Count);
+            RefreshCoordinates(true);
         }
 
         private void dgv_CoordinateList_CellContentClick(object objSender, DataGridViewCellEventArgs e)
@@ -686,10 +976,22 @@ namespace CoordinateConverter
                 if (e.ColumnIndex == 0) // delete
                 {
                     dataEntries.RemoveAt(e.RowIndex);
+                    ResetIDs();
                 }
 
                 RefreshDataGrid();
             }
+        }
+
+        private void ResetIDs()
+        {
+            int currentCount = dataEntries.Count;
+            for (int idx = 0; idx < currentCount; idx++)
+            {
+                CoordinateDataEntry entry = dataEntries.ElementAt(idx).Clone(idx);
+                dataEntries.Add(entry);
+            }
+            dataEntries.RemoveRange(0, currentCount);
         }
 
         private string GetEntryCoordinateStr(CoordinateDataEntry entry)
@@ -732,18 +1034,32 @@ namespace CoordinateConverter
             if (input == null)
             {
                 lbl_Error.Visible = true;
-                lbl_Error.Text = "Invalid input";
+                lbl_Error.Text = "Input invalid";
                 return;
             }
-            RefreshInputID();
-            dataEntries.Add(input);
+            dataEntries.Add(input.Clone(dataEntries.Count));
             RefreshDataGrid();
         }
 
-        private void btn_MoveUp_Click(object sender, EventArgs e)
+        private void btn_Replace_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
 
+            int? rowIdx = GetSelectedRowIndex();
+            if (!rowIdx.HasValue)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = "Need to select exactly one row or one cell.";
+                return;
+            }
+
+            dataEntries[rowIdx.Value] = input.Clone(rowIdx.Value);
+            RefreshDataGrid();
+            dgv_CoordinateList.Rows[rowIdx.Value].Selected = true;
+        }
+
+        private int? GetSelectedRowIndex()
+        {
             int? idx = null;
             if (dgv_CoordinateList.SelectedCells.Count == 1)
             {
@@ -753,10 +1069,17 @@ namespace CoordinateConverter
             {
                 idx = dgv_CoordinateList.SelectedRows[0].Index;
             }
+            return idx;
+        }
 
-            if (idx is null)
+        private void btn_MoveUp_Click(object sender, EventArgs e)
+        {
+            lbl_Error.Visible = false;
+
+            int? idx = GetSelectedRowIndex();
+
+            if (idx == null)
             {
-
                 lbl_Error.Visible = true;
                 lbl_Error.Text = "Need to select exactly one row or one cell.";
                 return;
@@ -773,19 +1096,10 @@ namespace CoordinateConverter
         {
             lbl_Error.Visible = false;
 
-            int? idx = null;
-            if (dgv_CoordinateList.SelectedCells.Count == 1)
-            {
-                idx = dgv_CoordinateList.SelectedCells[0].RowIndex;
-            }
-            else if (dgv_CoordinateList.SelectedRows.Count == 1)
-            {
-                idx = dgv_CoordinateList.SelectedRows[0].Index;
-            }
+            int? idx = GetSelectedRowIndex();
 
             if (idx is null)
             {
-
                 lbl_Error.Visible = true;
                 lbl_Error.Text = "Need to select exactly one row or one cell.";
                 return;
@@ -798,6 +1112,13 @@ namespace CoordinateConverter
             }
         }
 
+        /// <summary>
+        /// Swaps the two rows in the data grid
+        /// </summary>
+        /// <param name="idx">The index of the first row.</param>
+        /// <param name="targetIdx">Index of row where it supposed to go.</param>
+        /// <returns>true if a swap occurred, false if the targetidx is invalid</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">idx is not a valid index in the datagrid</exception>
         private bool swapRows(int idx, int targetIdx)
         {
             lbl_Error.Visible = false;
@@ -860,11 +1181,6 @@ namespace CoordinateConverter
                 RefreshDataGrid();
             }
         }
-
-        private void dgv_CoordinateList_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
-        {
-            dataEntries.RemoveAt(e.Row.Index);
-        }
         #endregion
 
         #endregion
@@ -876,6 +1192,5 @@ namespace CoordinateConverter
         {
             InitializeComponent();
         }
-
     }
 }
