@@ -17,22 +17,41 @@ namespace CoordinateConverter
      *      - ask for seat for AH64 and F15E when seat is not already selected
      *      - ask user if they want to use MGRS or L/L for A10
      *      - remind user to set PRECISE in the hornet
-     * Import point from DCS using the UDP socket from TheWay
-     *      - create a form that is always on top and transparent with no decorations
-     *      - make the form unmovable (except for from configuration)
+     * Add own lua file based on the way's lua file
+     *      - replace "Default" altitude with "AGL"
+     *           - if 0 for A10 or AH64, make altitude just ignored/hit enter on default
+     *           - for all other aircraft or if not 0 with AGL, get the ground altitude with query to TCP server (see below)
+     *           - when connected to dcs and coordinate set to AGL, update grid view with that value.
+     *               - if agl offset is 0 format (123AGL)
+     *               - if agl offset is 0 and altitude not available format (AGL)
+     *               - if ground altitude availble format (123AGL + 500 [623])
+     *               - if ground altitude not availble format (AGL + 500)
+     *               - if MSL format (500)
+     *      - remove udp and add a query system to the tcp server in the lua file
+     *           - query ground altitude (https://github.com/aronCiucu/DCSTheWay/blob/main/TheWay.lua#L111C23-L111C23)
+     *           - query camera position
+     *           - query aircraft type
+     *           - check dcs connection with timer. if not connected increase timer time, otherwise update regularly
+     *               - mind busy time when inputting coordinates
+     *               - return busy time from SendToDCS and update status
+     *      - Import point from DCS using the UDP socket from TheWay
+     *           - create a form that is always on top and transparent with no decorations
+     *           - make the form unmovable (except for from configuration)
      * Import point list to other aircraft (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
      *      - allow F18 weapons programming in addition to waypoints
      *      - ask users for weapon stations and types. programmable types:
-     *          - jdam
-     *          - jsow
-     *          - harm (?)
-     *          - SLAM
-     *          - SLAM-ER
-     *          - harpoon (with HPTP)
+     *          - jdam/jsow (point type: GPS Weapon Pre Plan Station X -> point options: pp1 .. pp5
+     *          - SLAM (?)
+     *          - SLAM-ER (point type: SLAM-ER Station X) -> point options: (WP1 .. 5)
+     *          - harpoon (point type: harpoon) -> point options: (only "TurnPoint x (1..4) times")
+     *             - MIMPORTANT: waypoint will have to be entered first to ensure HSI waypoint data is set up to select the HPTP from the HSI selection
+     *             - explain to the user that specific harpoon stations can't be programmed and that the currently selected harpoon and any subsequent ones will be altered
+     *             - special case, next point is target point if exists. get bra and range and display that info in data grid
      * Allow users to do tedious setups, perhaps save a sequence of commands to be played back later
      *      - find out how to determine device and keycodes (https://github.com/aronCiucu/DCSTheWay/issues/124)
      * Make pressing N/S/E/W switch the RB (on text change to allow pasting)
      * next waypoint bearing/range column
+     * test if putting in text into combo boxes screws things up
      */
     public partial class MainForm : Form
     {
