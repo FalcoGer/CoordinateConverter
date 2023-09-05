@@ -7,6 +7,13 @@ Convert coordinates to and from L/L, L/L Decimal, UTM and MGRS as well as Bullse
 2. Enter the coordinates you wish to convert. More details on valid inputs down below.  
 Invalid inputs will mark the relevant textbox pink to indicate the error.
 3. When the input is valid, the conversion will be written to the output in various formats.
+4. An altitude in `ft` or `m` may be entered as well as a 12 character long label provided.
+5. Clicking the Add button will add the point to the list on the right.
+6. Clicking the `-´ button in the list will delete that point from the list.
+7. Changing the radio boxes next to the output fields, changes the format in the list.
+8. Double clicking an entry in the list will put the coordinates into the input boxes for adjustments
+9. Clicking the Replace button will update the selected entry in the list with the values from the input boxes
+10. Clicking the up and down buttons will move the selected entry in the list up or down.
 
 # L/L - Latitude/Longitude
 
@@ -56,13 +63,13 @@ Except for seconds and fractions of seconds, those are converted into fractions 
 ## Usage for entering MGRS
 Enter the UTM Grid number indicating the Longitude band into the first textbox. Valid numbers are 01 through 60. Leading zeros are required.
 Enter the Latitude band Index into the second textbox. Valid input is any letter, except O and I.  
-Enter the sub grid ident, called digraph, into the third textbox
+Enter the sub grid ident, called digraph, into the third textbox.  
 Enter your easting and your northing into the fourth textbox. Decimals are not allowed. Only even numbers of digits are allowed, including none, in which case 00 is assumed.  
 `37 | T | GG | 46245002`
 
 ## Explaination of MGRS
 MGRS, or Military Grid Reference System, uses the same grid layout as UTM.  
-Each of those grids is divided into sub grids, indexed with two letters. Those grids are 10000m x 10000m size.  
+Each of those grids is divided into sub grids, indexed with a two letters digraph. Valid ranges are A-Z, excluding I and O, for the first letter and A-V, excluding I and O for the second letter. Those grids are 10000m x 10000m size.  
 From those sub grids you indicate a specific position with a set of numbers. Depending on the length of those numbers, you can indicate precision in up to 1m steps.  
 
 Numbers&nbsp;&nbsp; | Precision \[m\]
@@ -91,8 +98,8 @@ The poles are separated into Grids A/B for the south pole and Y/Z for the north 
 
 ## Usage for entering Bullseye coordinates
 A valid bullseye must be described by entering it's coordinates into the bullseye panel in L/L format. The same constraints as L/L conversion apply.  
-Enter a bearing from 0 through 360 in whole degrees. Decimals are not allowed.  
-Enter a range in whole nautical miles. Decimals are not allowed.
+Enter a bearing from 0 through 360 in whole degrees. Decimals are allowed.  
+Enter a range in nautical miles. Decimals are allowed.
 
 ## Explaination of Bullseye
 The bullseye is an arbitrary point chosen by a coalition in a military operation to be used as a reference point across all participants of a mission.  
