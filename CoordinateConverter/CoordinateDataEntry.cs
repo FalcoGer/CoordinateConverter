@@ -1,13 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace CoordinateConverter
 {
-    internal class CoordinateDataEntry
+    [JsonObject(MemberSerialization.OptIn)]
+    public class CoordinateDataEntry
     {
         private int id = 0;
-        private double altitudeInM = 0;
         private string name = string.Empty;
         public readonly static double FT_PER_M = 3.28084;
+
         private CoordinateSharp.CoordinateFormatOptions formatOptions = new CoordinateSharp.CoordinateFormatOptions
         {
             Display_Degree_Symbol = true,
@@ -23,7 +26,14 @@ namespace CoordinateConverter
 
         override public string ToString()
         {
-            return string.Format("ID: {0}, Name: {1}, Position: {2} | {3}ft", Id, Name, Coordinate.ToString(), AltitudeInFt);
+            string altStr = AltitudeInFt.HasValue ? AltitudeInFt.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) + " ft" : "Default";
+            return string.Format("ID: {0}, Name: {1}, Position: {2} | {3}", Id, Name, getCoordinateStrLLDeg(), altStr);
+        }
+
+        [JsonConstructor]
+        public CoordinateDataEntry()
+        {
+            Coordinate = new CoordinateSharp.Coordinate();
         }
 
         public CoordinateDataEntry(CoordinateDataEntry other)
@@ -32,9 +42,14 @@ namespace CoordinateConverter
             Coordinate = other.Coordinate;
             AltitudeInM = other.AltitudeInM;
             Name = other.Name ?? String.Empty;
+            XFer = true;
+            foreach (KeyValuePair<Type, AircraftSpecificData> kvp in other.AircraftSpecificData)
+            {
+                AircraftSpecificData.Add(kvp.Key, new AH64SpecificData() { PointType = ((AH64SpecificData)kvp.Value).PointType, Ident = ((AH64SpecificData)kvp.Value).Ident });
+            }
         }
 
-        public CoordinateDataEntry(int id, CoordinateSharp.Coordinate coordinate, double altitudeInM = 0, string name = "")
+        public CoordinateDataEntry(int id, CoordinateSharp.Coordinate coordinate, double? altitudeInM = null, string name = "", bool xfer = true)
         {
             if (coordinate == null)
             {
@@ -44,8 +59,10 @@ namespace CoordinateConverter
             Coordinate = coordinate;
             AltitudeInM = altitudeInM;
             Name = name ?? String.Empty;
+            XFer = xfer;
         }
 
+        [JsonProperty(PropertyName = "name")]
         public string Name
         {
             get => name;
@@ -61,10 +78,26 @@ namespace CoordinateConverter
                 }
             }
         }
-        public double AltitudeInM { get => altitudeInM; set => altitudeInM = value; }
-        public double AltitudeInFt { get => (altitudeInM * FT_PER_M); set => altitudeInM = value / FT_PER_M; }
+
+        [JsonProperty(PropertyName = "alt [m]")]
+        public double? AltitudeInM { get; set; } = 0;
+
+        public double? AltitudeInFt { get => AltitudeInM.HasValue ? (AltitudeInM.Value * FT_PER_M) : (double?)null; set => AltitudeInM = value.HasValue ? value.Value / FT_PER_M : (double?)null; }
         public CoordinateSharp.Coordinate Coordinate { get; set; } = null;
+
+        [JsonProperty(PropertyName = "lat")]
+        public double Lat { get => Coordinate.Latitude.DecimalDegree; set => Coordinate.Latitude.DecimalDegree = value; }
+        [JsonProperty(PropertyName = "long")]
+        public double Longi { get => Coordinate.Longitude.DecimalDegree; set => Coordinate.Longitude.DecimalDegree = value; }
+
+        [JsonProperty(PropertyName = "id")]
         public int Id { get => id; }
+
+        [JsonProperty(PropertyName = "xfer")]
+        public bool XFer { get; set; }
+
+        [JsonProperty("AircraftSpecificData")]
+        public Dictionary<Type, AircraftSpecificData> AircraftSpecificData { get; set; } = new Dictionary<Type, AircraftSpecificData>();
 
         public void SwapIds(CoordinateDataEntry other)
         {
@@ -85,6 +118,14 @@ namespace CoordinateConverter
         {
             formatOptions.Format = CoordinateSharp.CoordinateFormatType.Degree_Decimal_Minutes;
             formatOptions.Round = 4;
+            Coordinate.FormatOptions = formatOptions;
+            return Coordinate.Display.Replace("º", "°").Replace(",", ".");
+        }
+
+        public string getCoordinateStrLLDeg()
+        {
+            formatOptions.Format = CoordinateSharp.CoordinateFormatType.Decimal_Degree;
+            formatOptions.Round = 10;
             Coordinate.FormatOptions = formatOptions;
             return Coordinate.Display.Replace("º", "°").Replace(",", ".");
         }

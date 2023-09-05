@@ -36,8 +36,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CoordinateSharp, Version=2.8.1.1, Culture=neutral, PublicKeyToken=f45e02df057b7725, processorArchitecture=MSIL">
-      <HintPath>..\packages\CoordinateSharp.2.8.1.1\lib\net40\CoordinateSharp.dll</HintPath>
+    <Reference Include="CoordinateSharp, Version=2.19.1.1, Culture=neutral, PublicKeyToken=f45e02df057b7725, processorArchitecture=MSIL">
+      <HintPath>..\packages\CoordinateSharp.2.19.1.1\lib\net40\CoordinateSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,9 +55,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AH64.cs" />
+    <Compile Include="AH64SpecificData.cs" />
+    <Compile Include="AircraftSpecificData.cs" />
     <Compile Include="BRAA.cs" />
     <Compile Include="Bullseye.cs" />
+    <Compile Include="ComboItem.cs" />
     <Compile Include="CoordinateDataEntry.cs" />
+    <Compile Include="DCSAircraft.cs" />
+    <Compile Include="DCSCommand.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

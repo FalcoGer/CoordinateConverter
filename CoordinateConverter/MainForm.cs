@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -9,9 +10,11 @@ namespace CoordinateConverter
 {
     /*
      * TODOs
-     * Save/Load point list
-     * Import point list to AH64 DCS
-     * Import point list to other aircraft
+     * Test apache data transfer
+     * Automatically determine aircraft type from UDP socket from TheWay
+     * Import point from DCS using the UDP socket from TheWay ()
+     * Import point list to other aircraft (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
+     * Make pressing N/S/E/W switch the RB (on text change to allow pasting)
      */
     public partial class MainForm : Form
     {
@@ -33,16 +36,23 @@ namespace CoordinateConverter
         /// </summary>
         private const string REGEX_LL_DECIMAL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
         #endregion
-        private const string PREFIX_NAME_BTN_DELETE = "btn_DataRowDelete_";
-
         private readonly System.Drawing.Color ERROR_COLOR = System.Drawing.Color.Pink;
+        private readonly System.Drawing.Color DCS_ERROR_COLOR = System.Drawing.Color.Yellow;
 
         private CoordinateDataEntry input = null;
         private Bullseye bulls = null;
         private List<CoordinateDataEntry> dataEntries = new List<CoordinateDataEntry>();
-        public System.Globalization.CultureInfo CI = System.Globalization.CultureInfo.InvariantCulture;
+        private static readonly System.Globalization.CultureInfo CI = System.Globalization.CultureInfo.InvariantCulture;
+        private static readonly Newtonsoft.Json.JsonSerializerSettings jsonSerializerSettings = new Newtonsoft.Json.JsonSerializerSettings()
+        {
+            Culture = CI,
+            Formatting = Newtonsoft.Json.Formatting.Indented,
+            TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Objects
+        };
 
         private string oldAltitudeUnit;
+
+        private DCSAircraft selectedAircraft = null;
 
         #region "Input"
 
@@ -677,6 +687,7 @@ namespace CoordinateConverter
             lbl_BEEasting.Text = lon.Position.ToString().PadRight(2, ' ') + lon.Degrees.ToString(CI).PadLeft(3, '0') + "°" + lon.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lon.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
 
             RefreshCoordinates(true);
+            RefreshDataGrid();
         }
 
         #endregion
@@ -709,26 +720,33 @@ namespace CoordinateConverter
                 altitude = 0;
             }
 
-            if (input != null)
+            if (input == null)
             {
-                if (cb_AltitudeUnit.Text == "ft")
-                {
-                    input.AltitudeInFt = altitude;
-                }
-                else if (cb_AltitudeUnit.Text == "m")
-                {
-                    input.AltitudeInM = altitude;
-                }
-                else
-                {
-                    throw new NotImplementedException("Altitude unit not implemented");
-                }
+                return;
+            }
+            
+            if (cb_AltitudeUnit.Text == "ft")
+            {
+                input.AltitudeInFt = altitude;
+            }
+            else if (cb_AltitudeUnit.Text == "m")
+            {
+                input.AltitudeInM = altitude;
+            }
+            else
+            {
+                throw new NotImplementedException("Altitude unit not implemented");
             }
         }
 
-        private double GetAltitudeInM()
+        private double? GetAltitudeInM()
         {
             lbl_Error.Visible = false;
+
+            if (cb_defaultAltitude.Checked)
+            {
+                return null;
+            }
 
             int altitude;
             if (!int.TryParse(tb_Altitude.Text, out altitude))
@@ -755,15 +773,15 @@ namespace CoordinateConverter
 
             if (input != null)
             {
-                if (cb_AltitudeUnit.Text == "ft")
+                if (cb_AltitudeUnit.Text == "ft" && input.AltitudeInFt.HasValue)
                 {
-                    tb_Altitude.Text = ((int)Math.Round(input.AltitudeInFt)).ToString();
+                    tb_Altitude.Text = ((int)Math.Round(input.AltitudeInFt.Value)).ToString();
                 }
-                else if (cb_AltitudeUnit.Text == "m")
+                else if (cb_AltitudeUnit.Text == "m" && input.AltitudeInM.HasValue)
                 {
-                    tb_Altitude.Text = ((int)Math.Round(input.AltitudeInM)).ToString();
+                    tb_Altitude.Text = ((int)Math.Round(input.AltitudeInM.Value)).ToString();
                 }
-                else
+                else if (input.AltitudeInM.HasValue || input.AltitudeInFt.HasValue)
                 {
                     throw new NotImplementedException("Altitude unit not implemented");
                 }
@@ -825,11 +843,75 @@ namespace CoordinateConverter
                 TB_Out_UTM.Text = input.getCoordinateStrUTM();
                 TB_Out_Bulls.Text = input.getCoordinateStrBullseye(bulls);
 
-                tb_Altitude.Text = Math.Round(cb_AltitudeUnit.Text == "ft" ? input.AltitudeInFt : input.AltitudeInM).ToString();
-                tb_Label.Text = input.Name;
-
                 if (updateInputfields)
                 {
+                    // altitude
+                    tb_Altitude.TextChanged -= tb_Altitude_TextChanged;
+                    cb_defaultAltitude.CheckedChanged -= cb_defaultAltitude_CheckedChanged;
+                    if (input.AltitudeInM.HasValue)
+                    {
+                        tb_Altitude.Enabled = true;
+                        tb_Altitude.Text = Math.Round(cb_AltitudeUnit.Text == "ft" ? input.AltitudeInFt.Value : input.AltitudeInM.Value).ToString();
+                        cb_defaultAltitude.Checked = false;
+                    }
+                    else
+                    {
+                        tb_Altitude.Text = "0";
+                        tb_Altitude.Enabled = false;
+                        cb_defaultAltitude.Checked = true;
+                    }
+                    tb_Label.Text = input.Name;
+
+                    tb_Altitude.TextChanged += tb_Altitude_TextChanged;
+                    cb_defaultAltitude.CheckedChanged += cb_defaultAltitude_CheckedChanged;
+
+                    // point type & point option
+                    cb_pointType.SelectedIndexChanged -= cb_pointType_SelectedIndexChanged;
+                    cb_pointOption.SelectedIndexChanged -= cb_PointOption_SelectedIndexChanged;
+
+                    if (selectedAircraft == null || !input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
+                    {
+                        cb_pointType.SelectedIndex = 0;
+                        cb_pointType_SelectedIndexChanged(cb_pointType, null);
+                        if (cb_pointOption.Items.Count > 0)
+                        {
+                            cb_pointOption.SelectedIndex = 0;
+                        }
+                    }
+                    else if (selectedAircraft.GetType() == typeof(AH64))
+                    {
+                        AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
+                        cb_pointType.SelectedIndex = 0;
+                        for (int pointTypeIDX = 0; pointTypeIDX < cb_pointType.Items.Count; pointTypeIDX++)
+                        {
+                            if (cb_pointType.Items[pointTypeIDX].ToString() == extraData.PointType)
+                            {
+                                cb_pointType.SelectedIndex = pointTypeIDX;
+                                break;
+                            }
+                        }
+                        // select the correct point option
+                        cb_pointType_SelectedIndexChanged(cb_pointType, null); // needed to repopulate the point option combo box
+                        if (cb_pointOption.Items.Count > 0)
+                        {
+                            cb_pointOption.SelectedIndex = 0; // sane default, in case the value isn't found
+                            // search for the value
+                            for (int pointOptionIDX = 0; pointOptionIDX < cb_pointOption.Items.Count; pointOptionIDX++)
+                            {
+                                ComboItem ci = cb_pointOption.Items[pointOptionIDX] as ComboItem;
+                                if (ci.Value == extraData.Ident)
+                                {
+                                    cb_pointOption.SelectedIndex = pointOptionIDX;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    cb_pointType.SelectedIndexChanged += cb_pointType_SelectedIndexChanged;
+                    cb_pointOption.SelectedIndexChanged += cb_PointOption_SelectedIndexChanged;
+                    // coordinates
+
                     CoordinateSharp.CoordinatePart lat = input.Coordinate.Latitude;
                     CoordinateSharp.CoordinatePart lon = input.Coordinate.Longitude;
                     CoordinateSharp.UniversalTransverseMercator utm = input.Coordinate.UTM;
@@ -940,9 +1022,14 @@ namespace CoordinateConverter
             var result = dataEntries.Select(
                 entry => new {
                     ID = entry.Id,
-                    Name = entry.Name,
+                    Name = entry.Name +
+                        (
+                            (selectedAircraft == null || !entry.AircraftSpecificData.ContainsKey(selectedAircraft.GetType())) ? String.Empty
+                            : " [" + entry.AircraftSpecificData[selectedAircraft.GetType()].ToString() + "]"
+                        ),
                     CoordinateStr = GetEntryCoordinateStr(entry),
-                    Altitude = Math.Round(cb_AltitudeUnit.Text == "m" ? entry.AltitudeInM : entry.AltitudeInFt),
+                    Altitude = entry.AltitudeInM.HasValue ? (Math.Round(cb_AltitudeUnit.Text == "m" ? entry.AltitudeInM.Value : entry.AltitudeInFt.Value)).ToString(CI) : "Default",
+                    XFER = entry.XFer
                 }
             ).OrderBy(x => x.ID).ToList();
 
@@ -970,19 +1057,65 @@ namespace CoordinateConverter
 
         private void dgv_CoordinateList_CellContentClick(object objSender, DataGridViewCellEventArgs e)
         {
+            const int DELETE_BUTTON_COLID = 0;
+            const int XFER_CB_COLID = 5;
+
             DataGridView sender = objSender as DataGridView;
 
             if (sender.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
                 // A button cell was clicked
-                if (e.ColumnIndex == 0) // delete
+                if (e.ColumnIndex == DELETE_BUTTON_COLID) // delete
                 {
                     dataEntries.RemoveAt(e.RowIndex);
                     ResetIDs();
+                    RefreshDataGrid();
+                    return;
                 }
-
-                RefreshDataGrid();
             }
+            if (sender.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex < 0)
+            {
+                // a button colum was clicked
+                if (e.ColumnIndex == DELETE_BUTTON_COLID)
+                {
+                    DialogResult answer = MessageBox.Show("Delete all points?", "Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (answer != DialogResult.Yes)
+                    {
+                        return;
+                    }
+                    dataEntries.Clear();
+                    RefreshDataGrid();
+                    return;
+                }
+            }
+            if (sender.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn && e.RowIndex >= 0)
+            {
+                // a checkbox was clicked
+                if (e.ColumnIndex == XFER_CB_COLID)
+                {
+                    DataGridViewCheckBoxCell cell = sender.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewCheckBoxCell;
+                    dataEntries[e.RowIndex].XFer = !(cell.Value as bool? ?? false); // invert current selection
+                    RefreshDataGrid();
+                    return;
+                }
+            }
+            if (sender.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn && e.RowIndex < 0)
+            {
+                // a checkbox header was clicked
+                if (e.ColumnIndex == XFER_CB_COLID)
+                {
+                    bool allAreOn = dataEntries.Find(elem => !(elem.XFer)) == null;
+
+                    foreach (CoordinateDataEntry entry in dataEntries)
+                    {
+                        entry.XFer = !allAreOn;
+                    }
+
+                    RefreshDataGrid();
+                    return;
+                }
+            }
+            return;
         }
 
         private void ResetIDs()
@@ -1187,12 +1320,337 @@ namespace CoordinateConverter
 
         #endregion
 
+        #region "File management"
+
+        private OpenFileDialog ofd = new OpenFileDialog()
+        {
+            Title = "Open Coordinate List",
+            AddExtension = true,
+            DefaultExt = "json",
+            Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
+            FileName = "coordinates.json",
+            Multiselect = false,
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+            ShowReadOnly = false
+        };
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lbl_Error.Visible = false;
+            ofd.CheckFileExists = false;
+
+            DialogResult result = ofd.ShowDialog();
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+            string filePath = ofd.FileName;
+            FileInfo fi = new FileInfo(filePath);
+            if (fi.Exists)
+            {
+                result = MessageBox.Show("You are about to overwrite this file.", "Overwrite file?", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (result != DialogResult.OK)
+                {
+                    return;
+                }
+            }
+
+            try
+            {
+                using (FileStream fileHandle = fi.Open(FileMode.Create, FileAccess.Write))
+                {
+                    string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dataEntries, jsonSerializerSettings);
+                    byte[] data = new System.Text.UTF8Encoding(true).GetBytes(jsonData);
+                    fileHandle.Write(data, 0, data.Length);
+                }
+            }
+            catch (Exception ex)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = ex.Message;
+            }
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lbl_Error.Visible = false;
+
+            ofd.CheckFileExists = true;
+            DialogResult result = ofd.ShowDialog();
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+            string filePath = ofd.FileName;
+            FileInfo fi = new FileInfo(filePath);
+            if (!fi.Exists)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = "File does not exist";
+                return;
+            }
+
+            try
+            {
+                using (FileStream fileHandle = fi.Open(FileMode.Open, FileAccess.Read))
+                {
+                    using (StreamReader sr = new StreamReader(fileHandle, System.Text.Encoding.UTF8))
+                    {
+                        dataEntries = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CoordinateDataEntry>>(sr.ReadToEnd(), jsonSerializerSettings);
+                        ResetIDs();
+                        RefreshDataGrid();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = ex.Message;
+            }
+        }
+
+
+        #endregion
+
+        #region "DCS"
+
+        private void cb_defaultAltitude_CheckedChanged(object objSender, EventArgs e)
+        {
+            CheckBox sender = objSender as CheckBox;
+            tb_Altitude.Enabled = !sender.Checked;
+
+            if (input == null)
+            {
+                return;
+            }
+
+            if (sender.Checked)
+            {
+                input.AltitudeInM = null;
+            }
+            else
+            {
+                tb_Altitude_TextChanged(sender, e);
+            }
+        }
+
+        private void aircraftSelectionToolStripMenuItem_Click(object objSender, EventArgs e)
+        {
+            lbl_Error.Visible = false;
+
+            // Select the clicked option
+            ToolStripMenuItem sender = objSender as ToolStripMenuItem;
+
+            List<ToolStripMenuItem> controlsList = new List<ToolStripMenuItem>()
+            {
+                autoToolStripMenuItem,
+                a10ToolStripMenuItem,
+                aH64CPGToolStripMenuItem,
+                aH64PLTToolStripMenuItem,
+                aV8BToolStripMenuItem,
+                f15EToolStripMenuItem,
+                f16ToolStripMenuItem,
+                f18ToolStripMenuItem,
+                kA50ToolStripMenuItem,
+                m2000ToolStripMenuItem
+            };
+
+            foreach (ToolStripMenuItem mi in controlsList)
+            {
+                mi.Checked = mi.Name == sender.Name;
+            }
+
+            const string AH64PLT = "aH64PLTToolStripMenuItem";
+            const string AH64CPG = "aH64CPGToolStripMenuItem";
+
+            switch (sender.Name)
+            {
+                case AH64PLT:
+                    selectedAircraft = new AH64(true);
+                    break;
+                case AH64CPG:
+                    selectedAircraft = new AH64(false);
+                    break;
+                default:
+                    selectedAircraft = null;
+                    lbl_Error.Visible = true;
+                    lbl_Error.Text = "Currently this aircraft is not implemented";
+
+                    cb_pointType.Items.Clear();
+                    cb_pointType.Items.Add("Waypoint");
+                    cb_pointType.SelectedIndex = 0;
+                    cb_pointType.Enabled = false;
+                    cb_pointOption.ValueMember = null;
+                    cb_pointOption.DisplayMember = null;
+                    cb_pointOption.DataSource = null;
+                    cb_pointOption.Items.Clear();
+                    cb_pointOption.Enabled = false;
+                    RefreshDataGrid();
+                    return;
+            }
+
+            if (selectedAircraft.GetType() == typeof(AH64))
+            {
+                cb_pointType.Items.Clear();
+                cb_pointType.Items.AddRange(Enum.GetNames(typeof(AH64.EPointType)).ToArray());
+                cb_pointType.Enabled = true;
+                cb_pointType.SelectedIndex = 0;
+                cb_pointOption.Enabled = true;
+
+                // if the point has AH64 data, we load it.
+                if (input != null && input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
+                {
+                    AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
+                    cb_pointType.SelectedIndex = cb_pointType.FindStringExact(extraData.PointType);
+                    cb_pointOption.SelectedValue = extraData.Ident;
+                }
+                else if (input != null) // otherwise we add it.
+                {
+                    AH64SpecificData extraData = new AH64SpecificData();
+                    extraData.PointType = nameof(AH64.EPointType.Waypoint);
+                    extraData.Ident = nameof(AH64.EPointIdent.WP_WP);
+                    input.AircraftSpecificData.Add(selectedAircraft.GetType(), extraData);
+                }
+            }
+            else
+            {
+                cb_pointType.Items.Clear();
+                cb_pointType.Items.Add("Waypoint");
+                cb_pointType.SelectedIndex = 0;
+                cb_pointType.Enabled = false;
+
+                cb_pointOption.Items.Clear();
+                cb_pointOption.Enabled = false;
+            }
+
+            tb_Altitude.Enabled = !cb_defaultAltitude.Checked;
+            RefreshDataGrid();
+        }
+
+        private void cb_pointType_SelectedIndexChanged(object objSender, EventArgs e)
+        {
+            if (selectedAircraft == null)
+            {
+                cb_pointOption.Enabled = false;
+                return;
+            }
+
+            ComboBox sender = objSender as ComboBox;
+            cb_pointOption.Items.Clear();
+
+            if (selectedAircraft.GetType() == typeof(AH64))
+            {
+                // add all the options for the AH64
+                AH64.EPointType ePointType = (AH64.EPointType)Enum.Parse(typeof(AH64.EPointType), cb_pointType.Text, true);
+
+                object[] items;
+                cb_pointOption.DisplayMember = "Text";
+                cb_pointOption.ValueMember = "Value";
+                switch (ePointType)
+                {
+                    case AH64.EPointType.Waypoint:
+                        items = AH64.EWPOptionDescriptions.Select(x => (object)(new ComboItem() { Value = x.Key.ToString(), Text = x.Value })).ToArray();
+                        cb_pointOption.Items.AddRange(items);
+                        break;
+                    case AH64.EPointType.Hazard:
+                        items = AH64.EHZOptionDescriptions.Select(x => (object)(new ComboItem() { Value = x.Key.ToString(), Text = x.Value })).ToArray();
+                        cb_pointOption.Items.AddRange(items);
+                        break;
+                    case AH64.EPointType.ControlMeasure:
+                        items = AH64.ECMOptionDescriptions.Select(x => (object)(new ComboItem() { Value = x.Key.ToString(), Text = x.Value })).ToArray();
+                        cb_pointOption.Items.AddRange(items);
+                        break;
+                    case AH64.EPointType.Target:
+                        items = AH64.ETGOptionDescriptions.Select(x => (object)(new ComboItem() { Value = x.Key.ToString(), Text = x.Value })).ToArray();
+                        cb_pointOption.Items.AddRange(items);
+                        break;
+                    default:
+                        throw new Exception("Bad point type.");
+                }
+
+
+                if (input == null)
+                {
+                    if (cb_pointOption.Items.Count > 0)
+                    {
+                        cb_pointOption.SelectedIndex = 0;
+                    }
+                }
+                else
+                {
+                    // Set input to the relevant value
+                    if (!input.AircraftSpecificData.ContainsKey(typeof(AH64)))
+                    {
+                        input.AircraftSpecificData.Add(selectedAircraft.GetType(), new AH64SpecificData());
+                    }
+                    AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
+                    extraData.PointType = sender.Items[sender.SelectedIndex] as string;
+                    cb_pointOption.SelectedIndex = 0;
+                    input.AircraftSpecificData[selectedAircraft.GetType()] = extraData;
+                }
+            }
+            cb_pointOption.Enabled = cb_pointOption.Items.Count > 1;
+        }
+
+        private void cb_PointOption_SelectedIndexChanged(object objSender, EventArgs e)
+        {
+            if (selectedAircraft == null)
+            {
+                return;
+            }
+
+            ComboBox sender = objSender as ComboBox;
+            if (sender.SelectedIndex < 0)
+            {
+                // newly populated
+                return;
+            }
+
+            if (input == null)
+            {
+                return;
+            }
+
+            if (selectedAircraft.GetType() == typeof(AH64))
+            {
+                if (!input.AircraftSpecificData.ContainsKey(typeof(AH64)))
+                {
+                    input.AircraftSpecificData.Add(selectedAircraft.GetType(), new AH64SpecificData());
+                }
+                AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
+                extraData.Ident = (sender.SelectedItem as ComboItem).Value;
+                input.AircraftSpecificData[selectedAircraft.GetType()] = extraData;
+            }
+        }
+
+        private void transferToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lbl_Error.Visible = false;
+            if (selectedAircraft == null)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = "Need to select aircraft type.";
+                return;
+            }
+
+            selectedAircraft.SendToDCS(dataEntries);
+        }
+
+        private void fetchF10ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lbl_Error.Visible = true;
+            lbl_Error.Text = "Importing coordinates is currently not supported";
+        }
+
+        #endregion
+
         /// <summary>
         /// CTOR
         /// </summary>
         public MainForm()
         {
             InitializeComponent();
+            tb_Altitude.Enabled = !cb_defaultAltitude.Checked;
         }
     }
 }

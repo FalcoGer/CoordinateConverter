@@ -56,6 +56,11 @@ namespace CoordinateConverter
             this.TB_Out_LL = new System.Windows.Forms.TextBox();
             this.TB_Out_LLDec = new System.Windows.Forms.TextBox();
             this.GrpBox_Input = new System.Windows.Forms.GroupBox();
+            this.cb_defaultAltitude = new System.Windows.Forms.CheckBox();
+            this.cb_pointOption = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.cb_pointType = new System.Windows.Forms.ComboBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.tb_Label = new System.Windows.Forms.TextBox();
             this.cb_AltitudeUnit = new System.Windows.Forms.ComboBox();
             this.tb_Altitude = new System.Windows.Forms.TextBox();
@@ -112,12 +117,32 @@ namespace CoordinateConverter
             this.TB_Bulls_Bearing = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lbl_Error = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbl_DCS_Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgv_CoordinateList = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCoordinates = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAltitude = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colXFer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colDelete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dCSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transferToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fetchF10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aircraftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.a10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aH64PLTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aH64CPGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aV8BToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.f15EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.f16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.f18ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kA50ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.m2000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MGRS_Precision)).BeginInit();
             this.GrpBox_Input.SuspendLayout();
@@ -138,6 +163,7 @@ namespace CoordinateConverter
             this.panel10.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_CoordinateList)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // GrpBox_Output
@@ -165,7 +191,7 @@ namespace CoordinateConverter
             this.GrpBox_Output.Controls.Add(this.label8);
             this.GrpBox_Output.Controls.Add(this.TB_Out_LL);
             this.GrpBox_Output.Controls.Add(this.TB_Out_LLDec);
-            this.GrpBox_Output.Location = new System.Drawing.Point(0, 266);
+            this.GrpBox_Output.Location = new System.Drawing.Point(0, 298);
             this.GrpBox_Output.Name = "GrpBox_Output";
             this.GrpBox_Output.Size = new System.Drawing.Size(499, 183);
             this.GrpBox_Output.TabIndex = 2;
@@ -410,6 +436,11 @@ namespace CoordinateConverter
             // 
             this.GrpBox_Input.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.GrpBox_Input.Controls.Add(this.cb_defaultAltitude);
+            this.GrpBox_Input.Controls.Add(this.cb_pointOption);
+            this.GrpBox_Input.Controls.Add(this.label18);
+            this.GrpBox_Input.Controls.Add(this.cb_pointType);
+            this.GrpBox_Input.Controls.Add(this.label17);
             this.GrpBox_Input.Controls.Add(this.tb_Label);
             this.GrpBox_Input.Controls.Add(this.cb_AltitudeUnit);
             this.GrpBox_Input.Controls.Add(this.tb_Altitude);
@@ -418,20 +449,82 @@ namespace CoordinateConverter
             this.GrpBox_Input.Controls.Add(this.TC_Input);
             this.GrpBox_Input.Location = new System.Drawing.Point(12, 12);
             this.GrpBox_Input.Name = "GrpBox_Input";
-            this.GrpBox_Input.Size = new System.Drawing.Size(487, 248);
+            this.GrpBox_Input.Size = new System.Drawing.Size(487, 280);
             this.GrpBox_Input.TabIndex = 0;
             this.GrpBox_Input.TabStop = false;
             this.GrpBox_Input.Text = "Input";
+            // 
+            // cb_defaultAltitude
+            // 
+            this.cb_defaultAltitude.AutoSize = true;
+            this.cb_defaultAltitude.Checked = true;
+            this.cb_defaultAltitude.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_defaultAltitude.Location = new System.Drawing.Point(199, 256);
+            this.cb_defaultAltitude.Name = "cb_defaultAltitude";
+            this.cb_defaultAltitude.Size = new System.Drawing.Size(60, 17);
+            this.cb_defaultAltitude.TabIndex = 8;
+            this.cb_defaultAltitude.Text = "Default";
+            this.cb_defaultAltitude.UseVisualStyleBackColor = true;
+            this.cb_defaultAltitude.CheckedChanged += new System.EventHandler(this.cb_defaultAltitude_CheckedChanged);
+            // 
+            // cb_pointOption
+            // 
+            this.cb_pointOption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_pointOption.AutoCompleteCustomSource.AddRange(new string[] {
+            "Waypoint"});
+            this.cb_pointOption.Enabled = false;
+            this.cb_pointOption.FormattingEnabled = true;
+            this.cb_pointOption.Location = new System.Drawing.Point(308, 227);
+            this.cb_pointOption.Name = "cb_pointOption";
+            this.cb_pointOption.Size = new System.Drawing.Size(172, 21);
+            this.cb_pointOption.TabIndex = 12;
+            this.cb_pointOption.SelectedIndexChanged += new System.EventHandler(this.cb_PointOption_SelectedIndexChanged);
+            // 
+            // label18
+            // 
+            this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(264, 230);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(38, 13);
+            this.label18.TabIndex = 11;
+            this.label18.Text = "Option";
+            // 
+            // cb_pointType
+            // 
+            this.cb_pointType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cb_pointType.AutoCompleteCustomSource.AddRange(new string[] {
+            "Waypoint"});
+            this.cb_pointType.Enabled = false;
+            this.cb_pointType.FormattingEnabled = true;
+            this.cb_pointType.Items.AddRange(new object[] {
+            "Waypoint"});
+            this.cb_pointType.Location = new System.Drawing.Point(79, 227);
+            this.cb_pointType.Name = "cb_pointType";
+            this.cb_pointType.Size = new System.Drawing.Size(179, 21);
+            this.cb_pointType.TabIndex = 10;
+            this.cb_pointType.Text = "Waypoint";
+            this.cb_pointType.SelectedIndexChanged += new System.EventHandler(this.cb_pointType_SelectedIndexChanged);
+            // 
+            // label17
+            // 
+            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(15, 230);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(58, 13);
+            this.label17.TabIndex = 9;
+            this.label17.Text = "Point Type";
             // 
             // tb_Label
             // 
             this.tb_Label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tb_Label.Location = new System.Drawing.Point(308, 222);
+            this.tb_Label.Location = new System.Drawing.Point(308, 254);
             this.tb_Label.MaxLength = 12;
             this.tb_Label.Name = "tb_Label";
             this.tb_Label.Size = new System.Drawing.Size(172, 20);
-            this.tb_Label.TabIndex = 8;
+            this.tb_Label.TabIndex = 9;
             this.tb_Label.TextChanged += new System.EventHandler(this.tb_Label_TextChanged);
             this.tb_Label.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_Label_KeyPress);
             // 
@@ -442,9 +535,9 @@ namespace CoordinateConverter
             this.cb_AltitudeUnit.Items.AddRange(new object[] {
             "ft",
             "m"});
-            this.cb_AltitudeUnit.Location = new System.Drawing.Point(222, 222);
+            this.cb_AltitudeUnit.Location = new System.Drawing.Point(156, 254);
             this.cb_AltitudeUnit.Name = "cb_AltitudeUnit";
-            this.cb_AltitudeUnit.Size = new System.Drawing.Size(41, 21);
+            this.cb_AltitudeUnit.Size = new System.Drawing.Size(36, 21);
             this.cb_AltitudeUnit.TabIndex = 7;
             this.cb_AltitudeUnit.Text = "ft";
             this.cb_AltitudeUnit.SelectedIndexChanged += new System.EventHandler(this.cb_AltitudeUnit_SelectedIndexChanged);
@@ -452,10 +545,10 @@ namespace CoordinateConverter
             // tb_Altitude
             // 
             this.tb_Altitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tb_Altitude.Location = new System.Drawing.Point(54, 222);
+            this.tb_Altitude.Location = new System.Drawing.Point(79, 254);
             this.tb_Altitude.MaxLength = 6;
             this.tb_Altitude.Name = "tb_Altitude";
-            this.tb_Altitude.Size = new System.Drawing.Size(162, 20);
+            this.tb_Altitude.Size = new System.Drawing.Size(71, 20);
             this.tb_Altitude.TabIndex = 6;
             this.tb_Altitude.Text = "0";
             this.tb_Altitude.TextChanged += new System.EventHandler(this.tb_Altitude_TextChanged);
@@ -465,7 +558,7 @@ namespace CoordinateConverter
             // 
             this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(269, 225);
+            this.label16.Location = new System.Drawing.Point(269, 257);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(33, 13);
             this.label16.TabIndex = 2;
@@ -475,7 +568,7 @@ namespace CoordinateConverter
             // 
             this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(6, 225);
+            this.label15.Location = new System.Drawing.Point(31, 257);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(42, 13);
             this.label15.TabIndex = 1;
@@ -494,7 +587,7 @@ namespace CoordinateConverter
             this.TC_Input.Location = new System.Drawing.Point(3, 16);
             this.TC_Input.Name = "TC_Input";
             this.TC_Input.SelectedIndex = 0;
-            this.TC_Input.Size = new System.Drawing.Size(481, 200);
+            this.TC_Input.Size = new System.Drawing.Size(481, 205);
             this.TC_Input.TabIndex = 0;
             // 
             // TabPage_LatLon
@@ -505,7 +598,7 @@ namespace CoordinateConverter
             this.TabPage_LatLon.Location = new System.Drawing.Point(4, 22);
             this.TabPage_LatLon.Name = "TabPage_LatLon";
             this.TabPage_LatLon.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_LatLon.Size = new System.Drawing.Size(473, 174);
+            this.TabPage_LatLon.Size = new System.Drawing.Size(473, 179);
             this.TabPage_LatLon.TabIndex = 0;
             this.TabPage_LatLon.Text = "L/L";
             this.TabPage_LatLon.UseVisualStyleBackColor = true;
@@ -629,7 +722,7 @@ namespace CoordinateConverter
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(473, 174);
+            this.tabPage1.Size = new System.Drawing.Size(473, 179);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "L/L Decimal";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -753,7 +846,7 @@ namespace CoordinateConverter
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(473, 174);
+            this.tabPage2.Size = new System.Drawing.Size(473, 179);
             this.tabPage2.TabIndex = 6;
             this.tabPage2.Text = "MGRS";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -846,7 +939,7 @@ namespace CoordinateConverter
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(473, 174);
+            this.tabPage3.Size = new System.Drawing.Size(473, 179);
             this.tabPage3.TabIndex = 4;
             this.tabPage3.Text = "UTM";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -962,7 +1055,7 @@ namespace CoordinateConverter
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(473, 174);
+            this.tabPage4.Size = new System.Drawing.Size(473, 179);
             this.tabPage4.TabIndex = 5;
             this.tabPage4.Text = "Bullseye";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1076,8 +1169,9 @@ namespace CoordinateConverter
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lbl_Error});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 452);
+            this.lbl_Error,
+            this.lbl_DCS_Status});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 484);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1189, 22);
             this.statusStrip1.TabIndex = 3;
@@ -1090,6 +1184,13 @@ namespace CoordinateConverter
             this.lbl_Error.Size = new System.Drawing.Size(67, 17);
             this.lbl_Error.Text = "<ERROR>";
             this.lbl_Error.Visible = false;
+            // 
+            // lbl_DCS_Status
+            // 
+            this.lbl_DCS_Status.BackColor = System.Drawing.Color.Yellow;
+            this.lbl_DCS_Status.Name = "lbl_DCS_Status";
+            this.lbl_DCS_Status.Size = new System.Drawing.Size(127, 17);
+            this.lbl_DCS_Status.Text = "DCS not connected";
             // 
             // dgv_CoordinateList
             // 
@@ -1104,11 +1205,12 @@ namespace CoordinateConverter
             this.colLabel,
             this.colCoordinates,
             this.colAltitude,
+            this.colXFer,
             this.colDelete});
             this.dgv_CoordinateList.Location = new System.Drawing.Point(505, 13);
             this.dgv_CoordinateList.MultiSelect = false;
             this.dgv_CoordinateList.Name = "dgv_CoordinateList";
-            this.dgv_CoordinateList.Size = new System.Drawing.Size(672, 436);
+            this.dgv_CoordinateList.Size = new System.Drawing.Size(672, 468);
             this.dgv_CoordinateList.TabIndex = 30;
             this.dgv_CoordinateList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CoordinateList_CellContentClick);
             this.dgv_CoordinateList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CoordinateList_CellDoubleClick);
@@ -1153,6 +1255,19 @@ namespace CoordinateConverter
             this.colAltitude.Name = "colAltitude";
             this.colAltitude.ToolTipText = "Altitude of the point.";
             // 
+            // colXFer
+            // 
+            this.colXFer.DataPropertyName = "XFER";
+            this.colXFer.FalseValue = "";
+            this.colXFer.HeaderText = "XFER";
+            this.colXFer.IndeterminateValue = "";
+            this.colXFer.MinimumWidth = 40;
+            this.colXFer.Name = "colXFer";
+            this.colXFer.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colXFer.ToolTipText = "Check to enable transfer to DCS.";
+            this.colXFer.TrueValue = "";
+            this.colXFer.Width = 40;
+            // 
             // colDelete
             // 
             this.colDelete.HeaderText = "Del";
@@ -1164,15 +1279,164 @@ namespace CoordinateConverter
             this.colDelete.UseColumnTextForButtonValue = true;
             this.colDelete.Width = 30;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.dCSToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1189, 24);
+            this.menuStrip1.TabIndex = 31;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadToolStripMenuItem,
+            this.saveAsToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.loadToolStripMenuItem.Text = "Load file...";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.saveAsToolStripMenuItem.Text = "Save As...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // dCSToolStripMenuItem
+            // 
+            this.dCSToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.transferToolStripMenuItem,
+            this.fetchF10ToolStripMenuItem,
+            this.aircraftToolStripMenuItem});
+            this.dCSToolStripMenuItem.Name = "dCSToolStripMenuItem";
+            this.dCSToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.dCSToolStripMenuItem.Text = "DCS";
+            // 
+            // transferToolStripMenuItem
+            // 
+            this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
+            this.transferToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.transferToolStripMenuItem.Text = "Transfer";
+            this.transferToolStripMenuItem.Click += new System.EventHandler(this.transferToolStripMenuItem_Click);
+            // 
+            // fetchF10ToolStripMenuItem
+            // 
+            this.fetchF10ToolStripMenuItem.Name = "fetchF10ToolStripMenuItem";
+            this.fetchF10ToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.fetchF10ToolStripMenuItem.Text = "Fetch F10";
+            this.fetchF10ToolStripMenuItem.Click += new System.EventHandler(this.fetchF10ToolStripMenuItem_Click);
+            // 
+            // aircraftToolStripMenuItem
+            // 
+            this.aircraftToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autoToolStripMenuItem,
+            this.a10ToolStripMenuItem,
+            this.aH64PLTToolStripMenuItem,
+            this.aH64CPGToolStripMenuItem,
+            this.aV8BToolStripMenuItem,
+            this.f15EToolStripMenuItem,
+            this.f16ToolStripMenuItem,
+            this.f18ToolStripMenuItem,
+            this.kA50ToolStripMenuItem,
+            this.m2000ToolStripMenuItem});
+            this.aircraftToolStripMenuItem.Name = "aircraftToolStripMenuItem";
+            this.aircraftToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.aircraftToolStripMenuItem.Text = "Aircraft";
+            // 
+            // autoToolStripMenuItem
+            // 
+            this.autoToolStripMenuItem.Checked = true;
+            this.autoToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoToolStripMenuItem.Name = "autoToolStripMenuItem";
+            this.autoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.autoToolStripMenuItem.Text = "Auto";
+            this.autoToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // a10ToolStripMenuItem
+            // 
+            this.a10ToolStripMenuItem.Name = "a10ToolStripMenuItem";
+            this.a10ToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.a10ToolStripMenuItem.Text = "A10";
+            this.a10ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // aH64PLTToolStripMenuItem
+            // 
+            this.aH64PLTToolStripMenuItem.Name = "aH64PLTToolStripMenuItem";
+            this.aH64PLTToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.aH64PLTToolStripMenuItem.Text = "AH64-PLT";
+            this.aH64PLTToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // aH64CPGToolStripMenuItem
+            // 
+            this.aH64CPGToolStripMenuItem.Name = "aH64CPGToolStripMenuItem";
+            this.aH64CPGToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.aH64CPGToolStripMenuItem.Text = "AH-64-CPG";
+            this.aH64CPGToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // aV8BToolStripMenuItem
+            // 
+            this.aV8BToolStripMenuItem.Name = "aV8BToolStripMenuItem";
+            this.aV8BToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.aV8BToolStripMenuItem.Text = "AV8B";
+            this.aV8BToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // f15EToolStripMenuItem
+            // 
+            this.f15EToolStripMenuItem.Name = "f15EToolStripMenuItem";
+            this.f15EToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.f15EToolStripMenuItem.Text = "F15E";
+            this.f15EToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // f16ToolStripMenuItem
+            // 
+            this.f16ToolStripMenuItem.Name = "f16ToolStripMenuItem";
+            this.f16ToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.f16ToolStripMenuItem.Text = "F16";
+            this.f16ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // f18ToolStripMenuItem
+            // 
+            this.f18ToolStripMenuItem.Name = "f18ToolStripMenuItem";
+            this.f18ToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.f18ToolStripMenuItem.Text = "F18";
+            this.f18ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // kA50ToolStripMenuItem
+            // 
+            this.kA50ToolStripMenuItem.Name = "kA50ToolStripMenuItem";
+            this.kA50ToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.kA50ToolStripMenuItem.Text = "KA50";
+            this.kA50ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // m2000ToolStripMenuItem
+            // 
+            this.m2000ToolStripMenuItem.Name = "m2000ToolStripMenuItem";
+            this.m2000ToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.m2000ToolStripMenuItem.Text = "M2000";
+            this.m2000ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1189, 474);
+            this.ClientSize = new System.Drawing.Size(1189, 506);
             this.Controls.Add(this.dgv_CoordinateList);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.GrpBox_Input);
             this.Controls.Add(this.GrpBox_Output);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Coordinate Converter";
             this.GrpBox_Output.ResumeLayout(false);
@@ -1212,6 +1476,8 @@ namespace CoordinateConverter
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_CoordinateList)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1299,11 +1565,36 @@ namespace CoordinateConverter
         private Label label16;
         private TextBox tb_Label;
         private Button btn_Replace;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem dCSToolStripMenuItem;
+        private ToolStripMenuItem aircraftToolStripMenuItem;
+        private ToolStripMenuItem autoToolStripMenuItem;
+        private ToolStripMenuItem a10ToolStripMenuItem;
+        private ToolStripMenuItem aH64PLTToolStripMenuItem;
+        private ToolStripMenuItem aH64CPGToolStripMenuItem;
+        private ToolStripMenuItem transferToolStripMenuItem;
+        private ToolStripMenuItem aV8BToolStripMenuItem;
+        private ToolStripMenuItem f15EToolStripMenuItem;
+        private ToolStripMenuItem f16ToolStripMenuItem;
+        private ToolStripMenuItem f18ToolStripMenuItem;
+        private ToolStripMenuItem kA50ToolStripMenuItem;
+        private ToolStripMenuItem m2000ToolStripMenuItem;
+        private ToolStripMenuItem loadToolStripMenuItem;
+        private ToolStripMenuItem saveAsToolStripMenuItem;
+        private ToolStripMenuItem fetchF10ToolStripMenuItem;
+        private ToolStripStatusLabel lbl_DCS_Status;
         private DataGridViewTextBoxColumn colId;
         private DataGridViewTextBoxColumn colLabel;
         private DataGridViewTextBoxColumn colCoordinates;
         private DataGridViewTextBoxColumn colAltitude;
+        private DataGridViewCheckBoxColumn colXFer;
         private DataGridViewButtonColumn colDelete;
+        private Label label18;
+        private ComboBox cb_pointType;
+        private Label label17;
+        private ComboBox cb_pointOption;
+        private CheckBox cb_defaultAltitude;
     }
 }
 
