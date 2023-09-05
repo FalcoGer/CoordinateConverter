@@ -12,11 +12,6 @@ namespace CoordinateConverter
      * TODOs
      * When saving/loading, update the default location and file name
      *      - add a save option that just overwrites the last file loaded/saved
-     * Automatically determine aircraft type from UDP socket from TheWay
-     *      - deselect aircraft when no ping for a while
-     *      - ask for seat for AH64 and F15E when seat is not already selected
-     *      - ask user if they want to use MGRS or L/L for A10
-     *      - remind user to set PRECISE in the hornet
      * Add own lua file based on the way's lua file
      *      - replace "Default" altitude with "AGL"
      *           - if 0 for A10 or AH64, make altitude just ignored/hit enter on default
@@ -30,13 +25,25 @@ namespace CoordinateConverter
      *      - remove udp and add a query system to the tcp server in the lua file
      *           - query ground altitude (https://github.com/aronCiucu/DCSTheWay/blob/main/TheWay.lua#L111C23-L111C23)
      *           - query camera position
-     *           - query aircraft type
-     *           - check dcs connection with timer. if not connected increase timer time, otherwise update regularly
+     *               - make a helper form with transparent background and no decorators and an image
+     *               - always on top
+     *               - un movable, but movable by screen selection (menu?)
+     *           - query aircraft type if auto is selected
+     *               - if auto selected, deselect aircraft type on disconnect (?)
+     *               - make a none aircraft type (?)
+     *               - make auto separate from airframes
+     *               - ask for seat for AH64 and F15E when seat is not already selected
+     *               - ask user if they want to use MGRS or L/L for A10
+     *                   - extra option for A10 MGRS
+     *               - remind user to set PRECISE in the hornet
+     *           - send { commands: [ ... ], queries: [ ... ] }
+     *               - edit lua file to handle that
+     *           - check dcs connection with timer.
+     *               - if not connected increase timer time, otherwise update positon in status regularly
      *               - mind busy time when inputting coordinates
-     *               - return busy time from SendToDCS and update status
-     *      - Import point from DCS using the UDP socket from TheWay
-     *           - create a form that is always on top and transparent with no decorations
-     *           - make the form unmovable (except for from configuration)
+     *                   - return busy time from SendToDCS and update the status indicator with remaining time (progress bar?)
+     *           - clicking dcs status (shows coordinates | altitude) sets input to those values
+     *               - add checkbox option for camera altitude/ground altitude in status bar
      * Import point list to other aircraft (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
      *      - allow F18 weapons programming in addition to waypoints
      *      - ask users for weapon stations and types. programmable types:
@@ -49,6 +56,8 @@ namespace CoordinateConverter
      *             - special case, next point is target point if exists. get bra and range and display that info in data grid
      * Allow users to do tedious setups, perhaps save a sequence of commands to be played back later
      *      - find out how to determine device and keycodes (https://github.com/aronCiucu/DCSTheWay/issues/124)
+     *           - use make html button in dcs itself. the last column shows the required values in a mangled form.
+     *           - activate is a value -1 to 1, but only 1 and -1 are important for buttons and switches
      * Make pressing N/S/E/W keys in the L/L textboxes switch the RB (on text change to allow pasting)
      *      - hitting the button should also switch to the next text box
      * make hitting the character limit in UTM and MGRS text boxes switch to the next text box
