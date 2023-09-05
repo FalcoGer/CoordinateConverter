@@ -49,7 +49,9 @@ namespace CoordinateConverter
      *             - special case, next point is target point if exists. get bra and range and display that info in data grid
      * Allow users to do tedious setups, perhaps save a sequence of commands to be played back later
      *      - find out how to determine device and keycodes (https://github.com/aronCiucu/DCSTheWay/issues/124)
-     * Make pressing N/S/E/W switch the RB (on text change to allow pasting)
+     * Make pressing N/S/E/W keys in the L/L textboxes switch the RB (on text change to allow pasting)
+     *      - hitting the button should also switch to the next text box
+     * make hitting the character limit in UTM and MGRS text boxes switch to the next text box
      * next waypoint bearing/range column
      * test if putting in text into combo boxes screws things up
      */
