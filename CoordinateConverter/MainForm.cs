@@ -10,7 +10,8 @@ namespace CoordinateConverter
 {
     /*
      * TODOs
-     * Test apache data transfer
+     * When saving/loading, update the default location and file name
+     *      - add a save option that just overwrites the last file loaded/saved
      * Automatically determine aircraft type from UDP socket from TheWay
      *      - deselect aircraft when no ping for a while
      *      - ask for seat for AH64 and F15E when seat is not already selected
