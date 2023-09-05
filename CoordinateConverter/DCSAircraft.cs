@@ -16,13 +16,11 @@ namespace CoordinateConverter
             {
                 return false;
             }
-
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(commands);
+            string json = JsonConvert.SerializeObject(commands) + '\n';
             byte[] data = System.Text.Encoding.UTF8.GetBytes(json);
 
             try
             {
-
                 // open TCP socket to DCS TheWay
                 using (Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
                 {

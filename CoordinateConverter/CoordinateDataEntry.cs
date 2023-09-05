@@ -42,7 +42,7 @@ namespace CoordinateConverter
             Coordinate = other.Coordinate;
             AltitudeInM = other.AltitudeInM;
             Name = other.Name ?? String.Empty;
-            XFer = true;
+            XFer = other.XFer;
             foreach (KeyValuePair<Type, AircraftSpecificData> kvp in other.AircraftSpecificData)
             {
                 AircraftSpecificData.Add(kvp.Key, new AH64SpecificData() { PointType = ((AH64SpecificData)kvp.Value).PointType, Ident = ((AH64SpecificData)kvp.Value).Ident });

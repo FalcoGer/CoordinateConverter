@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace CoordinateConverter
 {
@@ -32,6 +33,29 @@ namespace CoordinateConverter
         public int Activate { get; set; }
 
         [JsonProperty("addDepress")]
+        public string AddDepressStr
+        {
+            get
+            {
+                return AddDepress.ToString().ToLower();
+            }
+            set
+            {
+                if (string.Equals(value, "false", StringComparison.OrdinalIgnoreCase))
+                {
+                    AddDepress = false;
+                }
+                else if (string.Equals(value, "true", StringComparison.OrdinalIgnoreCase))
+                {
+                    AddDepress = true;
+                }
+                else
+                {
+                    throw new ArgumentException("Bad value");
+                }
+            }
+        }
+        [JsonIgnore]
         public bool AddDepress { get; set; }
     }
 }
