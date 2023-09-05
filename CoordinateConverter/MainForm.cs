@@ -29,7 +29,7 @@ namespace CoordinateConverter
      *          - SLAM-ER
      *          - harpoon (with HPTP)
      * Allow users to do tedious setups, perhaps save a sequence of commands to be played back later
-     *      - find out how to determine device and keycodes
+     *      - find out how to determine device and keycodes (https://github.com/aronCiucu/DCSTheWay/issues/124)
      * Make pressing N/S/E/W switch the RB (on text change to allow pasting)
      * next waypoint bearing/range column
      */
