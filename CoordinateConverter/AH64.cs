@@ -84,9 +84,9 @@ namespace CoordinateConverter
             AH64SpecificData extraData = null;
             EKeyCode keyMFDPointType = EKeyCode.RMFD_L3; // assume waypoint
             string ident = "\n"; // assume default ident
-            if (coordinate.AircraftSpecificData.ContainsKey(typeof(AH64SpecificData)) && coordinate.AircraftSpecificData[typeof(AH64SpecificData)] != null)
+            if (coordinate.AircraftSpecificData.ContainsKey(typeof(AH64)) && coordinate.AircraftSpecificData[typeof(AH64)] != null)
             {
-                extraData = coordinate.AircraftSpecificData[typeof(AH64SpecificData)] as AH64SpecificData;
+                extraData = coordinate.AircraftSpecificData[typeof(AH64)] as AH64SpecificData;
                 ident = extraData.Ident.Substring(3) + '\n';
 
                 switch ((EPointType)Enum.Parse(typeof(EPointType),extraData.PointType, true))
@@ -120,7 +120,7 @@ namespace CoordinateConverter
             // enter ident
             commands.AddRange(GetCommandsForKUText(ident, false));
             // enter free text (max 3 chars)
-            commands.AddRange(GetCommandsForKUText(coordinate.Name.Substring(0, 3) + '\n', false));
+            commands.AddRange(GetCommandsForKUText((coordinate.Name.Length <= 3 ? coordinate.Name : coordinate.Name.Substring(0, 3)) + '\n', false));
             // enter MGRS coordinates
             // remove spaces and append enter
             string mgrsString = string.Join(string.Empty ,coordinate.getCoordinateStrMGRS(4).Where(ch => ch != ' ')) + '\n';

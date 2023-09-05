@@ -15,6 +15,7 @@ namespace CoordinateConverter
      * Import point from DCS using the UDP socket from TheWay ()
      * Import point list to other aircraft (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
      * Make pressing N/S/E/W switch the RB (on text change to allow pasting)
+     * next waypoint bearing/range column
      */
     public partial class MainForm : Form
     {
