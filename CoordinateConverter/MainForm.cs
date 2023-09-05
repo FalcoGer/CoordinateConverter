@@ -12,8 +12,24 @@ namespace CoordinateConverter
      * TODOs
      * Test apache data transfer
      * Automatically determine aircraft type from UDP socket from TheWay
-     * Import point from DCS using the UDP socket from TheWay ()
+     *      - deselect aircraft when no ping for a while
+     *      - ask for seat for AH64 and F15E when seat is not already selected
+     *      - ask user if they want to use MGRS or L/L for A10
+     *      - remind user to set PRECISE in the hornet
+     * Import point from DCS using the UDP socket from TheWay
+     *      - create a form that is always on top and transparent with no decorations
+     *      - make the form unmovable (except for from configuration)
      * Import point list to other aircraft (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
+     *      - allow F18 weapons programming in addition to waypoints
+     *      - ask users for weapon stations and types. programmable types:
+     *          - jdam
+     *          - jsow
+     *          - harm (?)
+     *          - SLAM
+     *          - SLAM-ER
+     *          - harpoon (with HPTP)
+     * Allow users to do tedious setups, perhaps save a sequence of commands to be played back later
+     *      - find out how to determine device and keycodes
      * Make pressing N/S/E/W switch the RB (on text change to allow pasting)
      * next waypoint bearing/range column
      */
