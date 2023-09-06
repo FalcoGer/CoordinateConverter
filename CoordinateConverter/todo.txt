@@ -15,6 +15,7 @@ replace progress bar from time based to actual button press based
 Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
      - general
          - determine keycodes with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\clickabledata.lua`
+         - determine device ids with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\devices.lua`
      - F18
          - remind user to select precise
              - fetch if precise is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)
