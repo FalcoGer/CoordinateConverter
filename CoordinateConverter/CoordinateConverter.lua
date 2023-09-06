@@ -27,7 +27,7 @@ function LuaExportStart()
     end
 
     tcpServer = socket.tcp()
-    tcpServer:bind(BIND_IP, 42020)
+    tcpServer:bind(BIND_IP, BIND_PORT)
     tcpServer:listen(1)
     tcpServer:settimeout(0)
 end
