@@ -12,6 +12,9 @@ replace progress bar from time based to actual button press based
      - add current key index field to dcs message
      - add key index as status if busy
      - remove total delay return from send commands function and return number of commands instead, adjust all caller sites
+Add support for selection instead of camera position when something is selected
+     - find out how to do that in lua
+         - check in DCS World install dir in `\Scripts\Export.lua` for clues
 Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
      - general
          - determine keycodes with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\clickabledata.lua`
@@ -20,6 +23,25 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
          - remind user to select precise
              - fetch if precise is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)
                  - might be impossible, this is 9 years old
+         - might be possible to get selected station. See `LoGetPayloadInfo()` in DCS World install dir in `\Scripts\Export.lua` L552
+               ```text
+               LoGetPayloadInfo() -- return weapon stations
+               result_of_LoGetPayloadInfo 
+               {
+               	CurrentStation = , -- number of current station (0 if no station selected)
+               	Stations = {},-- table of stations
+               	Cannon =
+               	{
+               		shells -- current shells count 
+               	}
+               }
+               station 
+               {
+               	container = true/false , -- is station container
+               	weapon    = {level1,level2,level3,level4} , -- world database classification of weapon
+               	count = ,
+               }
+               ```
          - ask users for weapon stations and types. programmable types:
              - jdam/jsow (point type: GPS Weapon Pre Plan (current station/next station) -> point options: pp1 .. pp5
              - SLAM (?)
@@ -49,4 +71,3 @@ Make pressing N/S/E/W keys in the L/L textboxes switch the RB (on text change to
      - hitting the button should also switch to the next text box
 make hitting the character limit in UTM and MGRS text boxes switch to the next text box
 next waypoint bearing/range/deltaAltitude column
-test if putting in text into combo boxes screws things up
