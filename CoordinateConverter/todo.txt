@@ -13,6 +13,8 @@ replace progress bar from time based to actual button press based
      - add key index as status if busy
      - remove total delay return from send commands function and return number of commands instead, adjust all caller sites
 Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
+     - general
+         - determine keycodes with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\clickabledata.lua`
      - F18
          - remind user to select precise
              - fetch if precise is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)
@@ -42,9 +44,6 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
          - JDAM options(?)
 add checkbox option for camera altitude/ground altitude in status bar
 Allow users to do tedious setups, perhaps save a sequence of commands to be played back later
-     - find out how to determine device and keycodes (https://github.com/aronCiucu/DCSTheWay/issues/124)
-          - use make html button in dcs itself. the last column shows the required values in a mangled form.
-          - activate is a value -1 to 1, but only 1 and -1 are important for buttons and switches
 Make pressing N/S/E/W keys in the L/L textboxes switch the RB (on text change to allow pasting)
      - hitting the button should also switch to the next text box
 make hitting the character limit in UTM and MGRS text boxes switch to the next text box
