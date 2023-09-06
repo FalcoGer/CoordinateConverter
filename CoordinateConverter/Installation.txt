@@ -1,0 +1,6 @@
+1. Add the CoordinateConverter.lua file to "Saved Games/DCS/Scripts/"
+2. Add this line to "Saved Games/DCS/Scripts/Export.lua"
+
+local CCLfs=require('lfs'); dofile(CCLfs.writedir()..'Scripts/CoordinateConverter.lua')
+
+If "Saved Games/DCS/Scripts/Export.lua" does not exist, create it and add that single line into it.

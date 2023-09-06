@@ -1,5 +1,5 @@
 local LOG_MODNAME = "COORDINATECONVERTER"
-local DEBUGGING = true
+local DEBUGGING = false
 
 log.write(LOG_MODNAME, log.INFO, "Initializing...")
 --Version 3
