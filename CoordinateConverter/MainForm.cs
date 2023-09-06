@@ -47,13 +47,14 @@ namespace CoordinateConverter
      * Import point list to other aircraft (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
      *      - allow F18 weapons programming in addition to waypoints
      *      - ask users for weapon stations and types. programmable types:
-     *          - jdam/jsow (point type: GPS Weapon Pre Plan Station X -> point options: pp1 .. pp5
+     *          - jdam/jsow (point type: GPS Weapon Pre Plan (current station/next station) -> point options: pp1 .. pp5
      *          - SLAM (?)
-     *          - SLAM-ER (point type: SLAM-ER Station X) -> point options: (WP1 .. 5)
+     *          - SLAM-ER (point type: SLAM-ER Station (how to differenciate?)) -> point options: (WP1 .. 5)
      *          - harpoon (point type: harpoon) -> point options: (only "TurnPoint x (1..4) times")
-     *             - MIMPORTANT: waypoint will have to be entered first to ensure HSI waypoint data is set up to select the HPTP from the HSI selection
+     *             - IMPORTANT: waypoint will have to be entered first to ensure HSI waypoint data is set up to select the HPTP from the HSI selection
      *             - explain to the user that specific harpoon stations can't be programmed and that the currently selected harpoon and any subsequent ones will be altered
      *             - special case, next point is target point if exists. get bra and range and display that info in data grid
+     *                  - set that up as search range and destruct range +/- 15nmi (?)
      * Allow users to do tedious setups, perhaps save a sequence of commands to be played back later
      *      - find out how to determine device and keycodes (https://github.com/aronCiucu/DCSTheWay/issues/124)
      *           - use make html button in dcs itself. the last column shows the required values in a mangled form.
