@@ -30,6 +30,8 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
          - remind user that selection MGRS will use MGRS input into CDU
              -fetch if UTM or L/L is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)
                  - might be impossible, this is 9 years old
+         - make sure waypoints with the same names get numbered
+         - make sure that waypoint max name length is 12, even with the extra numbering
      - F15E
          - Ask user for seat
      - JF17 (?)
