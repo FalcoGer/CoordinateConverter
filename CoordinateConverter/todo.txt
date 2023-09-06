@@ -15,6 +15,10 @@ replace progress bar from time based to actual button press based
 Add support for selection instead of camera position when something is selected
      - find out how to do that in lua
          - check in DCS World install dir in `\Scripts\Export.lua` for clues
+         - LoGetObjectById()
+             - how to get ID?
+Add support for importing airfields
+     - LoGetWorldObjects("airdromes") (Exports.lua:L426)
 Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
      - general
          - determine keycodes with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\clickabledata.lua`
