@@ -3,17 +3,33 @@ Convert coordinates to and from L/L, L/L Decimal, UTM and MGRS as well as Bullse
 
 # How to use
 
+### Basic use
 1. Select the coordinate system you want to convert from using the tabs in the input panel.
 2. Enter the coordinates you wish to convert. More details on valid inputs down below.  
 Invalid inputs will mark the relevant textbox pink to indicate the error.
 3. When the input is valid, the conversion will be written to the output in various formats.
-4. An altitude in `ft` or `m` may be entered as well as a 12 character long label provided.
-5. Clicking the Add button will add the point to the list on the right.
-6. Clicking the `-´ button in the list will delete that point from the list.
-7. Changing the radio boxes next to the output fields, changes the format in the list.
-8. Double clicking an entry in the list will put the coordinates into the input boxes for adjustments
-9. Clicking the Replace button will update the selected entry in the list with the values from the input boxes
-10. Clicking the up and down buttons will move the selected entry in the list up or down.
+4. An altitude in `ft` or `m` may be entered as well as a 12 character long label may be provided.
+
+- Clicking the Add button will add the point to the list on the right.
+- Clicking the `-´ button in the list will delete that point from the list.
+- Click the "Del" header above those buttons to delete all points in the list. A warning will be provided to avoid accidental deletion.
+- Changing the radio boxes next to the output fields, changes the format in the list.
+- Double clicking an entry in the list will put the coordinates into the input boxes for adjustments
+- Clicking the Replace button will update the selected entry in the list with the values from the input boxes
+- Clicking the up and down buttons will move the selected entry in the list up or down.
+
+### Use with DCS World
+When properly installed (see installation instructions [here](https://github.com/FalcoGer/CoordinateConverter/blob/master/CoordinateConverter/Installation.txt) or in the release zip archive), then the program will attempt to automatically connect to the socket opened by the lua script. That socket is a TCP socket and listens on localhost on port 42020. Another listening socket on the same port must not be opened. [DCS TheWay](https://github.com/aronCiucu/DCSTheWay) uses a different port, both applications can be used simultaneously.
+
+The connection will only occur during the exports setup, that is when a game world is loaded and unpaused.  
+Upon connection the DCS status will turn green and the camera coordinates will be displayed.
+
+- Clicking those coordinates puts them into the input field to be edited and put into the list.
+- Selecting Auto from the DCS menu in the aircraft submenu will load the settings for that aircraft automatically.
+- Deselecting Auto will allow the manual selection of an aircraft. This can be useful if you want to add aircraft specific point data to points and save that extra data to load later or share with someone else.
+- More than one aircraft's specific point data can be stored. If an aircraft doesn't have specific point data, the relevant fields will be disabled in the application.
+- Selecting transfer from the DCS menu will input the coordinates from the data grid (the list on the right) into the aircraft in DCS. The correct aircraft and station (for multicrew) must be selected.
+- Only points that have a checkmark in the XFER column will be transferred. Click the header to turn all checkmarks on or off at the same time.
 
 # L/L - Latitude/Longitude
 
