@@ -21,6 +21,10 @@ namespace CoordinateConverter
      *      - not movable
      *          - make screen selector (menu strip populated by screen count?)
      * On lua error (pcall), also set the response error message for faster error detection
+     * replace progress bar from time based to actual button press based
+     *      - add current key index field to dcs message
+     *      - add key index as status if busy
+     *      - remove total delay return from send commands function and return number of commands instead, adjust all caller sites
      * Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
      *      - F18
      *          - remind user to select precise
