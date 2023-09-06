@@ -20,6 +20,7 @@ namespace CoordinateConverter
      *      - always on top
      *      - not movable
      *          - make screen selector (menu strip populated by screen count?)
+     * On lua error (pcall), also set the response error message for faster error detection
      * Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
      *      - F18
      *          - remind user to select precise
