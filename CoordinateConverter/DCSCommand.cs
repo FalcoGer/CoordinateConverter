@@ -5,7 +5,8 @@ namespace CoordinateConverter
 {
     /// <summary>
     /// Is a command to be interpreted by the DCS lua script as a cockpit action.
-    /// To get the numbers for any specific action, export controls as HTML and analyze the mangled names in the last column
+    /// To get the numbers for any specific action, check `devices.lua` and `clickabledata.lua` in
+    /// The DCS installation directory and then under `\Mods\aircraft\<Type>\Cockpit\Scripts\`
     /// </summary>
     public class DCSCommand : DCSMessage
     {
