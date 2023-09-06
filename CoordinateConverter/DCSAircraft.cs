@@ -1,38 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 
 namespace CoordinateConverter
 {
+    /// <summary>
+    /// Represents an aircraft in DCS and provides the interface for command sending.
+    /// </summary>
     public abstract class DCSAircraft
     {
-        public readonly System.Net.IPEndPoint TCP_ENDPOINT = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 42070);
-        public bool SendToDCS(List<CoordinateDataEntry> coordinateList)
+        /// <summary>
+        /// The TCP endpoint
+        /// </summary>
+        public int SendToDCS(List<CoordinateDataEntry> coordinateList)
         {
             List<DCSCommand> commands = GenerateCommands(coordinateList);
             if (commands == null)
             {
-                return false;
+                return 0;
             }
-            string json = JsonConvert.SerializeObject(commands) + '\n';
-            byte[] data = System.Text.Encoding.UTF8.GetBytes(json);
 
-            try
+            DCSMessage message = new DCSMessage ()
             {
-                // open TCP socket to DCS TheWay
-                using (Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-                {
-                    sock.Connect(TCP_ENDPOINT);
-                    sock.Send(data);
-                }
-            }
-            catch (Exception)
+                Commands = commands
+            };
+
+            message = DCSConnection.sendRequest(message);
+            if (!string.IsNullOrEmpty(message.ServerError))
             {
-                return false;
+                throw new InvalidOperationException(message.ServerError);
             }
-            return true;
+
+            return commands.Sum(x => x.Delay);
         }
         private List<DCSCommand> GenerateCommands(List<CoordinateDataEntry> coordinateList)
         {
@@ -51,11 +54,35 @@ namespace CoordinateConverter
             return commands;
         }
 
+        /// <summary>
+        /// Gets the types of points that are valid.
+        /// </summary>
+        /// <returns>A list of valid point types.</returns>
         public abstract List<string> GetPointTypes();
+
+        /// <summary>
+        /// Gets the type of the point options for point types. <see cref="GetPointTypes"/>.
+        /// </summary>
+        /// <param name="pointTypeStr">The point type's name as a string.</param>
+        /// <returns>A list of names for point options.</returns>
         public abstract List<string> GetPointOptionsForType(string pointTypeStr);
 
+        /// <summary>
+        /// Gets the actions to be added before any points are added.
+        /// </summary>
+        /// <returns>The list of actions.</returns>
         public abstract List<DCSCommand> GetPrePointActions();
+
+        /// <summary>
+        /// Gets the actions to be added for each point.
+        /// </summary>
+        /// <param name="coordinate">The coordinate for that point.</param>
+        /// <returns>The list of actions.</returns>
         public abstract List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate);
+        /// <summary>
+        /// Gets the actions to be used after points have been entered.
+        /// </summary>
+        /// <returns>The list of actions.</returns>
         public abstract List<DCSCommand> GetPostPointActions();
     }
 }

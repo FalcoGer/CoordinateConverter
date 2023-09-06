@@ -31,6 +31,7 @@ namespace CoordinateConverter
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.GrpBox_Output = new System.Windows.Forms.GroupBox();
             this.btn_Replace = new System.Windows.Forms.Button();
@@ -56,7 +57,7 @@ namespace CoordinateConverter
             this.TB_Out_LL = new System.Windows.Forms.TextBox();
             this.TB_Out_LLDec = new System.Windows.Forms.TextBox();
             this.GrpBox_Input = new System.Windows.Forms.GroupBox();
-            this.cb_defaultAltitude = new System.Windows.Forms.CheckBox();
+            this.cb_altitudeIsAGL = new System.Windows.Forms.CheckBox();
             this.cb_pointOption = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
             this.cb_pointType = new System.Windows.Forms.ComboBox();
@@ -134,16 +135,19 @@ namespace CoordinateConverter
             this.fetchF10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aircraftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.a10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aH64PLTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aH64CPGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aV8BToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.f15EPLTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.f15EWSOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.f16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.f18ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kA50ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m2000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.f15EPLTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmr250ms = new System.Windows.Forms.Timer(this.components);
+            this.pb_Transfer = new System.Windows.Forms.ToolStripProgressBar();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MGRS_Precision)).BeginInit();
             this.GrpBox_Input.SuspendLayout();
@@ -437,7 +441,7 @@ namespace CoordinateConverter
             // 
             this.GrpBox_Input.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.GrpBox_Input.Controls.Add(this.cb_defaultAltitude);
+            this.GrpBox_Input.Controls.Add(this.cb_altitudeIsAGL);
             this.GrpBox_Input.Controls.Add(this.cb_pointOption);
             this.GrpBox_Input.Controls.Add(this.label18);
             this.GrpBox_Input.Controls.Add(this.cb_pointType);
@@ -455,18 +459,18 @@ namespace CoordinateConverter
             this.GrpBox_Input.TabStop = false;
             this.GrpBox_Input.Text = "Input";
             // 
-            // cb_defaultAltitude
+            // cb_altitudeIsAGL
             // 
-            this.cb_defaultAltitude.AutoSize = true;
-            this.cb_defaultAltitude.Checked = true;
-            this.cb_defaultAltitude.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_defaultAltitude.Location = new System.Drawing.Point(199, 256);
-            this.cb_defaultAltitude.Name = "cb_defaultAltitude";
-            this.cb_defaultAltitude.Size = new System.Drawing.Size(60, 17);
-            this.cb_defaultAltitude.TabIndex = 8;
-            this.cb_defaultAltitude.Text = "Default";
-            this.cb_defaultAltitude.UseVisualStyleBackColor = true;
-            this.cb_defaultAltitude.CheckedChanged += new System.EventHandler(this.cb_defaultAltitude_CheckedChanged);
+            this.cb_altitudeIsAGL.AutoSize = true;
+            this.cb_altitudeIsAGL.Checked = true;
+            this.cb_altitudeIsAGL.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_altitudeIsAGL.Location = new System.Drawing.Point(199, 256);
+            this.cb_altitudeIsAGL.Name = "cb_altitudeIsAGL";
+            this.cb_altitudeIsAGL.Size = new System.Drawing.Size(47, 17);
+            this.cb_altitudeIsAGL.TabIndex = 8;
+            this.cb_altitudeIsAGL.Text = "AGL";
+            this.cb_altitudeIsAGL.UseVisualStyleBackColor = true;
+            this.cb_altitudeIsAGL.CheckedChanged += new System.EventHandler(this.cb_altitutudeIsAGL_CheckedChanged);
             // 
             // cb_pointOption
             // 
@@ -1171,7 +1175,8 @@ namespace CoordinateConverter
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbl_Error,
-            this.lbl_DCS_Status});
+            this.lbl_DCS_Status,
+            this.pb_Transfer});
             this.statusStrip1.Location = new System.Drawing.Point(0, 484);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1189, 22);
@@ -1192,6 +1197,8 @@ namespace CoordinateConverter
             this.lbl_DCS_Status.Name = "lbl_DCS_Status";
             this.lbl_DCS_Status.Size = new System.Drawing.Size(127, 17);
             this.lbl_DCS_Status.Text = "DCS not connected";
+            this.lbl_DCS_Status.BackColorChanged += new System.EventHandler(this.lbl_DCS_Status_BackColorChanged);
+            this.lbl_DCS_Status.Click += new System.EventHandler(this.fetchF10ToolStripMenuItem_Click);
             // 
             // dgv_CoordinateList
             // 
@@ -1303,14 +1310,14 @@ namespace CoordinateConverter
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.loadToolStripMenuItem.Text = "Load file...";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -1327,14 +1334,14 @@ namespace CoordinateConverter
             // transferToolStripMenuItem
             // 
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
-            this.transferToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.transferToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.transferToolStripMenuItem.Text = "Transfer";
             this.transferToolStripMenuItem.Click += new System.EventHandler(this.transferToolStripMenuItem_Click);
             // 
             // fetchF10ToolStripMenuItem
             // 
             this.fetchF10ToolStripMenuItem.Name = "fetchF10ToolStripMenuItem";
-            this.fetchF10ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fetchF10ToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.fetchF10ToolStripMenuItem.Text = "Fetch F10";
             this.fetchF10ToolStripMenuItem.Click += new System.EventHandler(this.fetchF10ToolStripMenuItem_Click);
             // 
@@ -1342,6 +1349,7 @@ namespace CoordinateConverter
             // 
             this.aircraftToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.autoToolStripMenuItem,
+            this.toolStripSeparator1,
             this.a10ToolStripMenuItem,
             this.aH64PLTToolStripMenuItem,
             this.aH64CPGToolStripMenuItem,
@@ -1353,7 +1361,7 @@ namespace CoordinateConverter
             this.kA50ToolStripMenuItem,
             this.m2000ToolStripMenuItem});
             this.aircraftToolStripMenuItem.Name = "aircraftToolStripMenuItem";
-            this.aircraftToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aircraftToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.aircraftToolStripMenuItem.Text = "Aircraft";
             // 
             // autoToolStripMenuItem
@@ -1361,79 +1369,97 @@ namespace CoordinateConverter
             this.autoToolStripMenuItem.Checked = true;
             this.autoToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoToolStripMenuItem.Name = "autoToolStripMenuItem";
-            this.autoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.autoToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.autoToolStripMenuItem.Text = "Auto";
-            this.autoToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            this.autoToolStripMenuItem.Click += new System.EventHandler(this.autoAircraftToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
             // 
             // a10ToolStripMenuItem
             // 
             this.a10ToolStripMenuItem.Name = "a10ToolStripMenuItem";
-            this.a10ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.a10ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.a10ToolStripMenuItem.Text = "A10";
             this.a10ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // aH64PLTToolStripMenuItem
             // 
             this.aH64PLTToolStripMenuItem.Name = "aH64PLTToolStripMenuItem";
-            this.aH64PLTToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aH64PLTToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.aH64PLTToolStripMenuItem.Text = "AH64-PLT";
             this.aH64PLTToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // aH64CPGToolStripMenuItem
             // 
             this.aH64CPGToolStripMenuItem.Name = "aH64CPGToolStripMenuItem";
-            this.aH64CPGToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aH64CPGToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.aH64CPGToolStripMenuItem.Text = "AH64-CPG";
             this.aH64CPGToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // aV8BToolStripMenuItem
             // 
             this.aV8BToolStripMenuItem.Name = "aV8BToolStripMenuItem";
-            this.aV8BToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aV8BToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.aV8BToolStripMenuItem.Text = "AV8B";
             this.aV8BToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // f15EPLTToolStripMenuItem
+            // 
+            this.f15EPLTToolStripMenuItem.Name = "f15EPLTToolStripMenuItem";
+            this.f15EPLTToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.f15EPLTToolStripMenuItem.Text = "F15E-PLT";
+            this.f15EPLTToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // f15EWSOToolStripMenuItem
             // 
             this.f15EWSOToolStripMenuItem.Name = "f15EWSOToolStripMenuItem";
-            this.f15EWSOToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.f15EWSOToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.f15EWSOToolStripMenuItem.Text = "F15E-WSO";
             this.f15EWSOToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // f16ToolStripMenuItem
             // 
             this.f16ToolStripMenuItem.Name = "f16ToolStripMenuItem";
-            this.f16ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.f16ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.f16ToolStripMenuItem.Text = "F16";
             this.f16ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // f18ToolStripMenuItem
             // 
             this.f18ToolStripMenuItem.Name = "f18ToolStripMenuItem";
-            this.f18ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.f18ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.f18ToolStripMenuItem.Text = "F18";
             this.f18ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // kA50ToolStripMenuItem
             // 
             this.kA50ToolStripMenuItem.Name = "kA50ToolStripMenuItem";
-            this.kA50ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.kA50ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.kA50ToolStripMenuItem.Text = "KA50";
             this.kA50ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // m2000ToolStripMenuItem
             // 
             this.m2000ToolStripMenuItem.Name = "m2000ToolStripMenuItem";
-            this.m2000ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.m2000ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.m2000ToolStripMenuItem.Text = "M2000";
             this.m2000ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
-            // f15EPLTToolStripMenuItem
+            // tmr250ms
             // 
-            this.f15EPLTToolStripMenuItem.Name = "f15EPLTToolStripMenuItem";
-            this.f15EPLTToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.f15EPLTToolStripMenuItem.Text = "F15E-PLT";
-            this.f15EPLTToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            this.tmr250ms.Interval = 250;
+            this.tmr250ms.Tick += new System.EventHandler(this.tmr250ms_Tick);
+            // 
+            // pb_Transfer
+            // 
+            this.pb_Transfer.Name = "pb_Transfer";
+            this.pb_Transfer.Size = new System.Drawing.Size(300, 16);
+            this.pb_Transfer.Step = 1;
+            this.pb_Transfer.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.pb_Transfer.Visible = false;
             // 
             // MainForm
             // 
@@ -1603,8 +1629,11 @@ namespace CoordinateConverter
         private ComboBox cb_pointType;
         private Label label17;
         private ComboBox cb_pointOption;
-        private CheckBox cb_defaultAltitude;
+        private CheckBox cb_altitudeIsAGL;
         private ToolStripMenuItem f15EPLTToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
+        private Timer tmr250ms;
+        private ToolStripProgressBar pb_Transfer;
     }
 }
 

@@ -4,15 +4,33 @@ using System.Linq;
 
 namespace CoordinateConverter
 {
+    /// <summary>
+    /// This class represents the AH64 aircraft
+    /// </summary>
+    /// <seealso cref="CoordinateConverter.DCSAircraft" />
     public class AH64 : DCSAircraft
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether the user is in the pilot or CPG seat.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is pilot; otherwise, <c>false</c>.
+        /// </value>
         public bool IsPilot { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AH64"/> class.
+        /// </summary>
+        /// <param name="isPilot">if set to <c>true</c> [is pilot].</param>
         public AH64(bool isPilot)
         {
             IsPilot = isPilot;
         }
 
-        private enum EDeviceCode : int
+        /// <summary>
+        /// Device codes
+        /// </summary>
+        private enum EDeviceCode
         {
             PLT_KU = 29,
             CPG_KU = 30,
@@ -20,6 +38,9 @@ namespace CoordinateConverter
             CPG_RMFD = 45
         }
 
+        /// <summary>
+        /// Key codes
+        /// </summary>
         private enum EKeyCode : int
         {
             KU_ENT = 3006,
@@ -78,7 +99,14 @@ namespace CoordinateConverter
         }
 
 
-
+        /// <summary>
+        /// Gets the actions to be added for each point.
+        /// </summary>
+        /// <param name="coordinate">The coordinate for that point.</param>
+        /// <returns>
+        /// The list of actions.
+        /// </returns>
+        /// <exception cref="System.NotImplementedException">Bad Point Type</exception>
         public override List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate)
         {
             AH64SpecificData extraData = null;
@@ -125,17 +153,31 @@ namespace CoordinateConverter
             // remove spaces and append enter
             string mgrsString = string.Join(string.Empty ,coordinate.getCoordinateStrMGRS(4).Where(ch => ch != ' ')) + '\n';
             commands.AddRange(GetCommandsForKUText(mgrsString, true));
-            if (!coordinate.AltitudeInFt.HasValue)
+
+            // enter altitude
+            if (coordinate.AltitudeInFt == 0 && coordinate.AltitudeIsAGL)
             {
                 commands.AddRange(GetCommandsForKUText("\n", false));
             }
+            else if (coordinate.AltitudeIsAGL)
+            {
+                double groundElevationInM = coordinate.GroundElevationInM.Value;
+                int altitude = (int)Math.Round(coordinate.AltitudeInFt + (groundElevationInM * CoordinateDataEntry.FT_PER_M));
+                commands.AddRange(GetCommandsForKUText(altitude.ToString() + "\n", true));
+            }
             else
             {
-                commands.AddRange(GetCommandsForKUText(coordinate.AltitudeInFt.Value.ToString() + "\n", true));
+                commands.AddRange(GetCommandsForKUText(((int)Math.Round(coordinate.AltitudeInFt)).ToString() + "\n", true));
             }
             return commands;
         }
 
+        /// <summary>
+        /// Gets the commands for ku text.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="clearFirst">if set to <c>true</c> the KU input is cleared first by use of the CLR button.</param>
+        /// <returns>The list of commands that is required to enter the text into the KU</returns>
         private List<DCSCommand> GetCommandsForKUText(string text, bool clearFirst)
         {
             List<DCSCommand> commands = new List<DCSCommand>();
@@ -185,11 +227,27 @@ namespace CoordinateConverter
             return commands;
         }
 
+        /// <summary>
+        /// Presses TSD button to reset the screen
+        /// </summary>
+        /// <returns>
+        /// A list of actions that result in TSD being pressed.
+        /// </returns>
         public override List<DCSCommand> GetPostPointActions()
         {
-            return new List<DCSCommand>();
+            return new List<DCSCommand>()
+            {
+                // press TSD to reset the screen
+                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.RMFD_TSD, 100, 1, true)
+            };
         }
 
+        /// <summary>
+        /// Gets the actions to be added before any points are added.
+        /// </summary>
+        /// <returns>
+        /// The list of actions.
+        /// </returns>
         public override List<DCSCommand> GetPrePointActions()
         {
             return new List<DCSCommand>
@@ -197,10 +255,16 @@ namespace CoordinateConverter
                 // press TSD
                 new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.RMFD_TSD, 100, 1, true),
                 // go to point page
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.RMFD_B6, 100, 1, true)
+                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.RMFD_B6, 100, 1, true),
+                // clear KU
+                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_KU : EDeviceCode.CPG_KU), (int)EKeyCode.KU_CLR, 100, 1, true),
             };
         }
 
+        /// <summary>
+        /// Gets the types of points that are valid.
+        /// </summary>
+        /// <returns>A list of valid point types.</returns>
         public override List<string> GetPointTypes()
         {
             return new List<string>() 
@@ -212,6 +276,11 @@ namespace CoordinateConverter
             };
         }
 
+        /// <summary>
+        /// Gets the type of the point options for point types. <see cref="GetPointTypes"/>.
+        /// </summary>
+        /// <param name="pointTypeStr">The point type's name as a string.</param>
+        /// <returns>A list of names for point options.</returns>
         public override List<string> GetPointOptionsForType(string pointTypeStr)
         {
             EPointType pointType = (EPointType)Enum.Parse(typeof(EPointType),pointTypeStr);
@@ -231,13 +300,22 @@ namespace CoordinateConverter
             }
         }
 
+        /// <summary>
+        /// The valid point types for the AH64
+        /// </summary>
         public enum EPointType
         {
+            #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             Waypoint, Hazard, ControlMeasure, Target
+            #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         }
 
+        /// <summary>
+        /// The valid point Idents, with Point type prepended and separated with an underscore ('_')
+        /// </summary>
         public enum EPointIdent
         {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             WP_WP, WP_LZ, WP_SP, WP_CC, WP_PP, WP_RP,
             HZ_TO,HZ_TU,HZ_WL,HZ_WS,
             CM_AD, CM_AS, CM_AV, CM_AB, CM_AM, CM_CA, CM_MA, CM_CF, CM_DF, CM_EN, CM_FW, CM_WF, CM_FL, CM_AH, CM_FG, CM_HO, CM_FI, CM_MI, CM_MD, CM_TF, CM_FU,
@@ -245,8 +323,12 @@ namespace CoordinateConverter
             TG_AX, TG_AS, TG_AD, TG_GP, TG_G1, TG_G2, TG_G3, TG_G4, TG_SD, TG_83, TG_U, TG_S6, TG_AA, TG_GU, TG_MK, TG_SB, TG_GS, TG_GT, TG_ZU, TG_NV, TG_SR,
             TG_TR, TG_70, TG_BP, TG_BH, TG_CH, TG_CT, TG_C2, TG_HK, TG_JA, TG_PT, TG_RE, TG_RA, TG_RO, TG_1, TG_2, TG_3, TG_4, TG_5, TG_6, TG_7, TG_8, TG_9,
             TG_10, TG_11, TG_12, TG_13, TG_14, TG_15, TG_16, TG_17, TG_SM, TG_SC, TG_SP, TG_SH, TG_SS, TG_TC, TG_ST, TG_SA, TG_VU, TG_TG
+            #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         }
 
+        /// <summary>
+        /// The descriptions for WP idents
+        /// </summary>
         public static readonly Dictionary<EPointIdent, string> EWPOptionDescriptions = new Dictionary<EPointIdent, string>()
         {
             { EPointIdent.WP_WP, "Waypoint" },
@@ -257,6 +339,9 @@ namespace CoordinateConverter
             { EPointIdent.WP_CC, "Comm Check Point" }
         };
 
+        /// <summary>
+        /// The descriptions for HZ idents
+        /// </summary>
         public static readonly Dictionary<EPointIdent, string> EHZOptionDescriptions = new Dictionary<EPointIdent, string>()
         {
             { EPointIdent.HZ_TO, "Tower > 1000" },
@@ -265,6 +350,9 @@ namespace CoordinateConverter
             { EPointIdent.HZ_WS, "Wires Tele/Elec" }
         };
 
+        /// <summary>
+        /// The descriptions for CM idents
+        /// </summary>
         public static readonly Dictionary<EPointIdent, string> ECMOptionDescriptions = new Dictionary<EPointIdent, string>()
         {
             { EPointIdent.CM_AD, "FND ADU" },
@@ -311,6 +399,9 @@ namespace CoordinateConverter
             { EPointIdent.CM_EU, "EMY Generic Unit" }
         };
 
+        /// <summary>
+        /// The descriptions for TG idents
+        /// </summary>
         public static readonly Dictionary<EPointIdent, string> ETGOptionDescriptions = new Dictionary<EPointIdent, string>()
         {
             { EPointIdent.TG_AX, "AMX-13" },

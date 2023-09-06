@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -10,51 +11,42 @@ namespace CoordinateConverter
 {
     /*
      * TODOs
+     * Connection to DCS asyncronous to prevent ui freezes.
      * When saving/loading, update the default location and file name
      *      - add a save option that just overwrites the last file loaded/saved
-     * Add own lua file based on the way's lua file
-     *      - replace "Default" altitude with "AGL"
-     *           - if 0 for A10 or AH64, make altitude just ignored/hit enter on default
-     *           - for all other aircraft or if not 0 with AGL, get the ground altitude with query to TCP server (see below)
-     *           - when connected to dcs and coordinate set to AGL, update grid view with that value.
-     *               - if agl offset is 0 format (123AGL)
-     *               - if agl offset is 0 and altitude not available format (AGL)
-     *               - if ground altitude availble format (123AGL + 500 [623])
-     *               - if ground altitude not availble format (AGL + 500)
-     *               - if MSL format (500)
-     *      - remove udp and add a query system to the tcp server in the lua file
-     *           - query ground altitude (https://github.com/aronCiucu/DCSTheWay/blob/main/TheWay.lua#L111C23-L111C23)
-     *           - query camera position
-     *               - make a helper form with transparent background and no decorators and an image
-     *               - always on top
-     *               - un movable, but movable by screen selection (menu?)
-     *           - query aircraft type if auto is selected
-     *               - if auto selected, deselect aircraft type on disconnect (?)
-     *               - make a none aircraft type (?)
-     *               - make auto separate from airframes
-     *               - ask for seat for AH64 and F15E when seat is not already selected
-     *               - ask user if they want to use MGRS or L/L for A10
-     *                   - extra option for A10 MGRS
-     *               - remind user to set PRECISE in the hornet
-     *           - send { commands: [ ... ], queries: [ ... ] }
-     *               - edit lua file to handle that
-     *           - check dcs connection with timer.
-     *               - if not connected increase timer time, otherwise update positon in status regularly
-     *               - mind busy time when inputting coordinates
-     *                   - return busy time from SendToDCS and update the status indicator with remaining time (progress bar?)
-     *           - clicking dcs status (shows coordinates | altitude) sets input to those values
-     *               - add checkbox option for camera altitude/ground altitude in status bar
-     * Import point list to other aircraft (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
-     *      - allow F18 weapons programming in addition to waypoints
-     *      - ask users for weapon stations and types. programmable types:
-     *          - jdam/jsow (point type: GPS Weapon Pre Plan (current station/next station) -> point options: pp1 .. pp5
-     *          - SLAM (?)
-     *          - SLAM-ER (point type: SLAM-ER Station (how to differenciate?)) -> point options: (WP1 .. 5)
-     *          - harpoon (point type: harpoon) -> point options: (only "TurnPoint x (1..4) times")
-     *             - IMPORTANT: waypoint will have to be entered first to ensure HSI waypoint data is set up to select the HPTP from the HSI selection
-     *             - explain to the user that specific harpoon stations can't be programmed and that the currently selected harpoon and any subsequent ones will be altered
-     *             - special case, next point is target point if exists. get bra and range and display that info in data grid
-     *                  - set that up as search range and destruct range +/- 15nmi (?)
+     * Make helper form for F10 selection
+     *      - transparent background
+     *      - no decorations
+     *      - always on top
+     *      - not movable
+     *          - make screen selector (menu strip populated by screen count?)
+     * Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
+     *      - F18
+     *          - remind user to select precise
+     *              - fetch if precise is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)
+     *                  - might be impossible, this is 9 years old
+     *          - ask users for weapon stations and types. programmable types:
+     *              - jdam/jsow (point type: GPS Weapon Pre Plan (current station/next station) -> point options: pp1 .. pp5
+     *              - SLAM (?)
+     *              - SLAM-ER (point type: SLAM-ER Station (how to differenciate?)) -> point options: (WP1 .. 5)
+     *              - harpoon (point type: harpoon) -> point options: (only "TurnPoint x (1..4) times")
+     *                 - IMPORTANT: waypoint will have to be entered first to ensure HSI waypoint data is set up to select the HPTP from the HSI selection
+     *                 - explain to the user that specific harpoon stations can't be programmed and that the currently selected harpoon and any subsequent ones will be altered
+     *                 - special case, next point is target point if exists. get bra and range and display that info in data grid
+     *                      - set that up as search range and destruct range +/- 15nmi (?)
+     *      - A10C
+     *          - remind user that selection MGRS will use MGRS input into CDU
+     *              -fetch if UTM or L/L is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)
+     *                  - might be impossible, this is 9 years old
+     *      - F15E
+     *          - Ask user for seat
+     *      - JF17 (?)
+     *      - KA-50
+     *          - Point types as per PVI-800
+     *              - need to remember next point id for each type to press the correct button
+     *      - F16
+     *          - JDAM options(?)
+     * add checkbox option for camera altitude/ground altitude in status bar
      * Allow users to do tedious setups, perhaps save a sequence of commands to be played back later
      *      - find out how to determine device and keycodes (https://github.com/aronCiucu/DCSTheWay/issues/124)
      *           - use make html button in dcs itself. the last column shows the required values in a mangled form.
@@ -62,9 +54,14 @@ namespace CoordinateConverter
      * Make pressing N/S/E/W keys in the L/L textboxes switch the RB (on text change to allow pasting)
      *      - hitting the button should also switch to the next text box
      * make hitting the character limit in UTM and MGRS text boxes switch to the next text box
-     * next waypoint bearing/range column
+     * next waypoint bearing/range/deltaAltitude column
      * test if putting in text into combo boxes screws things up
      */
+
+    /// <summary>
+    /// Main application
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class MainForm : Form
     {
         #region "RegexConstants"
@@ -85,8 +82,11 @@ namespace CoordinateConverter
         /// </summary>
         private const string REGEX_LL_DECIMAL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
         #endregion
-        private readonly System.Drawing.Color ERROR_COLOR = System.Drawing.Color.Pink;
-        private readonly System.Drawing.Color DCS_ERROR_COLOR = System.Drawing.Color.Yellow;
+        private readonly System.Drawing.Color ERROR_COLOR = Color.Pink;
+        private readonly System.Drawing.Color DCS_ERROR_COLOR = Color.Yellow;
+        private readonly System.Drawing.Color DCS_OK_COLOR = Color.Green;
+
+
 
         private CoordinateDataEntry input = null;
         private Bullseye bulls = null;
@@ -172,7 +172,7 @@ namespace CoordinateConverter
                     }
 
                     CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(lat, lon);
-                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), tb_Label.Text);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
                     RefreshCoordinates(false);
                 }
                 else
@@ -288,7 +288,7 @@ namespace CoordinateConverter
                     }
 
                     CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(lat, lon);
-                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), tb_Label.Text);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
                     RefreshCoordinates(false);
                 }
                 else
@@ -461,7 +461,7 @@ namespace CoordinateConverter
 
                     CoordinateSharp.MilitaryGridReferenceSystem mgrs = new CoordinateSharp.MilitaryGridReferenceSystem(latz: latz, longz: lonz, d: digraph, e: easting, n: northing);
                     CoordinateSharp.Coordinate coordinate = CoordinateSharp.MilitaryGridReferenceSystem.MGRStoLatLong(mgrs);
-                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), tb_Label.Text);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
                     RefreshCoordinates(false);
                 }
                 else
@@ -589,7 +589,7 @@ namespace CoordinateConverter
 
                     CoordinateSharp.UniversalTransverseMercator utm = new CoordinateSharp.UniversalTransverseMercator(latz: latz, longz: lonz, est: easting, nrt: northing);
                     CoordinateSharp.Coordinate coordinate = CoordinateSharp.UniversalTransverseMercator.ConvertUTMtoLatLong(utm);
-                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), tb_Label.Text);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
                     RefreshCoordinates(false);
                 }
                 else
@@ -668,7 +668,7 @@ namespace CoordinateConverter
                     double range = double.Parse(TB_Bulls_Range.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI);
 
                     CoordinateSharp.Coordinate coordinate = bulls.GetOffsetPosition(new BRA(bearing: bearing, range: range));
-                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), tb_Label.Text);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
                     RefreshCoordinates(false);
                 }
                 else
@@ -694,7 +694,7 @@ namespace CoordinateConverter
             // allow any number and a single decimal point
             e.Handled = !(
                 (e.KeyChar >= '0' && e.KeyChar <= '9') ||
-                (!tbHasDecimalPoint && e.KeyChar == '.') || 
+                (!tbHasDecimalPoint && e.KeyChar == '.') ||
                 (e.KeyChar < 0x20) ||
                 (e.KeyChar == 0x7F)
             );
@@ -773,7 +773,7 @@ namespace CoordinateConverter
             {
                 return;
             }
-            
+
             if (cb_AltitudeUnit.Text == "ft")
             {
                 input.AltitudeInFt = altitude;
@@ -788,14 +788,14 @@ namespace CoordinateConverter
             }
         }
 
-        private double? GetAltitudeInM()
+        /// <summary>
+        /// Gets the altitude in m from the input text box.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException">Altitude unit not implemented.</exception>
+        private double GetAltitudeInM()
         {
             lbl_Error.Visible = false;
-
-            if (cb_defaultAltitude.Checked)
-            {
-                return null;
-            }
 
             int altitude;
             if (!int.TryParse(tb_Altitude.Text, out altitude))
@@ -822,15 +822,15 @@ namespace CoordinateConverter
 
             if (input != null)
             {
-                if (cb_AltitudeUnit.Text == "ft" && input.AltitudeInFt.HasValue)
+                if (cb_AltitudeUnit.Text == "ft")
                 {
-                    tb_Altitude.Text = ((int)Math.Round(input.AltitudeInFt.Value)).ToString();
+                    tb_Altitude.Text = ((int)Math.Round(input.AltitudeInFt)).ToString();
                 }
-                else if (cb_AltitudeUnit.Text == "m" && input.AltitudeInM.HasValue)
+                else if (cb_AltitudeUnit.Text == "m")
                 {
-                    tb_Altitude.Text = ((int)Math.Round(input.AltitudeInM.Value)).ToString();
+                    tb_Altitude.Text = ((int)Math.Round(input.AltitudeInM)).ToString();
                 }
-                else if (input.AltitudeInM.HasValue || input.AltitudeInFt.HasValue)
+                else
                 {
                     throw new NotImplementedException("Altitude unit not implemented");
                 }
@@ -896,23 +896,15 @@ namespace CoordinateConverter
                 {
                     // altitude
                     tb_Altitude.TextChanged -= tb_Altitude_TextChanged;
-                    cb_defaultAltitude.CheckedChanged -= cb_defaultAltitude_CheckedChanged;
-                    if (input.AltitudeInM.HasValue)
-                    {
-                        tb_Altitude.Enabled = true;
-                        tb_Altitude.Text = Math.Round(cb_AltitudeUnit.Text == "ft" ? input.AltitudeInFt.Value : input.AltitudeInM.Value).ToString();
-                        cb_defaultAltitude.Checked = false;
-                    }
-                    else
-                    {
-                        tb_Altitude.Text = "0";
-                        tb_Altitude.Enabled = false;
-                        cb_defaultAltitude.Checked = true;
-                    }
+                    cb_altitudeIsAGL.CheckedChanged -= cb_altitutudeIsAGL_CheckedChanged;
+
+                    cb_altitudeIsAGL.Checked = input.AltitudeIsAGL;
+                    tb_Altitude.Text = Math.Round(cb_AltitudeUnit.Text == "ft" ? input.AltitudeInFt : input.AltitudeInM).ToString();
+
                     tb_Label.Text = input.Name;
 
                     tb_Altitude.TextChanged += tb_Altitude_TextChanged;
-                    cb_defaultAltitude.CheckedChanged += cb_defaultAltitude_CheckedChanged;
+                    cb_altitudeIsAGL.CheckedChanged += cb_altitutudeIsAGL_CheckedChanged;
 
                     // point type & point option
                     cb_pointType.SelectedIndexChanged -= cb_pointType_SelectedIndexChanged;
@@ -969,12 +961,12 @@ namespace CoordinateConverter
                     TB_LL_Lat.TextChanged -= TB_LL_Lat_TextChanged;
                     TB_LL_Lat.Text = lat.Degrees.ToString(CI).PadLeft(2, '0') + "°" + lat.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lat.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
                     TB_LL_Lat.TextChanged += TB_LL_Lat_TextChanged;
-                    
+
                     TB_LL_Lon.TextChanged -= TB_LL_Lon_TextChanged;
                     TB_LL_Lon.Text = lon.Degrees.ToString(CI).PadLeft(3, '0') + "°" + lon.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lon.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
                     TB_LL_Lon.TextChanged += TB_LL_Lon_TextChanged;
 
-                    List<Control> controls =  new List<Control>() { RB_LL_N, RB_LL_S, RB_LL_E, RB_LL_W };
+                    List<Control> controls = new List<Control>() { RB_LL_N, RB_LL_S, RB_LL_E, RB_LL_W };
                     foreach (RadioButton rb in controls)
                     {
                         rb.CheckedChanged -= RB_LL_CheckedChanged;
@@ -992,7 +984,7 @@ namespace CoordinateConverter
                     TB_LLDec_Lat.TextChanged -= TB_LLDecimal_Lat_TextChanged;
                     TB_LLDec_Lat.Text = lat.Degrees.ToString(CI).PadLeft(2, '0') + "°" + Math.Round(lat.DecimalMinute, 4).ToString(CI).PadLeft(2, '0');
                     TB_LLDec_Lat.TextChanged += TB_LLDecimal_Lat_TextChanged;
-                    
+
                     TB_LLDec_Lon.TextChanged -= TB_LLDecimal_Lon_TextChanged;
                     TB_LLDec_Lon.Text = lon.Degrees.ToString(CI).PadLeft(3, '0') + "°" + Math.Round(lon.DecimalMinute, 4).ToString(CI).PadLeft(2, '0');
                     TB_LLDec_Lon.TextChanged += TB_LLDecimal_Lon_TextChanged;
@@ -1019,8 +1011,8 @@ namespace CoordinateConverter
                     }
                     string mgrsText = input.getCoordinateStrMGRS();
                     TB_MGRS_LongZone.Text = mgrsText.Substring(0, 2);
-                    TB_MGRS_LatZone.Text = mgrsText.Substring(2,1); // one space after this
-                    TB_MGRS_Digraph.Text = mgrsText.Substring(4,2); // one space after this
+                    TB_MGRS_LatZone.Text = mgrsText.Substring(2, 1); // one space after this
+                    TB_MGRS_Digraph.Text = mgrsText.Substring(4, 2); // one space after this
                     TB_MGRS_Fraction.Text = mgrsText.Substring(7).Remove(5, 1); // remove center space
                     foreach (TextBox tb in controls)
                     {
@@ -1077,7 +1069,7 @@ namespace CoordinateConverter
                             : " [" + entry.AircraftSpecificData[selectedAircraft.GetType()].ToString() + "]"
                         ),
                     CoordinateStr = GetEntryCoordinateStr(entry),
-                    Altitude = entry.AltitudeInM.HasValue ? (Math.Round(cb_AltitudeUnit.Text == "m" ? entry.AltitudeInM.Value : entry.AltitudeInFt.Value)).ToString(CI) : "Default",
+                    Altitude = entry.getAltitudeString(cb_AltitudeUnit.Text == "ft"),
                     XFER = entry.XFer
                 }
             ).OrderBy(x => x.ID).ToList();
@@ -1321,7 +1313,7 @@ namespace CoordinateConverter
             CoordinateDataEntry entry = dataEntries[idx];
             CoordinateDataEntry other = dataEntries[targetIdx];
             entry.SwapIds(other);
-            dataEntries.Sort((a,b) => a.Id.CompareTo(b.Id));
+            dataEntries.Sort((a, b) => a.Id.CompareTo(b.Id));
             RefreshDataGrid();
             return true;
         }
@@ -1463,36 +1455,21 @@ namespace CoordinateConverter
 
         #region "DCS"
 
-        private void cb_defaultAltitude_CheckedChanged(object objSender, EventArgs e)
+        private void cb_altitutudeIsAGL_CheckedChanged(object objSender, EventArgs e)
         {
             CheckBox sender = objSender as CheckBox;
-            tb_Altitude.Enabled = !sender.Checked;
 
             if (input == null)
             {
                 return;
             }
 
-            if (sender.Checked)
-            {
-                input.AltitudeInM = null;
-            }
-            else
-            {
-                tb_Altitude_TextChanged(sender, e);
-            }
+            input.AltitudeIsAGL = sender.Checked;
         }
 
-        private void aircraftSelectionToolStripMenuItem_Click(object objSender, EventArgs e)
-        {
-            lbl_Error.Visible = false;
-
-            // Select the clicked option
-            ToolStripMenuItem sender = objSender as ToolStripMenuItem;
-
-            List<ToolStripMenuItem> controlsList = new List<ToolStripMenuItem>()
+        private List<ToolStripMenuItem> AircraftSelectionMenuStripItems {
+            get => new List<ToolStripMenuItem>()
             {
-                autoToolStripMenuItem,
                 a10ToolStripMenuItem,
                 aH64CPGToolStripMenuItem,
                 aH64PLTToolStripMenuItem,
@@ -1504,8 +1481,43 @@ namespace CoordinateConverter
                 kA50ToolStripMenuItem,
                 m2000ToolStripMenuItem
             };
+        }
 
-            foreach (ToolStripMenuItem mi in controlsList)
+        private void autoAircraftToolStripMenuItem_Click(object objSender, EventArgs e)
+        {
+            lbl_Error.Visible = false;
+
+            ToolStripMenuItem sender = objSender as ToolStripMenuItem;
+
+            sender.Checked = !sender.Checked;
+
+            if (sender.Checked)
+            {
+                foreach (ToolStripMenuItem menuItem in AircraftSelectionMenuStripItems)
+                {
+                    menuItem.Enabled = false;
+                    menuItem.Checked = false;
+                }
+                selectedAircraft = null;
+            }
+            else
+            {
+                // auto was deactivated
+                foreach (ToolStripMenuItem menuItem in AircraftSelectionMenuStripItems)
+                {
+                    menuItem.Enabled = true;
+                }
+            }
+        }
+
+        private void aircraftSelectionToolStripMenuItem_Click(object objSender, EventArgs e)
+        {
+            lbl_Error.Visible = false;
+
+            // Select the clicked option
+            ToolStripMenuItem sender = objSender as ToolStripMenuItem;
+
+            foreach (ToolStripMenuItem mi in AircraftSelectionMenuStripItems)
             {
                 mi.Checked = mi.Name == sender.Name;
             }
@@ -1513,6 +1525,7 @@ namespace CoordinateConverter
             const string AH64PLT = "aH64PLTToolStripMenuItem";
             const string AH64CPG = "aH64CPGToolStripMenuItem";
 
+            // Remind user here: "Transfer uses MGRS instead of L/L if mgrs selected, cockpit must match" or "Make sure to set PRECISE (F18)", etc
             switch (sender.Name)
             {
                 case AH64PLT:
@@ -1573,7 +1586,6 @@ namespace CoordinateConverter
                 cb_pointOption.Enabled = false;
             }
 
-            tb_Altitude.Enabled = !cb_defaultAltitude.Checked;
             RefreshDataGrid();
         }
 
@@ -1673,6 +1685,7 @@ namespace CoordinateConverter
             }
         }
 
+        private DateTime transferStartTime = DateTime.MinValue;
         private void transferToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
@@ -1682,14 +1695,169 @@ namespace CoordinateConverter
                 lbl_Error.Text = "Need to select aircraft type.";
                 return;
             }
-
-            selectedAircraft.SendToDCS(dataEntries);
+            try
+            {
+                int totalDelay = selectedAircraft.SendToDCS(dataEntries);
+                transferStartTime = DateTime.Now;
+                pb_Transfer.Maximum = (int)(totalDelay * 1.25); // add some margin
+            }
+            catch (InvalidOperationException ex)
+            {
+                lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
+                lbl_DCS_Status.Text = ex.Message;
+            }
         }
 
         private void fetchF10ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lbl_Error.Visible = true;
-            lbl_Error.Text = "Importing coordinates is currently not supported";
+            input = dcsCoordinate;
+            RefreshCoordinates(true);
+        }
+
+        private CoordinateDataEntry dcsCoordinate = null;
+        private bool wasConnected = false;
+        private DateTime lastDCSErrorTime = DateTime.MinValue;
+        private void tmr250ms_Tick(object sender, EventArgs e)
+        {
+            tmr250ms.Stop(); // only run one timer at a time
+            try
+            {
+                DCSMessage message = new DCSMessage()
+                {
+                    FetchCameraPosition = true,
+                    FetchAircraftType = autoToolStripMenuItem.Checked,
+                };
+                message = DCSConnection.sendRequest(message);
+
+                if (message == null)
+                {
+                    lbl_DCS_Status.Text = "Not connected";
+                    lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
+                    wasConnected = false;
+                    return;
+                }
+
+                if (!wasConnected)
+                {
+                    // update AGL values
+                    wasConnected = true;
+                    RefreshDataGrid();
+                }
+
+                if (!string.IsNullOrEmpty(message.ServerError))
+                {
+                    lbl_DCS_Status.Text = message.ServerError;
+                    lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
+                    return;
+                }
+
+                if (message.CameraPosition == null)
+                {
+                    lbl_DCS_Status.Text = "Connected, but no coordinates";
+                    lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
+                    return;
+                }
+
+                if (autoToolStripMenuItem.Checked)
+                {
+                    AutoSelectAircraft(message.AircraftType);
+                }
+
+                if ((DateTime.Now - lastDCSErrorTime) < TimeSpan.FromSeconds(10))
+                {
+                    return;
+                }
+
+                dcsCoordinate = new CoordinateDataEntry()
+                {
+                    Lat = message.CameraPosition.Lat,
+                    Longi = message.CameraPosition.Lon,
+                    AltitudeIsAGL = true,
+                    AltitudeInM = 0,
+                    GroundElevationInM = message.CameraPosition.Elev,
+                    XFer = true,
+                    Name = String.Empty
+                };
+
+                string coordinateText = GetEntryCoordinateStr(dcsCoordinate) + " | " + dcsCoordinate.getAltitudeString(cb_AltitudeUnit.Text == "ft");
+                
+
+                lbl_DCS_Status.Text = coordinateText;
+                lbl_DCS_Status.BackColor = DCS_OK_COLOR;
+            }
+            finally
+            {
+                // update progress bar
+                if (wasConnected)
+                {
+                    if (DateTime.Now > transferStartTime + TimeSpan.FromMilliseconds(pb_Transfer.Maximum))
+                    {
+                        pb_Transfer.Value = pb_Transfer.Maximum;
+                        pb_Transfer.Visible = false;
+                    }
+                    else
+                    {
+                        pb_Transfer.Value = (int)Math.Round((DateTime.Now - transferStartTime).TotalMilliseconds);
+                        pb_Transfer.Visible = true;
+                    }
+                }
+                else
+                {
+                    pb_Transfer.Visible = false;
+                }
+
+                // restart timer for next time
+                tmr250ms.Start();
+            }
+        }
+
+        private void lbl_DCS_Status_BackColorChanged(object objSender, EventArgs e)
+        {
+            ToolStripStatusLabel sender = objSender as ToolStripStatusLabel;
+            if (sender.BackColor == DCS_ERROR_COLOR)
+            {
+                lastDCSErrorTime = DateTime.Now;
+            }
+            else if (sender.BackColor == DCS_OK_COLOR)
+            {
+                lastDCSErrorTime = DateTime.MinValue;
+            }
+            else
+            {
+                throw new ArgumentException("Color should be DCS_ERROR or DCS_OK");
+            }
+        }
+
+        private void AutoSelectAircraft(string model)
+        {
+            foreach (ToolStripMenuItem mi in AircraftSelectionMenuStripItems)
+            {
+                mi.Enabled = false;
+            }
+            if (string.IsNullOrEmpty(model) || model == "null")
+            {
+                selectedAircraft = null;
+            }
+            else
+            {
+                switch (model)
+                {
+                    case "AH-64D_BLK_II":
+                        aH64PLTToolStripMenuItem.Enabled = true;
+                        aH64CPGToolStripMenuItem.Enabled = true;
+                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(AH64))
+                        {
+                            break;
+                        }
+                        bool isPlt = DialogResult.Yes == MessageBox.Show("Are you pilot?", "PLT/CPG?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        aircraftSelectionToolStripMenuItem_Click(isPlt ? aH64PLTToolStripMenuItem : aH64CPGToolStripMenuItem, null);
+                        break;
+                    default:
+                        lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";
+                        lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
+                        break;
+                }
+            }
         }
 
         #endregion
@@ -1700,7 +1868,7 @@ namespace CoordinateConverter
         public MainForm()
         {
             InitializeComponent();
-            tb_Altitude.Enabled = !cb_defaultAltitude.Checked;
+            tmr250ms.Start();
         }
     }
 }

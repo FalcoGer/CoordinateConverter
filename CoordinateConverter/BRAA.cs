@@ -7,6 +7,12 @@ namespace CoordinateConverter
     public class BRA
     {
         private double bearing = 0.0;
+        /// <summary>
+        /// Gets or sets the bearing.
+        /// </summary>
+        /// <value>
+        /// The bearing.
+        /// </value>
         public double Bearing
         {
             get
@@ -23,7 +29,20 @@ namespace CoordinateConverter
             }
         }
 
+        /// <summary>
+        /// Gets or sets the range.
+        /// </summary>
+        /// <value>
+        /// The range.
+        /// </value>
         public double Range { get; set; }
+
+        /// <summary>
+        /// Gets or sets the altitude.
+        /// </summary>
+        /// <value>
+        /// The altitude.
+        /// </value>
         public double? Altitude { get; set; }
         /// <summary>
         /// Creates a new BRAA
@@ -31,7 +50,6 @@ namespace CoordinateConverter
         /// <param name="bearing">Bearing in Degrees</param>
         /// <param name="range">Range in nautical miles</param>
         /// <param name="altitude">Altitude in ft</param>
-        /// <param name="attitude">Attitude in degrees</param>
         public BRA(double bearing, double range, double? altitude = null)
         {
             Bearing = bearing;
@@ -39,6 +57,12 @@ namespace CoordinateConverter
             Altitude = altitude;
         }
 
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             return (Math.Round(Bearing * 10)/10).ToString(System.Globalization.CultureInfo.InvariantCulture).PadLeft(3, '0') + "° /" +
