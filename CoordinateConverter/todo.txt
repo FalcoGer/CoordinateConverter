@@ -13,6 +13,11 @@ replace progress bar from time based to actual button press based
      - add key index as status if busy
      - remove total delay return from send commands function and return number of commands instead, adjust all caller sites
 Add support for selection instead of camera position when something is selected
+     - add option for auto listing any new unit that was clicked
+         - alternatively use LoGetWorldObjects("units") (Exports.lua:L426)
+             - calculate every unit's distance from the camera ground position, if within a margin, add that unit if it isn't already in the list
+             - exclude air units
+             - use camera altitude (not ground elevation) to determine the margin
      - find out how to do that in lua
          - check in DCS World install dir in `\Scripts\Export.lua` for clues
          - LoGetObjectById()
