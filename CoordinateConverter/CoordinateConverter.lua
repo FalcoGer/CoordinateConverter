@@ -11,12 +11,19 @@ local socket                           = require("socket")
 local JSON                             = loadfile("Scripts\\JSON.lua")()
 
 local upstreamLuaExportStart           = LuaExportStart
+local upstreamLuaExportStop            = LuaExportStop
 local upstreamLuaExportAfterNextFrame  = LuaExportAfterNextFrame
 local upstreamLuaExportBeforeNextFrame = LuaExportBeforeNextFrame
 
-local BIND_IP = "127.0.0.1"
-local BIND_PORT = 42020
-
+function LuaExportStop()
+    if upstreamLuaExportStop ~= nil then
+        successful, err = pcall(upstreamLuaExportStop)
+        if not successful then
+            log.write(LOG_MODNAME, log.ERROR, "Error in upstream LuaExportStop function" .. tostring(err))
+        end
+    end
+    -- runs once when the mission is stopped
+end
 
 function LuaExportStart()
     if upstreamLuaExportStart ~= nil then
@@ -25,6 +32,8 @@ function LuaExportStart()
             log.write(LOG_MODNAME, log.ERROR, "Error in upstream LuaExportStart function" .. tostring(err))
         end
     end
+    local BIND_IP = "127.0.0.1"
+    local BIND_PORT = 42020
 
     tcpServer = socket.tcp()
     tcpServer:bind(BIND_IP, BIND_PORT)
@@ -32,7 +41,6 @@ function LuaExportStart()
     tcpServer:settimeout(0)
 end
 
-local data = {}
 local commands = {}
 local busy = false
 local isPressed = false
@@ -50,7 +58,9 @@ function LuaExportBeforeNextFrame()
             log.write(LOG_MODNAME, log.ERROR, "Error in upstream LuaExportBeforeNextFrame function" .. tostring(err))
         end
     end
-
+    -- executed before the frame is rendered.
+    -- put stuff into the frame here
+    
     if busy then
         local f = function()
             if isPressed then
@@ -89,10 +99,24 @@ function LuaExportBeforeNextFrame()
             log.write(LOG_MODNAME, log.ERROR, "Error at entering command at index " .. tostring(currCommandIndex) .. ": " .. err)
         end
     end
+end
+
+function LuaExportAfterNextFrame()
+    if upstreamLuaExportAfterNextFrame ~= nil then
+        successful, err = pcall(upstreamLuaExportAfterNextFrame)
+        if not successful then
+            log.write(LOG_MODNAME, log.ERROR, "Error in upstream LuaExportAfterNextFrame function" .. tostring(err))
+        end
+    end
+    -- runs after a frame was rendered
+    -- fetch data from the game here
 
     local client, err = tcpServer:accept()
     if client ~= nil then
         client:settimeout(10)
+        local data = nil
+        local err = nil
+        
         data, err = client:receive()
         if err then
             log.write(LOG_MODNAME, log.ERROR, "Error at receiving: " .. err)
@@ -215,15 +239,6 @@ function LuaExportBeforeNextFrame()
             client:send(responseData)
         else
             log.write(LOG_MODNAME, log.INFO, "Connection without data")
-        end
-    end
-end
-
-function LuaExportAfterNextFrame()
-    if upstreamLuaExportAfterNextFrame ~= nil then
-        successful, err = pcall(upstreamLuaExportAfterNextFrame)
-        if not successful then
-            log.write(LOG_MODNAME, log.ERROR, "Error in upstream LuaExportAfterNextFrame function" .. tostring(err))
         end
     end
 end
