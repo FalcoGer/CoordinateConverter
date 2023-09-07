@@ -7,6 +7,7 @@ Make helper form for F10 selection
      - always on top
      - not movable
          - make screen selector (menu strip populated by screen count?)
+     - autoshow on F10? (determine F10 by camera rotation, straight down and facing north)
 On lua error (pcall), also set the response error message for faster error detection
 replace progress bar from time based to actual button press based
      - add current key index field to dcs message
@@ -34,6 +35,9 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
                  - might be impossible, this is 9 years old
                  - if not possible use LoSetSharedTexture (Export.lua L1061) and analyze bitmap (?)
                      - test with multiple resolutions
+         - get current waypoint/route info with `LoGetRoute()`, append new inserts after last.
+              - may be 60 points of all 0, check lua output
+              - check if markpoints changes things
          - might be possible to get selected station. See `LoGetPayloadInfo()` in DCS World install dir in `\Scripts\Export.lua` L552
                ```text
                LoGetPayloadInfo() -- return weapon stations
@@ -70,6 +74,7 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
                      - test with multiple resolutions
          - make sure waypoints with the same names get numbered
          - make sure that waypoint max name length is 12, even with the extra numbering
+         - maybe needs `LoGetRoute()` 
      - F15E
          - Ask user for seat
      - JF17 (?)
