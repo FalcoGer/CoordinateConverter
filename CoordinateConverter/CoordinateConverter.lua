@@ -1,3 +1,6 @@
+-- REF: https://wiki.hoggitworld.com/view/DCS_export
+-- REF: https://wiki.hoggitworld.com/view/DCS_Export_Script
+
 local LOG_MODNAME = "COORDINATECONVERTER"
 local DEBUGGING = false
 
