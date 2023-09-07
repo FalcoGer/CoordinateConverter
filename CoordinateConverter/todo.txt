@@ -84,7 +84,21 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
      - F16
          - JDAM options(?)
 add checkbox option for camera altitude/ground altitude in status bar
-Allow users to do tedious setups, perhaps save a sequence of commands to be played back later
+Allow users to do tedious setups, perhaps save a sequence of commands to be played back later (low priority)
+     - Include DTC features, separate from points entirely
+          - saving/loading for each aircraft type
+          - comms plan
+               - check on how srs determines currently selected channel id/frequency/guard receiver status
+          - iff plan
+               - check on how SRS/LotATC determine transponder status and codes
+          - countermeasure settings
+               - LoGetSnares() -- count only
+               - find out how to get current programming
+                   - may need display text export (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)
+                       - may not work, maybe needs texture export and OCR
+          - D/L
+          - TACAN
+          - ILS
 Make pressing N/S/E/W keys in the L/L textboxes switch the RB (on text change to allow pasting)
      - hitting the button should also switch to the next text box
 make hitting the character limit in UTM and MGRS text boxes switch to the next text box
