@@ -1,6 +1,5 @@
 Connection to DCS asyncronous to prevent ui freezes.
 STOP FUNCTION
-Don't update point type all the time
 When saving/loading, update the default location and file name
      - add a save option that just overwrites the last file loaded/saved
 Add support for selection instead of camera position when something is selected
@@ -15,6 +14,28 @@ Add support for selection instead of camera position when something is selected
             - how to get ID?
 Add support for importing airfields
      - LoGetWorldObjects("airdromes") (Exports.lua:L426)
+unit importer form
+    - select reference point & range
+    - fetch all units from dcs into a list and filter by range from the reference point
+    - select which units to import
+        - 2 lists approach with <- and -> buttons
+        - buttosn for
+            - select all from coalition (for moving)
+            - select units above x speed
+            - select all <category> units
+                - armored
+                - air defense
+                    - launcher
+                    - search
+                    - acqusition
+                    - gun
+                - utility
+                - air
+    - create coordinate data entries for each unit to import.
+        - add the appropriate ah64 specific data for each unit type
+        - use the dcs encyclopedia data to figure out categories for unknown types
+        - load type database from external file?
+            - tool to create/edit that file?
 Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
     - general
         - determine keycodes with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\clickabledata.lua`

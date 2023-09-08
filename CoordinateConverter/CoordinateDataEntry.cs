@@ -71,7 +71,7 @@ namespace CoordinateConverter
         {
             // altitude value of the point
             string altStr = getAltitudeString(true);
-            return string.Format("ID: {0}, Name: {1}, Position: {2} | {3}", Id, Name, getCoordinateStrLLDeg(), altStr);
+            return string.Format("ID: {0}, Name: {1}, Position: {2} | {3}", Id, Name, getCoordinateStrLLDecDeg(), altStr);
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace CoordinateConverter
         /// Gets the coordinate in ll format as a string.
         /// </summary>
         /// <returns></returns>
-        public string getCoordinateStrLL()
+        public string getCoordinateStrLLDecSec()
         {
             formatOptions.Round = 2;
             formatOptions.Format = CoordinateSharp.CoordinateFormatType.Degree_Minutes_Seconds;
@@ -355,7 +355,7 @@ namespace CoordinateConverter
         /// Gets the coordinate in ll decimal format as a string.
         /// </summary>
         /// <returns></returns>
-        public string getCoordinateStrLLDec()
+        public string getCoordinateStrLLDecMin()
         {
             formatOptions.Format = CoordinateSharp.CoordinateFormatType.Degree_Decimal_Minutes;
             formatOptions.Round = 4;
@@ -367,7 +367,7 @@ namespace CoordinateConverter
         /// Gets the coordinate in ll deg format as a string.
         /// </summary>
         /// <returns></returns>
-        public string getCoordinateStrLLDeg()
+        public string getCoordinateStrLLDecDeg()
         {
             formatOptions.Format = CoordinateSharp.CoordinateFormatType.Decimal_Degree;
             formatOptions.Round = 10;

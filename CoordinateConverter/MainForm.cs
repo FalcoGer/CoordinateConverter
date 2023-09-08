@@ -132,7 +132,7 @@ namespace CoordinateConverter
 
                     CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(lat, lon);
                     input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
-                    RefreshCoordinates(false);
+                    RefreshCoordinates(EUpdateType.OutputOnly);
                 }
                 else
                 {
@@ -159,7 +159,7 @@ namespace CoordinateConverter
         private void RB_LL_CheckedChanged(object sender, EventArgs e)
         {
             CalcLL();
-            RefreshCoordinates(true);
+            RefreshCoordinates(EUpdateType.CoordinateInput);
         }
 
         private void TB_LL_KeyPress(object sender, KeyPressEventArgs e)
@@ -248,7 +248,7 @@ namespace CoordinateConverter
 
                     CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(lat, lon);
                     input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
-                    RefreshCoordinates(false);
+                    RefreshCoordinates(EUpdateType.OutputOnly);
                 }
                 else
                 {
@@ -275,7 +275,7 @@ namespace CoordinateConverter
         private void RB_LLDecimal_CheckedChanged(object sender, EventArgs e)
         {
             CalcLLDecimal();
-            RefreshCoordinates(true);
+            RefreshCoordinates(EUpdateType.CoordinateInput);
         }
 
         private void TB_LL_Decimal_KeyPress(object sender, KeyPressEventArgs e)
@@ -421,7 +421,7 @@ namespace CoordinateConverter
                     CoordinateSharp.MilitaryGridReferenceSystem mgrs = new CoordinateSharp.MilitaryGridReferenceSystem(latz: latz, longz: lonz, d: digraph, e: easting, n: northing);
                     CoordinateSharp.Coordinate coordinate = CoordinateSharp.MilitaryGridReferenceSystem.MGRStoLatLong(mgrs);
                     input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
-                    RefreshCoordinates(false);
+                    RefreshCoordinates(EUpdateType.OutputOnly);
                 }
                 else
                 {
@@ -461,7 +461,7 @@ namespace CoordinateConverter
         private void TB_MGRS_Fraction_Leave(object sender, EventArgs e)
         {
             // add space in the middle
-            RefreshCoordinates(true);
+            RefreshCoordinates(EUpdateType.CoordinateInput);
 
             TB_MGRS_Fraction.MaxLength = 11;
             if (TB_MGRS_Fraction.Text.Length > 0 && TB_MGRS_Fraction.Text.Length % 2 == 0)
@@ -549,7 +549,7 @@ namespace CoordinateConverter
                     CoordinateSharp.UniversalTransverseMercator utm = new CoordinateSharp.UniversalTransverseMercator(latz: latz, longz: lonz, est: easting, nrt: northing);
                     CoordinateSharp.Coordinate coordinate = CoordinateSharp.UniversalTransverseMercator.ConvertUTMtoLatLong(utm);
                     input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
-                    RefreshCoordinates(false);
+                    RefreshCoordinates(EUpdateType.OutputOnly);
                 }
                 else
                 {
@@ -628,7 +628,7 @@ namespace CoordinateConverter
 
                     CoordinateSharp.Coordinate coordinate = bulls.GetOffsetPosition(new BRA(bearing: bearing, range: range));
                     input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
-                    RefreshCoordinates(false);
+                    RefreshCoordinates(EUpdateType.OutputOnly);
                 }
                 else
                 {
@@ -687,15 +687,28 @@ namespace CoordinateConverter
             }
             bulls = new Bullseye(input.Coordinate);
 
-            CoordinateSharp.CoordinatePart lat = input.Coordinate.Latitude;
-            CoordinateSharp.CoordinatePart lon = input.Coordinate.Longitude;
+            RefreshBullseyeFormat();
 
-            // LL
-            lbl_BENorthing.Text = lat.Position.ToString().PadRight(3, ' ') + lat.Degrees.ToString(CI).PadLeft(2, '0') + "°" + lat.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lat.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
-            lbl_BEEasting.Text = lon.Position.ToString().PadRight(2, ' ') + lon.Degrees.ToString(CI).PadLeft(3, '0') + "°" + lon.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lon.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
-
-            RefreshCoordinates(true);
+            RefreshCoordinates(EUpdateType.CoordinateInput);
             RefreshDataGrid();
+        }
+
+        private void RefreshBullseyeFormat()
+        {
+            if (bulls == null)
+            {
+                lbl_BEPosition.Text = "Not set";
+                return;
+            }
+
+            if (GetSelectedFormat() == ECoordinateFormat.Bullseye)
+            {
+                lbl_BEPosition.Text = new CoordinateDataEntry(0, bulls.GetBullseye()).getCoordinateStrLLDecSec();
+            }
+            else
+            {
+                lbl_BEPosition.Text = GetEntryCoordinateStr(new CoordinateDataEntry(0, bulls.GetBullseye()));
+            }
         }
 
         #endregion
@@ -832,7 +845,7 @@ namespace CoordinateConverter
 
         private void TB_Input_Leave(object sender, EventArgs e)
         {
-            RefreshCoordinates(true);
+            RefreshCoordinates(EUpdateType.CoordinateInput);
         }
 
         #endregion
@@ -840,18 +853,24 @@ namespace CoordinateConverter
         #endregion
 
         #region Output
+        private enum EUpdateType
+        {
+            OutputOnly,
+            CoordinateInput,
+            Everything
+        }
 
-        private void RefreshCoordinates(bool updateInputfields)
+        private void RefreshCoordinates(EUpdateType updateType)
         {
             if (input != null)
             {
-                TB_Out_LL.Text = input.getCoordinateStrLL();
-                TB_Out_LLDec.Text = input.getCoordinateStrLLDec();
+                TB_Out_LL.Text = input.getCoordinateStrLLDecSec();
+                TB_Out_LLDec.Text = input.getCoordinateStrLLDecMin();
                 TB_Out_MGRS.Text = input.getCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
                 TB_Out_UTM.Text = input.getCoordinateStrUTM();
                 TB_Out_Bulls.Text = input.getCoordinateStrBullseye(bulls);
 
-                if (!updateInputfields)
+                if (updateType == EUpdateType.OutputOnly)
                 {
                     return;
                 }
@@ -869,81 +888,91 @@ namespace CoordinateConverter
                 cb_altitudeIsAGL.CheckedChanged += cb_altitutudeIsAGL_CheckedChanged;
 
                 // point type & point option
-                cb_pointType.SelectedIndexChanged -= cb_pointType_SelectedIndexChanged;
-                cb_pointOption.SelectedIndexChanged -= cb_PointOption_SelectedIndexChanged;
+                if (updateType == EUpdateType.Everything)
+                {
+                    cb_pointType.SelectedIndexChanged -= cb_pointType_SelectedIndexChanged;
+                    cb_pointOption.SelectedIndexChanged -= cb_PointOption_SelectedIndexChanged;
 
-                if (selectedAircraft == null || !input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
-                {
-                    cb_pointType.SelectedIndex = 0;
-                    cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                    if (cb_pointOption.Items.Count > 0)
+                    if (selectedAircraft == null || !input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
                     {
-                        cb_pointOption.SelectedIndex = 0;
-                    }
-                }
-                else if (selectedAircraft.GetType() == typeof(AH64))
-                {
-                    AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
-                    cb_pointType.SelectedIndex = 0;
-                    for (int pointTypeIDX = 0; pointTypeIDX < cb_pointType.Items.Count; pointTypeIDX++)
-                    {
-                        if (cb_pointType.Items[pointTypeIDX].ToString() == extraData.PointType)
+                        cb_pointType.SelectedIndex = 0;
+                        cb_pointType_SelectedIndexChanged(cb_pointType, null);
+                        if (cb_pointOption.Items.Count > 0)
                         {
-                            cb_pointType.SelectedIndex = pointTypeIDX;
-                            break;
+                            cb_pointOption.SelectedIndex = 0;
                         }
                     }
-                    // select the correct point option
-                    cb_pointType_SelectedIndexChanged(cb_pointType, null); // needed to repopulate the point option combo box
-                    if (cb_pointOption.Items.Count > 0)
+                    else if (selectedAircraft.GetType() == typeof(AH64))
                     {
-                        cb_pointOption.SelectedIndex = 0; // sane default, in case the value isn't found
-                        // search for the value
-                        for (int pointOptionIDX = 0; pointOptionIDX < cb_pointOption.Items.Count; pointOptionIDX++)
+                        AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
+                        cb_pointType.SelectedIndex = 0;
+                        for (int pointTypeIDX = 0; pointTypeIDX < cb_pointType.Items.Count; pointTypeIDX++)
                         {
-                            ComboItem ci = cb_pointOption.Items[pointOptionIDX] as ComboItem;
-                            if (ci.Value == extraData.Ident)
+                            if (cb_pointType.Items[pointTypeIDX].ToString() == extraData.PointType)
                             {
-                                cb_pointOption.SelectedIndex = pointOptionIDX;
+                                cb_pointType.SelectedIndex = pointTypeIDX;
                                 break;
                             }
                         }
-                    }
-                }
-                else if (selectedAircraft.GetType() == typeof(F18C))
-                {
-                    cb_pointType.SelectedIndex = 0;
-                    F18CSpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as F18CSpecificData;
-                    if (extraData == null || extraData.WeaponType == null)
-                    {
-                        cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                        cb_pointOption.SelectedIndex = 0;
-                        cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
-                    }
-                    else if (extraData.WeaponType != null)
-                    {
-                        // not a waypoint, waypoint handled by default above (extraData == null)
-                        if (!extraData.PreplanPointIdx.HasValue)
+                        // select the correct point option
+                        cb_pointType_SelectedIndexChanged(cb_pointType, null); // needed to repopulate the point option combo box
+                        if (cb_pointOption.Items.Count > 0)
                         {
-                            // SLAM-ER STP
-                            cb_pointType.SelectedIndex = cb_pointType.FindStringExact(F18C.SLAMER_STP_STR);
-                            cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                            cb_pointOption.SelectedIndex = cb_pointOption.FindStringExact(string.Format("PP {0} - {1}", extraData.PreplanPointIdx.Value, extraData.StationSetting.ToString()));
-                            cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
-                        }
-                        else
-                        {
-                            // PP
-                            cb_pointType.SelectedIndex = cb_pointType.FindStringExact(F18C.GetPointTypePPStrForWeaponType(extraData.WeaponType.Value));
-                            cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                            cb_pointOption.SelectedIndex = cb_pointOption.FindStringExact(string.Format("PP {0} - {1}", extraData.PreplanPointIdx.Value, extraData.StationSetting.ToString()));
-                            cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                            cb_pointOption.SelectedIndex = 0; // sane default, in case the value isn't found
+                                                              // search for the value
+                            for (int pointOptionIDX = 0; pointOptionIDX < cb_pointOption.Items.Count; pointOptionIDX++)
+                            {
+                                ComboItem ci = cb_pointOption.Items[pointOptionIDX] as ComboItem;
+                                if (ci.Value == extraData.Ident)
+                                {
+                                    cb_pointOption.SelectedIndex = pointOptionIDX;
+                                    break;
+                                }
+                            }
                         }
                     }
-                }
+                    else if (selectedAircraft.GetType() == typeof(F18C))
+                    {
+                        cb_pointType.SelectedIndex = 0;
+                        F18CSpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as F18CSpecificData;
+                        if (extraData == null || extraData.WeaponType == null)
+                        {
+                            cb_pointType_SelectedIndexChanged(cb_pointType, null);
+                            cb_pointOption.SelectedIndex = 0;
+                            cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                        }
+                        else if (extraData.WeaponType != null)
+                        {
+                            // not a waypoint, waypoint handled by default above (extraData == null)
+                            if (!extraData.PreplanPointIdx.HasValue)
+                            {
+                                // SLAM-ER STP
+                                cb_pointType.SelectedIndex = cb_pointType.FindStringExact(F18C.SLAMER_STP_STR);
+                                cb_pointType_SelectedIndexChanged(cb_pointType, null);
+                                cb_pointOption.SelectedIndex = cb_pointOption.FindStringExact(string.Format("PP {0} - {1}", extraData.PreplanPointIdx.Value, extraData.StationSetting.ToString()));
+                                cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                            }
+                            else
+                            {
+                                // PP
+                                cb_pointType.SelectedIndex = cb_pointType.FindStringExact(F18C.GetPointTypePPStrForWeaponType(extraData.WeaponType.Value));
+                                cb_pointType_SelectedIndexChanged(cb_pointType, null);
+                                cb_pointOption.SelectedIndex = cb_pointOption.FindStringExact(string.Format("PP {0} - {1}", extraData.PreplanPointIdx.Value, extraData.StationSetting.ToString()));
+                                cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                            }
+                        }
+                    }
 
-                cb_pointType.SelectedIndexChanged += cb_pointType_SelectedIndexChanged;
-                cb_pointOption.SelectedIndexChanged += cb_PointOption_SelectedIndexChanged;
+                    cb_pointType.SelectedIndexChanged += cb_pointType_SelectedIndexChanged;
+                    cb_pointOption.SelectedIndexChanged += cb_PointOption_SelectedIndexChanged;
+                }
+                else
+                {
+                    // do not update point type info
+                    // just update the new input with the information already present
+                    cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                }
+                
                 // coordinates
 
                 CoordinateSharp.CoordinatePart lat = input.Coordinate.Latitude;
@@ -1044,8 +1073,12 @@ namespace CoordinateConverter
 
         private void nud_MGRS_Precision_ValueChanged(object sender, EventArgs e)
         {
-            RefreshCoordinates(false);
-            RefreshDataGrid();
+            RefreshCoordinates(EUpdateType.OutputOnly);
+            if (GetSelectedFormat() == ECoordinateFormat.MGRS)
+            {
+                RefreshDataGrid();
+                RefreshBullseyeFormat();
+            }
         }
 
         #region GridView
@@ -1084,7 +1117,7 @@ namespace CoordinateConverter
             if (e.RowIndex >= 0)
             {
                 input = dataEntries.ElementAt(e.RowIndex).Clone(dataEntries.Count);
-                RefreshCoordinates(true);
+                RefreshCoordinates(EUpdateType.Everything);
             }
         }
 
@@ -1162,32 +1195,60 @@ namespace CoordinateConverter
             dataEntries.RemoveRange(0, currentCount);
         }
 
-        private string GetEntryCoordinateStr(CoordinateDataEntry entry)
+        enum ECoordinateFormat
         {
-            string coordStr = null;
+            LL_DMSs,
+            LL_DMm,
+            LL_Dd,
+            MGRS,
+            UTM,
+            Bullseye
+        }
+
+        private ECoordinateFormat GetSelectedFormat()
+        {
             if (rb_Format_LL.Checked)
             {
-                coordStr = entry.getCoordinateStrLL();
+                return ECoordinateFormat.LL_DMSs;
             }
-            else if (rb_Format_LLDec.Checked)
+            if (rb_Format_LLDec.Checked)
             {
-                coordStr = entry.getCoordinateStrLLDec();
+                return ECoordinateFormat.LL_DMm;
             }
-            else if (rb_Format_MGRS.Checked)
+            if (rb_Format_MGRS.Checked)
             {
-                coordStr = entry.getCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
+                return ECoordinateFormat.MGRS;
             }
-            else if (rb_Format_UTM.Checked)
+            if (rb_Format_UTM.Checked)
             {
-                coordStr = entry.getCoordinateStrUTM();
+                return ECoordinateFormat.UTM;
             }
-            else if (rb_Format_BE.Checked)
+            if (rb_Format_BE.Checked)
             {
-                coordStr = entry.getCoordinateStrBullseye(bulls);
+                return ECoordinateFormat.Bullseye;
             }
-            if (string.IsNullOrEmpty(coordStr)) { throw new NotImplementedException("Couldn't format coordinate to string."); }
+            throw new Exception("Selected coordinate format is invalid");
+        }
 
-            return coordStr;
+        private string GetEntryCoordinateStr(CoordinateDataEntry entry)
+        {
+            switch (GetSelectedFormat())
+            {
+                case ECoordinateFormat.LL_DMSs:
+                    return entry.getCoordinateStrLLDecSec();
+                case ECoordinateFormat.LL_DMm:
+                    return entry.getCoordinateStrLLDecMin();
+                case ECoordinateFormat.LL_Dd:
+                    return entry.getCoordinateStrLLDecDeg();
+                case ECoordinateFormat.MGRS:
+                    return entry.getCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
+                case ECoordinateFormat.UTM:
+                    return entry.getCoordinateStrUTM();
+                case ECoordinateFormat.Bullseye:
+                    return entry.getCoordinateStrBullseye(bulls);
+                default:
+                    throw new NotImplementedException("Couldn't format coordinate to string.");
+            }
         }
 
         /// <summary>
@@ -1310,44 +1371,13 @@ namespace CoordinateConverter
             return true;
         }
 
-        private void rb_Format_LL_CheckedChanged(object sender, EventArgs e)
+        private void rb_Format_CheckedChanged(object sender, EventArgs e)
         {
             if (((RadioButton)sender).Checked)
             {
                 RefreshDataGrid();
             }
-        }
-
-        private void rb_Format_LLDec_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((RadioButton)sender).Checked)
-            {
-                RefreshDataGrid();
-            }
-        }
-
-        private void rb_Format_MGRS_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((RadioButton)sender).Checked)
-            {
-                RefreshDataGrid();
-            }
-        }
-
-        private void rb_Format_UTM_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((RadioButton)sender).Checked)
-            {
-                RefreshDataGrid();
-            }
-        }
-
-        private void rb_Format_BE_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((RadioButton)sender).Checked)
-            {
-                RefreshDataGrid();
-            }
+            RefreshBullseyeFormat();
         }
         #endregion
 
@@ -1783,7 +1813,7 @@ namespace CoordinateConverter
         private void fetchF10ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             input = dcsCoordinate;
-            RefreshCoordinates(true);
+            RefreshCoordinates(EUpdateType.CoordinateInput);
         }
 
         private CoordinateDataEntry dcsCoordinate = null;
@@ -1984,6 +2014,7 @@ namespace CoordinateConverter
             cameraAltitudeToolStripMenuItem.Checked = true;
         }
 
+        #region "ReticleSettings"
         enum EReticleSetting
         {
             Never,
@@ -2042,6 +2073,51 @@ namespace CoordinateConverter
                 reticleForm.Hide();
             }
         }
+        #endregion
+        
+        #region "VisibilitySettings"
+        private void opaqueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Opacity = 1.0;
+            opaqueToolStripMenuItem.Checked = true;
+            opacity75ToolStripMenuItem.Checked = false;
+            opacity50ToolStripMenuItem.Checked = false;
+            opacity25ToolStripMenuItem.Checked = false;
+        }
+
+        private void opacity50ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Opacity = 0.5;
+            opaqueToolStripMenuItem.Checked = false;
+            opacity75ToolStripMenuItem.Checked = false;
+            opacity50ToolStripMenuItem.Checked = true;
+            opacity25ToolStripMenuItem.Checked = false;
+
+        }
+
+        private void opacity25ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Opacity = 0.25;
+            opaqueToolStripMenuItem.Checked = false;
+            opacity75ToolStripMenuItem.Checked = false;
+            opacity50ToolStripMenuItem.Checked = false;
+            opacity25ToolStripMenuItem.Checked = true;
+        }
+
+        private void opacity75ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Opacity = 0.75;
+            opaqueToolStripMenuItem.Checked = false;
+            opacity75ToolStripMenuItem.Checked = true;
+            opacity50ToolStripMenuItem.Checked = false;
+            opacity25ToolStripMenuItem.Checked = false;
+        }
+        private void alwaysOnTopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.TopMost = !this.TopMost;
+            alwaysOnTopToolStripMenuItem.Checked = this.TopMost;
+        }
+        #endregion
         #endregion
 
         /// <summary>

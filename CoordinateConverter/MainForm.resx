@@ -118,35 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="textBox7.Text" xml:space="preserve">
-    <value>MGRS, or Military Grid Reference System, uses the same grid layout as UTM.
-Each of those grids is divided into sub grids, indexed with two letters. Those grids are 10000m x 10000m size.
-From those sub grids you indicate a specific position with a set of numbers. Depending on the length of those numbers, you can indicate precision in up to 1m steps.</value>
+    <value>Military Grid Reference System
+Reference https://en.wikipedia.org/wiki/Military_Grid_Reference_System
+Leading zeroes required for UTM Grid.
+Arbitrary precision may be entered for Easting and Northing, trailing zeroes are not required.
+Polar grids UTM grids A/B and Y/Z are not supported.</value>
   </data>
   <data name="textBox9.Text" xml:space="preserve">
-    <value>UTM, or Universal Transverse Mercator, divides the earth into a grid of 20 bands of latitude labeled C through X, omitting I and O, 60 bands of longitude labeled 01 through 60. From that grid's south west corner, you go to the east and to the north, indicated by the easting and northing part of the coordinates in meters.
-Some UTM grids have been adjusted to include countries so they are not split.
-The poles are separated into Grids A/B for the south pole and Y/Z for the north pole. Those grids are not supported.</value>
+    <value>Universal Transverse Mercator
+Reference: https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system
+Decimal values are allowed for easting and northing. Unit is meter.
+Polar grids UTM grids A/B and Y/Z are not supported.</value>
   </data>
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </metadata>
-  <metadata name="colId.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colLabel.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colCoordinates.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colAltitude.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colXFer.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colDelete.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
   </metadata>
   <metadata name="colId.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

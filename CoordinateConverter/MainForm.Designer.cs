@@ -69,6 +69,7 @@ namespace CoordinateConverter
             this.label15 = new System.Windows.Forms.Label();
             this.TC_Input = new System.Windows.Forms.TabControl();
             this.TabPage_LatLon = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.TB_LL_Lon = new System.Windows.Forms.TextBox();
@@ -79,6 +80,7 @@ namespace CoordinateConverter
             this.RB_LL_N = new System.Windows.Forms.RadioButton();
             this.RB_LL_S = new System.Windows.Forms.RadioButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.TB_LLDec_Lon = new System.Windows.Forms.TextBox();
@@ -106,8 +108,7 @@ namespace CoordinateConverter
             this.TB_UTM_Northing = new System.Windows.Forms.TextBox();
             this.TB_UTM_LongZone = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.lbl_BEEasting = new System.Windows.Forms.Label();
-            this.lbl_BENorthing = new System.Windows.Forms.Label();
+            this.lbl_BEPosition = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
@@ -153,10 +154,16 @@ namespace CoordinateConverter
             this.whenInF10MapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.alwaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmr250ms = new System.Windows.Forms.Timer(this.components);
             this.cameraPositionModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.terrainElevationUnderCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cameraAltitudeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.alwaysOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transparencyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.opaqueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.opacity75ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.opacity50ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.opacity25ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmr250ms = new System.Windows.Forms.Timer(this.components);
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MGRS_Precision)).BeginInit();
             this.GrpBox_Input.SuspendLayout();
@@ -277,7 +284,7 @@ namespace CoordinateConverter
             this.rb_Format_BE.Size = new System.Drawing.Size(14, 13);
             this.rb_Format_BE.TabIndex = 14;
             this.rb_Format_BE.UseVisualStyleBackColor = true;
-            this.rb_Format_BE.CheckedChanged += new System.EventHandler(this.rb_Format_BE_CheckedChanged);
+            this.rb_Format_BE.CheckedChanged += new System.EventHandler(this.rb_Format_CheckedChanged);
             // 
             // rb_Format_UTM
             // 
@@ -287,7 +294,7 @@ namespace CoordinateConverter
             this.rb_Format_UTM.Size = new System.Drawing.Size(14, 13);
             this.rb_Format_UTM.TabIndex = 13;
             this.rb_Format_UTM.UseVisualStyleBackColor = true;
-            this.rb_Format_UTM.CheckedChanged += new System.EventHandler(this.rb_Format_UTM_CheckedChanged);
+            this.rb_Format_UTM.CheckedChanged += new System.EventHandler(this.rb_Format_CheckedChanged);
             // 
             // rb_Format_MGRS
             // 
@@ -297,7 +304,7 @@ namespace CoordinateConverter
             this.rb_Format_MGRS.Size = new System.Drawing.Size(14, 13);
             this.rb_Format_MGRS.TabIndex = 12;
             this.rb_Format_MGRS.UseVisualStyleBackColor = true;
-            this.rb_Format_MGRS.CheckedChanged += new System.EventHandler(this.rb_Format_MGRS_CheckedChanged);
+            this.rb_Format_MGRS.CheckedChanged += new System.EventHandler(this.rb_Format_CheckedChanged);
             // 
             // rb_Format_LLDec
             // 
@@ -307,7 +314,7 @@ namespace CoordinateConverter
             this.rb_Format_LLDec.Size = new System.Drawing.Size(14, 13);
             this.rb_Format_LLDec.TabIndex = 11;
             this.rb_Format_LLDec.UseVisualStyleBackColor = true;
-            this.rb_Format_LLDec.CheckedChanged += new System.EventHandler(this.rb_Format_LLDec_CheckedChanged);
+            this.rb_Format_LLDec.CheckedChanged += new System.EventHandler(this.rb_Format_CheckedChanged);
             // 
             // rb_Format_LL
             // 
@@ -319,7 +326,7 @@ namespace CoordinateConverter
             this.rb_Format_LL.TabIndex = 10;
             this.rb_Format_LL.TabStop = true;
             this.rb_Format_LL.UseVisualStyleBackColor = true;
-            this.rb_Format_LL.CheckedChanged += new System.EventHandler(this.rb_Format_LL_CheckedChanged);
+            this.rb_Format_LL.CheckedChanged += new System.EventHandler(this.rb_Format_CheckedChanged);
             // 
             // btn_SetBE
             // 
@@ -470,6 +477,7 @@ namespace CoordinateConverter
             // 
             // cb_altitudeIsAGL
             // 
+            this.cb_altitudeIsAGL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cb_altitudeIsAGL.AutoSize = true;
             this.cb_altitudeIsAGL.Checked = true;
             this.cb_altitudeIsAGL.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -606,6 +614,7 @@ namespace CoordinateConverter
             // 
             // TabPage_LatLon
             // 
+            this.TabPage_LatLon.Controls.Add(this.textBox1);
             this.TabPage_LatLon.Controls.Add(this.label7);
             this.TabPage_LatLon.Controls.Add(this.panel1);
             this.TabPage_LatLon.Controls.Add(this.panel2);
@@ -616,6 +625,21 @@ namespace CoordinateConverter
             this.TabPage_LatLon.TabIndex = 0;
             this.TabPage_LatLon.Text = "L/L";
             this.TabPage_LatLon.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(10, 85);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(454, 88);
+            this.textBox1.TabIndex = 3;
+            this.textBox1.TabStop = false;
+            this.textBox1.Text = "Symbols and spaces may be omitted.\r\nDecimal point is required if a decimal value " +
+    "is used, it is not implied.\r\nLeading zeroes are also required.";
             // 
             // label7
             // 
@@ -730,6 +754,7 @@ namespace CoordinateConverter
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.textBox2);
             this.tabPage1.Controls.Add(this.label13);
             this.tabPage1.Controls.Add(this.panel3);
             this.tabPage1.Controls.Add(this.panel4);
@@ -740,6 +765,21 @@ namespace CoordinateConverter
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "L/L Decimal";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.Location = new System.Drawing.Point(6, 85);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(461, 88);
+            this.textBox2.TabIndex = 4;
+            this.textBox2.TabStop = false;
+            this.textBox2.Text = "Symbols and spaces may be omitted.\r\nDecimal point is required if a decimal value " +
+    "is used, it is not implied.\r\nLeading zeroes are also required.";
             // 
             // label13
             // 
@@ -1060,8 +1100,7 @@ namespace CoordinateConverter
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.lbl_BEEasting);
-            this.tabPage4.Controls.Add(this.lbl_BENorthing);
+            this.tabPage4.Controls.Add(this.lbl_BEPosition);
             this.tabPage4.Controls.Add(this.label4);
             this.tabPage4.Controls.Add(this.label3);
             this.tabPage4.Controls.Add(this.panel9);
@@ -1074,25 +1113,15 @@ namespace CoordinateConverter
             this.tabPage4.Text = "Bullseye";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // lbl_BEEasting
+            // lbl_BEPosition
             // 
-            this.lbl_BEEasting.AutoSize = true;
-            this.lbl_BEEasting.Font = new System.Drawing.Font("Courier New", 9.75F);
-            this.lbl_BEEasting.Location = new System.Drawing.Point(7, 115);
-            this.lbl_BEEasting.Name = "lbl_BEEasting";
-            this.lbl_BEEasting.Size = new System.Drawing.Size(63, 16);
-            this.lbl_BEEasting.TabIndex = 5;
-            this.lbl_BEEasting.Text = "Not Set";
-            // 
-            // lbl_BENorthing
-            // 
-            this.lbl_BENorthing.AutoSize = true;
-            this.lbl_BENorthing.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_BENorthing.Location = new System.Drawing.Point(7, 99);
-            this.lbl_BENorthing.Name = "lbl_BENorthing";
-            this.lbl_BENorthing.Size = new System.Drawing.Size(63, 16);
-            this.lbl_BENorthing.TabIndex = 4;
-            this.lbl_BENorthing.Text = "Not Set";
+            this.lbl_BEPosition.AutoSize = true;
+            this.lbl_BEPosition.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_BEPosition.Location = new System.Drawing.Point(7, 99);
+            this.lbl_BEPosition.Name = "lbl_BEPosition";
+            this.lbl_BEPosition.Size = new System.Drawing.Size(63, 16);
+            this.lbl_BEPosition.TabIndex = 4;
+            this.lbl_BEPosition.Text = "Not Set";
             // 
             // label4
             // 
@@ -1471,7 +1500,9 @@ namespace CoordinateConverter
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dCSMainScreenToolStripMenuItem,
             this.reticleSettingToolStripMenuItem,
-            this.cameraPositionModeToolStripMenuItem});
+            this.cameraPositionModeToolStripMenuItem,
+            this.alwaysOnTopToolStripMenuItem,
+            this.transparencyToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -1479,7 +1510,7 @@ namespace CoordinateConverter
             // dCSMainScreenToolStripMenuItem
             // 
             this.dCSMainScreenToolStripMenuItem.Name = "dCSMainScreenToolStripMenuItem";
-            this.dCSMainScreenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dCSMainScreenToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.dCSMainScreenToolStripMenuItem.Text = "DCS Main Screen";
             // 
             // reticleSettingToolStripMenuItem
@@ -1489,7 +1520,7 @@ namespace CoordinateConverter
             this.alwaysToolStripMenuItem,
             this.neverToolStripMenuItem});
             this.reticleSettingToolStripMenuItem.Name = "reticleSettingToolStripMenuItem";
-            this.reticleSettingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reticleSettingToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.reticleSettingToolStripMenuItem.Text = "Reticle Setting";
             // 
             // whenInF10MapToolStripMenuItem
@@ -1512,11 +1543,6 @@ namespace CoordinateConverter
             this.neverToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.neverToolStripMenuItem.Text = "Never";
             this.neverToolStripMenuItem.Click += new System.EventHandler(this.neverToolStripMenuItem_Click);
-            // 
-            // tmr250ms
-            // 
-            this.tmr250ms.Interval = 250;
-            this.tmr250ms.Tick += new System.EventHandler(this.tmr250ms_Tick);
             // 
             // cameraPositionModeToolStripMenuItem
             // 
@@ -1542,6 +1568,59 @@ namespace CoordinateConverter
             this.cameraAltitudeToolStripMenuItem.Size = new System.Drawing.Size(273, 22);
             this.cameraAltitudeToolStripMenuItem.Text = "Camera altitude";
             this.cameraAltitudeToolStripMenuItem.Click += new System.EventHandler(this.cameraAltitudeToolStripMenuItem_Click_1);
+            // 
+            // alwaysOnTopToolStripMenuItem
+            // 
+            this.alwaysOnTopToolStripMenuItem.Name = "alwaysOnTopToolStripMenuItem";
+            this.alwaysOnTopToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.alwaysOnTopToolStripMenuItem.Text = "Always on top";
+            this.alwaysOnTopToolStripMenuItem.Click += new System.EventHandler(this.alwaysOnTopToolStripMenuItem_Click);
+            // 
+            // transparencyToolStripMenuItem
+            // 
+            this.transparencyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.opaqueToolStripMenuItem,
+            this.opacity75ToolStripMenuItem,
+            this.opacity50ToolStripMenuItem,
+            this.opacity25ToolStripMenuItem});
+            this.transparencyToolStripMenuItem.Name = "transparencyToolStripMenuItem";
+            this.transparencyToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.transparencyToolStripMenuItem.Text = "Transparency";
+            // 
+            // opaqueToolStripMenuItem
+            // 
+            this.opaqueToolStripMenuItem.Checked = true;
+            this.opaqueToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.opaqueToolStripMenuItem.Name = "opaqueToolStripMenuItem";
+            this.opaqueToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.opaqueToolStripMenuItem.Text = "Opaque";
+            this.opaqueToolStripMenuItem.Click += new System.EventHandler(this.opaqueToolStripMenuItem_Click);
+            // 
+            // opacity75ToolStripMenuItem
+            // 
+            this.opacity75ToolStripMenuItem.Name = "opacity75ToolStripMenuItem";
+            this.opacity75ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.opacity75ToolStripMenuItem.Text = "25%";
+            this.opacity75ToolStripMenuItem.Click += new System.EventHandler(this.opacity75ToolStripMenuItem_Click);
+            // 
+            // opacity50ToolStripMenuItem
+            // 
+            this.opacity50ToolStripMenuItem.Name = "opacity50ToolStripMenuItem";
+            this.opacity50ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.opacity50ToolStripMenuItem.Text = "50%";
+            this.opacity50ToolStripMenuItem.Click += new System.EventHandler(this.opacity50ToolStripMenuItem_Click);
+            // 
+            // opacity25ToolStripMenuItem
+            // 
+            this.opacity25ToolStripMenuItem.Name = "opacity25ToolStripMenuItem";
+            this.opacity25ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.opacity25ToolStripMenuItem.Text = "75%";
+            this.opacity25ToolStripMenuItem.Click += new System.EventHandler(this.opacity25ToolStripMenuItem_Click);
+            // 
+            // tmr250ms
+            // 
+            this.tmr250ms.Interval = 250;
+            this.tmr250ms.Tick += new System.EventHandler(this.tmr250ms_Tick);
             // 
             // MainForm
             // 
@@ -1661,8 +1740,7 @@ namespace CoordinateConverter
         private System.Windows.Forms.TextBox TB_MGRS_Digraph;
         private Button btn_Add;
         private Button btn_SetBE;
-        private Label lbl_BEEasting;
-        private Label lbl_BENorthing;
+        private Label lbl_BEPosition;
         private Label label4;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel lbl_Error;
@@ -1725,6 +1803,14 @@ namespace CoordinateConverter
         private ToolStripMenuItem cameraPositionModeToolStripMenuItem;
         private ToolStripMenuItem terrainElevationUnderCameraToolStripMenuItem;
         private ToolStripMenuItem cameraAltitudeToolStripMenuItem;
+        private ToolStripMenuItem alwaysOnTopToolStripMenuItem;
+        private TextBox textBox1;
+        private TextBox textBox2;
+        private ToolStripMenuItem transparencyToolStripMenuItem;
+        private ToolStripMenuItem opaqueToolStripMenuItem;
+        private ToolStripMenuItem opacity50ToolStripMenuItem;
+        private ToolStripMenuItem opacity25ToolStripMenuItem;
+        private ToolStripMenuItem opacity75ToolStripMenuItem;
     }
 }
 
