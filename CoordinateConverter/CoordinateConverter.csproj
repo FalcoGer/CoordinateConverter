@@ -134,7 +134,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files\7-Zip\7z.exe" a -y -mx9 "$(TargetDir)Release.zip" "$(TargetDir)$(TargetFileName)" "$(TargetDir)Installation.txt" "$(TargetDir)CoordinateConverter.lua" "$(TargetDir)*.dll"</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files\7-Zip\7z.exe" a -y -mx9 "$(TargetDir)Release.zip" "$(TargetDir)$(TargetFileName)" "$(TargetDir)Installation.txt" "$(TargetDir)DCS\Communication\CoordinateConverter.lua" "$(TargetDir)*.dll"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

@@ -1,9 +1,6 @@
 ﻿using CoordinateConverter.DCS.Aircraft;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoordinateConverter.DCS.Communication
 {

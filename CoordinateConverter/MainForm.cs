@@ -1531,7 +1531,7 @@ namespace CoordinateConverter
                     "Make sure waypoint sequence is not selected before putting in waypoints.\n" +
                     "The next waypoint number and up from the currently selected one will be overwritten\n" +
                     "Make sure aircraft is in L/L Decimal mode (default). Check in HSI -> Data -> Aircraft -> Bottom right\n" +
-                    "When only one A/G weapon on board, make sure it is not selected prior to entering weapon data\n" +
+                    "Make sure no weapon is selected is not selected prior to entering weapon data\n" +
                     "Maximum number SLAM-ER of steer points is 5.", "Reminder", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
