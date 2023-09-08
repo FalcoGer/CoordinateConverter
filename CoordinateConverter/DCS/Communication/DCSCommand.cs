@@ -1,13 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using CoordinateConverter.DCS.Communication;
+using Newtonsoft.Json;
 using System;
 
-namespace CoordinateConverter
+namespace CoordinateConverter.DCS.Aircraft
 {
     /// <summary>
     /// Is a command to be interpreted by the DCS lua script as a cockpit action.
     /// To get the numbers for any specific action, check `devices.lua` and `clickabledata.lua` in
-    /// the DCS installation directory and then under `\Mods\aircraft\<Type>\Cockpit\Scripts\`
+    /// the DCS installation directory and then under `/Mods/aircraft/&lt;Type&gt;/Cockpit/Scripts/`
     /// </summary>
+    /// <seealso cref="DCSMessage" />
     public class DCSCommand : DCSMessage
     {
         /// <summary>
@@ -25,14 +27,14 @@ namespace CoordinateConverter
         /// <param name="device">Device ID</param>
         /// <param name="code">Device button ID</param>
         /// <param name="delay">Delay before depressing the button and/or pressing the next button</param>
-        /// <param name="activate">Either 1 or -1. Actually a double in DCS, but only for axis commands.</param>
+        /// <param name="value">Either 1 or -1. Actually a double in DCS, but only for axis commands.</param>
         /// <param name="addDepress">Adds the button depress action right after</param>
-        public DCSCommand(int device, int code, int delay, int activate, bool addDepress)
+        public DCSCommand(int device, int code, int delay = 100, double value = 1, bool addDepress = true)
         {
             Device = device;
             Code = code;
             Delay = delay;
-            Activate = activate;
+            Value = value;
             AddDepress = addDepress;
         }
     
@@ -58,7 +60,7 @@ namespace CoordinateConverter
         /// For hard buttons this is 1 or -1
         /// </summary>
         [JsonProperty("activate")]
-        public int Activate { get; set; }
+        public double Value { get; set; }
 
         /// <summary>
         /// For serialization only
@@ -101,7 +103,7 @@ namespace CoordinateConverter
         /// </returns>
         public override string ToString()
         {
-            return string.Format("D:{0}, C:{1}, Dly: {2}, Ac:{3}, Dp: {4}", Device, Code, Delay, Activate, AddDepress ? 1 : 0);
+            return string.Format("D:{0}, C:{1}, Dly: {2}, Ac:{3}, Dp: {4}", Device, Code, Delay, Value, AddDepress ? 1 : 0);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using CoordinateConverter.DCS.Aircraft;
+using CoordinateConverter.DCS.Communication;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,7 +98,7 @@ namespace CoordinateConverter
             AltitudeIsAGL = other.AltitudeIsAGL;
             foreach (KeyValuePair<Type, AircraftSpecificData> kvp in other.AircraftSpecificData)
             {
-                AircraftSpecificData.Add(kvp.Key, new AH64SpecificData() { PointType = ((AH64SpecificData)kvp.Value).PointType, Ident = ((AH64SpecificData)kvp.Value).Ident });
+                AircraftSpecificData.Add(kvp.Key, kvp.Value == null ? null : kvp.Value.Clone());
             }
         }
 
@@ -202,6 +204,22 @@ namespace CoordinateConverter
         }
 
         /// <summary>
+        /// Gets the MSL altitude value, adjusted for AGL if available.
+        /// </summary>
+        /// <param name="inFt">if set to <c>true</c> returns value in feet, otherwise meter.</param>
+        /// <returns></returns>
+        public double GetAltitudeValue(bool inFt)
+        {
+            double offsetInM = 0;
+            if (AltitudeIsAGL)
+            {
+                offsetInM = GroundElevationInM ?? 0.0;
+            }
+
+            return (AltitudeInM + offsetInM) * (inFt ? CoordinateDataEntry.FT_PER_M : 1.0);
+        }
+
+        /// <summary>
         /// Gets or sets the ground elevation in ft.
         /// </summary>
         /// <value>
@@ -215,7 +233,7 @@ namespace CoordinateConverter
         }
 
         /// <summary>
-        /// Gets or sets the MSL altitude in m.
+        /// Gets or sets the altitude in meter above sea level or ground, depending on <see cref="AltitudeIsAGL"/>
         /// </summary>
         /// <value>
         /// The altitude in m.
@@ -224,7 +242,7 @@ namespace CoordinateConverter
         public double AltitudeInM { get; set; } = 0;
 
         /// <summary>
-        /// Gets or sets the MSL altitude in ft.
+        /// Gets or sets the altitude in feet above sea level or ground, depending on <see cref="AltitudeIsAGL"/>
         /// </summary>
         /// <value>
         /// The altitude in ft.

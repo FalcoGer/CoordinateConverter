@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using CoordinateConverter.DCS.Communication;
+using Newtonsoft.Json;
 using System;
 using System.Net.Sockets;
 using System.Text;
 
-namespace CoordinateConverter
+namespace CoordinateConverter.DCS.Aircraft
 {
     /// <summary>
     /// This class interfaces with DCS

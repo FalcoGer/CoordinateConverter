@@ -119,6 +119,7 @@ namespace CoordinateConverter
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lbl_Error = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_DCS_Status = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pb_Transfer = new System.Windows.Forms.ToolStripProgressBar();
             this.dgv_CoordinateList = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -146,8 +147,16 @@ namespace CoordinateConverter
             this.f18ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kA50ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m2000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dCSMainScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reticleSettingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.whenInF10MapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.alwaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.neverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tmr250ms = new System.Windows.Forms.Timer(this.components);
-            this.pb_Transfer = new System.Windows.Forms.ToolStripProgressBar();
+            this.cameraPositionModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.terrainElevationUnderCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cameraAltitudeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MGRS_Precision)).BeginInit();
             this.GrpBox_Input.SuspendLayout();
@@ -1200,6 +1209,14 @@ namespace CoordinateConverter
             this.lbl_DCS_Status.BackColorChanged += new System.EventHandler(this.lbl_DCS_Status_BackColorChanged);
             this.lbl_DCS_Status.Click += new System.EventHandler(this.fetchF10ToolStripMenuItem_Click);
             // 
+            // pb_Transfer
+            // 
+            this.pb_Transfer.Name = "pb_Transfer";
+            this.pb_Transfer.Size = new System.Drawing.Size(300, 16);
+            this.pb_Transfer.Step = 1;
+            this.pb_Transfer.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.pb_Transfer.Visible = false;
+            // 
             // dgv_CoordinateList
             // 
             this.dgv_CoordinateList.AllowUserToAddRows = false;
@@ -1291,7 +1308,8 @@ namespace CoordinateConverter
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.dCSToolStripMenuItem});
+            this.dCSToolStripMenuItem,
+            this.settingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1189, 24);
@@ -1448,18 +1466,82 @@ namespace CoordinateConverter
             this.m2000ToolStripMenuItem.Text = "M2000";
             this.m2000ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dCSMainScreenToolStripMenuItem,
+            this.reticleSettingToolStripMenuItem,
+            this.cameraPositionModeToolStripMenuItem});
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            // 
+            // dCSMainScreenToolStripMenuItem
+            // 
+            this.dCSMainScreenToolStripMenuItem.Name = "dCSMainScreenToolStripMenuItem";
+            this.dCSMainScreenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dCSMainScreenToolStripMenuItem.Text = "DCS Main Screen";
+            // 
+            // reticleSettingToolStripMenuItem
+            // 
+            this.reticleSettingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.whenInF10MapToolStripMenuItem,
+            this.alwaysToolStripMenuItem,
+            this.neverToolStripMenuItem});
+            this.reticleSettingToolStripMenuItem.Name = "reticleSettingToolStripMenuItem";
+            this.reticleSettingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reticleSettingToolStripMenuItem.Text = "Reticle Setting";
+            // 
+            // whenInF10MapToolStripMenuItem
+            // 
+            this.whenInF10MapToolStripMenuItem.Name = "whenInF10MapToolStripMenuItem";
+            this.whenInF10MapToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.whenInF10MapToolStripMenuItem.Text = "When in F10 Map";
+            this.whenInF10MapToolStripMenuItem.Click += new System.EventHandler(this.whenInF10MapToolStripMenuItem_Click);
+            // 
+            // alwaysToolStripMenuItem
+            // 
+            this.alwaysToolStripMenuItem.Name = "alwaysToolStripMenuItem";
+            this.alwaysToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.alwaysToolStripMenuItem.Text = "Always";
+            this.alwaysToolStripMenuItem.Click += new System.EventHandler(this.alwaysToolStripMenuItem_Click);
+            // 
+            // neverToolStripMenuItem
+            // 
+            this.neverToolStripMenuItem.Name = "neverToolStripMenuItem";
+            this.neverToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.neverToolStripMenuItem.Text = "Never";
+            this.neverToolStripMenuItem.Click += new System.EventHandler(this.neverToolStripMenuItem_Click);
+            // 
             // tmr250ms
             // 
             this.tmr250ms.Interval = 250;
             this.tmr250ms.Tick += new System.EventHandler(this.tmr250ms_Tick);
             // 
-            // pb_Transfer
+            // cameraPositionModeToolStripMenuItem
             // 
-            this.pb_Transfer.Name = "pb_Transfer";
-            this.pb_Transfer.Size = new System.Drawing.Size(300, 16);
-            this.pb_Transfer.Step = 1;
-            this.pb_Transfer.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.pb_Transfer.Visible = false;
+            this.cameraPositionModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.terrainElevationUnderCameraToolStripMenuItem,
+            this.cameraAltitudeToolStripMenuItem});
+            this.cameraPositionModeToolStripMenuItem.Name = "cameraPositionModeToolStripMenuItem";
+            this.cameraPositionModeToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.cameraPositionModeToolStripMenuItem.Text = "Camera Position Mode";
+            // 
+            // terrainElevationUnderCameraToolStripMenuItem
+            // 
+            this.terrainElevationUnderCameraToolStripMenuItem.Checked = true;
+            this.terrainElevationUnderCameraToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.terrainElevationUnderCameraToolStripMenuItem.Name = "terrainElevationUnderCameraToolStripMenuItem";
+            this.terrainElevationUnderCameraToolStripMenuItem.Size = new System.Drawing.Size(273, 22);
+            this.terrainElevationUnderCameraToolStripMenuItem.Text = "Terrain elevation under Camera";
+            this.terrainElevationUnderCameraToolStripMenuItem.Click += new System.EventHandler(this.terrainElevationUnderCameraToolStripMenuItem_Click);
+            // 
+            // cameraAltitudeToolStripMenuItem
+            // 
+            this.cameraAltitudeToolStripMenuItem.Name = "cameraAltitudeToolStripMenuItem";
+            this.cameraAltitudeToolStripMenuItem.Size = new System.Drawing.Size(273, 22);
+            this.cameraAltitudeToolStripMenuItem.Text = "Camera altitude";
+            this.cameraAltitudeToolStripMenuItem.Click += new System.EventHandler(this.cameraAltitudeToolStripMenuItem_Click_1);
             // 
             // MainForm
             // 
@@ -1634,6 +1716,15 @@ namespace CoordinateConverter
         private ToolStripSeparator toolStripSeparator1;
         private Timer tmr250ms;
         private ToolStripProgressBar pb_Transfer;
+        private ToolStripMenuItem settingsToolStripMenuItem;
+        private ToolStripMenuItem dCSMainScreenToolStripMenuItem;
+        private ToolStripMenuItem reticleSettingToolStripMenuItem;
+        private ToolStripMenuItem whenInF10MapToolStripMenuItem;
+        private ToolStripMenuItem alwaysToolStripMenuItem;
+        private ToolStripMenuItem neverToolStripMenuItem;
+        private ToolStripMenuItem cameraPositionModeToolStripMenuItem;
+        private ToolStripMenuItem terrainElevationUnderCameraToolStripMenuItem;
+        private ToolStripMenuItem cameraAltitudeToolStripMenuItem;
     }
 }
 

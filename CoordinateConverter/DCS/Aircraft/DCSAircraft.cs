@@ -1,12 +1,9 @@
-﻿using System;
+﻿using CoordinateConverter.DCS.Communication;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Windows.Forms;
-using Newtonsoft.Json;
 
-namespace CoordinateConverter
+namespace CoordinateConverter.DCS.Aircraft
 {
     /// <summary>
     /// Represents an aircraft in DCS and provides the interface for command sending.
@@ -24,18 +21,19 @@ namespace CoordinateConverter
                 return 0;
             }
 
-            DCSMessage message = new DCSMessage ()
+            DCSMessage message = new DCSMessage()
             {
                 Commands = commands
             };
 
             message = DCSConnection.sendRequest(message);
-            if (!string.IsNullOrEmpty(message.ServerError))
+            if (message.ServerErrors != null && message.ServerErrors.Count > 0)
             {
-                throw new InvalidOperationException(message.ServerError);
+                string errorMessage = string.Join("\n", message.ServerErrors);
+                throw new InvalidOperationException(errorMessage);
             }
 
-            return commands.Sum(x => x.Delay);
+            return commands.Count;
         }
         private List<DCSCommand> GenerateCommands(List<CoordinateDataEntry> coordinateList)
         {

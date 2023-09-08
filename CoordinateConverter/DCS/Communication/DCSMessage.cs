@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CoordinateConverter.DCS.Aircraft;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoordinateConverter
+namespace CoordinateConverter.DCS.Communication
 {
     /// <summary>
     /// Requests to be sent to DCS and answers received by it
@@ -22,35 +23,6 @@ namespace CoordinateConverter
         [JsonProperty("Commands")]
         public List<DCSCommand> Commands { get; set; } = null;
 
-        /// <summary>
-        /// Serialization only
-        /// </summary>
-        /// <value>
-        /// Serialization only
-        /// </value>
-        [JsonProperty("FetchAircraftType")]
-        public string FetchAircraftTypeStr
-        {
-            get
-            {
-                return FetchAircraftType.ToString();
-            }
-            set
-            {
-                if (string.Equals(value, "true", StringComparison.OrdinalIgnoreCase))
-                {
-                    FetchAircraftType = true;
-                }
-                else if (string.Equals(value, "true", StringComparison.OrdinalIgnoreCase))
-                {
-                    FetchAircraftType = false;
-                }
-                else
-                {
-                    throw new ArgumentException("needs to be 'true' or 'false'");
-                }
-            }
-        }
 
         /// <summary>
         /// Gets or sets a value indicating whether to fetch the aircraft type.
@@ -58,7 +30,7 @@ namespace CoordinateConverter
         /// <value>
         ///   <c>true</c> if the response should contain the aircraft type; otherwise, <c>false</c>.
         /// </value>
-        [JsonIgnore]
+        [JsonProperty("FetchAircraftType")]
         public bool FetchAircraftType { get; set; } = false;
 
         /// <summary>
@@ -74,42 +46,12 @@ namespace CoordinateConverter
         public List<DCSCoordinate> Altitudes { get; set; } = null;
 
         /// <summary>
-        /// Serialization only
-        /// </summary>
-        /// <value>
-        /// Serialization only
-        /// </value>
-        [JsonProperty("FetchCameraPosition")]
-        public string FetchCameraPositionStr
-        {
-            get
-            {
-                return FetchCameraPosition.ToString();
-            }
-            set
-            {
-                if (string.Equals(value, "true", StringComparison.OrdinalIgnoreCase))
-                {
-                    FetchCameraPosition = true;
-                }
-                else if (string.Equals(value, "true", StringComparison.OrdinalIgnoreCase))
-                {
-                    FetchCameraPosition = false;
-                }
-                else
-                {
-                    throw new ArgumentException("needs to be 'true' or 'false'");
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether to fetch the aircraft type.
         /// </summary>
         /// <value>
         ///   <c>true</c> if the response should contain the aircraft type; otherwise, <c>false</c>.
         /// </value>
-        [JsonIgnore]
+        [JsonProperty("FetchCameraPosition")]
         public bool FetchCameraPosition { get; set; } = false;
 
         /// <summary>
@@ -119,13 +61,43 @@ namespace CoordinateConverter
         public DCSCoordinate CameraPosition = null;
 
         /// <summary>
-        /// Gets or sets the server error message.
+        /// Is the camera in F10 view?
         /// </summary>
         /// <value>
-        /// A potential error message from the server.
+        /// Serialization only
         /// </value>
-        [JsonProperty("Error")]
-        public string ServerError { get; set; } = null;
+        [JsonProperty("isF10")]
+        public bool? IsF10View { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets the server error messages.
+        /// </summary>
+        /// <value>
+        /// A potential error messages from the server.
+        /// </value>
+        [JsonProperty("ErrorList")]
+        public List<string> ServerErrors { get; set; } = null;
+
+        /// <summary>
+        /// The current command index
+        /// </summary>
+        [JsonProperty("CmdIdx")]
+        public int? CurrentCommandIndex = null;
+
+        /// <summary>
+        /// if true, ask the server to send weapon station information
+        /// </summary>
+        [JsonProperty("FetchWeaponStations")]
+        public bool? FetchWeaponStations = null;
+
+        /// <summary>
+        /// Gets or sets the weapon stations.
+        /// </summary>
+        /// <value>
+        /// The weapon stations.
+        /// </value>
+        [JsonProperty("Stations")]
+        public List<WeaponStation> WeaponStations { get; set; } = null;
 
         /// <summary>
         /// Gets or sets the time stamp.

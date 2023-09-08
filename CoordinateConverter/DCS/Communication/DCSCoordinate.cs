@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System.Drawing.Drawing2D;
 
-namespace CoordinateConverter
+namespace CoordinateConverter.DCS.Aircraft
 {
     /// <summary>
     /// Coordinate format as handled by DCS for ground elevation requests

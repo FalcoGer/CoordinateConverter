@@ -1,16 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CoordinateConverter
+namespace CoordinateConverter.DCS.Aircraft
 {
     /// <summary>
     /// Data for a point, specific to the AH64
     /// </summary>
-    /// <seealso cref="CoordinateConverter.AircraftSpecificData" />
+    /// <seealso cref="DCS.Aircraft.AircraftSpecificData" />
     public class AH64SpecificData : AircraftSpecificData
     {
         private AH64.EPointType pointType;
@@ -73,6 +69,16 @@ namespace CoordinateConverter
             {
                 ident = (AH64.EPointIdent)Enum.Parse(typeof(AH64.EPointIdent), value, true);
             }
+        }
+
+        /// <summary>
+        /// Clones the specified other.
+        /// </summary>
+        /// <returns></returns>
+        public override AircraftSpecificData Clone()
+        {
+            AH64SpecificData ret = new AH64SpecificData(PointType, Ident);
+            return ret;
         }
 
         /// <summary>

@@ -2,7 +2,8 @@
 -- REF: https://wiki.hoggitworld.com/view/DCS_Export_Script
 
 local LOG_MODNAME = "COORDINATECONVERTER"
-local DEBUGGING = false
+local DEBUGGING = false -- if true logs all the things
+local TESTING = false -- if true sends all available data, even unrequested
 
 log.write(LOG_MODNAME, log.INFO, "Initializing...")
 --Version 3
@@ -52,7 +53,6 @@ local lastDevice = ""
 local lastCode = ""
 local lastNeedDepress = true
 local whenToDepress = nil
-local stringtoboolean = { ["True"] = true,["False"] = false }
 
 function LuaExportBeforeNextFrame()
     if upstreamLuaExportBeforeNextFrame ~= nil then
@@ -82,7 +82,7 @@ function LuaExportBeforeNextFrame()
                 if currCommandIndex <= #commands then
                     lastDevice = commands[currCommandIndex]["device"]
                     lastCode = commands[currCommandIndex]["code"]
-                    lastNeedDepress = stringtoboolean[commands[currCommandIndex]["addDepress"]]
+                    lastNeedDepress = commands[currCommandIndex]["addDepress"]
                     local delay = tonumber(commands[currCommandIndex]["delay"])
                     local activate = tonumber(commands[currCommandIndex]["activate"])
                     -- Push the button
@@ -135,10 +135,11 @@ function LuaExportAfterNextFrame()
             -- Answer section
             local response = {}
             response["time"] = os.date("%Y-%m-%dT%H:%M:%S")
+            response["ErrorList"] = {}
 
             -- handle aircraft type request
-            if data["FetchAircraftType"] then
-                if stringtoboolean[data["FetchAircraftType"]] then
+            if data["FetchAircraftType"] or TESTING then
+                if data["FetchAircraftType"] then
                     local f = function()
                         if DEBUGGING then
                             log.write(LOG_MODNAME, log.INFO, "Getting AircraftType")
@@ -160,50 +161,62 @@ function LuaExportAfterNextFrame()
                     success, errMsg = pcall(f)
                     if not success then
                         log.write(LOG_MODNAME, log.ERROR, "Failure to fetch aircraft type: " .. tostring(errMsg))
+                        response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
                     end
 
                 end
             end
 
             -- handle camera position request
-            if data["FetchCameraPosition"] then
-                if stringtoboolean[data["FetchCameraPosition"]] then
-                    local f = function()
-                        if DEBUGGING then
-                            log.write(LOG_MODNAME, log.INFO, "Getting camera position")
-                        end
+            if data["FetchCameraPosition"] or TESTING then
+                local f = function()
+                    if DEBUGGING then
+                        log.write(LOG_MODNAME, log.INFO, "Getting camera position")
+                    end
                     
-                        local camPos = LoGetCameraPosition()
+                    local camPos = LoGetCameraPosition()
 
-                        if camPos then
-                            local loX = camPos['p']['x']
-                            local loZ = camPos['p']['z']
-                            local loY = camPos['p']['y']
+                    if camPos then
+                        local loX = camPos['p']['x']
+                        local loZ = camPos['p']['z']
+                        local loY = camPos['p']['y']
 
-                            local elevation = LoGetAltitude(loX, loZ)
-                            local coords = LoLoCoordinatesToGeoCoordinates(loX, loZ)
+                        local elevation = LoGetAltitude(loX, loZ)
+                        local coords = LoLoCoordinatesToGeoCoordinates(loX, loZ)
 
-                            response["CameraPosition"] = {}
-                            response["CameraPosition"]["Lat"] = tostring(coords.latitude)
-                            response["CameraPosition"]["Lon"] = tostring(coords.longitude)
-                            response["CameraPosition"]["Alt"] = tostring(loZ) -- might be wrong
-                            response["CameraPosition"]["Elev"] = tostring(elevation)
-                        end
+                        response["CameraPosition"] = {}
+                        response["CameraPosition"]["Lat"] = tostring(coords.latitude)
+                        response["CameraPosition"]["Lon"] = tostring(coords.longitude)
+                        response["CameraPosition"]["Alt"] = tostring(loY)
+                        response["CameraPosition"]["Elev"] = tostring(elevation)
 
-                        if DEBUGGING then
-                            log.write(LOG_MODNAME, log.INFO, "Got " .. response["CameraPosition"]["Lat"] .. " / " .. response["CameraPosition"]["Lon"] .. " / " .. response["CameraPosition"]["Alt"] .. " / " .. response["CameraPosition"]["Elev"] )
-                        end
+                        local xRot = camPos['x']
+                        local yRot = camPos['y']
+                        local zRot = camPos['z']
+
+                        local isF10 = (
+                            xRot['x'] == 0 and xRot['y'] == -1 and xRot['z'] == 0 and
+                            yRot['x'] == 1 and yRot['y'] == 0 and yRot['z'] == 0 and
+                            zRot['x'] == 0 and zRot['y'] == 0 and zRot['z'] == 1
+                        )
+
+                        response["isF10"] = isF10
                     end
 
-                    success, errMsg = pcall(f)
-                    if not success then
-                        log.write(LOG_MODNAME, log.ERROR, "Failure to fetch camera position: " .. tostring(errMsg))
+                    if DEBUGGING then
+                        log.write(LOG_MODNAME, log.INFO, "Got " .. response["CameraPosition"]["Lat"] .. " / " .. response["CameraPosition"]["Lon"] .. " / " .. response["CameraPosition"]["Alt"] .. " / " .. response["CameraPosition"]["Elev"] )
                     end
+                end
+
+                success, errMsg = pcall(f)
+                if not success then
+                    log.write(LOG_MODNAME, log.ERROR, "Failure to fetch camera position: " .. tostring(errMsg))
+                    response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
                 end
             end
 
             -- handle ground elevation requests
-            if data["Altitudes"] then
+            if data["Altitudes"] then -- no testing, can't fetch elevation data without positions to check
                 local f = function()
                     local pointsToProcess = data["Altitudes"]
                     -- lua arrays start with 1
@@ -222,15 +235,37 @@ function LuaExportAfterNextFrame()
                 success, errMsg = pcall(f)
                 if not success then
                     log.write(LOG_MODNAME, log.ERROR, "Failure to fetch point altitudes: " .. tostring(errMsg))
+                    response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
                 end
             end
 
+            -- get weapons information
+            if data["FetchWeaponStations"] or TESTING then
+                local f = function()
+                    local payloadInfo = LoGetPayloadInfo()
+                    if payloadInfo then
+                        response["Stations"] = payloadInfo["Stations"]
+                        for idx=1,#payloadInfo["Stations"],1 do
+                            response["Stations"][idx]["number"] = idx
+                        end
+                    end
+                end
+
+                success, errMsg = pcall(f)
+                if not success then
+                    log.write(LOG_MODNAME, log.ERROR, "Failure to fetch weapon station info: " .. tostring(errMsg))
+                    response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
+                end
+            end
+            
             -- set up command input logic
             if data["Commands"] and not busy then
                 commands = data["Commands"]
                 busy = true
             elseif data["Commands"] then
-                response["Error"] = "EBusy"
+                response["ErrorList"][#response["ErrorList"] + 1] = "Busy pressing buttons."
+            elseif busy then
+                response["CmdIdx"] = currCommandIndex
             end
 
             local responseData = JSON:encode(response)
