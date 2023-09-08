@@ -1,4 +1,6 @@
 Connection to DCS asyncronous to prevent ui freezes.
+STOP FUNCTION
+Don't update point type all the time
 When saving/loading, update the default location and file name
      - add a save option that just overwrites the last file loaded/saved
 Add support for selection instead of camera position when something is selected
@@ -23,6 +25,8 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
         - if not possible use LoSetSharedTexture (Export.lua L1061) and analyze bitmap (?)
             - test with multiple resolutions
         - SLAM-ER (point type: SLAM-ER Station (how to differenciate?)) -> point options: (WP1 .. 5)
+        - tune speed
+        - hornet, autoswitch all to PP2 after dropping from BRU?
     - A10C
         - remind user that selection MGRS will use MGRS input into CDU
             -fetch if UTM or L/L is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)

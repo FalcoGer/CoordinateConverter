@@ -133,6 +133,11 @@ namespace CoordinateConverter.DCS.Aircraft
             _LAST_AG_PROGRAMABLE,
 
             /// <summary>
+            /// The AAW-13 Datalink pod
+            /// </summary>
+            DL13,
+
+            /// <summary>
             /// The Mk82 low drag bomb
             /// </summary>
             B82B,
@@ -286,11 +291,6 @@ namespace CoordinateConverter.DCS.Aircraft
             /// Targeting pods (AN-ASQ)
             /// </summary>
             TPOD,
-
-            /// <summary>
-            /// The AAW-13 Datalink pod
-            /// </summary>
-            Datalink,
 
             /// <summary>
             /// The AN/ASQ-T50 TCTS ACMI Pod
@@ -459,7 +459,7 @@ namespace CoordinateConverter.DCS.Aircraft
             { "{LAU-115 - AIM-120C_R}", EWeaponType.AIM120 },
 
             // DATA
-            { "{AWW-13}", EWeaponType.Datalink },
+            { "{AWW-13}", EWeaponType.DL13 },
             { "{AN_ASQ_228}", EWeaponType.TPOD }, // ATFlir
             { "{A111396E-D3E8-4b9c-8AC9-2432489304D5}", EWeaponType.TPOD }, // AAQ-28 Litening (Center pylon)
             { "{AAQ-28_LEFT}", EWeaponType.TPOD },
@@ -571,7 +571,7 @@ namespace CoordinateConverter.DCS.Aircraft
             F18CSpecificData extraData = coordinate.AircraftSpecificData[typeof(F18C)] as F18CSpecificData;
 
             List<DCSCommand> commands = new List<DCSCommand>();
-            // DebugCommandList commands = new DebugCommandList();
+            // var commands = new DebugCommandList();
 
             if (!extraData.WeaponType.HasValue)
             {
@@ -702,7 +702,7 @@ namespace CoordinateConverter.DCS.Aircraft
             int keyCodeWpnDsplyPage = (int)KeyCodes.MDI_PB11 + (isBomb ? 0 : 1);
 
             List<DCSCommand> commands = new List<DCSCommand>();
-            // DebugCommandList commands = new DebugCommandList();
+            // var commands = new DebugCommandList();
             int keyCodePPIdx = (int)KeyCodes.MDI_PB06 + extraData.PreplanPointIdx.Value - 1;
 
             // activate the relevant weapon station
@@ -721,6 +721,21 @@ namespace CoordinateConverter.DCS.Aircraft
             // Enter DSPLY page
             commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeWpnDsplyPage, 400));
             commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeWpnDsplyPage, 200, 0));
+
+            if (isAGM84Variant)
+            {
+                // is SLAM/SLAM-ER
+                // Set Distance
+                // UFC
+                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)KeyCodes.MDI_PB14, 200));
+                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)KeyCodes.MDI_PB14, 100, 0));
+                // DIST
+                commands.Add(new DCSCommand((int)EDevices.UFC, (int)KeyCodes.UFC_PB1, 200));
+                commands.Add(new DCSCommand((int)EDevices.UFC, (int)KeyCodes.UFC_PB1, 100, 0));
+                // Enter 15 nmi
+                commands.AddRange(UFCEnterString("15\n"));
+            }
+
             // Enter MSN page
             commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)KeyCodes.MDI_PB04, 200));
             commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)KeyCodes.MDI_PB04, 100, 0));
@@ -804,10 +819,12 @@ namespace CoordinateConverter.DCS.Aircraft
             }
 
             // Cleanup...
-            // Return
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)KeyCodes.MDI_PB19));
-            // Back to main stores page
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect));
+            // Return command is inconsistent. Go to TAC -> Stores instead
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)KeyCodes.MDI_PB18, 200));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)KeyCodes.MDI_PB18, 100, 0));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)KeyCodes.MDI_PB05, 200));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)KeyCodes.MDI_PB05, 100, 0));
+
             // and deselect the weapon entirely
             commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect));
             // ready for the next weapon
