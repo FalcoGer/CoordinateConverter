@@ -1,4 +1,5 @@
 ﻿using CoordinateConverter.DCS.Aircraft;
+using CoordinateConverter.DCS.Communication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -287,6 +288,30 @@ namespace CoordinateConverter.DCS.Aircraft
                 default:
                     throw new Exception("Invalid pointType");
             }
+        }
+
+        /// <summary>
+        /// Clears the points of the specified type.
+        /// </summary>
+        /// <param name="pointType">Type of the point to clear.</param>
+        /// <returns>Number of commands generated.</returns>
+        public int ClearPoints(EPointType pointType, int range = 50)
+        {
+            List<DCSCommand> commands = new List<DCSCommand>();
+            int deviceId = IsPilot ? (int)EDeviceCode.PLT_RMFD : (int)EDeviceCode.CPG_RMFD;
+            for (int pointIdx = ((pointType == EPointType.ControlMeasure) ? 50 : 1); pointIdx < ((pointType == EPointType.ControlMeasure) ? 50 : 0) + range; pointIdx++)
+            {
+                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_TSD)); // Reset to TSD after every point, to a void weirdness.
+                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_B6)); // Point
+                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_L1)); // Point >
+                commands.AddRange(GetCommandsForKUText(pointType.ToString().First() + pointIdx.ToString() + "\n", true)); // Enter point identifier
+                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_L4)); // Del
+                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_L3)); // Yes
+            }
+            commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_TSD)); // reset to TSD
+            DCSMessage message = new DCSMessage() { Commands = commands };
+            message = DCSConnection.sendRequest(message);
+            return commands.Count;
         }
 
         /// <summary>

@@ -1,8 +1,11 @@
 ﻿using CoordinateConverter.DCS.Communication;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Windows.Forms;
 
 namespace CoordinateConverter.DCS.Aircraft
 {
@@ -17,12 +20,15 @@ namespace CoordinateConverter.DCS.Aircraft
         public static readonly System.Net.IPEndPoint TCP_ENDPOINT = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 42020);
         private static DateTime lastConnectionAttempt = DateTime.MinValue;
 
+        private const int BUFFER_SIZE = 4096;
+        private static TimeSpan TIMEOUT_TIMESPAN = TimeSpan.FromMilliseconds(2500);
+
         /// <summary>
         /// Sends the request.
         /// </summary>
-        /// <param name="requests">The requests.</param>
+        /// <param name="requestMessage">The requests.</param>
         /// <returns>The response from the remote host</returns>
-        public static DCSMessage sendRequest(DCSMessage requests)
+        public static DCSMessage sendRequest(DCSMessage requestMessage)
         {
             if ((DateTime.Now - lastConnectionAttempt).TotalSeconds < 15)
             {
@@ -35,14 +41,11 @@ namespace CoordinateConverter.DCS.Aircraft
                 Formatting = Formatting.None,
                 TypeNameHandling = TypeNameHandling.None
             };
-            string json = JsonConvert.SerializeObject(requests, jsonSerializerSettings) + '\n';
+            string json = JsonConvert.SerializeObject(requestMessage, jsonSerializerSettings) + '\n';
             byte[] data = Encoding.UTF8.GetBytes(json);
 
-            const int BUFFER_SIZE = 4096;          // maximum data chunk size of received data
-            TimeSpan TIMEOUT_TIMESPAN = TimeSpan.FromMilliseconds(300);
-            byte[] buffer = new byte[BUFFER_SIZE]; // buffer to return the bytes back into
-            string returnMessage = String.Empty;   // string returned by the server
-
+            string responseString = String.Empty;   // string returned by the server
+            DCSMessage responseMessage = null;
             try
             {
                 // open TCP socket to DCS
@@ -55,33 +58,36 @@ namespace CoordinateConverter.DCS.Aircraft
 
                     DateTime timeoutTime = DateTime.Now + TIMEOUT_TIMESPAN;
                     // wait for the answer
-                    while (sock.Available == 0 && DateTime.Now < timeoutTime)
+                    do
                     {
+                        // read the answer
+                        while (sock.Available > 0)
+                        {
+                            byte[] buffer = new byte[BUFFER_SIZE]; // buffer to return the bytes back into
+                            int byteCount = Math.Min(sock.Available, BUFFER_SIZE);
+                            sock.Receive(buffer, byteCount, SocketFlags.None);
+                            responseString += Encoding.UTF8.GetString(buffer);
+                            timeoutTime = DateTime.Now + TIMEOUT_TIMESPAN;
+                        }
                         System.Threading.Thread.Sleep(50);
-                    }
-
-                    if (sock.Available == 0)
-                    {
-                        throw new Exception("No data received");
-                    }
-                    
-                    // read the answer
-                    while (sock.Available > 0)
-                    {
-                        int byteCount = Math.Min(sock.Available, BUFFER_SIZE);
-                        sock.Receive(buffer, byteCount, SocketFlags.None);
-                        returnMessage += Encoding.UTF8.GetString(buffer);
-                    }
+                    } while (!responseString.Contains("�") && DateTime.Now < timeoutTime);
+                    responseMessage = JsonConvert.DeserializeObject<DCSMessage>(responseString.Split('�').First());
                 } // close the socket
                 lastConnectionAttempt = DateTime.MinValue;
+            }
+            catch (JsonException ex)
+            {
+                // Clipboard.SetText(responseString);
+                // MessageBox.Show(ex.Message + "\n\nJson data copied to clipboard for analysis.", "Exception", MessageBoxButtons.OK);
+                MessageBox.Show(ex.Message, "Exception", MessageBoxButtons.OK);
+                return null;
             }
             catch (Exception)
             {
                 lastConnectionAttempt = DateTime.Now;
                 return null;
             }
-
-            return JsonConvert.DeserializeObject<DCSMessage> (returnMessage);
+            return responseMessage;
         }
     }
 }

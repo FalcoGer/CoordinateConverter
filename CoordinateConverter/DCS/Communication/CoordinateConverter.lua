@@ -137,6 +137,16 @@ function LuaExportAfterNextFrame()
             response["time"] = os.date("%Y-%m-%dT%H:%M:%S")
             response["ErrorList"] = {}
 
+            -- set up command input logic
+            if data["Commands"] and not busy then
+                commands = data["Commands"]
+                busy = true
+            elseif data["Commands"] then
+                response["ErrorList"][#response["ErrorList"] + 1] = "Busy pressing buttons."
+            elseif busy then
+                response["CmdIdx"] = currCommandIndex
+            end
+
             -- handle aircraft type request
             if data["FetchAircraftType"] or TESTING then
                 if data["FetchAircraftType"] then
@@ -186,7 +196,7 @@ function LuaExportAfterNextFrame()
 
                         response["CameraPosition"] = {}
                         response["CameraPosition"]["Lat"] = tostring(coords.latitude)
-                        response["CameraPosition"]["Lon"] = tostring(coords.longitude)
+                        response["CameraPosition"]["Long"] = tostring(coords.longitude)
                         response["CameraPosition"]["Alt"] = tostring(loY)
                         response["CameraPosition"]["Elev"] = tostring(elevation)
 
@@ -204,7 +214,7 @@ function LuaExportAfterNextFrame()
                     end
 
                     if DEBUGGING then
-                        log.write(LOG_MODNAME, log.INFO, "Got " .. response["CameraPosition"]["Lat"] .. " / " .. response["CameraPosition"]["Lon"] .. " / " .. response["CameraPosition"]["Alt"] .. " / " .. response["CameraPosition"]["Elev"] )
+                        log.write(LOG_MODNAME, log.INFO, "Got " .. response["CameraPosition"]["Lat"] .. " / " .. response["CameraPosition"]["Long"] .. " / " .. response["CameraPosition"]["Alt"] .. " / " .. response["CameraPosition"]["Elev"] )
                     end
                 end
 
@@ -222,8 +232,10 @@ function LuaExportAfterNextFrame()
                     -- lua arrays start with 1
                     for idx=1,#pointsToProcess,1 do
                         local point = pointsToProcess[idx]
-                        log.write(LOG_MODNAME, log.ERROR, "Fetching point altitudes for: " .. JSON:encode(point))
-                        local loLo = LoGeoCoordinatesToLoCoordinates(point["Lat"], point["Lon"])
+                        if DEBUGGING then
+                            log.write(LOG_MODNAME, log.INFO, "Fetching point altitudes for: " .. JSON:encode(point))
+                        end
+                        local loLo = LoGeoCoordinatesToLoCoordinates(point["Lat"], point["Long"])
                         local loX = loLo['x']
                         local loZ = loLo['z']
                         local elevation = LoGetAltitude(loX, loZ)
@@ -257,24 +269,87 @@ function LuaExportAfterNextFrame()
                     response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
                 end
             end
-            
-            -- set up command input logic
-            if data["Commands"] and not busy then
-                commands = data["Commands"]
-                busy = true
-            elseif data["Commands"] then
-                response["ErrorList"][#response["ErrorList"] + 1] = "Busy pressing buttons."
-            elseif busy then
-                response["CmdIdx"] = currCommandIndex
+
+            -- get units information
+            -- needs to be separate because of how JSON:encode cuts off the data after ~16kB
+            local unitsData = nil
+            if data["FetchUnits"] or TESTING then
+                local f = function()
+                    unitsData = {}
+                    local units = LoGetWorldObjects("units")
+                    if units then
+                        local idx = 1
+                        for id,unit in pairs(units) do
+                            if unit then
+                                -- add the object identifier
+                                unit["ObjectId"] = id
+                                -- remove unneded data to save memory and speed up transfer
+                                unit["Country"] = nil
+                                unit["Coalition"] = nil
+                                unit["Heading"] = nil
+                                unit["Pitch"] = nil
+                                unit["Bank"] = nil
+                                unit["Position"] = nil
+                                -- remove unneeded flags
+                                if unit["Flags"] then
+                                    unit["Flags"]["RadarActive"] = nil
+                                    unit["Flags"]["Jamming"] = nil
+                                    unit["Flags"]["IRJamming"] = nil
+                                    unit["Flags"]["AI_ON"] = nil
+                                end
+                                --
+                                unitsData[idx] = unit
+                                idx = idx + 1
+                            end
+                        end
+                        response["UnitsCount"] = idx
+                    end
+                end
+
+                success, errMsg = pcall(f)
+                if not success then
+                    log.write(LOG_MODNAME, log.ERROR, "Failure to fetch units: " .. tostring(errMsg))
+                    response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
+                end
             end
 
+            -- Send response
             local responseData = JSON:encode(response)
             
+            if unitsData then
+                responseData = responseData:sub(1, -2) -- remove trailing }
+            end
+
             if DEBUGGING then
                 log.write(LOG_MODNAME, log.INFO, "Returning response: \n" .. responseData .. "\n")
             end
 
             client:send(responseData)
+            
+            -- Send units separately because of string size constraints for both JSON and socket
+            if unitsData then
+                local f = function()
+                    for idx=1,#unitsData,1 do
+                        local unitDataStr = JSON:encode(unitsData[idx])
+                        
+                        if idx == 1 then
+                            unitDataStr = ",Units:[" .. unitDataStr .. ","
+                        elseif idx < #unitsData then
+                            unitDataStr = unitDataStr .. ","
+                        else
+                            unitDataStr = unitDataStr .. "]}"
+                        end
+                        log.write(LOG_MODNAME, log.INFO, "sending unitDataStr: \n" ..unitDataStr .. "\n")
+                        client:send(unitDataStr)
+                    end
+                end
+
+                success, errMsg = pcall(f)
+                if not success then
+                    log.write(LOG_MODNAME, log.ERROR, "Failure send units data: " .. tostring(errMsg))
+                end
+            end
+            client:send(string.char(0xFF) .. string.char(0x00))
         else
             log.write(LOG_MODNAME, log.INFO, "Connection without data")
         end

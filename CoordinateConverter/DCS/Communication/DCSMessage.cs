@@ -31,7 +31,7 @@ namespace CoordinateConverter.DCS.Communication
         ///   <c>true</c> if the response should contain the aircraft type; otherwise, <c>false</c>.
         /// </value>
         [JsonProperty("FetchAircraftType")]
-        public bool FetchAircraftType { get; set; } = false;
+        public bool? FetchAircraftType { get; set; } = null;
 
         /// <summary>
         /// The aircraft type returned from the server
@@ -52,7 +52,7 @@ namespace CoordinateConverter.DCS.Communication
         ///   <c>true</c> if the response should contain the aircraft type; otherwise, <c>false</c>.
         /// </value>
         [JsonProperty("FetchCameraPosition")]
-        public bool FetchCameraPosition { get; set; } = false;
+        public bool? FetchCameraPosition { get; set; } = null;
 
         /// <summary>
         /// The camera position response from DCS
@@ -126,5 +126,23 @@ namespace CoordinateConverter.DCS.Communication
                 TimeStamp = DateTime.ParseExact(value, "s", System.Globalization.CultureInfo.InvariantCulture);
             }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether dcs should return a list of units
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> will fetch units; otherwise, <c>false</c>.
+        /// </value>
+        [JsonProperty("FetchUnits")]
+        public bool? FetchUnits { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets the units.
+        /// </summary>
+        /// <value>
+        /// The units.
+        /// </value>
+        [JsonProperty("Units")]
+        public List<Communication.DCSUnit> Units { get; set; } = null;
     }
 }

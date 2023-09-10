@@ -75,7 +75,14 @@
     <Compile Include="DCS\Communication\DCSConnection.cs" />
     <Compile Include="DCS\Communication\DCSMessage.cs" />
     <Compile Include="DCS\Communication\DCSCoordinate.cs" />
+    <Compile Include="DCS\Communication\DCSUnit.cs" />
     <Compile Include="DCS\Communication\DebugCommandList.cs" />
+    <Compile Include="FormUnitImporter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUnitImporter.Designer.cs">
+      <DependentUpon>FormUnitImporter.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +97,9 @@
     <Compile Include="ReticleForm.Designer.cs">
       <DependentUpon>ReticleForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="FormUnitImporter.resx">
+      <DependentUpon>FormUnitImporter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>

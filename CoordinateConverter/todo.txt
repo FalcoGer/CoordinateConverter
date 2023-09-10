@@ -1,7 +1,16 @@
 Connection to DCS asyncronous to prevent ui freezes.
 STOP FUNCTION
+fix unit import
+    - fix unit import doesn't allow deselecting
+    - fix tab order
+    - allow multi select/deselect with spacebar
+    - make clicking object Id copy the data to clipboard
+Re-add multi select to main data grid view to de/reselect many points at once
+Re-add sorting by header for rapid selection
+Add multi delete without deleting all/singles
 When saving/loading, update the default location and file name
      - add a save option that just overwrites the last file loaded/saved
+Add input for how many points to be deleted for AH64 clear points
 Add support for selection instead of camera position when something is selected
     - add option for auto listing any new unit that was clicked
         - alternatively use LoGetWorldObjects("units") (Exports.lua:L426)
@@ -14,23 +23,6 @@ Add support for selection instead of camera position when something is selected
             - how to get ID?
 Add support for importing airfields
      - LoGetWorldObjects("airdromes") (Exports.lua:L426)
-unit importer form
-    - select reference point & range
-    - fetch all units from dcs into a list and filter by range from the reference point
-    - select which units to import
-        - 2 lists approach with <- and -> buttons
-        - buttosn for
-            - select all from coalition (for moving)
-            - select units above x speed
-            - select all <category> units
-                - armored
-                - air defense
-                    - launcher
-                    - search
-                    - acqusition
-                    - gun
-                - utility
-                - air
     - create coordinate data entries for each unit to import.
         - add the appropriate ah64 specific data for each unit type
         - use the dcs encyclopedia data to figure out categories for unknown types

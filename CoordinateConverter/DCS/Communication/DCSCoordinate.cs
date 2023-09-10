@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CoordinateConverter.DCS.Aircraft
 {
@@ -10,6 +11,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <summary>
         /// Initializes a new instance of the <see cref="DCSCoordinate"/> class.
         /// </summary>
+        [JsonConstructor]
         public DCSCoordinate()
         {
             // Empty, just for serialization
@@ -52,21 +54,21 @@ namespace CoordinateConverter.DCS.Aircraft
         }
 
         /// <summary>
-        /// Lattitude
+        /// Latitude
         /// </summary>
         /// <value>
-        /// The lattitude
+        /// The latitude
         /// </value>
         [JsonProperty("Lat")]
         public double Lat { get; set; }
 
         /// <summary>
-        /// Gets or sets the lonigutde.
+        /// Gets or sets the longitude.
         /// </summary>
         /// <value>
         /// The longitude.
         /// </value>
-        [JsonProperty("Lon")]
+        [JsonProperty("Long")]
         public double Lon { get; set; }
 
         /// <summary>
