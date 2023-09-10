@@ -37,6 +37,10 @@ namespace CoordinateConverter.DCS.Aircraft
             Ident = ident;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AH64SpecificData"/> class.
+        /// </summary>
+        /// <param name="unit">The unit which will be the base for the point type and ident.</param>
         public AH64SpecificData(DCSUnit unit)
         {
             if (unit.Type.Level2 == DCSUnitTypeInformation.ELevel2Type.Airdrome)

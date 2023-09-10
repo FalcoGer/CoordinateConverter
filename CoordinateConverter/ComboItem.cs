@@ -8,6 +8,17 @@ namespace CoordinateConverter
     public class ComboItem<TValue>
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ComboItem{TValue}"/> class.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="value">The value.</param>
+        public ComboItem(string text, TValue value)
+        {
+            this.Text = text;
+            this.Value = value;
+        }
+
+        /// <summary>
         /// Gets or sets the display text.
         /// </summary>
         /// <value>

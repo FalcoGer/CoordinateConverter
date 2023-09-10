@@ -40,6 +40,7 @@
             this.dgvColId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvColCoalition = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvColTypeName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvColClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvColUnitName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvColPosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvColImport = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -48,6 +49,7 @@
             this.btn_Import = new System.Windows.Forms.Button();
             this.nud_RadiusValue = new System.Windows.Forms.NumericUpDown();
             this.btn_ApplyFilter = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Units)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_RadiusValue)).BeginInit();
             this.SuspendLayout();
@@ -92,7 +94,7 @@
             this.cb_RadiusUnit.Location = new System.Drawing.Point(166, 39);
             this.cb_RadiusUnit.Name = "cb_RadiusUnit";
             this.cb_RadiusUnit.Size = new System.Drawing.Size(51, 21);
-            this.cb_RadiusUnit.TabIndex = 7;
+            this.cb_RadiusUnit.TabIndex = 5;
             // 
             // cb_RadiusCenter
             // 
@@ -101,8 +103,8 @@
             this.cb_RadiusCenter.FormattingEnabled = true;
             this.cb_RadiusCenter.Location = new System.Drawing.Point(245, 39);
             this.cb_RadiusCenter.Name = "cb_RadiusCenter";
-            this.cb_RadiusCenter.Size = new System.Drawing.Size(462, 21);
-            this.cb_RadiusCenter.TabIndex = 8;
+            this.cb_RadiusCenter.Size = new System.Drawing.Size(546, 21);
+            this.cb_RadiusCenter.TabIndex = 6;
             // 
             // label6
             // 
@@ -116,10 +118,12 @@
             // cb_WithRadiusFilter
             // 
             this.cb_WithRadiusFilter.AutoSize = true;
+            this.cb_WithRadiusFilter.Checked = true;
+            this.cb_WithRadiusFilter.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_WithRadiusFilter.Location = new System.Drawing.Point(19, 41);
             this.cb_WithRadiusFilter.Name = "cb_WithRadiusFilter";
             this.cb_WithRadiusFilter.Size = new System.Drawing.Size(56, 17);
-            this.cb_WithRadiusFilter.TabIndex = 11;
+            this.cb_WithRadiusFilter.TabIndex = 3;
             this.cb_WithRadiusFilter.Text = "Within";
             this.cb_WithRadiusFilter.UseVisualStyleBackColor = true;
             this.cb_WithRadiusFilter.CheckedChanged += new System.EventHandler(this.cb_WithRadiusFilter_CheckedChanged);
@@ -136,14 +140,17 @@
             this.dgvColId,
             this.dgvColCoalition,
             this.dgvColTypeName,
+            this.dgvColClass,
             this.dgvColUnitName,
             this.dgvColPosition,
             this.dgvColImport});
             this.dgv_Units.Location = new System.Drawing.Point(12, 66);
             this.dgv_Units.Name = "dgv_Units";
             this.dgv_Units.ReadOnly = true;
-            this.dgv_Units.Size = new System.Drawing.Size(776, 343);
-            this.dgv_Units.TabIndex = 12;
+            this.dgv_Units.Size = new System.Drawing.Size(860, 354);
+            this.dgv_Units.TabIndex = 8;
+            this.dgv_Units.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Units_CellContentClick);
+            this.dgv_Units.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgv_Units_KeyPress);
             // 
             // dgvColId
             // 
@@ -158,53 +165,60 @@
             // dgvColCoalition
             // 
             this.dgvColCoalition.HeaderText = "Coalition";
-            this.dgvColCoalition.MinimumWidth = 60;
+            this.dgvColCoalition.MinimumWidth = 55;
             this.dgvColCoalition.Name = "dgvColCoalition";
             this.dgvColCoalition.ReadOnly = true;
-            this.dgvColCoalition.Width = 60;
+            this.dgvColCoalition.Width = 55;
             // 
             // dgvColTypeName
             // 
             this.dgvColTypeName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgvColTypeName.FillWeight = 20F;
+            this.dgvColTypeName.FillWeight = 10F;
             this.dgvColTypeName.HeaderText = "Type";
             this.dgvColTypeName.MinimumWidth = 100;
             this.dgvColTypeName.Name = "dgvColTypeName";
             this.dgvColTypeName.ReadOnly = true;
             // 
+            // dgvColClass
+            // 
+            this.dgvColClass.FillWeight = 30F;
+            this.dgvColClass.HeaderText = "Class";
+            this.dgvColClass.Name = "dgvColClass";
+            this.dgvColClass.ReadOnly = true;
+            // 
             // dgvColUnitName
             // 
             this.dgvColUnitName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgvColUnitName.FillWeight = 40F;
+            this.dgvColUnitName.FillWeight = 15F;
             this.dgvColUnitName.HeaderText = "Unit/Group Name";
-            this.dgvColUnitName.MinimumWidth = 200;
+            this.dgvColUnitName.MinimumWidth = 50;
             this.dgvColUnitName.Name = "dgvColUnitName";
             this.dgvColUnitName.ReadOnly = true;
             // 
             // dgvColPosition
             // 
             this.dgvColPosition.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgvColPosition.FillWeight = 40F;
+            this.dgvColPosition.FillWeight = 25F;
             this.dgvColPosition.HeaderText = "Position";
-            this.dgvColPosition.MinimumWidth = 200;
+            this.dgvColPosition.MinimumWidth = 170;
             this.dgvColPosition.Name = "dgvColPosition";
             this.dgvColPosition.ReadOnly = true;
             // 
             // dgvColImport
             // 
             this.dgvColImport.HeaderText = "Import";
-            this.dgvColImport.MinimumWidth = 25;
+            this.dgvColImport.MinimumWidth = 40;
             this.dgvColImport.Name = "dgvColImport";
             this.dgvColImport.ReadOnly = true;
-            this.dgvColImport.Width = 50;
+            this.dgvColImport.Width = 40;
             // 
             // btn_Refresh
             // 
             this.btn_Refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_Refresh.Location = new System.Drawing.Point(12, 415);
+            this.btn_Refresh.Location = new System.Drawing.Point(12, 426);
             this.btn_Refresh.Name = "btn_Refresh";
             this.btn_Refresh.Size = new System.Drawing.Size(75, 23);
-            this.btn_Refresh.TabIndex = 13;
+            this.btn_Refresh.TabIndex = 9;
             this.btn_Refresh.Text = "Refresh";
             this.btn_Refresh.UseVisualStyleBackColor = true;
             this.btn_Refresh.Click += new System.EventHandler(this.btn_Refresh_Click);
@@ -212,10 +226,11 @@
             // btn_Cancel
             // 
             this.btn_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Cancel.Location = new System.Drawing.Point(632, 415);
+            this.btn_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_Cancel.Location = new System.Drawing.Point(716, 426);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(75, 23);
-            this.btn_Cancel.TabIndex = 14;
+            this.btn_Cancel.TabIndex = 10;
             this.btn_Cancel.Text = "Cancel";
             this.btn_Cancel.UseVisualStyleBackColor = true;
             this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
@@ -223,10 +238,10 @@
             // btn_Import
             // 
             this.btn_Import.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Import.Location = new System.Drawing.Point(713, 415);
+            this.btn_Import.Location = new System.Drawing.Point(797, 426);
             this.btn_Import.Name = "btn_Import";
             this.btn_Import.Size = new System.Drawing.Size(75, 23);
-            this.btn_Import.TabIndex = 15;
+            this.btn_Import.TabIndex = 11;
             this.btn_Import.Text = "Import";
             this.btn_Import.UseVisualStyleBackColor = true;
             this.btn_Import.Click += new System.EventHandler(this.btn_Import_Click);
@@ -246,7 +261,7 @@
             0});
             this.nud_RadiusValue.Name = "nud_RadiusValue";
             this.nud_RadiusValue.Size = new System.Drawing.Size(79, 20);
-            this.nud_RadiusValue.TabIndex = 16;
+            this.nud_RadiusValue.TabIndex = 4;
             this.nud_RadiusValue.Value = new decimal(new int[] {
             1,
             0,
@@ -256,19 +271,33 @@
             // btn_ApplyFilter
             // 
             this.btn_ApplyFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_ApplyFilter.Location = new System.Drawing.Point(713, 37);
+            this.btn_ApplyFilter.Location = new System.Drawing.Point(797, 37);
             this.btn_ApplyFilter.Name = "btn_ApplyFilter";
             this.btn_ApplyFilter.Size = new System.Drawing.Size(75, 23);
-            this.btn_ApplyFilter.TabIndex = 17;
+            this.btn_ApplyFilter.TabIndex = 7;
             this.btn_ApplyFilter.Text = "Apply";
             this.btn_ApplyFilter.UseVisualStyleBackColor = true;
             this.btn_ApplyFilter.Click += new System.EventHandler(this.btn_ApplyFilter_Click);
             // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(93, 426);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(375, 26);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Refresh asks DCS for a new unit list. Use apply above to apply a filter change.\r\n" +
+    "CTRL/Shift+Click to highlight multiple and use space to select/deselect.";
+            // 
             // FormUnitImporter
             // 
+            this.AcceptButton = this.btn_ApplyFilter;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.CancelButton = this.btn_Cancel;
+            this.ClientSize = new System.Drawing.Size(884, 461);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_ApplyFilter);
             this.Controls.Add(this.nud_RadiusValue);
             this.Controls.Add(this.btn_Import);
@@ -311,8 +340,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvColId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvColCoalition;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvColTypeName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvColClass;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvColUnitName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvColPosition;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dgvColImport;
+        private System.Windows.Forms.Label label2;
     }
 }

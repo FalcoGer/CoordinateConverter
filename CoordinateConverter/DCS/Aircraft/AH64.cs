@@ -291,15 +291,18 @@ namespace CoordinateConverter.DCS.Aircraft
         }
 
         /// <summary>
-        /// Clears the points of the specified type.
+        /// Clears the points of the specified type between the starting and end index (inclusive).
         /// </summary>
         /// <param name="pointType">Type of the point to clear.</param>
+        /// <param name="startIdx">The first point to delete</param>
+        /// <param name="endIdx">The last point to delete</param>
         /// <returns>Number of commands generated.</returns>
-        public int ClearPoints(EPointType pointType, int range = 50)
+        public int ClearPoints(EPointType pointType, int startIdx, int endIdx)
         {
             List<DCSCommand> commands = new List<DCSCommand>();
             int deviceId = IsPilot ? (int)EDeviceCode.PLT_RMFD : (int)EDeviceCode.CPG_RMFD;
-            for (int pointIdx = ((pointType == EPointType.ControlMeasure) ? 50 : 1); pointIdx < ((pointType == EPointType.ControlMeasure) ? 50 : 0) + range; pointIdx++)
+
+            for (int pointIdx = startIdx - ((pointType == EPointType.ControlMeasure) ? 50 : 0); pointIdx <= endIdx - ((pointType == EPointType.ControlMeasure) ? 50 : 0); pointIdx++)
             {
                 commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_TSD)); // Reset to TSD after every point, to a void weirdness.
                 commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_B6)); // Point

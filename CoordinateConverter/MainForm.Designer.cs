@@ -139,16 +139,13 @@ namespace CoordinateConverter
             this.autoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.a10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aH64ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aH64PLTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearWPsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearCMsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearTGsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aH64CPGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearWPsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearCMsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearTGsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aH64ClearPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aV8BToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.f15EPLTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.f15EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.f15EPilotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.f15EWSOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.f16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.f18ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1406,11 +1403,9 @@ namespace CoordinateConverter
             this.autoToolStripMenuItem,
             this.toolStripSeparator1,
             this.a10ToolStripMenuItem,
-            this.aH64PLTToolStripMenuItem,
-            this.aH64CPGToolStripMenuItem,
+            this.aH64ToolStripMenuItem,
             this.aV8BToolStripMenuItem,
-            this.f15EPLTToolStripMenuItem,
-            this.f15EWSOToolStripMenuItem,
+            this.f15EToolStripMenuItem,
             this.f16ToolStripMenuItem,
             this.f18ToolStripMenuItem,
             this.kA50ToolStripMenuItem,
@@ -1440,69 +1435,36 @@ namespace CoordinateConverter
             this.a10ToolStripMenuItem.Text = "A10";
             this.a10ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
+            // aH64ToolStripMenuItem
+            // 
+            this.aH64ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aH64PLTToolStripMenuItem,
+            this.aH64CPGToolStripMenuItem,
+            this.aH64ClearPointsToolStripMenuItem});
+            this.aH64ToolStripMenuItem.Name = "aH64ToolStripMenuItem";
+            this.aH64ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aH64ToolStripMenuItem.Text = "AH64";
+            // 
             // aH64PLTToolStripMenuItem
             // 
-            this.aH64PLTToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clearWPsToolStripMenuItem,
-            this.clearCMsToolStripMenuItem,
-            this.clearTGsToolStripMenuItem1});
             this.aH64PLTToolStripMenuItem.Name = "aH64PLTToolStripMenuItem";
             this.aH64PLTToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aH64PLTToolStripMenuItem.Text = "AH64-PLT";
             this.aH64PLTToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
-            // clearWPsToolStripMenuItem
-            // 
-            this.clearWPsToolStripMenuItem.Name = "clearWPsToolStripMenuItem";
-            this.clearWPsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.clearWPsToolStripMenuItem.Text = "Clear WPs";
-            this.clearWPsToolStripMenuItem.Click += new System.EventHandler(this.ah64ClearPointTypeToolStripMenuItem_Click);
-            // 
-            // clearCMsToolStripMenuItem
-            // 
-            this.clearCMsToolStripMenuItem.Name = "clearCMsToolStripMenuItem";
-            this.clearCMsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.clearCMsToolStripMenuItem.Text = "Clear CMs";
-            this.clearCMsToolStripMenuItem.Click += new System.EventHandler(this.ah64ClearPointTypeToolStripMenuItem_Click);
-            // 
-            // clearTGsToolStripMenuItem1
-            // 
-            this.clearTGsToolStripMenuItem1.Name = "clearTGsToolStripMenuItem1";
-            this.clearTGsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.clearTGsToolStripMenuItem1.Text = "Clear TGs";
-            this.clearTGsToolStripMenuItem1.Click += new System.EventHandler(this.ah64ClearPointTypeToolStripMenuItem_Click);
-            // 
             // aH64CPGToolStripMenuItem
             // 
-            this.aH64CPGToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clearWPsToolStripMenuItem1,
-            this.clearCMsToolStripMenuItem1,
-            this.clearTGsToolStripMenuItem});
             this.aH64CPGToolStripMenuItem.Name = "aH64CPGToolStripMenuItem";
             this.aH64CPGToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.aH64CPGToolStripMenuItem.Text = "AH64-CPG";
+            this.aH64CPGToolStripMenuItem.Text = "AH-64-CPG";
             this.aH64CPGToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
-            // clearWPsToolStripMenuItem1
+            // aH64ClearPointsToolStripMenuItem
             // 
-            this.clearWPsToolStripMenuItem1.Name = "clearWPsToolStripMenuItem1";
-            this.clearWPsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.clearWPsToolStripMenuItem1.Text = "Clear WPs";
-            this.clearWPsToolStripMenuItem1.Click += new System.EventHandler(this.ah64ClearPointTypeToolStripMenuItem_Click);
-            // 
-            // clearCMsToolStripMenuItem1
-            // 
-            this.clearCMsToolStripMenuItem1.Name = "clearCMsToolStripMenuItem1";
-            this.clearCMsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.clearCMsToolStripMenuItem1.Text = "Clear CMs";
-            this.clearCMsToolStripMenuItem1.Click += new System.EventHandler(this.ah64ClearPointTypeToolStripMenuItem_Click);
-            // 
-            // clearTGsToolStripMenuItem
-            // 
-            this.clearTGsToolStripMenuItem.Name = "clearTGsToolStripMenuItem";
-            this.clearTGsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.clearTGsToolStripMenuItem.Text = "Clear TGs";
-            this.clearTGsToolStripMenuItem.Click += new System.EventHandler(this.ah64ClearPointTypeToolStripMenuItem_Click);
+            this.aH64ClearPointsToolStripMenuItem.Name = "aH64ClearPointsToolStripMenuItem";
+            this.aH64ClearPointsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aH64ClearPointsToolStripMenuItem.Text = "Clear Points...";
+            this.aH64ClearPointsToolStripMenuItem.Click += new System.EventHandler(this.aH64ClearPointsToolStripMenuItem_Click);
             // 
             // aV8BToolStripMenuItem
             // 
@@ -1511,18 +1473,27 @@ namespace CoordinateConverter
             this.aV8BToolStripMenuItem.Text = "AV8B";
             this.aV8BToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
-            // f15EPLTToolStripMenuItem
+            // f15EToolStripMenuItem
             // 
-            this.f15EPLTToolStripMenuItem.Name = "f15EPLTToolStripMenuItem";
-            this.f15EPLTToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.f15EPLTToolStripMenuItem.Text = "F15E-PLT";
-            this.f15EPLTToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            this.f15EToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.f15EPilotToolStripMenuItem,
+            this.f15EWSOToolStripMenuItem});
+            this.f15EToolStripMenuItem.Name = "f15EToolStripMenuItem";
+            this.f15EToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.f15EToolStripMenuItem.Text = "F15E";
+            // 
+            // f15EPilotToolStripMenuItem
+            // 
+            this.f15EPilotToolStripMenuItem.Name = "f15EPilotToolStripMenuItem";
+            this.f15EPilotToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.f15EPilotToolStripMenuItem.Text = "F15E Pilot";
+            this.f15EPilotToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // f15EWSOToolStripMenuItem
             // 
             this.f15EWSOToolStripMenuItem.Name = "f15EWSOToolStripMenuItem";
-            this.f15EWSOToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.f15EWSOToolStripMenuItem.Text = "F15E-WSO";
+            this.f15EWSOToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.f15EWSOToolStripMenuItem.Text = "F15E WSO";
             this.f15EWSOToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // f16ToolStripMenuItem
@@ -1831,11 +1802,8 @@ namespace CoordinateConverter
         private ToolStripMenuItem aircraftToolStripMenuItem;
         private ToolStripMenuItem autoToolStripMenuItem;
         private ToolStripMenuItem a10ToolStripMenuItem;
-        private ToolStripMenuItem aH64PLTToolStripMenuItem;
-        private ToolStripMenuItem aH64CPGToolStripMenuItem;
         private ToolStripMenuItem transferToolStripMenuItem;
         private ToolStripMenuItem aV8BToolStripMenuItem;
-        private ToolStripMenuItem f15EWSOToolStripMenuItem;
         private ToolStripMenuItem f16ToolStripMenuItem;
         private ToolStripMenuItem f18ToolStripMenuItem;
         private ToolStripMenuItem kA50ToolStripMenuItem;
@@ -1855,7 +1823,6 @@ namespace CoordinateConverter
         private Label label17;
         private ComboBox cb_pointOption;
         private CheckBox cb_altitudeIsAGL;
-        private ToolStripMenuItem f15EPLTToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
         private Timer tmr250ms;
         private ToolStripProgressBar pb_Transfer;
@@ -1877,12 +1844,13 @@ namespace CoordinateConverter
         private ToolStripMenuItem opacity25ToolStripMenuItem;
         private ToolStripMenuItem opacity75ToolStripMenuItem;
         private ToolStripMenuItem importUnitsToolStripMenuItem;
-        private ToolStripMenuItem clearWPsToolStripMenuItem;
-        private ToolStripMenuItem clearCMsToolStripMenuItem;
-        private ToolStripMenuItem clearTGsToolStripMenuItem1;
-        private ToolStripMenuItem clearWPsToolStripMenuItem1;
-        private ToolStripMenuItem clearCMsToolStripMenuItem1;
-        private ToolStripMenuItem clearTGsToolStripMenuItem;
+        private ToolStripMenuItem aH64ToolStripMenuItem;
+        private ToolStripMenuItem aH64PLTToolStripMenuItem;
+        private ToolStripMenuItem aH64CPGToolStripMenuItem;
+        private ToolStripMenuItem aH64ClearPointsToolStripMenuItem;
+        private ToolStripMenuItem f15EToolStripMenuItem;
+        private ToolStripMenuItem f15EPilotToolStripMenuItem;
+        private ToolStripMenuItem f15EWSOToolStripMenuItem;
     }
 }
 

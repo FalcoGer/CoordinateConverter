@@ -71,10 +71,22 @@ namespace CoordinateConverter.DCS.Communication
         [JsonProperty("Country")]
         public int? Country { get; set; }
 
+        /// <summary>
+        /// The coalition the unit is in
+        /// </summary>
         public enum ECoalition
         {
+            /// <summary>
+            /// The neutral coalition
+            /// </summary>
             Neutral = 0,
+            /// <summary>
+            /// The red coalition
+            /// </summary>
             Red = 1,
+            /// <summary>
+            /// The blue coalition
+            /// </summary>
             Blue = 2
         }
 

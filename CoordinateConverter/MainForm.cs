@@ -1497,7 +1497,7 @@ namespace CoordinateConverter
                 aH64CPGToolStripMenuItem,
                 aH64PLTToolStripMenuItem,
                 aV8BToolStripMenuItem,
-                f15EPLTToolStripMenuItem,
+                f15EPilotToolStripMenuItem,
                 f15EWSOToolStripMenuItem,
                 f16ToolStripMenuItem,
                 f18ToolStripMenuItem,
@@ -1673,19 +1673,19 @@ namespace CoordinateConverter
                 switch (ePointType)
                 {
                     case AH64.EPointType.Waypoint:
-                        items = AH64.EWPOptionDescriptions.Select(x => (object)(new ComboItem<string>() { Value = x.Key.ToString(), Text = x.Value })).ToArray();
+                        items = AH64.EWPOptionDescriptions.Select(x => (object)(new ComboItem<string>(x.Value, x.Key.ToString()))).ToArray();
                         cb_pointOption.Items.AddRange(items);
                         break;
                     case AH64.EPointType.Hazard:
-                        items = AH64.EHZOptionDescriptions.Select(x => (object)(new ComboItem<string>() { Value = x.Key.ToString(), Text = x.Value })).ToArray();
+                        items = AH64.EHZOptionDescriptions.Select(x => (object)(new ComboItem<string>(x.Value, x.Key.ToString()))).ToArray();
                         cb_pointOption.Items.AddRange(items);
                         break;
                     case AH64.EPointType.ControlMeasure:
-                        items = AH64.ECMOptionDescriptions.Select(x => (object)(new ComboItem<string>() { Value = x.Key.ToString(), Text = x.Value })).ToArray();
+                        items = AH64.ECMOptionDescriptions.Select(x => (object)(new ComboItem<string>(x.Value, x.Key.ToString()))).ToArray();
                         cb_pointOption.Items.AddRange(items);
                         break;
                     case AH64.EPointType.Target:
-                        items = AH64.ETGOptionDescriptions.Select(x => (object)(new ComboItem<string>() { Value = x.Key.ToString(), Text = x.Value })).ToArray();
+                        items = AH64.ETGOptionDescriptions.Select(x => (object)(new ComboItem<string>(x.Value, x.Key.ToString()))).ToArray();
                         cb_pointOption.Items.AddRange(items);
                         break;
                     default:
@@ -1953,6 +1953,7 @@ namespace CoordinateConverter
             {
                 mi.Enabled = false;
             }
+            aH64ClearPointsToolStripMenuItem.Enabled = false;
             if (string.IsNullOrEmpty(model) || model == "null")
             {
                 selectedAircraft = null;
@@ -1965,6 +1966,7 @@ namespace CoordinateConverter
                     case "AH-64D_BLK_II":
                         aH64PLTToolStripMenuItem.Enabled = true;
                         aH64CPGToolStripMenuItem.Enabled = true;
+                        aH64ClearPointsToolStripMenuItem.Enabled = true;
                         if (selectedAircraft != null && selectedAircraft.GetType() == typeof(AH64))
                         {
                             break;
@@ -2174,35 +2176,17 @@ namespace CoordinateConverter
             }
         }
 
-        private void ah64ClearPointTypeToolStripMenuItem_Click(object objSender, EventArgs e)
+        private void aH64ClearPointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (selectedAircraft == null || selectedAircraft.GetType() != typeof(AH64))
+            AH64PointDeleter pointDeleter = new AH64PointDeleter(selectedAircraft as AH64);
+            pointDeleter.ShowDialog(this);
+            if (pointDeleter.NumberOfCommands > 0)
             {
-                return;
-            }
-            ToolStripMenuItem sender = objSender as ToolStripMenuItem;
-            AH64.EPointType pointType = AH64.EPointType.Waypoint;
-
-            switch (sender.Name.Substring("clear".Length, 2))
-            {
-                case "TG":
-                    pointType = AH64.EPointType.Target;
-                    break;
-                case "WP":
-                    pointType = AH64.EPointType.Waypoint;
-                    break;
-                case "CM":
-                    pointType = AH64.EPointType.ControlMeasure;
-                    break;
-                case "HZ":
-                    pointType = AH64.EPointType.Hazard;
-                    break;
-                default:
-                    throw new Exception("Unexpacted value for name of toolStripMenuItem to clear points for apache: " + sender.Name);
-            }
-            lock (lockObjProgressBar)
-            {
-                pb_Transfer.Maximum = (selectedAircraft as AH64).ClearPoints(pointType);
+                lock (lockObjProgressBar)
+                {
+                    pb_Transfer.Maximum = pointDeleter.NumberOfCommands;
+                    pb_Transfer.Value = 0;
+                }
             }
         }
     }
