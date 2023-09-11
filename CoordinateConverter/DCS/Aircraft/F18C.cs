@@ -591,9 +591,9 @@ namespace CoordinateConverter.DCS.Aircraft
             if (!extraData.WeaponType.HasValue)
             {
                 // Is standard waypoint
-                commands.Add(new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB12)); // Increment WP#
-                commands.Add(new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB05)); // Open UFC
-                commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1)); // POSN
+                commands.Add(new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB12, 300)); // Increment WP#
+                commands.Add(new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB05, 300)); // Open UFC
+                commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 300)); // POSN
 
                 // Enter latitude
                 double latMinutes = coordinate.Coordinate.Latitude.DecimalMinute;
@@ -618,8 +618,8 @@ namespace CoordinateConverter.DCS.Aircraft
                 commands.AddRange(UFCEnterString(lonMDecimal));
 
                 // Enter altitude
-                commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3)); // ELEV
-                commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1)); // FEET
+                commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 300)); // ELEV
+                commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 300)); // FEET
                 commands.AddRange(UFCEnterString(((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString() + "\n"));
                 numberOfWaypointsEntered++;
                 return commands;
@@ -640,10 +640,10 @@ namespace CoordinateConverter.DCS.Aircraft
             {
                 // Setup left DDI for weapon entry.
                 // Make sure the stores page is up
-                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB18)); // go to TAC or SUPT page
-                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB20)); // go to TGT Data or Fuel page
-                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB18)); // go to TAC page
-                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB05)); // go to STORES page
+                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB18, 300)); // go to TAC or SUPT page
+                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB20, 300)); // go to TGT Data or Fuel page
+                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB18, 300)); // go to TAC page
+                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB05, 300)); // go to STORES page
 
                 /*
                 if (WeaponStationOrder.Count > 1)
@@ -665,7 +665,7 @@ namespace CoordinateConverter.DCS.Aircraft
             }
 
             List<int> pylonsWithThatWeapon = StationGroups.Where(x => x.Value == pwt).Select(x => x.Key).ToList();
-            if (weapons.Sum(x => x.Count) == 0)
+            if (pylonsWithThatWeapon.Sum(x => weapons[x-1].Count ?? 0) == 0) // x-1 because the station numbers from DCS are indexed base on 1
             {
                 // no weapons left on the aircraft to step to
                 return commands;
@@ -673,7 +673,7 @@ namespace CoordinateConverter.DCS.Aircraft
 
             if (extraData.StationSetting == F18CSpecificData.EStationSetting.All)
             {
-                foreach (int pylonId in pylonsWithThatWeapon.Where(x => weapons[x].Count > 0))
+                foreach (int pylonId in pylonsWithThatWeapon.Where(x => weapons[x-1].Count > 0))
                 {
 
                     if (extraData.PreplanPointIdx.HasValue)
@@ -722,61 +722,60 @@ namespace CoordinateConverter.DCS.Aircraft
 
             // activate the relevant weapon station
             commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 500));
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 200, 0)); // sleep a while
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 300, 0));
             // set EFUZ
             if (!isAGM84Variant) // slammers are toggled, can't determine the setting
             {
                 int offset = isPenetrator ? -1 : 0; // penetrators set delay 1, others set instant
-                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB03));
-                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB03 + offset, 100));
+                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB03, 300));
+                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB03 + offset, 300));
             }
 
             // Enter DSPLY page
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeWpnDsplyPage, 400));
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeWpnDsplyPage, 200, 0));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeWpnDsplyPage, 300));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeWpnDsplyPage, 300, 0));
 
             if (isAGM84Variant)
             {
                 // is SLAM/SLAM-ER
                 // Set Distance
                 // UFC
-                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 200));
-                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 500, 0));
+                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 300));
                 // DIST
-                commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 200));
+                commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 300));
                 // Enter 15 nmi
                 commands.AddRange(UFCEnterString("15\n"));
             }
 
             // Enter MSN page
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB04));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB04, 300));
 
             // Pressing PP when it is selected switches to TOO. We force it into TOO mode by hitting the button twice.
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodePPIdx));
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodePPIdx));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodePPIdx, 200));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodePPIdx, 200));
             // then we switch back to PP mode, the last selected PP mission will be marked
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB05));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB05, 200));
 
             // HDG UNDF
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB02));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB02, 300));
             // TGT UFC
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 200));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 300));
             // TERM
-            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 300));
             // ANG
-            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 300));
             // 60° for bombs, otherwise 30°
             commands.AddRange(UFCEnterString(isBomb ? "60\n" : "30\n"));
             // VEL
-            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB5));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB5, 300));
             commands.AddRange(UFCEnterString("700\n"));
             // TGT UFC (x2)
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14));
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 300));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 300));
             // POSN
-            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 300));
             // LAT
-            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 300));
             CoordinateSharp.CoordinatePart lat = coordinate.Coordinate.Latitude;
             string latDMS = string.Format("{0}{1}{2}{3}",
                 lat.Position.ToString(),
@@ -789,7 +788,7 @@ namespace CoordinateConverter.DCS.Aircraft
             commands.AddRange(UFCEnterString(latSecDecimal + '\n'));
 
             // LON
-            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 200));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 300));
             CoordinateSharp.CoordinatePart lon = coordinate.Coordinate.Longitude;
             string lonDMS = string.Format("{0}{1}{2}{3}",
                 lon.Position.ToString(),
@@ -802,13 +801,13 @@ namespace CoordinateConverter.DCS.Aircraft
             commands.AddRange(UFCEnterString(lonSecDecimal + '\n'));
 
             // TGT UFC (x2)
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 100));
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 100));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 300));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 300));
 
             // ELEV
-            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB4, 200));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB4, 300));
             // FEET
-            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 200));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 300));
             // Altitude
             string altitudeStr = ((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString();
             commands.AddRange(UFCEnterString((altitudeStr == "0" ? "1" : altitudeStr) + '\n'));
@@ -816,16 +815,16 @@ namespace CoordinateConverter.DCS.Aircraft
             if (step)
             {
                 // Step. Option does not exist if only one weapon of the type
-                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB13));
+                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB13, 300));
             }
 
             // Cleanup...
             // Return command is inconsistent. Go to TAC -> Stores instead
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB18));
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB05));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB18, 300));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB05, 300));
 
             // and deselect the weapon entirely
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 300));
             // ready for the next weapon
 
             return commands;
@@ -949,7 +948,6 @@ namespace CoordinateConverter.DCS.Aircraft
                 {
                     options.Add(string.Format("Auto Increment - {0}", stationSettingsStr));
                 }
-                
             }
             return options;
         }
@@ -988,14 +986,13 @@ namespace CoordinateConverter.DCS.Aircraft
         {
             List<DCSCommand> commands = new List<DCSCommand>
             {
-                new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_KB_CLR)  // clear ufc
+                new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_KB_CLR, 300)  // clear ufc
             };
             for (int ctr = 0; ctr < numberOfWaypointsEntered; ctr++)
             {
-                commands.Add(new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB13)); // back one waypoint
+                commands.Add(new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB13, 200)); // back one waypoint
             }
-            commands.Add(new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB18)); // go to TAC page
-            commands.Add(new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB13)); // go to SA
+            commands.Add(new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB10, 200)); // go to HSI
 
             // if ddi was set up, need to clean it up again
             

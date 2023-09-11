@@ -1,11 +1,5 @@
 Connection to DCS asyncronous to prevent ui freezes.
-STOP FUNCTION
-put ah64 plt/cpg into it's own menu strip
-    - put clear points into that same menu only once
-    - clear points form with point type, start index and end index (numeric up down controls)
-        - CMs start at 50 and go to 99
-fix unit import
-    - make clicking object Id copy the data to clipboard
+    - have the lua script connect to this tool?
 Re-add multi select to main data grid view to de/reselect many points at once
 Re-add sorting by header for rapid selection
 Add multi delete without deleting all/singles

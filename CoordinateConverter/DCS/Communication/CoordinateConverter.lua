@@ -137,6 +137,13 @@ function LuaExportAfterNextFrame()
             response["time"] = os.date("%Y-%m-%dT%H:%M:%S")
             response["ErrorList"] = {}
 
+            -- process stop command
+            if data["Stop"] and busy then
+                busy = false
+                commands = nil
+                currCommandIndex = 1
+            end
+
             -- set up command input logic
             if data["Commands"] and not busy then
                 commands = data["Commands"]
@@ -333,8 +340,12 @@ function LuaExportAfterNextFrame()
                         local unitDataStr = JSON:encode(unitsData[idx])
                         
                         if idx == 1 then
+                            -- add the units array to the output if it's the first element'
                             unitDataStr = ",Units:[" .. unitDataStr .. ","
-                        elseif idx < #unitsData then
+                        end
+
+                        -- Add a comma if it's not the last, otherwise close the array and object
+                        if idx < #unitsData then
                             unitDataStr = unitDataStr .. ","
                         else
                             unitDataStr = unitDataStr .. "]}"

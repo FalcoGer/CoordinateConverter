@@ -279,18 +279,8 @@ namespace CoordinateConverter
         /// The lattitude.
         /// </value>
         [JsonProperty(PropertyName = "lat")]
-        public double Lat
-        {
-            get
-            {
-                return Coordinate.Latitude.DecimalDegree;
-            }
-            set
-            {
-                Coordinate.Latitude.DecimalDegree = value;
-                GroundElevationInM = null;
-            }
-        }
+        public double Lat {
+            get =>  Coordinate.Latitude.DecimalDegree; set => Coordinate.Latitude.DecimalDegree = value; }
 
         /// <summary>
         /// Gets or sets the longitude.

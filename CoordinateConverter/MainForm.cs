@@ -53,6 +53,7 @@ namespace CoordinateConverter
 
         private string oldAltitudeUnit;
 
+        private ToolStripItem selectedScreenMenuItem = null;
         ReticleForm reticleForm = new ReticleForm();
 
         private DCSAircraft selectedAircraft = null;
@@ -1810,10 +1811,54 @@ namespace CoordinateConverter
             }
         }
 
+        private void aH64ClearPointsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AH64PointDeleter pointDeleter = new AH64PointDeleter(selectedAircraft as AH64);
+            pointDeleter.ShowDialog(this);
+            if (pointDeleter.NumberOfCommands > 0)
+            {
+                lock (lockObjProgressBar)
+                {
+                    pb_Transfer.Maximum = pointDeleter.NumberOfCommands;
+                    pb_Transfer.Value = 0;
+                }
+            }
+        }
+
+        private void stopTransferToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DCSMessage message = new DCSMessage()
+            {
+                Stop = true
+            };
+            DCSConnection.sendRequest(message);
+        }
+
         private void fetchF10ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             input = dcsCoordinate;
             RefreshCoordinates(EUpdateType.CoordinateInput);
+        }
+        private void importUnitsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // prevent messages from being sent to DCS
+                tmr250ms.Stop();
+
+                // Open the form and get the data
+                FormUnitImporter fui = new FormUnitImporter(dataEntries);
+                fui.ShowDialog(this);
+                if (fui.Coordinates != null)
+                {
+                    dataEntries.AddRange(fui.Coordinates);
+                    RefreshDataGrid();
+                }
+            }
+            finally
+            {
+                tmr250ms.Start();
+            }
         }
 
         private CoordinateDataEntry dcsCoordinate = null;
@@ -1888,6 +1933,7 @@ namespace CoordinateConverter
                     if (message.IsF10View ?? false)
                     {
                         reticleForm.Show();
+                        ScreenToolStripMenuItemClick(selectedScreenMenuItem, null); // set to screen center
                     }
                     else
                     {
@@ -1906,12 +1952,11 @@ namespace CoordinateConverter
                     return;
                 }
 
-                dcsCoordinate = new CoordinateDataEntry()
+                var coordinate = new CoordinateSharp.Coordinate(message.CameraPosition.Lat, message.CameraPosition.Lon);
+                var altitudeInM = cameraPosMode == ECameraPosMode.TerrainElevation ? 0 : message.CameraPosition.Alt ?? 0;
+                bool altitudeIsAGL = cameraPosMode == ECameraPosMode.TerrainElevation;
+                dcsCoordinate = new CoordinateDataEntry(-1, coordinate, altitudeInM, altitudeIsAGL)
                 {
-                    Lat = message.CameraPosition.Lat,
-                    Longi = message.CameraPosition.Lon,
-                    AltitudeIsAGL = cameraPosMode == ECameraPosMode.TerrainElevation,
-                    AltitudeInM = cameraPosMode == ECameraPosMode.TerrainElevation ? 0 : message.CameraPosition.Alt ?? 0,
                     GroundElevationInM = message.CameraPosition.Elev,
                     XFer = true,
                     Name = String.Empty
@@ -2009,7 +2054,7 @@ namespace CoordinateConverter
             cameraAltitudeToolStripMenuItem.Checked = false;
         }
 
-        private void cameraAltitudeToolStripMenuItem_Click_1(object sender, EventArgs e)
+        private void cameraAltitudeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             cameraPosMode = ECameraPosMode.CameraAltitude;
             terrainElevationUnderCameraToolStripMenuItem.Checked = false;
@@ -2030,6 +2075,7 @@ namespace CoordinateConverter
         {
             // Gets the screen associated with the menu item and sets the reticle to the center of that screen
             ToolStripMenuItem sender = objSender as ToolStripMenuItem;
+            selectedScreenMenuItem = sender;
             int idx = int.Parse(sender.Name.Split('_').Last());
             Rectangle screen = Screen.AllScreens[idx].Bounds;
             Point screenCenter = new Point(screen.X + screen.Width / 2, screen.Y + screen.Height / 2);
@@ -2146,48 +2192,13 @@ namespace CoordinateConverter
                 dCSMainScreenToolStripMenuItem.DropDownItems.Add(screenMenuItem);
                 if (screenMenuItem.Checked)
                 {
+                    selectedScreenMenuItem = screenMenuItem;
                     ScreenToolStripMenuItemClick(screenMenuItem, null);
                 }
                 idx++;
             }
 
             cameraPosMode = terrainElevationUnderCameraToolStripMenuItem.Checked ? ECameraPosMode.TerrainElevation : ECameraPosMode.CameraAltitude;
-        }
-
-        private void importUnitsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // prevent messages from being sent to DCS
-                tmr250ms.Stop();
-
-                // Open the form and get the data
-                FormUnitImporter fui = new FormUnitImporter(dataEntries);
-                fui.ShowDialog(this);
-                if (fui.Coordinates != null)
-                {
-                    dataEntries.AddRange(fui.Coordinates);
-                    RefreshDataGrid();
-                }
-            }
-            finally
-            {
-                tmr250ms.Start();
-            }
-        }
-
-        private void aH64ClearPointsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AH64PointDeleter pointDeleter = new AH64PointDeleter(selectedAircraft as AH64);
-            pointDeleter.ShowDialog(this);
-            if (pointDeleter.NumberOfCommands > 0)
-            {
-                lock (lockObjProgressBar)
-                {
-                    pb_Transfer.Maximum = pointDeleter.NumberOfCommands;
-                    pb_Transfer.Value = 0;
-                }
-            }
         }
     }
 }

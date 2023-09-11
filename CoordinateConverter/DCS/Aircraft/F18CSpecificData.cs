@@ -87,13 +87,13 @@ namespace CoordinateConverter.DCS.Aircraft
         public enum EStationSetting
         {
             /// <summary>
-            /// Next PP/SLAM-ER STP WP is for the same weapon.
-            /// </summary>
-            Stay,
-            /// <summary>
             /// Step to the next weapon in the group before putting the point into it.
             /// </summary>
             Step,
+            /// <summary>
+            /// Next PP/SLAM-ER STP WP is for the same weapon.
+            /// </summary>
+            Stay,
             /// <summary>
             /// Put this setting into all the weapons of this type.
             /// </summary>

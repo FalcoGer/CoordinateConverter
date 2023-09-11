@@ -23,6 +23,14 @@ namespace CoordinateConverter.DCS.Communication
         [JsonProperty("Commands")]
         public List<DCSCommand> Commands { get; set; } = null;
 
+        /// <summary>
+        /// If true, cancels current command input.
+        /// </summary>
+        /// <value>
+        /// Whether to cancel command inputs.
+        /// </value>
+        [JsonProperty("Stop")]
+        public bool? Stop { get; set; } = null;
 
         /// <summary>
         /// Gets or sets a value indicating whether to fetch the aircraft type.
