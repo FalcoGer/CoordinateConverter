@@ -1500,7 +1500,7 @@ namespace CoordinateConverter
                 aV8BToolStripMenuItem,
                 f15EPilotToolStripMenuItem,
                 f15EWSOToolStripMenuItem,
-                f16ToolStripMenuItem,
+                f16ToolStripMenuItemMenu,
                 f18ToolStripMenuItem,
                 kA50ToolStripMenuItem,
                 m2000ToolStripMenuItem
@@ -1545,15 +1545,23 @@ namespace CoordinateConverter
             {
                 mi.Checked = mi.Name == sender.Name;
             }
+            aH64ClearPointsToolStripMenuItem.Enabled = false;
+            setF16StartIndexToolStripMenuItem.Enabled = false;
 
             // Remind user here: "Transfer uses MGRS instead of L/L if mgrs selected, cockpit must match"
             if (sender.Name == aH64PLTToolStripMenuItem.Name)
             {
                 selectedAircraft = new AH64(true);
+                aH64PLTToolStripMenuItem.Enabled = true;
+                aH64CPGToolStripMenuItem.Enabled = true;
+                aH64ClearPointsToolStripMenuItem.Enabled = true;
             }
             else if (sender.Name == aH64CPGToolStripMenuItem.Name)
             {
                 selectedAircraft = new AH64(false);
+                aH64PLTToolStripMenuItem.Enabled = true;
+                aH64CPGToolStripMenuItem.Enabled = true;
+                aH64ClearPointsToolStripMenuItem.Enabled = true;
             }
             else if (sender.Name == f18ToolStripMenuItem.Name)
             {
@@ -1564,6 +1572,10 @@ namespace CoordinateConverter
                     "Make sure aircraft is in L/L Decimal mode (default). Check in HSI -> Data -> Aircraft -> Bottom right\n" +
                     "Make sure no weapon is selected prior to entering weapon data\n" +
                     "Maximum number SLAM-ER of steer points is 5.", "Reminder", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (sender.Name == f16ToolStripMenuItem.Name)
+            {
+                setF16StartIndexToolStripMenuItem_Click(setF16StartIndexToolStripMenuItem, null);
             }
             else
             {
@@ -1811,6 +1823,15 @@ namespace CoordinateConverter
             }
         }
 
+        private void stopTransferToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DCSMessage message = new DCSMessage()
+            {
+                Stop = true
+            };
+            DCSConnection.sendRequest(message);
+        }
+
         private void aH64ClearPointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AH64PointDeleter pointDeleter = new AH64PointDeleter(selectedAircraft as AH64);
@@ -1825,13 +1846,12 @@ namespace CoordinateConverter
             }
         }
 
-        private void stopTransferToolStripMenuItem_Click(object sender, EventArgs e)
+        private void setF16StartIndexToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DCSMessage message = new DCSMessage()
-            {
-                Stop = true
-            };
-            DCSConnection.sendRequest(message);
+            FormF16StartingWaypoint startingWaypointForm = new FormF16StartingWaypoint();
+            startingWaypointForm.ShowDialog();
+            int startingWaypoint = startingWaypointForm.StartingWaypoint;
+            selectedAircraft = new F16C(startingWaypoint);
         }
 
         private void fetchF10ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1839,6 +1859,7 @@ namespace CoordinateConverter
             input = dcsCoordinate;
             RefreshCoordinates(EUpdateType.CoordinateInput);
         }
+
         private void importUnitsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -1998,7 +2019,6 @@ namespace CoordinateConverter
             {
                 mi.Enabled = false;
             }
-            aH64ClearPointsToolStripMenuItem.Enabled = false;
             if (string.IsNullOrEmpty(model) || model == "null")
             {
                 selectedAircraft = null;
@@ -2009,9 +2029,6 @@ namespace CoordinateConverter
                 switch (model)
                 {
                     case "AH-64D_BLK_II":
-                        aH64PLTToolStripMenuItem.Enabled = true;
-                        aH64CPGToolStripMenuItem.Enabled = true;
-                        aH64ClearPointsToolStripMenuItem.Enabled = true;
                         if (selectedAircraft != null && selectedAircraft.GetType() == typeof(AH64))
                         {
                             break;
@@ -2020,13 +2037,18 @@ namespace CoordinateConverter
                         aircraftSelectionToolStripMenuItem_Click(isPlt ? aH64PLTToolStripMenuItem : aH64CPGToolStripMenuItem, null);
                         break;
                     case "FA-18C_hornet":
-                        f18ToolStripMenuItem.Enabled = true;
-                        f18ToolStripMenuItem.Checked = true;
                         if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F18C))
                         {
                             break;
                         }
                         aircraftSelectionToolStripMenuItem_Click(f18ToolStripMenuItem, null);
+                        break;
+                    case "F-16C_50":
+                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F16C))
+                        {
+                            break;
+                        }
+                        aircraftSelectionToolStripMenuItem_Click(f16ToolStripMenuItem, null);
                         break;
                     default:
                         lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";

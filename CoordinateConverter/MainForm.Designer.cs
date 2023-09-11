@@ -118,9 +118,9 @@ namespace CoordinateConverter
             this.label1 = new System.Windows.Forms.Label();
             this.TB_Bulls_Bearing = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.lbl_Error = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lbl_DCS_Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.pb_Transfer = new System.Windows.Forms.ToolStripProgressBar();
+            this.lbl_DCS_Status = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbl_Error = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgv_CoordinateList = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -148,7 +148,9 @@ namespace CoordinateConverter
             this.f15EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.f15EPilotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.f15EWSOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.f16ToolStripMenuItemMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.f16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setF16StartIndexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.f18ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kA50ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m2000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1226,13 +1228,14 @@ namespace CoordinateConverter
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // lbl_Error
+            // pb_Transfer
             // 
-            this.lbl_Error.BackColor = System.Drawing.Color.Tomato;
-            this.lbl_Error.Name = "lbl_Error";
-            this.lbl_Error.Size = new System.Drawing.Size(67, 17);
-            this.lbl_Error.Text = "<ERROR>";
-            this.lbl_Error.Visible = false;
+            this.pb_Transfer.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pb_Transfer.Name = "pb_Transfer";
+            this.pb_Transfer.Size = new System.Drawing.Size(300, 16);
+            this.pb_Transfer.Step = 1;
+            this.pb_Transfer.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.pb_Transfer.Visible = false;
             // 
             // lbl_DCS_Status
             // 
@@ -1243,14 +1246,13 @@ namespace CoordinateConverter
             this.lbl_DCS_Status.BackColorChanged += new System.EventHandler(this.lbl_DCS_Status_BackColorChanged);
             this.lbl_DCS_Status.Click += new System.EventHandler(this.fetchF10ToolStripMenuItem_Click);
             // 
-            // pb_Transfer
+            // lbl_Error
             // 
-            this.pb_Transfer.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pb_Transfer.Name = "pb_Transfer";
-            this.pb_Transfer.Size = new System.Drawing.Size(300, 16);
-            this.pb_Transfer.Step = 1;
-            this.pb_Transfer.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.pb_Transfer.Visible = false;
+            this.lbl_Error.BackColor = System.Drawing.Color.Tomato;
+            this.lbl_Error.Name = "lbl_Error";
+            this.lbl_Error.Size = new System.Drawing.Size(67, 17);
+            this.lbl_Error.Text = "<ERROR>";
+            this.lbl_Error.Visible = false;
             // 
             // dgv_CoordinateList
             // 
@@ -1416,7 +1418,7 @@ namespace CoordinateConverter
             this.aH64ToolStripMenuItem,
             this.aV8BToolStripMenuItem,
             this.f15EToolStripMenuItem,
-            this.f16ToolStripMenuItem,
+            this.f16ToolStripMenuItemMenu,
             this.f18ToolStripMenuItem,
             this.kA50ToolStripMenuItem,
             this.m2000ToolStripMenuItem});
@@ -1429,19 +1431,19 @@ namespace CoordinateConverter
             this.autoToolStripMenuItem.Checked = true;
             this.autoToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoToolStripMenuItem.Name = "autoToolStripMenuItem";
-            this.autoToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.autoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.autoToolStripMenuItem.Text = "Auto";
             this.autoToolStripMenuItem.Click += new System.EventHandler(this.autoAircraftToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // a10ToolStripMenuItem
             // 
             this.a10ToolStripMenuItem.Name = "a10ToolStripMenuItem";
-            this.a10ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.a10ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.a10ToolStripMenuItem.Text = "A10";
             this.a10ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
@@ -1452,7 +1454,7 @@ namespace CoordinateConverter
             this.aH64CPGToolStripMenuItem,
             this.aH64ClearPointsToolStripMenuItem});
             this.aH64ToolStripMenuItem.Name = "aH64ToolStripMenuItem";
-            this.aH64ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.aH64ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aH64ToolStripMenuItem.Text = "AH64";
             // 
             // aH64PLTToolStripMenuItem
@@ -1479,7 +1481,7 @@ namespace CoordinateConverter
             // aV8BToolStripMenuItem
             // 
             this.aV8BToolStripMenuItem.Name = "aV8BToolStripMenuItem";
-            this.aV8BToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.aV8BToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aV8BToolStripMenuItem.Text = "AV8B";
             this.aV8BToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
@@ -1489,7 +1491,7 @@ namespace CoordinateConverter
             this.f15EPilotToolStripMenuItem,
             this.f15EWSOToolStripMenuItem});
             this.f15EToolStripMenuItem.Name = "f15EToolStripMenuItem";
-            this.f15EToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.f15EToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.f15EToolStripMenuItem.Text = "F15E";
             // 
             // f15EPilotToolStripMenuItem
@@ -1506,31 +1508,47 @@ namespace CoordinateConverter
             this.f15EWSOToolStripMenuItem.Text = "F15E WSO";
             this.f15EWSOToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
+            // f16ToolStripMenuItemMenu
+            // 
+            this.f16ToolStripMenuItemMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.f16ToolStripMenuItem,
+            this.setF16StartIndexToolStripMenuItem});
+            this.f16ToolStripMenuItemMenu.Name = "f16ToolStripMenuItemMenu";
+            this.f16ToolStripMenuItemMenu.Size = new System.Drawing.Size(180, 22);
+            this.f16ToolStripMenuItemMenu.Text = "F16";
+            // 
             // f16ToolStripMenuItem
             // 
             this.f16ToolStripMenuItem.Name = "f16ToolStripMenuItem";
-            this.f16ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.f16ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.f16ToolStripMenuItem.Text = "F16";
             this.f16ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // setStartIndexToolStripMenuItem
+            // 
+            this.setF16StartIndexToolStripMenuItem.Name = "setF16StartIndexToolStripMenuItem";
+            this.setF16StartIndexToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setF16StartIndexToolStripMenuItem.Text = "Set start index...";
+            this.setF16StartIndexToolStripMenuItem.Click += new System.EventHandler(this.setF16StartIndexToolStripMenuItem_Click);
             // 
             // f18ToolStripMenuItem
             // 
             this.f18ToolStripMenuItem.Name = "f18ToolStripMenuItem";
-            this.f18ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.f18ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.f18ToolStripMenuItem.Text = "F18";
             this.f18ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // kA50ToolStripMenuItem
             // 
             this.kA50ToolStripMenuItem.Name = "kA50ToolStripMenuItem";
-            this.kA50ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.kA50ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.kA50ToolStripMenuItem.Text = "KA50";
             this.kA50ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // m2000ToolStripMenuItem
             // 
             this.m2000ToolStripMenuItem.Name = "m2000ToolStripMenuItem";
-            this.m2000ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.m2000ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.m2000ToolStripMenuItem.Text = "M2000";
             this.m2000ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
@@ -1815,7 +1833,7 @@ namespace CoordinateConverter
         private ToolStripMenuItem a10ToolStripMenuItem;
         private ToolStripMenuItem transferToolStripMenuItem;
         private ToolStripMenuItem aV8BToolStripMenuItem;
-        private ToolStripMenuItem f16ToolStripMenuItem;
+        private ToolStripMenuItem f16ToolStripMenuItemMenu;
         private ToolStripMenuItem f18ToolStripMenuItem;
         private ToolStripMenuItem kA50ToolStripMenuItem;
         private ToolStripMenuItem m2000ToolStripMenuItem;
@@ -1863,6 +1881,8 @@ namespace CoordinateConverter
         private ToolStripMenuItem f15EPilotToolStripMenuItem;
         private ToolStripMenuItem f15EWSOToolStripMenuItem;
         private ToolStripMenuItem stopTransferToolStripMenuItem;
+        private ToolStripMenuItem f16ToolStripMenuItem;
+        private ToolStripMenuItem setF16StartIndexToolStripMenuItem;
     }
 }
 
