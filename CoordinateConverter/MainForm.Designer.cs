@@ -154,6 +154,9 @@ namespace CoordinateConverter
             this.f18ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kA50ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m2000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jF17ToolStripMenuItemMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.jF17ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setJF17StartIndexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importUnitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dCSMainScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1416,21 +1419,21 @@ namespace CoordinateConverter
             // transferToolStripMenuItem
             // 
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
-            this.transferToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.transferToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.transferToolStripMenuItem.Text = "Transfer";
             this.transferToolStripMenuItem.Click += new System.EventHandler(this.transferToolStripMenuItem_Click);
             // 
             // stopTransferToolStripMenuItem
             // 
             this.stopTransferToolStripMenuItem.Name = "stopTransferToolStripMenuItem";
-            this.stopTransferToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.stopTransferToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.stopTransferToolStripMenuItem.Text = "Stop Transfer";
             this.stopTransferToolStripMenuItem.Click += new System.EventHandler(this.stopTransferToolStripMenuItem_Click);
             // 
             // fetchF10ToolStripMenuItem
             // 
             this.fetchF10ToolStripMenuItem.Name = "fetchF10ToolStripMenuItem";
-            this.fetchF10ToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.fetchF10ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fetchF10ToolStripMenuItem.Text = "Fetch F10";
             this.fetchF10ToolStripMenuItem.Click += new System.EventHandler(this.fetchF10ToolStripMenuItem_Click);
             // 
@@ -1445,10 +1448,11 @@ namespace CoordinateConverter
             this.f15EToolStripMenuItemMenu,
             this.f16ToolStripMenuItemMenu,
             this.f18ToolStripMenuItem,
+            this.jF17ToolStripMenuItemMenu,
             this.kA50ToolStripMenuItem,
             this.m2000ToolStripMenuItem});
             this.aircraftToolStripMenuItem.Name = "aircraftToolStripMenuItem";
-            this.aircraftToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.aircraftToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aircraftToolStripMenuItem.Text = "Aircraft";
             // 
             // autoToolStripMenuItem
@@ -1456,19 +1460,19 @@ namespace CoordinateConverter
             this.autoToolStripMenuItem.Checked = true;
             this.autoToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoToolStripMenuItem.Name = "autoToolStripMenuItem";
-            this.autoToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.autoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.autoToolStripMenuItem.Text = "Auto";
             this.autoToolStripMenuItem.Click += new System.EventHandler(this.autoAircraftToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // a10ToolStripMenuItem
             // 
             this.a10ToolStripMenuItem.Name = "a10ToolStripMenuItem";
-            this.a10ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.a10ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.a10ToolStripMenuItem.Text = "A10";
             this.a10ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
@@ -1479,7 +1483,7 @@ namespace CoordinateConverter
             this.aH64CPGToolStripMenuItem,
             this.aH64ClearPointsToolStripMenuItem});
             this.aH64ToolStripMenuItemMenu.Name = "aH64ToolStripMenuItemMenu";
-            this.aH64ToolStripMenuItemMenu.Size = new System.Drawing.Size(116, 22);
+            this.aH64ToolStripMenuItemMenu.Size = new System.Drawing.Size(180, 22);
             this.aH64ToolStripMenuItemMenu.Text = "AH64";
             // 
             // aH64PLTToolStripMenuItem
@@ -1506,7 +1510,7 @@ namespace CoordinateConverter
             // aV8BToolStripMenuItem
             // 
             this.aV8BToolStripMenuItem.Name = "aV8BToolStripMenuItem";
-            this.aV8BToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.aV8BToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aV8BToolStripMenuItem.Text = "AV8B";
             this.aV8BToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
@@ -1516,7 +1520,7 @@ namespace CoordinateConverter
             this.f15EPilotToolStripMenuItem,
             this.f15EWSOToolStripMenuItem});
             this.f15EToolStripMenuItemMenu.Name = "f15EToolStripMenuItemMenu";
-            this.f15EToolStripMenuItemMenu.Size = new System.Drawing.Size(116, 22);
+            this.f15EToolStripMenuItemMenu.Size = new System.Drawing.Size(180, 22);
             this.f15EToolStripMenuItemMenu.Text = "F15E";
             // 
             // f15EPilotToolStripMenuItem
@@ -1539,7 +1543,7 @@ namespace CoordinateConverter
             this.f16ToolStripMenuItem,
             this.setF16StartIndexToolStripMenuItem});
             this.f16ToolStripMenuItemMenu.Name = "f16ToolStripMenuItemMenu";
-            this.f16ToolStripMenuItemMenu.Size = new System.Drawing.Size(116, 22);
+            this.f16ToolStripMenuItemMenu.Size = new System.Drawing.Size(180, 22);
             this.f16ToolStripMenuItemMenu.Text = "F16";
             // 
             // f16ToolStripMenuItem
@@ -1559,28 +1563,51 @@ namespace CoordinateConverter
             // f18ToolStripMenuItem
             // 
             this.f18ToolStripMenuItem.Name = "f18ToolStripMenuItem";
-            this.f18ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.f18ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.f18ToolStripMenuItem.Text = "F18";
             this.f18ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // kA50ToolStripMenuItem
             // 
             this.kA50ToolStripMenuItem.Name = "kA50ToolStripMenuItem";
-            this.kA50ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.kA50ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.kA50ToolStripMenuItem.Text = "KA50";
             this.kA50ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // m2000ToolStripMenuItem
             // 
             this.m2000ToolStripMenuItem.Name = "m2000ToolStripMenuItem";
-            this.m2000ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.m2000ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.m2000ToolStripMenuItem.Text = "M2000";
             this.m2000ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // jF17ToolStripMenuItemMenu
+            // 
+            this.jF17ToolStripMenuItemMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.jF17ToolStripMenuItem,
+            this.setJF17StartIndexToolStripMenuItem});
+            this.jF17ToolStripMenuItemMenu.Name = "jF17ToolStripMenuItemMenu";
+            this.jF17ToolStripMenuItemMenu.Size = new System.Drawing.Size(180, 22);
+            this.jF17ToolStripMenuItemMenu.Text = "JF17";
+            // 
+            // jF17ToolStripMenuItem
+            // 
+            this.jF17ToolStripMenuItem.Name = "jF17ToolStripMenuItem";
+            this.jF17ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.jF17ToolStripMenuItem.Text = "JF17";
+            this.jF17ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
+            // 
+            // setJF17StartIndexToolStripMenuItem
+            // 
+            this.setJF17StartIndexToolStripMenuItem.Name = "setJF17StartIndexToolStripMenuItem";
+            this.setJF17StartIndexToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setJF17StartIndexToolStripMenuItem.Text = "Set start index...";
+            this.setJF17StartIndexToolStripMenuItem.Click += new System.EventHandler(this.setJF17StartIndexToolStripMenuItem_Click);
             // 
             // importUnitsToolStripMenuItem
             // 
             this.importUnitsToolStripMenuItem.Name = "importUnitsToolStripMenuItem";
-            this.importUnitsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.importUnitsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.importUnitsToolStripMenuItem.Text = "Import Units...";
             this.importUnitsToolStripMenuItem.Click += new System.EventHandler(this.importUnitsToolStripMenuItem_Click);
             // 
@@ -1908,6 +1935,9 @@ namespace CoordinateConverter
         private DataGridViewTextBoxColumn colAltitude;
         private DataGridViewCheckBoxColumn colXFer;
         private DataGridViewButtonColumn colDelete;
+        private ToolStripMenuItem jF17ToolStripMenuItemMenu;
+        private ToolStripMenuItem jF17ToolStripMenuItem;
+        private ToolStripMenuItem setJF17StartIndexToolStripMenuItem;
     }
 }
 

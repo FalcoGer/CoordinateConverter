@@ -1,6 +1,6 @@
 ﻿namespace CoordinateConverter
 {
-    partial class FormF16StartingWaypoint
+    partial class FormStartingWaypoint
     {
         /// <summary>
         /// Required designer variable.
@@ -28,20 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_FirstSPTPToUse = new System.Windows.Forms.Label();
             this.btn_OK = new System.Windows.Forms.Button();
             this.nud_PointNumber = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.nud_PointNumber)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // lbl_FirstSPTPToUse
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(137, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "First STPT to use [1 .. 699]:";
+            this.lbl_FirstSPTPToUse.AutoSize = true;
+            this.lbl_FirstSPTPToUse.Location = new System.Drawing.Point(12, 14);
+            this.lbl_FirstSPTPToUse.Name = "lbl_FirstSPTPToUse";
+            this.lbl_FirstSPTPToUse.Size = new System.Drawing.Size(137, 13);
+            this.lbl_FirstSPTPToUse.TabIndex = 0;
+            this.lbl_FirstSPTPToUse.Text = "First STPT to use [1 .. 699]:";
             // 
             // btn_OK
             // 
@@ -80,7 +80,7 @@
             this.ControlBox = false;
             this.Controls.Add(this.nud_PointNumber);
             this.Controls.Add(this.btn_OK);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbl_FirstSPTPToUse);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -95,7 +95,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_FirstSPTPToUse;
         private System.Windows.Forms.Button btn_OK;
         private System.Windows.Forms.NumericUpDown nud_PointNumber;
     }

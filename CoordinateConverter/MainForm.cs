@@ -1051,6 +1051,12 @@ namespace CoordinateConverter
                         cb_pointType.SelectedIndex = ComboItem<KA50.EPointType>.FindValue(cb_pointType, extraData.PointType) ?? 0;
                         cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
                     }
+                    else if (selectedAircraft.GetType() == typeof(JF17))
+                    {
+                        JF17SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as JF17SpecificData;
+                        cb_pointType.SelectedIndex = ComboItem<JF17.EPointType>.FindValue(cb_pointType, extraData.PointType) ?? 0;
+                        cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                    }
 
                     cb_pointType.SelectedIndexChanged += cb_pointType_SelectedIndexChanged;
                     cb_pointOption.SelectedIndexChanged += cb_PointOption_SelectedIndexChanged;
@@ -1651,6 +1657,7 @@ namespace CoordinateConverter
                 f15EPilotToolStripMenuItem,
                 f15EWSOToolStripMenuItem,
                 f16ToolStripMenuItem,
+                jF17ToolStripMenuItem,
                 f18ToolStripMenuItem,
                 kA50ToolStripMenuItem,
                 m2000ToolStripMenuItem
@@ -1681,6 +1688,9 @@ namespace CoordinateConverter
                 {
                     menuItem.Enabled = true;
                 }
+                aH64ClearPointsToolStripMenuItem.Enabled = true;
+                setF16StartIndexToolStripMenuItem.Enabled = true;
+                setJF17StartIndexToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -1692,6 +1702,7 @@ namespace CoordinateConverter
             }
             aH64ClearPointsToolStripMenuItem.Enabled = false;
             setF16StartIndexToolStripMenuItem.Enabled = false;
+            setJF17StartIndexToolStripMenuItem.Enabled = false;
 
             if (string.IsNullOrEmpty(model) || model == "null")
             {
@@ -1739,6 +1750,15 @@ namespace CoordinateConverter
                         }
                         aircraftSelectionToolStripMenuItem_Click(kA50ToolStripMenuItem, null);
                         break;
+                    case "JF-17":
+                        jF17ToolStripMenuItem.Enabled = true;
+                        setJF17StartIndexToolStripMenuItem.Enabled = true;
+                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(JF17))
+                        {
+                            break;
+                        }
+                        aircraftSelectionToolStripMenuItem_Click(jF17ToolStripMenuItem, null);
+                        break;
                     default:
                         lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";
                         lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
@@ -1782,6 +1802,10 @@ namespace CoordinateConverter
             {
                 setF16StartIndexToolStripMenuItem_Click(setF16StartIndexToolStripMenuItem, null);
             }
+            else if (sender.Name == jF17ToolStripMenuItem.Name)
+            {
+                setJF17StartIndexToolStripMenuItem_Click(setJF17StartIndexToolStripMenuItem, null);
+            }
             else if (sender.Name == kA50ToolStripMenuItem.Name)
             {
                 selectedAircraft = new KA50();
@@ -1820,6 +1844,16 @@ namespace CoordinateConverter
                     {
                         KA50.EPointType pt = (KA50.EPointType)Enum.Parse(typeof(KA50.EPointType), x);
                         return new ComboItem<KA50.EPointType>(x, pt);
+                    }
+                ).ToArray());
+            }
+            else if (selectedAircraft.GetType() == typeof(JF17))
+            {
+                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
+                    x =>
+                    {
+                        JF17.EPointType pt = (JF17.EPointType)Enum.Parse(typeof(JF17.EPointType), x);
+                        return new ComboItem<JF17.EPointType>(x, pt);
                     }
                 ).ToArray());
             }
@@ -1907,7 +1941,26 @@ namespace CoordinateConverter
                     cb_pointType.SelectedIndex = 0;
                 }
             }
-            
+            else if (selectedAircraft.GetType() == typeof(JF17))
+            {
+                // if the point has F18C data, we load it.
+                if (input != null && input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
+                {
+                    JF17.EPointType pt = (input.AircraftSpecificData[selectedAircraft.GetType()] as JF17SpecificData).PointType;
+                    cb_pointType.SelectedIndex = ComboItem<JF17.EPointType>.FindValue(cb_pointType, pt) ?? 0;
+                }
+                else if (input != null) // otherwise we add it.
+                {
+                    JF17SpecificData extraData = new JF17SpecificData(JF17.EPointType.Waypoint);
+                    input.AircraftSpecificData.Add(selectedAircraft.GetType(), extraData);
+                    cb_pointType.SelectedIndex = 0;
+                }
+                else
+                {
+                    cb_pointType.SelectedIndex = 0;
+                }
+            }
+
             RefreshDataGrid();
         }
 
@@ -1979,6 +2032,22 @@ namespace CoordinateConverter
                         input.AircraftSpecificData[selectedAircraft.GetType()] = new KA50SpecificData(pt);
                     }
                 }                
+            }
+            else if (selectedAircraft.GetType() == typeof(JF17))
+            {
+                JF17.EPointType pt = ComboItem<JF17.EPointType>.GetSelectedValue(cb_pointType);
+                cb_pointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pt.ToString()).Select(x => new ComboItem<string>(x, x)).ToArray());
+                if (input != null)
+                {
+                    if (!input.AircraftSpecificData.ContainsKey(typeof(JF17)))
+                    {
+                        input.AircraftSpecificData.Add(selectedAircraft.GetType(), new JF17SpecificData(pt));
+                    }
+                    else
+                    {
+                        input.AircraftSpecificData[selectedAircraft.GetType()] = new JF17SpecificData(pt);
+                    }
+                }
             }
             else
             {
@@ -2098,10 +2167,18 @@ namespace CoordinateConverter
 
         private void setF16StartIndexToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormF16StartingWaypoint startingWaypointForm = new FormF16StartingWaypoint();
+            FormStartingWaypoint startingWaypointForm = new FormStartingWaypoint(1, 699, 200);
             startingWaypointForm.ShowDialog();
             int startingWaypoint = startingWaypointForm.StartingWaypoint;
             selectedAircraft = new F16C(startingWaypoint);
+        }
+
+        private void setJF17StartIndexToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormStartingWaypoint startingWaypointForm = new FormStartingWaypoint(1, 29, 10);
+            startingWaypointForm.ShowDialog();
+            int startingWaypoint = startingWaypointForm.StartingWaypoint;
+            selectedAircraft = new JF17(startingWaypoint);
         }
 
         private void fetchF10ToolStripMenuItem_Click(object sender, EventArgs e)

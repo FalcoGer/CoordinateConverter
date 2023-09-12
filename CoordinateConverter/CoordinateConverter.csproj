@@ -77,6 +77,8 @@
     <Compile Include="DCS\Aircraft\F16C.cs" />
     <Compile Include="DCS\Aircraft\F18C.cs" />
     <Compile Include="DCS\Aircraft\F18CSpecificData.cs" />
+    <Compile Include="DCS\Aircraft\JF17.cs" />
+    <Compile Include="DCS\Aircraft\JF17SpecificData.cs" />
     <Compile Include="DCS\Aircraft\KA50.cs" />
     <Compile Include="DCS\Aircraft\KA50SpecificData.cs" />
     <Compile Include="DCS\Aircraft\WeaponStation.cs" />
