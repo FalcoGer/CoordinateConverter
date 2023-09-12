@@ -53,5 +53,45 @@ namespace CoordinateConverter
         {
             return (comboBox.Items[comboBox.SelectedIndex] as ComboItem<TValue>).Text;
         }
+
+        /// <summary>
+        /// Finds the index of where the combo item has the specified value.
+        /// </summary>
+        /// <param name="comboBox">The combo box.</param>
+        /// <param name="value">The value to search for.</param>
+        /// <returns>The index of the item in the combo box, null if not found.</returns>
+        public static int? FindValue(ComboBox comboBox, TValue value)
+        {
+            int idx = 0;
+            foreach (ComboItem<TValue> item in comboBox.Items)
+            {
+                if (item.Value.Equals(value))
+                {
+                    return idx;
+                }
+                idx++;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Finds the index of where the combo item has the specified text.
+        /// </summary>
+        /// <param name="comboBox">The combo box.</param>
+        /// <param name="text">The text to search for.</param>
+        /// <returns>The index of the item in the combo box, null if not found.</returns>
+        public static int? FindText(ComboBox comboBox, string text)
+        {
+            int idx = 0;
+            foreach (ComboItem<TValue> item in comboBox.Items)
+            {
+                if (item.Value.Equals(text))
+                {
+                    return idx;
+                }
+                idx++;
+            }
+            return null;
+        }
     }
 }

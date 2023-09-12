@@ -41,7 +41,7 @@ namespace CoordinateConverter
             if (message != null && message.Units != null)
             {
                 // ignore deactivated and pilots and crap
-                allDCSUnits = message.Units.Where(x => x.Flags.IsActivated == true && x.Type.Level3 != DCSUnitTypeInformation.ELevel3Type.Parts).ToList();
+                allDCSUnits = message.Units.Where(x => x != null && x.Flags.IsActivated == true && x.Type.Level3 != DCSUnitTypeInformation.ELevel3Type.Parts).ToList();
             }
             else
             {

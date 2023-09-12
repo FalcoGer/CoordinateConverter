@@ -906,31 +906,11 @@ namespace CoordinateConverter
                     else if (selectedAircraft.GetType() == typeof(AH64))
                     {
                         AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
-                        cb_pointType.SelectedIndex = 0;
-                        for (int pointTypeIDX = 0; pointTypeIDX < cb_pointType.Items.Count; pointTypeIDX++)
-                        {
-                            if (cb_pointType.Items[pointTypeIDX].ToString() == extraData.PointType)
-                            {
-                                cb_pointType.SelectedIndex = pointTypeIDX;
-                                break;
-                            }
-                        }
-                        // select the correct point option
+                        cb_pointType.SelectedIndex = ComboItem<AH64.EPointType>.FindValue(cb_pointType, extraData.PointType) ?? 0;
+                        // select the correct point type and option
                         cb_pointType_SelectedIndexChanged(cb_pointType, null); // needed to repopulate the point option combo box
-                        if (cb_pointOption.Items.Count > 0)
-                        {
-                            cb_pointOption.SelectedIndex = 0; // sane default, in case the value isn't found
-                                                              // search for the value
-                            for (int pointOptionIDX = 0; pointOptionIDX < cb_pointOption.Items.Count; pointOptionIDX++)
-                            {
-                                ComboItem<string> ci = cb_pointOption.Items[pointOptionIDX] as ComboItem<string>;
-                                if (ci.Value == extraData.Ident)
-                                {
-                                    cb_pointOption.SelectedIndex = pointOptionIDX;
-                                    break;
-                                }
-                            }
-                        }
+                        cb_pointOption.SelectedIndex = ComboItem<AH64.EPointIdent>.FindValue(cb_pointOption, extraData.Ident) ?? 0;
+                        cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
                     }
                     else if (selectedAircraft.GetType() == typeof(F18C))
                     {
@@ -948,17 +928,17 @@ namespace CoordinateConverter
                             if (!extraData.PreplanPointIdx.HasValue)
                             {
                                 // SLAM-ER STP
-                                cb_pointType.SelectedIndex = cb_pointType.FindStringExact(F18C.SLAMER_STP_STR);
+                                cb_pointType.SelectedIndex = ComboItem<string>.FindValue(cb_pointType, F18C.SLAMER_STP_STR) ?? 0;
                                 cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                                cb_pointOption.SelectedIndex = cb_pointOption.FindStringExact(string.Format("PP {0} - {1}", extraData.PreplanPointIdx.Value, extraData.StationSetting.ToString()));
+                                cb_pointOption.SelectedIndex = 0;
                                 cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
                             }
                             else
                             {
                                 // PP
-                                cb_pointType.SelectedIndex = cb_pointType.FindStringExact(F18C.GetPointTypePPStrForWeaponType(extraData.WeaponType.Value));
+                                cb_pointType.SelectedIndex = ComboItem<string>.FindValue(cb_pointType,F18C.GetPointTypePPStrForWeaponType(extraData.WeaponType.Value)) ?? 0;
                                 cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                                cb_pointOption.SelectedIndex = cb_pointOption.FindStringExact(string.Format("PP {0} - {1}", extraData.PreplanPointIdx.Value, extraData.StationSetting.ToString()));
+                                cb_pointOption.SelectedIndex = ComboItem<string>.FindValue(cb_pointOption, string.Format("PP {0} - {1}", extraData.PreplanPointIdx.Value, extraData.StationSetting.ToString())) ?? 0;
                                 cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
                             }
                         }
@@ -969,9 +949,11 @@ namespace CoordinateConverter
                 }
                 else
                 {
-                    // do not update point type info
-                    // just update the new input with the information already present
-                    cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                    // Update point type
+                    int pointOptionIdx = cb_pointOption.SelectedIndex;
+                    cb_pointType_SelectedIndexChanged(cb_pointType, null);
+                    // update point option
+                    cb_pointOption.SelectedIndex = pointOptionIdx;
                 }
                 
                 // coordinates
@@ -1500,7 +1482,7 @@ namespace CoordinateConverter
                 aV8BToolStripMenuItem,
                 f15EPilotToolStripMenuItem,
                 f15EWSOToolStripMenuItem,
-                f16ToolStripMenuItemMenu,
+                f16ToolStripMenuItem,
                 f18ToolStripMenuItem,
                 kA50ToolStripMenuItem,
                 m2000ToolStripMenuItem
@@ -1534,6 +1516,60 @@ namespace CoordinateConverter
             }
         }
 
+        private void AutoSelectAircraft(string model)
+        {
+            foreach (ToolStripMenuItem mi in AircraftSelectionMenuStripItems)
+            {
+                mi.Enabled = false;
+            }
+            aH64ClearPointsToolStripMenuItem.Enabled = false;
+            setF16StartIndexToolStripMenuItem.Enabled = false;
+
+            if (string.IsNullOrEmpty(model) || model == "null")
+            {
+                selectedAircraft = null;
+            }
+            else
+            {
+                // Switch aircraft. Ask user here which version of the cockit they are in. (AH64, F15E)
+                switch (model)
+                {
+                    case "AH-64D_BLK_II":
+                        aH64PLTToolStripMenuItem.Enabled = true;
+                        aH64CPGToolStripMenuItem.Enabled = true;
+                        aH64ClearPointsToolStripMenuItem.Enabled = true;
+                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(AH64))
+                        {
+                            break;
+                        }
+                        bool isPlt = DialogResult.Yes == MessageBox.Show("Are you pilot?", "PLT/CPG?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        aircraftSelectionToolStripMenuItem_Click(isPlt ? aH64PLTToolStripMenuItem : aH64CPGToolStripMenuItem, null);
+                        break;
+                    case "FA-18C_hornet":
+                        f18ToolStripMenuItem.Enabled = true;
+                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F18C))
+                        {
+                            break;
+                        }
+                        aircraftSelectionToolStripMenuItem_Click(f18ToolStripMenuItem, null);
+                        break;
+                    case "F-16C_50":
+                        f16ToolStripMenuItem.Enabled = true;
+                        setF16StartIndexToolStripMenuItem.Enabled = true;
+                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F16C))
+                        {
+                            break;
+                        }
+                        aircraftSelectionToolStripMenuItem_Click(f16ToolStripMenuItem, null);
+                        break;
+                    default:
+                        lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";
+                        lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
+                        break;
+                }
+            }
+        }
+
         private void aircraftSelectionToolStripMenuItem_Click(object objSender, EventArgs e)
         {
             lbl_Error.Visible = false;
@@ -1545,23 +1581,15 @@ namespace CoordinateConverter
             {
                 mi.Checked = mi.Name == sender.Name;
             }
-            aH64ClearPointsToolStripMenuItem.Enabled = false;
-            setF16StartIndexToolStripMenuItem.Enabled = false;
 
             // Remind user here: "Transfer uses MGRS instead of L/L if mgrs selected, cockpit must match"
             if (sender.Name == aH64PLTToolStripMenuItem.Name)
             {
                 selectedAircraft = new AH64(true);
-                aH64PLTToolStripMenuItem.Enabled = true;
-                aH64CPGToolStripMenuItem.Enabled = true;
-                aH64ClearPointsToolStripMenuItem.Enabled = true;
             }
             else if (sender.Name == aH64CPGToolStripMenuItem.Name)
             {
                 selectedAircraft = new AH64(false);
-                aH64PLTToolStripMenuItem.Enabled = true;
-                aH64CPGToolStripMenuItem.Enabled = true;
-                aH64ClearPointsToolStripMenuItem.Enabled = true;
             }
             else if (sender.Name == f18ToolStripMenuItem.Name)
             {
@@ -1579,40 +1607,27 @@ namespace CoordinateConverter
             }
             else
             {
+                // Unsupported aircraft
                 selectedAircraft = null;
                 lbl_Error.Visible = true;
                 lbl_Error.Text = "Currently this aircraft is not implemented";
 
                 cb_pointType.Items.Clear();
-                cb_pointType.Items.Add("Waypoint");
-                cb_pointType.SelectedIndex = 0;
+                cb_pointType.Items.Add(new ComboItem<string>("Waypoint", "Waypoint"));
                 cb_pointType.Enabled = false;
-                cb_pointOption.ValueMember = null;
-                cb_pointOption.DisplayMember = null;
-                cb_pointOption.DataSource = null;
-                cb_pointOption.Items.Clear();
-                cb_pointOption.Enabled = false;
+                cb_pointType.SelectedIndex = 0;
                 RefreshDataGrid();
                 return;
             }
 
-            // Reset the combo boxes
-            cb_pointType.Items.Clear();
-            cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(x => (object)x).ToArray());
-            cb_pointType.Enabled = cb_pointType.Items.Count > 1;
-            cb_pointType.SelectedIndex = 0; // this will populate cb_pointOption
-            cb_pointOption.SelectedIndex = 0;
-            cb_pointOption.Enabled = cb_pointOption.Items.Count > 1;
-
-            // Either set cb_pointOption to the correct index if data exists
-            // Or create a new data instance with default values
+            // Add aircraft specific data to the input if input is valid (exists)
             if (selectedAircraft.GetType() == typeof(AH64))
             {
                 // if the point has AH64 data, we load it.
                 if (input != null && input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
                 {
                     AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
-                    cb_pointType.SelectedIndex = cb_pointType.FindStringExact(extraData.PointType);
+                    cb_pointType.SelectedIndex = ComboItem<AH64.EPointType>.FindValue(cb_pointType, extraData.PointType) ?? 0;
                     cb_pointOption.SelectedValue = extraData.Ident;
                 }
                 else if (input != null) // otherwise we add it.
@@ -1633,7 +1648,7 @@ namespace CoordinateConverter
                         if (extraData.PreplanPointIdx.HasValue)
                         {
                             // GPS PP Target
-                            cb_pointType.SelectedIndex = cb_pointType.FindStringExact(F18C.GetPointTypePPStrForWeaponType(pwt));
+                            cb_pointType.SelectedIndex = ComboItem<string>.FindValue(cb_pointType, F18C.GetPointTypePPStrForWeaponType(pwt)) ?? 0;
                             cb_pointOption.SelectedIndex = extraData.PreplanPointIdx.Value;
                         }
                         else
@@ -1650,16 +1665,26 @@ namespace CoordinateConverter
                     input.AircraftSpecificData.Add(selectedAircraft.GetType(), extraData);
                 }
             }
+            
+            // Update point types
+            cb_pointType.Items.Clear();
+            if (selectedAircraft.GetType() == typeof(AH64))
+            {
+                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
+                    x =>
+                    {
+                        AH64.EPointType pt = (AH64.EPointType)Enum.Parse(typeof(AH64.EPointType), x);
+                        return new ComboItem<AH64.EPointType>(x, pt);
+                    }
+                ).ToArray());
+            }
             else
             {
-                cb_pointType.Items.Clear();
-                cb_pointType.Items.Add("Waypoint");
-                cb_pointType.SelectedIndex = 0;
-                cb_pointType.Enabled = false;
-
-                cb_pointOption.Items.Clear();
-                cb_pointOption.Enabled = false;
+                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(x => new ComboItem<string>(x, x)).ToArray());
             }
+            
+            cb_pointType.Enabled = cb_pointType.Items.Count > 1;
+            cb_pointType.SelectedIndex = 0;
 
             RefreshDataGrid();
         }
@@ -1671,6 +1696,8 @@ namespace CoordinateConverter
 
             if (selectedAircraft == null)
             {
+                cb_pointOption.Items.Add(new ComboItem<string>("Waypoint", "Waypoint"));
+                cb_pointOption.SelectedIndex = 0;
                 cb_pointOption.Enabled = false;
                 return;
             }
@@ -1678,27 +1705,25 @@ namespace CoordinateConverter
             if (selectedAircraft.GetType() == typeof(AH64))
             {
                 // add all the options for the AH64
-                AH64.EPointType ePointType = (AH64.EPointType)Enum.Parse(typeof(AH64.EPointType), cb_pointType.Text, true);
-
+                AH64.EPointType ePointType = ComboItem<AH64.EPointType>.GetSelectedValue(cb_pointType);
                 object[] items;
-                cb_pointOption.DisplayMember = "Text";
-                cb_pointOption.ValueMember = "Value";
+                
                 switch (ePointType)
                 {
                     case AH64.EPointType.Waypoint:
-                        items = AH64.EWPOptionDescriptions.Select(x => (object)(new ComboItem<string>(x.Value, x.Key.ToString()))).ToArray();
+                        items = AH64.EWPOptionDescriptions.Select(x => (object)(new ComboItem<AH64.EPointIdent>(x.Value, x.Key))).ToArray();
                         cb_pointOption.Items.AddRange(items);
                         break;
                     case AH64.EPointType.Hazard:
-                        items = AH64.EHZOptionDescriptions.Select(x => (object)(new ComboItem<string>(x.Value, x.Key.ToString()))).ToArray();
+                        items = AH64.EHZOptionDescriptions.Select(x => (object)(new ComboItem<AH64.EPointIdent>(x.Value, x.Key))).ToArray();
                         cb_pointOption.Items.AddRange(items);
                         break;
                     case AH64.EPointType.ControlMeasure:
-                        items = AH64.ECMOptionDescriptions.Select(x => (object)(new ComboItem<string>(x.Value, x.Key.ToString()))).ToArray();
+                        items = AH64.ECMOptionDescriptions.Select(x => (object)(new ComboItem<AH64.EPointIdent>(x.Value, x.Key))).ToArray();
                         cb_pointOption.Items.AddRange(items);
                         break;
                     case AH64.EPointType.Target:
-                        items = AH64.ETGOptionDescriptions.Select(x => (object)(new ComboItem<string>(x.Value, x.Key.ToString()))).ToArray();
+                        items = AH64.ETGOptionDescriptions.Select(x => (object)(new ComboItem<AH64.EPointIdent>(x.Value, x.Key))).ToArray();
                         cb_pointOption.Items.AddRange(items);
                         break;
                     default:
@@ -1721,20 +1746,16 @@ namespace CoordinateConverter
                         input.AircraftSpecificData.Add(selectedAircraft.GetType(), new AH64SpecificData());
                     }
                     AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
-                    extraData.PointType = sender.Items[sender.SelectedIndex] as string;
+                    extraData.PointType = ComboItem<AH64.EPointType>.GetSelectedValue(sender);
                     cb_pointOption.SelectedIndex = 0;
                     input.AircraftSpecificData[selectedAircraft.GetType()] = extraData;
                 }
             }
-            else if (selectedAircraft.GetType() == typeof(F18C))
-            {
-                string pointTypeStr = cb_pointType.Items[cb_pointType.SelectedIndex] as string;
-                cb_pointOption.Items.AddRange((selectedAircraft as F18C).GetPointOptionsForType(pointTypeStr).Select(x => (object)x).ToArray());
-                cb_pointOption.SelectedIndex = 0;
-            }
             else
             {
-                cb_pointOption.Items.Add("Waypoint");
+                string pointTypeStr = ComboItem<string>.GetSelectedValue(cb_pointType);
+                cb_pointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pointTypeStr).Select(x => new ComboItem<string>(x, x)).ToArray());
+                cb_pointOption.SelectedIndex = 0;
             }
             cb_pointOption.Enabled = cb_pointOption.Items.Count > 1;
         }
@@ -1765,7 +1786,7 @@ namespace CoordinateConverter
                     input.AircraftSpecificData.Add(selectedAircraft.GetType(), new AH64SpecificData());
                 }
                 AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
-                extraData.Ident = (sender.SelectedItem as ComboItem<string>).Value;
+                extraData.Ident = (sender.SelectedItem as ComboItem<AH64.EPointIdent>).Value;
                 input.AircraftSpecificData[selectedAircraft.GetType()] = extraData;
             }
             else if (selectedAircraft.GetType() == typeof(F18C))
@@ -1775,7 +1796,7 @@ namespace CoordinateConverter
                     input.AircraftSpecificData.Add(selectedAircraft.GetType(), null);
                 }
                 
-                string pointType = cb_pointType.Items[cb_pointType.SelectedIndex] as string;
+                string pointType = ComboItem<string>.GetSelectedValue(cb_pointType);
                 if (pointType == F18C.WAYPOINT_STR)
                 {
                     input.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData();
@@ -1783,7 +1804,7 @@ namespace CoordinateConverter
                 else if (pointType == F18C.SLAMER_STP_STR)
                 {
                     // SLAM-ER Steerpoint
-                    string pointOption = cb_pointOption.Items[cb_pointOption.SelectedIndex] as string;
+                    string pointOption = ComboItem<string>.GetSelectedValue(cb_pointOption);
                     F18CSpecificData.EStationSetting stationSetting = (F18CSpecificData.EStationSetting)Enum.Parse(typeof(F18CSpecificData.EStationSetting), pointOption.Substring("Auto Increment - ".Length));
                     input.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData(true, stationSetting);
                 }
@@ -1791,7 +1812,7 @@ namespace CoordinateConverter
                 {
                     // PrePlanned Target
                     F18C.EWeaponType pwt = (F18C.EWeaponType)Enum.Parse(typeof(F18C.EWeaponType), pointType.Split(' ').First());
-                    string pointOption = cb_pointOption.Items[cb_pointOption.SelectedIndex] as string;
+                    string pointOption = ComboItem<string>.GetSelectedValue(cb_pointOption);
                     int ppIdx = int.Parse(pointOption.Substring("PP ".Length, 1));
                     F18CSpecificData.EStationSetting stationSetting = (F18CSpecificData.EStationSetting)Enum.Parse(typeof(F18CSpecificData.EStationSetting), pointOption.Substring("PP # - ".Length));
                     input.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData(pwt, ppIdx, stationSetting);
@@ -2013,51 +2034,6 @@ namespace CoordinateConverter
             }
         }
 
-        private void AutoSelectAircraft(string model)
-        {
-            foreach (ToolStripMenuItem mi in AircraftSelectionMenuStripItems)
-            {
-                mi.Enabled = false;
-            }
-            if (string.IsNullOrEmpty(model) || model == "null")
-            {
-                selectedAircraft = null;
-            }
-            else
-            {
-                // Switch aircraft. Ask user here which version of the cockit they are in. (AH64, F15E)
-                switch (model)
-                {
-                    case "AH-64D_BLK_II":
-                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(AH64))
-                        {
-                            break;
-                        }
-                        bool isPlt = DialogResult.Yes == MessageBox.Show("Are you pilot?", "PLT/CPG?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        aircraftSelectionToolStripMenuItem_Click(isPlt ? aH64PLTToolStripMenuItem : aH64CPGToolStripMenuItem, null);
-                        break;
-                    case "FA-18C_hornet":
-                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F18C))
-                        {
-                            break;
-                        }
-                        aircraftSelectionToolStripMenuItem_Click(f18ToolStripMenuItem, null);
-                        break;
-                    case "F-16C_50":
-                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F16C))
-                        {
-                            break;
-                        }
-                        aircraftSelectionToolStripMenuItem_Click(f16ToolStripMenuItem, null);
-                        break;
-                    default:
-                        lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";
-                        lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
-                        break;
-                }
-            }
-        }
-
         #endregion
 
         #region "Settings"
@@ -2154,7 +2130,6 @@ namespace CoordinateConverter
             opacity50ToolStripMenuItem.Checked = false;
             opacity25ToolStripMenuItem.Checked = false;
         }
-
         private void opacity50ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Opacity = 0.5;
@@ -2164,7 +2139,6 @@ namespace CoordinateConverter
             opacity25ToolStripMenuItem.Checked = false;
 
         }
-
         private void opacity25ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Opacity = 0.25;
@@ -2173,7 +2147,6 @@ namespace CoordinateConverter
             opacity50ToolStripMenuItem.Checked = false;
             opacity25ToolStripMenuItem.Checked = true;
         }
-
         private void opacity75ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Opacity = 0.75;
@@ -2196,6 +2169,10 @@ namespace CoordinateConverter
         public MainForm()
         {
             InitializeComponent();
+            cb_pointType.ValueMember = "Value";
+            cb_pointType.DisplayMember = "Text";
+            cb_pointOption.ValueMember = "Value";
+            cb_pointOption.DisplayMember = "Text";
             SetReticleSettingsCheckmarks();
             tmr250ms.Start();
 

@@ -117,9 +117,9 @@ namespace CoordinateConverter.DCS.Aircraft
             if (coordinate.AircraftSpecificData.ContainsKey(typeof(AH64)) && coordinate.AircraftSpecificData[typeof(AH64)] != null)
             {
                 extraData = coordinate.AircraftSpecificData[typeof(AH64)] as AH64SpecificData;
-                ident = extraData.Ident.Substring(3) + '\n';
+                ident = extraData.Ident.ToString().Substring(3) + '\n';
 
-                switch ((EPointType)Enum.Parse(typeof(EPointType),extraData.PointType, true))
+                switch (extraData.PointType)
                 {
                     case EPointType.Waypoint:
                         keyMFDPointType = EKeyCode.RMFD_L3;
