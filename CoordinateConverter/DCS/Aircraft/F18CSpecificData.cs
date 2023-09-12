@@ -138,9 +138,11 @@ namespace CoordinateConverter.DCS.Aircraft
         }
 
         /// <summary>
-        /// Clones the specified other.
+        /// Clones the data.
         /// </summary>
-        /// <returns>A clone of this F18CSpecificData</returns>
+        /// <returns>
+        /// A copy of this instance.
+        /// </returns>
         public override AircraftSpecificData Clone()
         {
             F18CSpecificData ret = new F18CSpecificData() { preplanPointIdx = this.preplanPointIdx, WeaponType = this.WeaponType, StationSetting = StationSetting };

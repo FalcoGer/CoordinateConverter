@@ -14,9 +14,9 @@
         public abstract override string ToString();
 
         /// <summary>
-        /// Clones the specified other.
+        /// Clones the data.
         /// </summary>
-        /// <returns>A clone of the data</returns>
+        /// <returns>A copy of this instance.</returns>
         public abstract AircraftSpecificData Clone();
     }
 }

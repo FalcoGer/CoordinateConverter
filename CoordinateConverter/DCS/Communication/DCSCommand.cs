@@ -9,8 +9,7 @@ namespace CoordinateConverter.DCS.Aircraft
     /// To get the numbers for any specific action, check `devices.lua` and `clickabledata.lua` in
     /// the DCS installation directory and then under `/Mods/aircraft/&lt;Type&gt;/Cockpit/Scripts/`
     /// </summary>
-    /// <seealso cref="DCSMessage" />
-    public class DCSCommand : DCSMessage
+    public class DCSCommand
     {
         /// <summary>
         /// Empty default constructor for newtonsoft
@@ -59,40 +58,13 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <summary>
         /// For hard buttons this is 1 or -1
         /// </summary>
-        [JsonProperty("activate")]
+        [JsonProperty("value")]
         public double Value { get; set; }
-
-        /// <summary>
-        /// For serialization only
-        /// </summary>
-        [JsonProperty("addDepress")]
-        public string AddDepressStr
-        {
-            get
-            {
-                return AddDepress.ToString();
-            }
-            set
-            {
-                if (string.Equals(value, "false", StringComparison.OrdinalIgnoreCase))
-                {
-                    AddDepress = false;
-                }
-                else if (string.Equals(value, "true", StringComparison.OrdinalIgnoreCase))
-                {
-                    AddDepress = true;
-                }
-                else
-                {
-                    throw new ArgumentException("Bad value");
-                }
-            }
-        }
 
         /// <summary>
         /// If true, also adds the depress action
         /// </summary>
-        [JsonIgnore]
+        [JsonProperty("addDepress")]
         public bool AddDepress { get; set; }
 
         /// <summary>
@@ -103,7 +75,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// </returns>
         public override string ToString()
         {
-            return string.Format("D:{0}, C:{1}, Dly: {2}, Ac:{3}, Dp: {4}", Device, Code, Delay, Value, AddDepress ? 1 : 0);
+            return string.Format("D:{0}, C:{1}, Dly: {2}, Val:{3}, Dp: {4}", Device, Code, Delay, Value, AddDepress ? 1 : 0);
         }
     }
 }

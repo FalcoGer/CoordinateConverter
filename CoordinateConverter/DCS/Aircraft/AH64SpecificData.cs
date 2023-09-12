@@ -283,9 +283,11 @@ namespace CoordinateConverter.DCS.Aircraft
         public AH64.EPointIdent Ident { get; set; }
 
         /// <summary>
-        /// Clones the specified other.
+        /// Clones the data.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// A copy of this instance.
+        /// </returns>
         public override AircraftSpecificData Clone()
         {
             AH64SpecificData ret = new AH64SpecificData(PointType, Ident);

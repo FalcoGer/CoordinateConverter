@@ -901,6 +901,7 @@ namespace CoordinateConverter
                         if (cb_pointOption.Items.Count > 0)
                         {
                             cb_pointOption.SelectedIndex = 0;
+                            cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
                         }
                     }
                     else if (selectedAircraft.GetType() == typeof(AH64))
@@ -919,7 +920,6 @@ namespace CoordinateConverter
                         if (extraData == null || extraData.WeaponType == null)
                         {
                             cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                            cb_pointOption.SelectedIndex = 0;
                             cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
                         }
                         else if (extraData.WeaponType != null)
@@ -930,7 +930,6 @@ namespace CoordinateConverter
                                 // SLAM-ER STP
                                 cb_pointType.SelectedIndex = ComboItem<string>.FindValue(cb_pointType, F18C.SLAMER_STP_STR) ?? 0;
                                 cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                                cb_pointOption.SelectedIndex = 0;
                                 cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
                             }
                             else
@@ -942,6 +941,12 @@ namespace CoordinateConverter
                                 cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
                             }
                         }
+                    }
+                    else if (selectedAircraft.GetType() == typeof(KA50))
+                    {
+                        KA50SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as KA50SpecificData;
+                        cb_pointType.SelectedIndex = ComboItem<KA50.EPointType>.FindValue(cb_pointType, extraData.PointType) ?? 0;
+                        cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
                     }
 
                     cb_pointType.SelectedIndexChanged += cb_pointType_SelectedIndexChanged;
@@ -1562,6 +1567,15 @@ namespace CoordinateConverter
                         }
                         aircraftSelectionToolStripMenuItem_Click(f16ToolStripMenuItem, null);
                         break;
+                    case "Ka-50":
+                    case "Ka-50_3":
+                        kA50ToolStripMenuItem.Enabled = true;
+                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(KA50))
+                        {
+                            break;
+                        }
+                        aircraftSelectionToolStripMenuItem_Click(kA50ToolStripMenuItem, null);
+                        break;
                     default:
                         lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";
                         lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
@@ -1605,6 +1619,10 @@ namespace CoordinateConverter
             {
                 setF16StartIndexToolStripMenuItem_Click(setF16StartIndexToolStripMenuItem, null);
             }
+            else if (sender.Name == kA50ToolStripMenuItem.Name)
+            {
+                selectedAircraft = new KA50();
+            }
             else
             {
                 // Unsupported aircraft
@@ -1620,6 +1638,34 @@ namespace CoordinateConverter
                 return;
             }
 
+            // Update point types
+            cb_pointType.Items.Clear();
+            if (selectedAircraft.GetType() == typeof(AH64))
+            {
+                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
+                    x =>
+                    {
+                        AH64.EPointType pt = (AH64.EPointType)Enum.Parse(typeof(AH64.EPointType), x);
+                        return new ComboItem<AH64.EPointType>(x, pt);
+                    }
+                ).ToArray());
+            }
+            else if (selectedAircraft.GetType() == typeof(KA50))
+            {
+                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
+                    x =>
+                    {
+                        KA50.EPointType pt = (KA50.EPointType)Enum.Parse(typeof(KA50.EPointType), x);
+                        return new ComboItem<KA50.EPointType>(x, pt);
+                    }
+                ).ToArray());
+            }
+            else
+            {
+                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(x => new ComboItem<string>(x, x)).ToArray());
+            }
+            cb_pointType.Enabled = cb_pointType.Items.Count > 1;
+
             // Add aircraft specific data to the input if input is valid (exists)
             if (selectedAircraft.GetType() == typeof(AH64))
             {
@@ -1634,6 +1680,11 @@ namespace CoordinateConverter
                 {
                     AH64SpecificData extraData = new AH64SpecificData();
                     input.AircraftSpecificData.Add(selectedAircraft.GetType(), extraData);
+                    cb_pointType.SelectedIndex = 0;
+                }
+                else
+                {
+                    cb_pointType.SelectedIndex = 0;
                 }
             }
             else if (selectedAircraft.GetType() == typeof(F18C))
@@ -1657,35 +1708,43 @@ namespace CoordinateConverter
                             cb_pointType.SelectedIndex = cb_pointType.Items.Count - 1;
                         }
                     }
-                    // else, is a standard waypoint, but that's the default.
+                    else
+                    {
+                        // Standard waypoint
+                        cb_pointType.SelectedIndex = 0;
+                    }
                 }
                 else if (input != null) // otherwise we add it.
                 {
                     F18CSpecificData extraData = new F18CSpecificData();
                     input.AircraftSpecificData.Add(selectedAircraft.GetType(), extraData);
+                    cb_pointType.SelectedIndex = 0;
+                }
+                else
+                {
+                    cb_pointType.SelectedIndex = 0;
+                }
+            }
+            else if (selectedAircraft.GetType() == typeof(KA50))
+            {
+                // if the point has F18C data, we load it.
+                if (input != null && input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
+                {
+                    KA50.EPointType pt = (input.AircraftSpecificData[selectedAircraft.GetType()] as KA50SpecificData).PointType;
+                    cb_pointType.SelectedIndex = ComboItem<KA50.EPointType>.FindValue(cb_pointType, pt) ?? 0;
+                }
+                else if (input != null) // otherwise we add it.
+                {
+                    KA50SpecificData extraData = new KA50SpecificData(KA50.EPointType.Waypoint);
+                    input.AircraftSpecificData.Add(selectedAircraft.GetType(), extraData);
+                    cb_pointType.SelectedIndex = 0;
+                }
+                else
+                {
+                    cb_pointType.SelectedIndex = 0;
                 }
             }
             
-            // Update point types
-            cb_pointType.Items.Clear();
-            if (selectedAircraft.GetType() == typeof(AH64))
-            {
-                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
-                    x =>
-                    {
-                        AH64.EPointType pt = (AH64.EPointType)Enum.Parse(typeof(AH64.EPointType), x);
-                        return new ComboItem<AH64.EPointType>(x, pt);
-                    }
-                ).ToArray());
-            }
-            else
-            {
-                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(x => new ComboItem<string>(x, x)).ToArray());
-            }
-            
-            cb_pointType.Enabled = cb_pointType.Items.Count > 1;
-            cb_pointType.SelectedIndex = 0;
-
             RefreshDataGrid();
         }
 
@@ -1730,15 +1789,7 @@ namespace CoordinateConverter
                         throw new Exception("Bad point type.");
                 }
 
-
-                if (input == null)
-                {
-                    if (cb_pointOption.Items.Count > 0)
-                    {
-                        cb_pointOption.SelectedIndex = 0;
-                    }
-                }
-                else
+                if (input != null)
                 {
                     // Set input to the relevant value
                     if (!input.AircraftSpecificData.ContainsKey(typeof(AH64)))
@@ -1747,16 +1798,31 @@ namespace CoordinateConverter
                     }
                     AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
                     extraData.PointType = ComboItem<AH64.EPointType>.GetSelectedValue(sender);
-                    cb_pointOption.SelectedIndex = 0;
                     input.AircraftSpecificData[selectedAircraft.GetType()] = extraData;
                 }
+            }
+            else if (selectedAircraft.GetType() == typeof(KA50))
+            {
+                KA50.EPointType pt = ComboItem<KA50.EPointType>.GetSelectedValue(cb_pointType);
+                cb_pointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pt.ToString()).Select(x => new ComboItem<string>(x, x)).ToArray());
+                if (input != null)
+                {
+                    if (!input.AircraftSpecificData.ContainsKey(typeof(KA50)))
+                    {
+                        input.AircraftSpecificData.Add(selectedAircraft.GetType(), new KA50SpecificData(pt));
+                    }
+                    else
+                    {
+                        input.AircraftSpecificData[selectedAircraft.GetType()] = new KA50SpecificData(pt);
+                    }
+                }                
             }
             else
             {
                 string pointTypeStr = ComboItem<string>.GetSelectedValue(cb_pointType);
                 cb_pointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pointTypeStr).Select(x => new ComboItem<string>(x, x)).ToArray());
-                cb_pointOption.SelectedIndex = 0;
             }
+            cb_pointOption.SelectedIndex = 0;
             cb_pointOption.Enabled = cb_pointOption.Items.Count > 1;
         }
 

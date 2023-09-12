@@ -72,6 +72,7 @@ namespace CoordinateConverter
 
                     // Add the AH64 data
                     entry.AircraftSpecificData.Add(typeof(AH64), new AH64SpecificData(unit));
+                    entry.AircraftSpecificData.Add(typeof(KA50), new KA50SpecificData(KA50.EPointType.TargetPoint));
                     Coordinates.Add(entry);
                 }
             }

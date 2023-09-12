@@ -84,9 +84,12 @@ function LuaExportBeforeNextFrame()
                     lastCode = commands[currCommandIndex]["code"]
                     lastNeedDepress = commands[currCommandIndex]["addDepress"]
                     local delay = tonumber(commands[currCommandIndex]["delay"])
-                    local activate = tonumber(commands[currCommandIndex]["activate"])
+                    local value = tonumber(commands[currCommandIndex]["value"])
+                    if (DEBUGGING) then
+                        log.write(LOG_MODNAME, log.INFO, "Pressing button\n  Device: " .. tostring(lastDevice) .. "\n  Code: " .. tostring(lastCode) .. "\n  AddDepress: " .. tostring(lastNeedDepress) .. "\n  Delay:" .. tostring(delay) .. "\n  Value: " .. tostring(value))
+                    end
                     -- Push the button
-                    GetDevice(lastDevice):performClickableAction(lastCode, activate)
+                    GetDevice(lastDevice):performClickableAction(lastCode, value)
                     --Store the time when we will need to depress
                     whenToDepress = socket.gettime() + (delay / 1000)
                     isPressed = true
