@@ -555,6 +555,7 @@ namespace CoordinateConverter
             this.tb_Label.Size = new System.Drawing.Size(172, 20);
             this.tb_Label.TabIndex = 9;
             this.tb_Label.TextChanged += new System.EventHandler(this.tb_Label_TextChanged);
+            this.tb_Label.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.tb_Label.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_Label_KeyPress);
             // 
             // cb_AltitudeUnit
@@ -581,6 +582,7 @@ namespace CoordinateConverter
             this.tb_Altitude.TabIndex = 6;
             this.tb_Altitude.Text = "0";
             this.tb_Altitude.TextChanged += new System.EventHandler(this.tb_Altitude_TextChanged);
+            this.tb_Altitude.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.tb_Altitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_Altitude_KeyPress);
             // 
             // label16
@@ -679,6 +681,7 @@ namespace CoordinateConverter
             this.TB_LL_Lon.Size = new System.Drawing.Size(375, 20);
             this.TB_LL_Lon.TabIndex = 2;
             this.TB_LL_Lon.TextChanged += new System.EventHandler(this.TB_LL_Lon_TextChanged);
+            this.TB_LL_Lon.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_LL_Lon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_KeyPress);
             this.TB_LL_Lon.Leave += new System.EventHandler(this.TB_Input_Leave);
             // 
@@ -730,6 +733,7 @@ namespace CoordinateConverter
             this.TB_LL_Lat.Size = new System.Drawing.Size(375, 20);
             this.TB_LL_Lat.TabIndex = 1;
             this.TB_LL_Lat.TextChanged += new System.EventHandler(this.TB_LL_Lat_TextChanged);
+            this.TB_LL_Lat.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_LL_Lat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_KeyPress);
             this.TB_LL_Lat.Leave += new System.EventHandler(this.TB_Input_Leave);
             // 
@@ -819,6 +823,7 @@ namespace CoordinateConverter
             this.TB_LLDec_Lon.Size = new System.Drawing.Size(378, 20);
             this.TB_LLDec_Lon.TabIndex = 2;
             this.TB_LLDec_Lon.TextChanged += new System.EventHandler(this.TB_LLDecimal_Lon_TextChanged);
+            this.TB_LLDec_Lon.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_LLDec_Lon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_Decimal_KeyPress);
             this.TB_LLDec_Lon.Leave += new System.EventHandler(this.TB_Input_Leave);
             // 
@@ -870,6 +875,7 @@ namespace CoordinateConverter
             this.TB_LLDec_Lat.Size = new System.Drawing.Size(378, 20);
             this.TB_LLDec_Lat.TabIndex = 1;
             this.TB_LLDec_Lat.TextChanged += new System.EventHandler(this.TB_LLDecimal_Lat_TextChanged);
+            this.TB_LLDec_Lat.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_LLDec_Lat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_Decimal_KeyPress);
             this.TB_LLDec_Lat.Leave += new System.EventHandler(this.TB_Input_Leave);
             // 
@@ -956,6 +962,7 @@ namespace CoordinateConverter
             this.TB_MGRS_Digraph.Size = new System.Drawing.Size(34, 20);
             this.TB_MGRS_Digraph.TabIndex = 3;
             this.TB_MGRS_Digraph.TextChanged += new System.EventHandler(this.InputMGRSChanged);
+            this.TB_MGRS_Digraph.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_MGRS_Digraph.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_MGRS_Digraph_KeyPress);
             // 
             // TB_MGRS_Fraction
@@ -980,6 +987,7 @@ namespace CoordinateConverter
             this.TB_MGRS_LatZone.Size = new System.Drawing.Size(34, 20);
             this.TB_MGRS_LatZone.TabIndex = 2;
             this.TB_MGRS_LatZone.TextChanged += new System.EventHandler(this.InputMGRSChanged);
+            this.TB_MGRS_LatZone.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_MGRS_LatZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LatZone_KeyPress);
             // 
             // TB_MGRS_LongZone
@@ -990,6 +998,7 @@ namespace CoordinateConverter
             this.TB_MGRS_LongZone.Size = new System.Drawing.Size(34, 20);
             this.TB_MGRS_LongZone.TabIndex = 1;
             this.TB_MGRS_LongZone.TextChanged += new System.EventHandler(this.InputMGRSChanged);
+            this.TB_MGRS_LongZone.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_MGRS_LongZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LongZone_KeyPress);
             // 
             // tabPage3
@@ -1048,6 +1057,7 @@ namespace CoordinateConverter
             this.TB_UTM_LatZone.Size = new System.Drawing.Size(34, 20);
             this.TB_UTM_LatZone.TabIndex = 2;
             this.TB_UTM_LatZone.TextChanged += new System.EventHandler(this.InputUTMChanged);
+            this.TB_UTM_LatZone.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_UTM_LatZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LatZone_KeyPress);
             // 
             // tableLayoutPanel1
@@ -1079,6 +1089,7 @@ namespace CoordinateConverter
             this.TB_UTM_Easting.Size = new System.Drawing.Size(183, 20);
             this.TB_UTM_Easting.TabIndex = 3;
             this.TB_UTM_Easting.TextChanged += new System.EventHandler(this.InputUTMChanged);
+            this.TB_UTM_Easting.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_UTM_Easting.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RB_UTM_Northing_Easting_KeyPress);
             this.TB_UTM_Easting.Leave += new System.EventHandler(this.TB_Input_Leave);
             // 
@@ -1092,6 +1103,7 @@ namespace CoordinateConverter
             this.TB_UTM_Northing.Size = new System.Drawing.Size(183, 20);
             this.TB_UTM_Northing.TabIndex = 4;
             this.TB_UTM_Northing.TextChanged += new System.EventHandler(this.InputUTMChanged);
+            this.TB_UTM_Northing.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_UTM_Northing.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RB_UTM_Northing_Easting_KeyPress);
             this.TB_UTM_Northing.Leave += new System.EventHandler(this.TB_Input_Leave);
             // 
@@ -1103,6 +1115,7 @@ namespace CoordinateConverter
             this.TB_UTM_LongZone.Size = new System.Drawing.Size(34, 20);
             this.TB_UTM_LongZone.TabIndex = 1;
             this.TB_UTM_LongZone.TextChanged += new System.EventHandler(this.InputUTMChanged);
+            this.TB_UTM_LongZone.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_UTM_LongZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LongZone_KeyPress);
             // 
             // tabPage4
@@ -1179,6 +1192,7 @@ namespace CoordinateConverter
             this.TB_Bulls_Range.Size = new System.Drawing.Size(118, 20);
             this.TB_Bulls_Range.TabIndex = 2;
             this.TB_Bulls_Range.TextChanged += new System.EventHandler(this.TB_Bulls_Range_TextChanged);
+            this.TB_Bulls_Range.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_Bulls_Range.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_Bulls_Range_KeyPress);
             this.TB_Bulls_Range.Leave += new System.EventHandler(this.TB_Input_Leave);
             // 
@@ -1213,6 +1227,7 @@ namespace CoordinateConverter
             this.TB_Bulls_Bearing.Size = new System.Drawing.Size(118, 20);
             this.TB_Bulls_Bearing.TabIndex = 1;
             this.TB_Bulls_Bearing.TextChanged += new System.EventHandler(this.TB_Bulls_Bearing_TextChanged);
+            this.TB_Bulls_Bearing.Enter += new System.EventHandler(this.TB_Input_Enter);
             this.TB_Bulls_Bearing.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_Bulls_Bearing_KeyPress);
             this.TB_Bulls_Bearing.Leave += new System.EventHandler(this.TB_Input_Leave);
             // 
@@ -1270,12 +1285,13 @@ namespace CoordinateConverter
             this.colXFer,
             this.colDelete});
             this.dgv_CoordinateList.Location = new System.Drawing.Point(505, 13);
-            this.dgv_CoordinateList.MultiSelect = false;
             this.dgv_CoordinateList.Name = "dgv_CoordinateList";
+            this.dgv_CoordinateList.ReadOnly = true;
             this.dgv_CoordinateList.Size = new System.Drawing.Size(672, 468);
             this.dgv_CoordinateList.TabIndex = 30;
             this.dgv_CoordinateList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CoordinateList_CellContentClick);
             this.dgv_CoordinateList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CoordinateList_CellDoubleClick);
+            this.dgv_CoordinateList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgv_CoordinateList_KeyDown);
             // 
             // colId
             // 
@@ -1291,17 +1307,21 @@ namespace CoordinateConverter
             // 
             // colLabel
             // 
+            this.colLabel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colLabel.DataPropertyName = "Name";
+            this.colLabel.FillWeight = 40F;
             this.colLabel.HeaderText = "Label";
             this.colLabel.MaxInputLength = 12;
             this.colLabel.MinimumWidth = 30;
             this.colLabel.Name = "colLabel";
+            this.colLabel.ReadOnly = true;
             this.colLabel.ToolTipText = "User defined label for the point";
             // 
             // colCoordinates
             // 
             this.colCoordinates.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colCoordinates.DataPropertyName = "CoordinateStr";
+            this.colCoordinates.FillWeight = 40F;
             this.colCoordinates.HeaderText = "Coordinates";
             this.colCoordinates.MinimumWidth = 180;
             this.colCoordinates.Name = "colCoordinates";
@@ -1310,11 +1330,14 @@ namespace CoordinateConverter
             // 
             // colAltitude
             // 
+            this.colAltitude.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colAltitude.DataPropertyName = "Altitude";
+            this.colAltitude.FillWeight = 20F;
             this.colAltitude.HeaderText = "Altitude";
             this.colAltitude.MaxInputLength = 5;
             this.colAltitude.MinimumWidth = 100;
             this.colAltitude.Name = "colAltitude";
+            this.colAltitude.ReadOnly = true;
             this.colAltitude.ToolTipText = "Altitude of the point.";
             // 
             // colXFer
@@ -1325,6 +1348,7 @@ namespace CoordinateConverter
             this.colXFer.IndeterminateValue = "";
             this.colXFer.MinimumWidth = 40;
             this.colXFer.Name = "colXFer";
+            this.colXFer.ReadOnly = true;
             this.colXFer.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colXFer.ToolTipText = "Check to enable transfer to DCS.";
             this.colXFer.TrueValue = "";
@@ -1335,6 +1359,7 @@ namespace CoordinateConverter
             this.colDelete.HeaderText = "Del";
             this.colDelete.MinimumWidth = 30;
             this.colDelete.Name = "colDelete";
+            this.colDelete.ReadOnly = true;
             this.colDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colDelete.Text = "-";
             this.colDelete.ToolTipText = "Remove a point from the list.";
@@ -1391,21 +1416,21 @@ namespace CoordinateConverter
             // transferToolStripMenuItem
             // 
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
-            this.transferToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.transferToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.transferToolStripMenuItem.Text = "Transfer";
             this.transferToolStripMenuItem.Click += new System.EventHandler(this.transferToolStripMenuItem_Click);
             // 
             // stopTransferToolStripMenuItem
             // 
             this.stopTransferToolStripMenuItem.Name = "stopTransferToolStripMenuItem";
-            this.stopTransferToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stopTransferToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.stopTransferToolStripMenuItem.Text = "Stop Transfer";
             this.stopTransferToolStripMenuItem.Click += new System.EventHandler(this.stopTransferToolStripMenuItem_Click);
             // 
             // fetchF10ToolStripMenuItem
             // 
             this.fetchF10ToolStripMenuItem.Name = "fetchF10ToolStripMenuItem";
-            this.fetchF10ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fetchF10ToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.fetchF10ToolStripMenuItem.Text = "Fetch F10";
             this.fetchF10ToolStripMenuItem.Click += new System.EventHandler(this.fetchF10ToolStripMenuItem_Click);
             // 
@@ -1423,7 +1448,7 @@ namespace CoordinateConverter
             this.kA50ToolStripMenuItem,
             this.m2000ToolStripMenuItem});
             this.aircraftToolStripMenuItem.Name = "aircraftToolStripMenuItem";
-            this.aircraftToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aircraftToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.aircraftToolStripMenuItem.Text = "Aircraft";
             // 
             // autoToolStripMenuItem
@@ -1431,19 +1456,19 @@ namespace CoordinateConverter
             this.autoToolStripMenuItem.Checked = true;
             this.autoToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoToolStripMenuItem.Name = "autoToolStripMenuItem";
-            this.autoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.autoToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.autoToolStripMenuItem.Text = "Auto";
             this.autoToolStripMenuItem.Click += new System.EventHandler(this.autoAircraftToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
             // 
             // a10ToolStripMenuItem
             // 
             this.a10ToolStripMenuItem.Name = "a10ToolStripMenuItem";
-            this.a10ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.a10ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.a10ToolStripMenuItem.Text = "A10";
             this.a10ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
@@ -1454,34 +1479,34 @@ namespace CoordinateConverter
             this.aH64CPGToolStripMenuItem,
             this.aH64ClearPointsToolStripMenuItem});
             this.aH64ToolStripMenuItemMenu.Name = "aH64ToolStripMenuItemMenu";
-            this.aH64ToolStripMenuItemMenu.Size = new System.Drawing.Size(180, 22);
+            this.aH64ToolStripMenuItemMenu.Size = new System.Drawing.Size(116, 22);
             this.aH64ToolStripMenuItemMenu.Text = "AH64";
             // 
             // aH64PLTToolStripMenuItem
             // 
             this.aH64PLTToolStripMenuItem.Name = "aH64PLTToolStripMenuItem";
-            this.aH64PLTToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aH64PLTToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.aH64PLTToolStripMenuItem.Text = "AH64-PLT";
             this.aH64PLTToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // aH64CPGToolStripMenuItem
             // 
             this.aH64CPGToolStripMenuItem.Name = "aH64CPGToolStripMenuItem";
-            this.aH64CPGToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aH64CPGToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.aH64CPGToolStripMenuItem.Text = "AH-64-CPG";
             this.aH64CPGToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // aH64ClearPointsToolStripMenuItem
             // 
             this.aH64ClearPointsToolStripMenuItem.Name = "aH64ClearPointsToolStripMenuItem";
-            this.aH64ClearPointsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aH64ClearPointsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.aH64ClearPointsToolStripMenuItem.Text = "Clear Points...";
             this.aH64ClearPointsToolStripMenuItem.Click += new System.EventHandler(this.aH64ClearPointsToolStripMenuItem_Click);
             // 
             // aV8BToolStripMenuItem
             // 
             this.aV8BToolStripMenuItem.Name = "aV8BToolStripMenuItem";
-            this.aV8BToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aV8BToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aV8BToolStripMenuItem.Text = "AV8B";
             this.aV8BToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
@@ -1491,20 +1516,20 @@ namespace CoordinateConverter
             this.f15EPilotToolStripMenuItem,
             this.f15EWSOToolStripMenuItem});
             this.f15EToolStripMenuItemMenu.Name = "f15EToolStripMenuItemMenu";
-            this.f15EToolStripMenuItemMenu.Size = new System.Drawing.Size(180, 22);
+            this.f15EToolStripMenuItemMenu.Size = new System.Drawing.Size(116, 22);
             this.f15EToolStripMenuItemMenu.Text = "F15E";
             // 
             // f15EPilotToolStripMenuItem
             // 
             this.f15EPilotToolStripMenuItem.Name = "f15EPilotToolStripMenuItem";
-            this.f15EPilotToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.f15EPilotToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.f15EPilotToolStripMenuItem.Text = "F15E Pilot";
             this.f15EPilotToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // f15EWSOToolStripMenuItem
             // 
             this.f15EWSOToolStripMenuItem.Name = "f15EWSOToolStripMenuItem";
-            this.f15EWSOToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.f15EWSOToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.f15EWSOToolStripMenuItem.Text = "F15E WSO";
             this.f15EWSOToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
@@ -1514,48 +1539,48 @@ namespace CoordinateConverter
             this.f16ToolStripMenuItem,
             this.setF16StartIndexToolStripMenuItem});
             this.f16ToolStripMenuItemMenu.Name = "f16ToolStripMenuItemMenu";
-            this.f16ToolStripMenuItemMenu.Size = new System.Drawing.Size(180, 22);
+            this.f16ToolStripMenuItemMenu.Size = new System.Drawing.Size(116, 22);
             this.f16ToolStripMenuItemMenu.Text = "F16";
             // 
             // f16ToolStripMenuItem
             // 
             this.f16ToolStripMenuItem.Name = "f16ToolStripMenuItem";
-            this.f16ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.f16ToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.f16ToolStripMenuItem.Text = "F16";
             this.f16ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // setF16StartIndexToolStripMenuItem
             // 
             this.setF16StartIndexToolStripMenuItem.Name = "setF16StartIndexToolStripMenuItem";
-            this.setF16StartIndexToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setF16StartIndexToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.setF16StartIndexToolStripMenuItem.Text = "Set start index...";
             this.setF16StartIndexToolStripMenuItem.Click += new System.EventHandler(this.setF16StartIndexToolStripMenuItem_Click);
             // 
             // f18ToolStripMenuItem
             // 
             this.f18ToolStripMenuItem.Name = "f18ToolStripMenuItem";
-            this.f18ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.f18ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.f18ToolStripMenuItem.Text = "F18";
             this.f18ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // kA50ToolStripMenuItem
             // 
             this.kA50ToolStripMenuItem.Name = "kA50ToolStripMenuItem";
-            this.kA50ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.kA50ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.kA50ToolStripMenuItem.Text = "KA50";
             this.kA50ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // m2000ToolStripMenuItem
             // 
             this.m2000ToolStripMenuItem.Name = "m2000ToolStripMenuItem";
-            this.m2000ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.m2000ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.m2000ToolStripMenuItem.Text = "M2000";
             this.m2000ToolStripMenuItem.Click += new System.EventHandler(this.aircraftSelectionToolStripMenuItem_Click);
             // 
             // importUnitsToolStripMenuItem
             // 
             this.importUnitsToolStripMenuItem.Name = "importUnitsToolStripMenuItem";
-            this.importUnitsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importUnitsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.importUnitsToolStripMenuItem.Text = "Import Units...";
             this.importUnitsToolStripMenuItem.Click += new System.EventHandler(this.importUnitsToolStripMenuItem_Click);
             // 
@@ -1841,12 +1866,6 @@ namespace CoordinateConverter
         private ToolStripMenuItem saveAsToolStripMenuItem;
         private ToolStripMenuItem fetchF10ToolStripMenuItem;
         private ToolStripStatusLabel lbl_DCS_Status;
-        private DataGridViewTextBoxColumn colId;
-        private DataGridViewTextBoxColumn colLabel;
-        private DataGridViewTextBoxColumn colCoordinates;
-        private DataGridViewTextBoxColumn colAltitude;
-        private DataGridViewCheckBoxColumn colXFer;
-        private DataGridViewButtonColumn colDelete;
         private Label label18;
         private ComboBox cb_pointType;
         private Label label17;
@@ -1883,6 +1902,12 @@ namespace CoordinateConverter
         private ToolStripMenuItem stopTransferToolStripMenuItem;
         private ToolStripMenuItem f16ToolStripMenuItem;
         private ToolStripMenuItem setF16StartIndexToolStripMenuItem;
+        private DataGridViewTextBoxColumn colId;
+        private DataGridViewTextBoxColumn colLabel;
+        private DataGridViewTextBoxColumn colCoordinates;
+        private DataGridViewTextBoxColumn colAltitude;
+        private DataGridViewCheckBoxColumn colXFer;
+        private DataGridViewButtonColumn colDelete;
     }
 }
 

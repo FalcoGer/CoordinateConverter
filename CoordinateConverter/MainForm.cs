@@ -18,7 +18,7 @@ namespace CoordinateConverter
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class MainForm : Form
     {
-        #region "RegexConstants"
+        #region RegexConstants
         /// <summary>
         /// Regex for Latitude. Allows valid numbers 0-90, 0-59, 0-59 and coordinate units, optional decimal part for seconds
         /// </summary>
@@ -63,9 +63,9 @@ namespace CoordinateConverter
         /// </summary>
         private object lockObjProgressBar = new object();
 
-        #region "Input"
+        #region Input
 
-        #region "LL"        
+        #region LL        
         /// <summary>
         /// Checks the LL textboxes and marks them as error if format invalid.
         /// </summary>
@@ -166,6 +166,26 @@ namespace CoordinateConverter
         private void TB_LL_KeyPress(object sender, KeyPressEventArgs e)
         {
             char[] validSingleCharacters = { '°', '.', '"', '\'' };
+            // Automatically switch focus
+            switch (e.KeyChar)
+            {
+                case 'n':
+                    RB_LL_N.Checked = true;
+                    TB_LL_Lat.Focus();
+                    break;
+                case 's':
+                    RB_LL_S.Checked = true;
+                    TB_LL_Lat.Focus();
+                    break;
+                case 'e':
+                    RB_LL_E.Checked = true;
+                    TB_LL_Lon.Focus();
+                    break;
+                case 'w':
+                    RB_LL_W.Checked = true;
+                    TB_LL_Lon.Focus();
+                    break;
+            }
             // allow numbers or any of the validSingleCharacters as long as they aren't in the text already
             if (
                 (e.KeyChar >= '0' && e.KeyChar <= '9') ||
@@ -183,7 +203,7 @@ namespace CoordinateConverter
         }
         #endregion // LL
 
-        #region "LLDecimal"        
+        #region LLDecimal        
         /// <summary>
         /// Checks the LL Decimal textboxes and marks them as error if format invalid.
         /// </summary>
@@ -282,6 +302,26 @@ namespace CoordinateConverter
         private void TB_LL_Decimal_KeyPress(object sender, KeyPressEventArgs e)
         {
             char[] validSingleCharacters = { '°', '.', '\'' };
+            // Automatically switch focus
+            switch (e.KeyChar)
+            {
+                case 'n':
+                    RB_LLDec_N.Checked = true;
+                    TB_LLDec_Lat.Focus();
+                    break;
+                case 's':
+                    RB_LLDec_S.Checked = true;
+                    TB_LLDec_Lat.Focus();
+                    break;
+                case 'e':
+                    RB_LLDec_E.Checked = true;
+                    TB_LLDec_Lon.Focus();
+                    break;
+                case 'w':
+                    RB_LLDec_W.Checked = true;
+                    TB_LLDec_Lon.Focus();
+                    break;
+            }
             // allow numbers or any of the validSingleCharacters as long as they aren't in the text already
             e.Handled = !(
                 (e.KeyChar >= '0' && e.KeyChar <= '9') ||
@@ -292,7 +332,7 @@ namespace CoordinateConverter
         }
         #endregion // LLDecimal
 
-        #region "UTM/MGRS GRID"
+        #region UTM/MGRS GRID
         private void TB_UTM_MGRS_LongZone_KeyPress(object sender, KeyPressEventArgs e)
         {
             // only allow numbers and control characters (backspace + delete)
@@ -306,7 +346,7 @@ namespace CoordinateConverter
         }
         #endregion
 
-        #region "MGRS"        
+        #region MGRS        
         /// <summary>
         /// Checks the MGRS textboxes and marks them as error if format invalid.
         /// </summary>
@@ -436,8 +476,38 @@ namespace CoordinateConverter
             }
         }
 
-        private void InputMGRSChanged(object sender, EventArgs e)
+        private void InputMGRSChanged(object objSender, EventArgs e)
         {
+            TextBox sender = objSender as TextBox;
+
+            // If the text is complete, switch to the next box
+            if (sender.Text.Length == sender.MaxLength)
+            {
+                TextBox nextBox = null;
+
+                if (sender.Name == TB_MGRS_LongZone.Name)
+                {
+                    nextBox = TB_MGRS_LatZone;
+                }
+                else if (sender.Name == TB_MGRS_LatZone.Name)
+                {
+                    nextBox = TB_MGRS_Digraph;
+                }
+                else if (sender.Name == TB_MGRS_Digraph.Name)
+                {
+                    nextBox = TB_MGRS_Fraction;
+                }
+                else if (sender.Name == TB_MGRS_Fraction.Name)
+                {
+                    // Nothing to do in this case
+                }
+
+                if (nextBox != null)
+                {
+                    nextBox.Focus();
+                }
+            }
+
             CalcMGRS();
         }
 
@@ -457,6 +527,8 @@ namespace CoordinateConverter
             // remove space in the middle
             TB_MGRS_Fraction.Text = TB_MGRS_Fraction.Text.Replace(" ", "");
             TB_MGRS_Fraction.MaxLength = 10;
+            // Do other input focus stuff
+            TB_Input_Enter(sender, e);
         }
 
         private void TB_MGRS_Fraction_Leave(object sender, EventArgs e)
@@ -474,7 +546,7 @@ namespace CoordinateConverter
 
         #endregion // MGRS
 
-        #region "UTM"
+        #region UTM
         private bool CheckAndMarkUTM()
         {
             bool ok = true;
@@ -574,14 +646,40 @@ namespace CoordinateConverter
             );
         }
 
-        private void InputUTMChanged(object sender, EventArgs e)
+        private void InputUTMChanged(object objSender, EventArgs e)
         {
+            TextBox sender = objSender as TextBox;
+            if (sender.Text.Length == sender.MaxLength)
+            {
+                TextBox nextBox = null;
+                if (sender.Name == TB_UTM_LongZone.Name)
+                {
+                    nextBox = TB_UTM_LatZone;
+                }
+                else if (sender.Name == TB_UTM_LatZone.Name)
+                {
+                    nextBox = TB_UTM_Easting;
+                }
+                else if (sender.Name == TB_UTM_Easting.Name)
+                {
+                    // nothing to do here
+                }
+                else if (sender.Name == TB_UTM_Northing.Name)
+                {
+                    // nothing to do here
+                }
+
+                if (nextBox != null)
+                {
+                    nextBox.Focus();
+                }
+            }
             CalcUTM();
         }
 
         #endregion
 
-        #region "BULLS"
+        #region BULLS
         private bool CheckAndMarkBulls()
         {
             if (bulls == null)
@@ -844,6 +942,11 @@ namespace CoordinateConverter
             }
         }
 
+        private void TB_Input_Enter(object sender, EventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
         private void TB_Input_Leave(object sender, EventArgs e)
         {
             RefreshCoordinates(EUpdateType.CoordinateInput);
@@ -1100,6 +1203,56 @@ namespace CoordinateConverter
             }
         }
 
+        private void dgv_CoordinateList_KeyDown(object objSender, KeyEventArgs e)
+        {
+            DataGridView sender = objSender as DataGridView;
+            var selectedRowIds = GetSelectedRowIndicies();
+            if (selectedRowIds.Count == 0)
+            {
+                return;
+            }
+            if (e.KeyData == Keys.Delete)
+            {
+                // Remove them all
+                foreach (int rowIdx in selectedRowIds.OrderBy(x => -x))
+                {
+                    dataEntries.RemoveAt(rowIdx);
+                }
+                // Update the grid
+                RefreshDataGrid();
+            }
+            else if (e.KeyCode == Keys.Space)
+            {
+                // Check if they are all on or if some or all are off
+                bool allAreOn = true;
+                foreach (int rowIdx in selectedRowIds)
+                {
+                    DataGridViewRow row = sender.Rows[rowIdx];
+                    DataGridViewCheckBoxCell cell = row.Cells[5] as DataGridViewCheckBoxCell;
+                    if (!(cell.Value as bool? ?? false))
+                    {
+                        allAreOn = false;
+                        break;
+                    }
+                }
+
+                // Set them all to on/off depending on the result
+                foreach (int rowIdx in selectedRowIds)
+                {
+                    dataEntries[rowIdx].XFer = !allAreOn;
+                }
+
+                // Update the grid
+                RefreshDataGrid();
+
+                // Reselect all the rows
+                foreach (int rowIdx in selectedRowIds)
+                {
+                    dgv_CoordinateList.Rows[rowIdx].Selected = true;
+                }
+            }
+        }
+
         private void dgv_CoordinateList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -1261,12 +1414,12 @@ namespace CoordinateConverter
         private void btn_Replace_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
-
-            int? rowIdx = GetSelectedRowIndex();
+            var rowIds = GetSelectedRowIndicies();
+            int? rowIdx = (rowIds.Count) == 1 ? rowIds.First() : (int?)null;
             if (!rowIdx.HasValue)
             {
                 lbl_Error.Visible = true;
-                lbl_Error.Text = "Need to select exactly one row or one cell.";
+                lbl_Error.Text = "Only one row may be selected.";
                 return;
             }
 
@@ -1275,30 +1428,39 @@ namespace CoordinateConverter
             dgv_CoordinateList.Rows[rowIdx.Value].Selected = true;
         }
 
-        private int? GetSelectedRowIndex()
+        private List<int> GetSelectedRowIndicies()
         {
-            int? idx = null;
-            if (dgv_CoordinateList.SelectedCells.Count == 1)
+            // Get all row IDs that are selected
+            List<int> selectedRowIds = new List<int>();
+            foreach (DataGridViewCell cell in dgv_CoordinateList.SelectedCells)
             {
-                idx = dgv_CoordinateList.SelectedCells[0].RowIndex;
+                if (!selectedRowIds.Contains(cell.RowIndex))
+                {
+                    selectedRowIds.Add(cell.RowIndex);
+                }
             }
-            else if (dgv_CoordinateList.SelectedRows.Count == 1)
+            foreach (DataGridViewRow row in dgv_CoordinateList.SelectedRows)
             {
-                idx = dgv_CoordinateList.SelectedRows[0].Index;
+                if (!selectedRowIds.Contains(row.Index))
+                {
+                    selectedRowIds.Add(row.Index);
+                }
             }
-            return idx;
+
+            return selectedRowIds;
         }
 
         private void btn_MoveUp_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
 
-            int? idx = GetSelectedRowIndex();
+            var rowIds = GetSelectedRowIndicies();
+            int? idx = rowIds.Count == 1 ? rowIds.First() : (int?)null;
 
             if (idx == null)
             {
                 lbl_Error.Visible = true;
-                lbl_Error.Text = "Need to select exactly one row or one cell.";
+                lbl_Error.Text = "Only one row may be selected.";
                 return;
             }
 
@@ -1313,12 +1475,13 @@ namespace CoordinateConverter
         {
             lbl_Error.Visible = false;
 
-            int? idx = GetSelectedRowIndex();
+            var rowIds = GetSelectedRowIndicies();
+            int? idx = rowIds.Count == 1 ? rowIds.First() : (int?)null;
 
-            if (idx is null)
+            if (idx == null)
             {
                 lbl_Error.Visible = true;
-                lbl_Error.Text = "Need to select exactly one row or one cell.";
+                lbl_Error.Text = "Only one row may be selected.";
                 return;
             }
 
@@ -1371,7 +1534,7 @@ namespace CoordinateConverter
 
         #endregion
 
-        #region "File management"
+        #region File management
 
         private OpenFileDialog ofd = new OpenFileDialog()
         {
@@ -1464,7 +1627,7 @@ namespace CoordinateConverter
 
         #endregion
 
-        #region "DCS"
+        #region DCS
 
         private void cb_altitutudeIsAGL_CheckedChanged(object objSender, EventArgs e)
         {
@@ -2102,7 +2265,7 @@ namespace CoordinateConverter
 
         #endregion
 
-        #region "Settings"
+        #region Settings
 
         private enum ECameraPosMode
         {
@@ -2125,7 +2288,7 @@ namespace CoordinateConverter
             cameraAltitudeToolStripMenuItem.Checked = true;
         }
 
-        #region "ReticleSettings"
+        #region ReticleSettings
         enum EReticleSetting
         {
             Never,
@@ -2187,7 +2350,7 @@ namespace CoordinateConverter
         }
         #endregion
         
-        #region "VisibilitySettings"
+        #region VisibilitySettings
         private void opaqueToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Opacity = 1.0;

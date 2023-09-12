@@ -1,11 +1,8 @@
 Connection to DCS asyncronous to prevent ui freezes.
     - have the lua script connect to this tool?
-Re-add multi select to main data grid view to de/reselect many points at once
 Re-add sorting by header for rapid selection
-Add multi delete without deleting all/singles
 When saving/loading, update the default location and file name
      - add a save option that just overwrites the last file loaded/saved
-Add input for how many points to be deleted for AH64 clear points
 Add support for selection instead of camera position when something is selected
     - add option for auto listing any new unit that was clicked
         - alternatively use LoGetWorldObjects("units") (Exports.lua:L426)
@@ -17,7 +14,7 @@ Add support for selection instead of camera position when something is selected
         - LoGetObjectById()
             - how to get ID?
 Add support for importing airfields
-     - LoGetWorldObjects("airdromes") (Exports.lua:L426)
+    - LoGetWorldObjects("airdromes") (Exports.lua:L426)
     - create coordinate data entries for each unit to import.
         - add the appropriate ah64 specific data for each unit type
         - use the dcs encyclopedia data to figure out categories for unknown types
@@ -33,7 +30,6 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
         - if not possible use LoSetSharedTexture (Export.lua L1061) and analyze bitmap (?)
             - test with multiple resolutions
         - SLAM-ER (point type: SLAM-ER Station (how to differenciate?)) -> point options: (WP1 .. 5)
-        - tune speed
         - hornet, autoswitch all to PP2 after dropping from BRU?
     - A10C
         - remind user that selection MGRS will use MGRS input into CDU
@@ -47,12 +43,6 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
     - F15E
         - Ask user for seat
     - JF17 (?)
-    - KA-50
-        - Point types as per PVI-800
-            - need to remember next point id for each type to press the correct button
-    - F16
-        - JDAM options(?) in DED?
-add checkbox option for camera altitude/ground altitude in status bar
 Allow users to do tedious setups, perhaps save a sequence of commands to be played back later (low priority)
     - Include DTC features, separate from points entirely
         - saving/loading for each aircraft type
@@ -68,7 +58,4 @@ Allow users to do tedious setups, perhaps save a sequence of commands to be play
         - D/L
         - TACAN
         - ILS
-Make pressing N/S/E/W keys in the L/L textboxes switch the RB (on text change to allow pasting)
-    - hitting the button should also switch to the next text box
-make hitting the character limit in UTM and MGRS text boxes switch to the next text box
 next waypoint bearing/range/deltaAltitude column
