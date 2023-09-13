@@ -2118,7 +2118,7 @@ namespace CoordinateConverter
             }
         }
 
-        private void transferToolStripMenuItem_Click(object sender, EventArgs e)
+        private void transferControl_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
             if (selectedAircraft == null)
@@ -2142,7 +2142,7 @@ namespace CoordinateConverter
             }
         }
 
-        private void stopTransferToolStripMenuItem_Click(object sender, EventArgs e)
+        private void stopTransferControl_Click(object sender, EventArgs e)
         {
             DCSMessage message = new DCSMessage()
             {
@@ -2181,13 +2181,13 @@ namespace CoordinateConverter
             selectedAircraft = new JF17(startingWaypoint);
         }
 
-        private void fetchF10ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void fetchCameraPositionControl_Click(object sender, EventArgs e)
         {
             input = dcsCoordinate;
             RefreshCoordinates(EUpdateType.CoordinateInput);
         }
 
-        private void importUnitsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void importUnitsControl_Click(object sender, EventArgs e)
         {
             try
             {
