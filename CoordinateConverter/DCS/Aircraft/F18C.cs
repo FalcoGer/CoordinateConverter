@@ -16,313 +16,7 @@ namespace CoordinateConverter.DCS.Aircraft
     /// <seealso cref="CoordinateConverter.DCS.Aircraft.DCSAircraft" />
     public class F18C : DCSAircraft
     {
-        private enum EDevices
-        {
-            UFC = 25,
-            MDI_LEFT = 35,
-            AMPCD = 37,
-
-        }
-
-        // from command_defs.lua, numbers are calculated from the counter() function.
-        private enum EKeyCodes
-        {
-            MDI_PB01 = 3011,
-            MDI_PB02,
-            MDI_PB03,
-            MDI_PB04,
-            MDI_PB05,
-            MDI_PB06, // 3016
-            MDI_PB07,
-            MDI_PB08,
-            MDI_PB09,
-            MDI_PB10,
-            MDI_PB11, // 3021
-            MDI_PB12,
-            MDI_PB13,
-            MDI_PB14,
-            MDI_PB15,
-            MDI_PB16, // 3026
-            MDI_PB17,
-            MDI_PB18,
-            MDI_PB19,
-            MDI_PB20, // 3030
-
-            UFC_AP = 3001,
-            UFC_IFF,
-            UFC_TCN,
-            UFC_ILS,
-            UFC_DL,
-            UFC_BCN,
-            UFC_ON_OFF,
-            UFC_COMM1_FN,
-            UFC_COMM2_FN,
-            UFC_PB1,
-            UFC_PB2,
-            UFC_PB3,
-            UFC_PB4,
-            UFC_PB5,
-            UFC_IP,
-            UFC_ADF,
-            UFC_EMCON,
-            UFC_KB0_NEG,
-            UFC_KB1,
-            UFC_KB2_N,
-            UFC_KB3,
-            UFC_KB4_W,
-            UFC_KB5,
-            UFC_KB6_E,
-            UFC_KB7,
-            UFC_KB8_S,
-            UFC_KB9,
-            UFC_KB_CLR,
-            UFC_KB_ENT,
-        }
-
         private List<WeaponStation> weapons = new List<WeaponStation>();
-
-
-        /// <summary>
-        /// Weapon types that get grouped together in the hornet
-        /// </summary>
-        public enum EWeaponType
-        {
-            /// <summary>
-            /// Mk82 500lbs based JDAMs (GBU-38 and BRU-55 With GBU-38)
-            /// </summary>
-            J82,
-
-            /// <summary>
-            /// MK83 1000lbs based JDAMs (GBU-32(V)2/B)
-            /// </summary>
-            J83,
-
-            /// <summary>
-            /// Mk84 2000lbs based JDAMs without penetrator (GBU-31(V)1/B and GBU-31(V)2/B)
-            /// </summary>
-            J84,
-
-            /// <summary>
-            /// MK84 2000lbs based JDAMs with BLU-109 penetrator (GBU-31(V)3/B and GBU-31(V)4/B)
-            /// </summary>
-            J109,
-
-            /// <summary>
-            /// AGM-154A JSOW (cluster effect munitions)
-            /// </summary>
-            JSA,
-
-            /// <summary>
-            /// AGM-154C JSOW (unary broach)
-            /// </summary>
-            JSC,
-
-            /// <summary>
-            /// AGM-84E Stand-off land attack missile
-            /// </summary>
-            SLAM,
-
-            /// <summary>
-            /// AGM-84H Stand-off land attack missile, expanded response
-            /// </summary>
-            SLAMER,
-
-            /// <summary>
-            /// The last AG programable weapon is below this value
-            /// </summary>
-            _LAST_AG_PROGRAMABLE,
-
-            /// <summary>
-            /// The AAW-13 Datalink pod
-            /// </summary>
-            DL13,
-
-            /// <summary>
-            /// The Mk82 low drag bomb
-            /// </summary>
-            B82B,
-
-            /// <summary>
-            /// The Mk82 Snake eye retarded bomb
-            /// </summary>
-            B82XT,
-
-            /// <summary>
-            /// The Mk82Y high drag bomb
-            /// </summary>
-            B82YT,
-
-            /// <summary>
-            /// The GBU-10 laser guided bombs
-            /// </summary>
-            B82LG,
-
-            /// <summary>
-            /// The Mk83 1000lbs bomb
-            /// </summary>
-            B83B,
-
-            /// <summary>
-            /// The GBU-16 1000 lbs bomb
-            /// </summary>
-            B83LG,
-
-            /// <summary>
-            /// The Mk84 2000 lbs bomb
-            /// </summary>
-            B84B,
-
-            /// <summary>
-            /// The Mk84 2000 lbs laser guided bomb (GBU-10)
-            /// </summary>
-            B84LG,
-
-            /// <summary>
-            /// The GBU-24 laser guided, glide penetrator bomb
-            /// </summary>
-            GB24,
-
-            /// <summary>
-            /// The BDU-33 practice bomb
-            /// </summary>
-            B76,
-
-            /// <summary>
-            /// The BDU-45 Practice bomb family
-            /// </summary>
-            B45X,
-
-            /// <summary>
-            /// The BDU-45 Practice bomb family
-            /// </summary>
-            B45,
-
-            /// <summary>
-            /// The B45 Laser guided practice bomb
-            /// </summary>
-            B45LG,
-
-            /// <summary>
-            /// The ADM_141A TALD
-            /// </summary>
-            T82P,
-
-            /// <summary>
-            /// The AGM-88C HARM
-            /// </summary>
-            HARM,
-
-            /// <summary>
-            /// The AGM-84D Harpoon
-            /// </summary>
-            HPD,
-
-            /// <summary>
-            /// The AGM-65E Laser maverick
-            /// </summary>
-            MAV,
-
-            /// <summary>
-            /// The AGM-65F IR Imaging maverick
-            /// </summary>
-            MAVF,
-
-            /// <summary>
-            /// The Walleye datalink guided bomb
-            /// </summary>
-            WEDL,
-
-            /// <summary>
-            /// The Mk-20 Rockeye
-            /// </summary>
-            RE,
-
-            /// <summary>
-            /// CBU99 Family cluster bombs
-            /// </summary>
-            RET,
-
-            /// <summary>
-            /// LAU-10 w/ Zuni
-            /// </summary>
-            R10S,
-
-            /// <summary>
-            /// LAU-61 w/ Hydra (x19)
-            /// </summary>
-            R61S,
-
-            /// <summary>
-            /// The LAU-68 w/ Hydra (x7)
-            /// </summary>
-            R68S,
-
-            /// <summary>
-            /// The last weapon that is listed on the A/G stores page is less than this value
-            /// </summary>
-            _LAST_AG_LISTED,
-
-            /// <summary>
-            /// The AIM7 familiy missiles
-            /// </summary>
-            AIM7,
-
-            /// <summary>
-            /// The AIM9 family missiles
-            /// </summary>
-            AIM9,
-
-            /// <summary>
-            /// The AIM120 family missiles
-            /// </summary>
-            AIM120,
-
-            /// <summary>
-            /// The last listed AA weapon
-            /// </summary>
-            _LAST_AA_LISTED,
-
-            /// <summary>
-            /// Fuel tanks
-            /// </summary>
-            FUEL,
-
-            /// <summary>
-            /// Targeting pods (AN-ASQ)
-            /// </summary>
-            TPOD,
-
-            /// <summary>
-            /// The AN/ASQ-T50 TCTS ACMI Pod
-            /// </summary>
-            AIR_SENSOR,
-
-            /// <summary>
-            /// Smoke canister for airshows
-            /// </summary>
-            SMOKE,
-
-            /// <summary>
-            /// Just a pylon or pylon removed
-            /// </summary>
-            Empty,
-
-            /// <summary>
-            /// Unknown weapon
-            /// </summary>
-            Unknown
-        }
-
-        /// <summary>
-        /// List of types that are considered JDAMs and thus have their display option select button on PB11
-        /// </summary>
-        public List<EWeaponType> JdamTypes { get; private set; } = new List<EWeaponType>()
-        {
-            EWeaponType.J82,
-            EWeaponType.J83,
-            EWeaponType.J84,
-            EWeaponType.J109
-        };
 
         /// <summary>
         /// Gets the F18 programable weapon type for the station number.
@@ -333,7 +27,7 @@ namespace CoordinateConverter.DCS.Aircraft
         public Dictionary<int, EWeaponType> StationGroups { get; private set; } = new Dictionary<int, EWeaponType>();
 
         /// <summary>
-        /// Gets the order of programbe types for the F18 as it appears on the MFD from PB 6 through 10.
+        /// Gets the order of programable types for the F18 as it appears on the MFD from PB 6 through 10.
         /// </summary>
         /// <value>
         /// The weapon station order.
@@ -1027,6 +721,310 @@ namespace CoordinateConverter.DCS.Aircraft
                 new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB10), // go to DATA page
             };
             return commands;
+        }
+
+        /// <summary>
+        /// Weapon types that get grouped together in the hornet
+        /// </summary>
+        public enum EWeaponType
+        {
+            /// <summary>
+            /// Mk82 500lbs based JDAMs (GBU-38 and BRU-55 With GBU-38)
+            /// </summary>
+            J82,
+
+            /// <summary>
+            /// MK83 1000lbs based JDAMs (GBU-32(V)2/B)
+            /// </summary>
+            J83,
+
+            /// <summary>
+            /// Mk84 2000lbs based JDAMs without penetrator (GBU-31(V)1/B and GBU-31(V)2/B)
+            /// </summary>
+            J84,
+
+            /// <summary>
+            /// MK84 2000lbs based JDAMs with BLU-109 penetrator (GBU-31(V)3/B and GBU-31(V)4/B)
+            /// </summary>
+            J109,
+
+            /// <summary>
+            /// AGM-154A JSOW (cluster effect munitions)
+            /// </summary>
+            JSA,
+
+            /// <summary>
+            /// AGM-154C JSOW (unary broach)
+            /// </summary>
+            JSC,
+
+            /// <summary>
+            /// AGM-84E Stand-off land attack missile
+            /// </summary>
+            SLAM,
+
+            /// <summary>
+            /// AGM-84H Stand-off land attack missile, expanded response
+            /// </summary>
+            SLAMER,
+
+            /// <summary>
+            /// The last AG programable weapon is below this value
+            /// </summary>
+            _LAST_AG_PROGRAMABLE,
+
+            /// <summary>
+            /// The AAW-13 Datalink pod
+            /// </summary>
+            DL13,
+
+            /// <summary>
+            /// The Mk82 low drag bomb
+            /// </summary>
+            B82B,
+
+            /// <summary>
+            /// The Mk82 Snake eye retarded bomb
+            /// </summary>
+            B82XT,
+
+            /// <summary>
+            /// The Mk82Y high drag bomb
+            /// </summary>
+            B82YT,
+
+            /// <summary>
+            /// The GBU-10 laser guided bombs
+            /// </summary>
+            B82LG,
+
+            /// <summary>
+            /// The Mk83 1000lbs bomb
+            /// </summary>
+            B83B,
+
+            /// <summary>
+            /// The GBU-16 1000 lbs bomb
+            /// </summary>
+            B83LG,
+
+            /// <summary>
+            /// The Mk84 2000 lbs bomb
+            /// </summary>
+            B84B,
+
+            /// <summary>
+            /// The Mk84 2000 lbs laser guided bomb (GBU-10)
+            /// </summary>
+            B84LG,
+
+            /// <summary>
+            /// The GBU-24 laser guided, glide penetrator bomb
+            /// </summary>
+            GB24,
+
+            /// <summary>
+            /// The BDU-33 practice bomb
+            /// </summary>
+            B76,
+
+            /// <summary>
+            /// The BDU-45 Practice bomb family
+            /// </summary>
+            B45X,
+
+            /// <summary>
+            /// The BDU-45 Practice bomb family
+            /// </summary>
+            B45,
+
+            /// <summary>
+            /// The B45 Laser guided practice bomb
+            /// </summary>
+            B45LG,
+
+            /// <summary>
+            /// The ADM_141A TALD
+            /// </summary>
+            T82P,
+
+            /// <summary>
+            /// The AGM-88C HARM
+            /// </summary>
+            HARM,
+
+            /// <summary>
+            /// The AGM-84D Harpoon
+            /// </summary>
+            HPD,
+
+            /// <summary>
+            /// The AGM-65E Laser maverick
+            /// </summary>
+            MAV,
+
+            /// <summary>
+            /// The AGM-65F IR Imaging maverick
+            /// </summary>
+            MAVF,
+
+            /// <summary>
+            /// The Walleye datalink guided bomb
+            /// </summary>
+            WEDL,
+
+            /// <summary>
+            /// The Mk-20 Rockeye
+            /// </summary>
+            RE,
+
+            /// <summary>
+            /// CBU99 Family cluster bombs
+            /// </summary>
+            RET,
+
+            /// <summary>
+            /// LAU-10 w/ Zuni
+            /// </summary>
+            R10S,
+
+            /// <summary>
+            /// LAU-61 w/ Hydra (x19)
+            /// </summary>
+            R61S,
+
+            /// <summary>
+            /// The LAU-68 w/ Hydra (x7)
+            /// </summary>
+            R68S,
+
+            /// <summary>
+            /// The last weapon that is listed on the A/G stores page is less than this value
+            /// </summary>
+            _LAST_AG_LISTED,
+
+            /// <summary>
+            /// The AIM7 familiy missiles
+            /// </summary>
+            AIM7,
+
+            /// <summary>
+            /// The AIM9 family missiles
+            /// </summary>
+            AIM9,
+
+            /// <summary>
+            /// The AIM120 family missiles
+            /// </summary>
+            AIM120,
+
+            /// <summary>
+            /// The last listed AA weapon
+            /// </summary>
+            _LAST_AA_LISTED,
+
+            /// <summary>
+            /// Fuel tanks
+            /// </summary>
+            FUEL,
+
+            /// <summary>
+            /// Targeting pods (AN-ASQ)
+            /// </summary>
+            TPOD,
+
+            /// <summary>
+            /// The AN/ASQ-T50 TCTS ACMI Pod
+            /// </summary>
+            AIR_SENSOR,
+
+            /// <summary>
+            /// Smoke canister for airshows
+            /// </summary>
+            SMOKE,
+
+            /// <summary>
+            /// Just a pylon or pylon removed
+            /// </summary>
+            Empty,
+
+            /// <summary>
+            /// Unknown weapon
+            /// </summary>
+            Unknown
+        }
+
+        /// <summary>
+        /// List of types that are considered JDAMs and thus have their display option select button on PB11
+        /// </summary>
+        public List<EWeaponType> JdamTypes { get; private set; } = new List<EWeaponType>()
+        {
+            EWeaponType.J82,
+            EWeaponType.J83,
+            EWeaponType.J84,
+            EWeaponType.J109
+        };
+        private enum EDevices
+        {
+            UFC = 25,
+            MDI_LEFT = 35,
+            AMPCD = 37,
+
+        }
+
+        // from command_defs.lua, numbers are calculated from the counter() function.
+        private enum EKeyCodes
+        {
+            MDI_PB01 = 3011,
+            MDI_PB02,
+            MDI_PB03,
+            MDI_PB04,
+            MDI_PB05,
+            MDI_PB06, // 3016
+            MDI_PB07,
+            MDI_PB08,
+            MDI_PB09,
+            MDI_PB10,
+            MDI_PB11, // 3021
+            MDI_PB12,
+            MDI_PB13,
+            MDI_PB14,
+            MDI_PB15,
+            MDI_PB16, // 3026
+            MDI_PB17,
+            MDI_PB18,
+            MDI_PB19,
+            MDI_PB20, // 3030
+
+            UFC_AP = 3001,
+            UFC_IFF,
+            UFC_TCN,
+            UFC_ILS,
+            UFC_DL,
+            UFC_BCN,
+            UFC_ON_OFF,
+            UFC_COMM1_FN,
+            UFC_COMM2_FN,
+            UFC_PB1,
+            UFC_PB2,
+            UFC_PB3,
+            UFC_PB4,
+            UFC_PB5,
+            UFC_IP,
+            UFC_ADF,
+            UFC_EMCON,
+            UFC_KB0_NEG,
+            UFC_KB1,
+            UFC_KB2_N,
+            UFC_KB3,
+            UFC_KB4_W,
+            UFC_KB5,
+            UFC_KB6_E,
+            UFC_KB7,
+            UFC_KB8_S,
+            UFC_KB9,
+            UFC_KB_CLR,
+            UFC_KB_ENT,
         }
     }
 }
