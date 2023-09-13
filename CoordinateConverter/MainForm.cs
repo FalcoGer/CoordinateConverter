@@ -2575,7 +2575,9 @@ namespace CoordinateConverter
             return null;
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             MouseButtons mb = Control.MouseButtons;
             if (GetActiveWindowTitle() != this.Text)

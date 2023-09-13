@@ -410,7 +410,6 @@ namespace CoordinateConverter.DCS.Aircraft
         {
             List<DCSCommand> commands = new List<DCSCommand>();
             int keyCodeStationSelect = (int)stationBtn;
-            int keyCodeWpnDsplyPage = (int)EKeyCodes.MDI_PB12;
             int keyCodeStpButton = (int)EKeyCodes.UFC_PB1 + currentSlamerStpt - 1;
 
             // Select station
