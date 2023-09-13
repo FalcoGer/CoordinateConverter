@@ -1,9 +1,6 @@
-﻿using CoordinateConverter.DCS.Communication;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoordinateConverter.DCS.Aircraft
 {
@@ -13,18 +10,42 @@ namespace CoordinateConverter.DCS.Aircraft
     /// <seealso cref="CoordinateConverter.DCS.Aircraft.DCSAircraft" />
     public class JF17 : DCSAircraft
     {
+        /// <summary>
+        /// Gets the starting waypoint.
+        /// </summary>
+        /// <value>
+        /// The starting waypoint.
+        /// </value>
         public int StartingWaypoint { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public enum EPointType
         {
-            // 0 is INS Alignment point
-            Waypoint,           //  1 - 29 (WP1 .. 29)
-            MissileRP,          // 30 - 35 (RP1 .. 6)
-            PrePlanned,         // 36 - 39 (PP1 .. 4)
-            // 40 is SPI
-            MarkPoint,          // 41 - 49 (MK1 .. 9)
-            // 50 - 58 are non editable airfields nearest to last valid stpt
-            Airfield            // 59
+            // 0 is INS Alignment point            
+            /// <summary>
+            /// A waypoint (WP1..29)
+            /// </summary>
+            Waypoint,
+            /// <summary>
+            /// A missile route point (RP1..6 (30..35))
+            /// </summary>
+            MissileRP,
+            /// <summary>
+            /// A pre planned target point (PP1..4 (36..39))
+            /// </summary>
+            PrePlanned,
+            // 40 is SPI            
+            /// <summary>
+            /// A mark point (MK1..9 (41..49))
+            /// </summary>
+            MarkPoint,
+            // 50 - 58 are non editable airfields nearest to last valid stpt            
+            /// <summary>
+            /// An airfield (AF9, the only edible one (59))
+            /// </summary>
+            Airfield
         }
 
         private readonly Dictionary<EPointType, Tuple<int, int>> destStartAndCount = new Dictionary<EPointType, Tuple<int, int>>()
@@ -38,11 +59,22 @@ namespace CoordinateConverter.DCS.Aircraft
         private Dictionary<EPointType, int> nextPointForType = null;
         private bool hasEnteredWaypoint = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JF17"/> class.
+        /// </summary>
+        /// <param name="startingWaypoint">The starting waypoint.</param>
         public JF17(int startingWaypoint)
         {
             StartingWaypoint = startingWaypoint;
         }
 
+        /// <summary>
+        /// Gets the actions to be added for each point.
+        /// </summary>
+        /// <param name="coordinate">The coordinate for that point.</param>
+        /// <returns>
+        /// The list of actions.
+        /// </returns>
         public override List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate)
         {
             var commands = new List<DCSCommand>();
@@ -61,7 +93,7 @@ namespace CoordinateConverter.DCS.Aircraft
                 // the next point would be over the limit, we ignore it.
                 return commands;
             }
-
+            
             if (pointType == EPointType.Waypoint)
             {
                 hasEnteredWaypoint = true;
@@ -165,16 +197,35 @@ namespace CoordinateConverter.DCS.Aircraft
             return commands;
         }
 
+        /// <summary>
+        /// Gets the type of the point options for point types. <see cref="GetPointTypes" />.
+        /// </summary>
+        /// <param name="pointTypeStr">The point type's name as a string.</param>
+        /// <returns>
+        /// A list of names for point options.
+        /// </returns>
         public override List<string> GetPointOptionsForType(string pointTypeStr)
         {
             return new List<string> { "Point" };
         }
 
+        /// <summary>
+        /// Gets the types of points that are valid.
+        /// </summary>
+        /// <returns>
+        /// A list of valid point types.
+        /// </returns>
         public override List<string> GetPointTypes()
         {
             return Enum.GetNames(typeof(EPointType)).ToList();
         }
 
+        /// <summary>
+        /// Gets the actions to be used after points have been entered.
+        /// </summary>
+        /// <returns>
+        /// The list of actions.
+        /// </returns>
         public override List<DCSCommand> GetPostPointActions()
         {
             nextPointForType = null;
@@ -193,6 +244,12 @@ namespace CoordinateConverter.DCS.Aircraft
             return commands;
         }
 
+        /// <summary>
+        /// Gets the actions to be added before any points are added.
+        /// </summary>
+        /// <returns>
+        /// The list of actions.
+        /// </returns>
         public override List<DCSCommand> GetPrePointActions()
         {
             hasEnteredWaypoint = false; // we have not entered any waypoints yet
