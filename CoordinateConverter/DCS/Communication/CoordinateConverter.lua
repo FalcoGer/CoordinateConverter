@@ -145,6 +145,12 @@ function LuaExportAfterNextFrame()
                 busy = false
                 commands = nil
                 currCommandIndex = 1
+
+                -- check if the button needs to be depressed
+                if isPressed and lastNeedDepress then
+                    GetDevice(lastDevice):performClickableAction(lastCode, 0)
+                    isPressed = false
+                end
             end
 
             -- set up command input logic

@@ -1427,28 +1427,28 @@ namespace CoordinateConverter
             // transferToolStripMenuItem
             // 
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
-            this.transferToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.transferToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.transferToolStripMenuItem.Text = "Transfer";
             this.transferToolStripMenuItem.Click += new System.EventHandler(this.transferControl_Click);
             // 
             // stopTransferToolStripMenuItem
             // 
             this.stopTransferToolStripMenuItem.Name = "stopTransferToolStripMenuItem";
-            this.stopTransferToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stopTransferToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.stopTransferToolStripMenuItem.Text = "Stop Transfer";
             this.stopTransferToolStripMenuItem.Click += new System.EventHandler(this.stopTransferControl_Click);
             // 
             // fetchCoordinateToolStripMenuItem
             // 
             this.fetchCoordinateToolStripMenuItem.Name = "fetchCoordinateToolStripMenuItem";
-            this.fetchCoordinateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fetchCoordinateToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.fetchCoordinateToolStripMenuItem.Text = "Fetch Position";
             this.fetchCoordinateToolStripMenuItem.Click += new System.EventHandler(this.fetchCameraPositionControl_Click);
             // 
             // importUnitsToolStripMenuItem
             // 
             this.importUnitsToolStripMenuItem.Name = "importUnitsToolStripMenuItem";
-            this.importUnitsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importUnitsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.importUnitsToolStripMenuItem.Text = "Import Units...";
             this.importUnitsToolStripMenuItem.Click += new System.EventHandler(this.importUnitsControl_Click);
             // 
@@ -1467,7 +1467,7 @@ namespace CoordinateConverter
             this.kA50ToolStripMenuItem,
             this.m2000ToolStripMenuItem});
             this.aircraftToolStripMenuItem.Name = "aircraftToolStripMenuItem";
-            this.aircraftToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aircraftToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.aircraftToolStripMenuItem.Text = "Aircraft";
             // 
             // autoToolStripMenuItem
@@ -1829,6 +1829,7 @@ namespace CoordinateConverter
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.GrpBox_Input);
             this.Controls.Add(this.GrpBox_Output);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Coordinate Converter";

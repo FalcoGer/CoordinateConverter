@@ -328,6 +328,7 @@ namespace CoordinateConverter.DCS.Aircraft
                 // This weapon is not on board.
                 return commands;
             }
+            EKeyCodes stationBtn = EKeyCodes.MDI_PB06 + stationBtnIdx;
 
             // set up left ddi if it wasn't already
             if (!leftDDIWasSetUp)
@@ -372,13 +373,22 @@ namespace CoordinateConverter.DCS.Aircraft
 
                     if (extraData.PreplanPointIdx.HasValue)
                     {
-                        commands.AddRange(EnterPP(pwt, coordinate, extraData, stationBtnIdx, true));
+                        commands.AddRange(EnterPP(pwt, coordinate, extraData, stationBtn, true));
                     }
-                    else
+                    else if (currentSlamErStp >= 1 && currentSlamErStp <= 5)
                     {
-                        // is a SLAMER STP
-                        throw new NotImplementedException("The waypoint type is not yet supported for transfer");
+                        // is a valid SLAMER STP
+                        if (currentSlamErStp == 1)
+                        {
+                            // delete all slammer stpts from this weapon
+                            commands.AddRange(DeleteSlammerStpt(coordinate, stationBtn));
+                        }
+                        commands.AddRange(EnterSlammerStpt(coordinate, stationBtn, currentSlamErStp));
                     }
+                }
+                if (!extraData.PreplanPointIdx.HasValue)
+                {
+                    currentSlamErStp++;
                 }
             }
             else
@@ -386,27 +396,119 @@ namespace CoordinateConverter.DCS.Aircraft
                 bool step = (extraData.StationSetting == F18CSpecificData.EStationSetting.Step);
                 if (extraData.PreplanPointIdx.HasValue)
                 {
-                    commands.AddRange(EnterPP(pwt, coordinate, extraData, stationBtnIdx, step));
+                    commands.AddRange(EnterPP(pwt, coordinate, extraData, stationBtn, step));
                 }
                 else
                 {
-                    commands.AddRange(EnterSlamerStp(coordinate, stationBtnIdx, step));
+                    throw new ArgumentException("SLAM-ER single STPT entry not supported");
                 }
             }
             return commands;
         }
 
-        private List<DCSCommand> EnterSlamerStp(CoordinateDataEntry coordinate, int stationBtnIdx, bool step)
+        private List<DCSCommand> EnterSlammerStpt(CoordinateDataEntry coordinate, EKeyCodes stationBtn, int currentSlamerStpt)
         {
-            throw new NotImplementedException();
+            List<DCSCommand> commands = new List<DCSCommand>();
+            int keyCodeStationSelect = (int)stationBtn;
+            int keyCodeWpnDsplyPage = (int)EKeyCodes.MDI_PB12;
+            int keyCodeStpButton = (int)EKeyCodes.UFC_PB1 + currentSlamerStpt - 1;
+
+            // Select station
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 500));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 300, 0));
+            // Select STP
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB11, 200));
+            // Select correct STP number
+            commands.Add(new DCSCommand((int)EDevices.UFC, keyCodeStpButton, 500));
+            commands.Add(new DCSCommand((int)EDevices.UFC, keyCodeStpButton, 300, 0));
+
+            // Select VEL
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 500));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 300, 0));
+            const int SLAMER_MAX_SPEED = 550;
+            commands.AddRange(UFCEnterString(SLAMER_MAX_SPEED.ToString() + '\n'));
+
+            // Select POSN / LAT
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 500));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 300, 0));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 500));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 300, 0));
+            CoordinateSharp.CoordinatePart lat = coordinate.Coordinate.Latitude;
+            string latDMS = string.Format("{0}{1}{2}{3}",
+                lat.Position.ToString(),
+                lat.Degrees.ToString().PadLeft(2, '0'),
+                lat.Minutes.ToString().PadLeft(2, '0'),
+                ((int)lat.Seconds).ToString().PadLeft(2, '0')
+            );
+            string latSecDecimal = ((int)Math.Round((lat.Seconds - (int)lat.Seconds) * 100)).ToString().PadLeft(2, '0');
+            commands.AddRange(UFCEnterString(latDMS + '\n'));
+            commands.AddRange(UFCEnterString(latSecDecimal + '\n'));
+
+            // Select POSN / LON
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 500));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 300, 0));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 500));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 300, 0));
+            CoordinateSharp.CoordinatePart lon = coordinate.Coordinate.Longitude;
+            string lonDMS = string.Format("{0}{1}{2}{3}",
+                lon.Position.ToString(),
+                lon.Degrees.ToString().PadLeft(2, '0'),
+                lon.Minutes.ToString().PadLeft(2, '0'),
+                ((int)lon.Seconds).ToString().PadLeft(2, '0')
+            );
+            string lonSecDecimal = ((int)Math.Round((lon.Seconds - (int)lon.Seconds) * 100)).ToString().PadLeft(2, '0');
+            commands.AddRange(UFCEnterString(lonDMS + '\n'));
+            commands.AddRange(UFCEnterString(lonSecDecimal + '\n'));
+
+            // Select ALT / FEET
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB4, 500));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB4, 300, 0));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 500));
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 300, 0));
+            string altitudeStr = ((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString();
+            commands.AddRange(UFCEnterString(((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString() + '\n'));
+
+            // Deselect STP
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB11, 200));
+            // Step missile
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB13, 300));
+            // Deselect station
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 500));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 300, 0));
+
+            return commands;
         }
 
-        private List<DCSCommand> EnterPP(EWeaponType pwt, CoordinateDataEntry coordinate, F18CSpecificData extraData, int stationBtnIdx, bool step)
+        private List<DCSCommand> DeleteSlammerStpt(CoordinateDataEntry coordinate, EKeyCodes stationBtn)
+        {
+            List<DCSCommand> commands = new List<DCSCommand>();
+            int keyCodeStationSelect = (int)stationBtn;
+
+            // Select station
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 500));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 300, 0));
+            // Select STP
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB11, 200));
+            // Select STP1 and delete it 5 times
+            for (int count = 0; count < 5; count++)
+            {
+                commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 300));   // Select STP1
+                commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB5, 300));   // Select DEL
+            }
+            // Deselect STP
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB11, 200));
+            // Deselect station
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 500));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 300, 0));
+            return commands;
+        }
+
+        private List<DCSCommand> EnterPP(EWeaponType pwt, CoordinateDataEntry coordinate, F18CSpecificData extraData, EKeyCodes stationBtn, bool step)
         {
             bool isBomb = JdamTypes.Contains(pwt);
             bool isAGM84Variant = pwt == EWeaponType.SLAM || pwt == EWeaponType.SLAMER;
             bool isPenetrator = pwt == EWeaponType.J109;
-            int keyCodeStationSelect = (int)EKeyCodes.MDI_PB06 + stationBtnIdx;
+            int keyCodeStationSelect = (int)stationBtn;
             // JDAMs are PB11, everything else (JSOW, SLAM, SLAMER) on PB12 for DSPLY page
             int keyCodeWpnDsplyPage = (int)EKeyCodes.MDI_PB11 + (isBomb ? 0 : 1);
 
@@ -537,7 +639,7 @@ namespace CoordinateConverter.DCS.Aircraft
             {
                 str = "00\n";
             }
-            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_KB_ENT, 1000, 0)); // give it a good, long wait
+            commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_KB_ENT, 600, 0)); // give it a good, long wait
             foreach (char ch in str.ToUpper())
             {
                 switch (ch)
@@ -638,10 +740,7 @@ namespace CoordinateConverter.DCS.Aircraft
             }
             else if (pointTypeStr == SLAMER_STP_STR)
             {
-                foreach (string stationSettingsStr in Enum.GetNames(typeof(F18CSpecificData.EStationSetting)))
-                {
-                    options.Add(string.Format("Auto Increment - {0}", stationSettingsStr));
-                }
+                options.Add("Auto Increment - All");
             }
             return options;
         }
@@ -713,12 +812,12 @@ namespace CoordinateConverter.DCS.Aircraft
             List<DCSCommand> commands = new List<DCSCommand>
             {
                 // Setup AMPCD for waypoints
-                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB18), // go to TAC or SUPT page
-                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB20), // go to TGT Data or Fuel page
-                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB18), // go to TAC page
-                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB18), // go to SUPT page
-                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB02), // go to HSI page
-                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB10), // go to DATA page
+                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB18, 300), // go to TAC or SUPT page
+                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB20, 300), // go to TGT Data or Fuel page
+                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB18, 300), // go to TAC page
+                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB18, 300), // go to SUPT page
+                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB02, 300), // go to HSI page
+                new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB10, 300), // go to DATA page
             };
             return commands;
         }

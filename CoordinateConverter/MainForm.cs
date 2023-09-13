@@ -6,6 +6,8 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -18,24 +20,7 @@ namespace CoordinateConverter
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class MainForm : Form
     {
-        #region RegexConstants
-        /// <summary>
-        /// Regex for Latitude. Allows valid numbers 0-90, 0-59, 0-59 and coordinate units, optional decimal part for seconds
-        /// </summary>
-        private const string REGEX_LL_LAT = @"^(?:[0-8]\d|90)\s*°?\s*[0-5]\d\s*'?\s*[0-5]\d(?:\.\d+)?\s*(?:\""|'')?$";
-        /// <summary>
-        /// Regex for Longitude. Allows valid numbers 0-180, 0-59, 0-59 and coordinate units, optional decimal part for seconds
-        /// </summary>
-        private const string REGEX_LL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*'?\s*[0-5]\d(?:\.\d+)?\s*(?:\""|'')?$";
-        /// <summary>
-        /// Regex for Latitude. Allows valid numbers 0-90, 0-59, 0-59 and coordinate units, optional decimal part for seconds
-        /// </summary>
-        private const string REGEX_LL_DECIMAL_LAT = @"^(?:[0-8]\d|90)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
-        /// <summary>
-        /// Regex for Longitude. Allows valid numbers 0-180, 0-59, 0-59 and coordinate units, optional decimal part for seconds
-        /// </summary>
-        private const string REGEX_LL_DECIMAL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
-        #endregion
+        
         private readonly System.Drawing.Color ERROR_COLOR = Color.Pink;
         private readonly System.Drawing.Color DCS_ERROR_COLOR = Color.Yellow;
         private readonly System.Drawing.Color DCS_OK_COLOR = Color.Green;
@@ -64,6 +49,25 @@ namespace CoordinateConverter
         private object lockObjProgressBar = new object();
 
         #region Input
+
+        #region RegexConstants
+        /// <summary>
+        /// Regex for Latitude. Allows valid numbers 0-90, 0-59, 0-59 and coordinate units, optional decimal part for seconds
+        /// </summary>
+        private const string REGEX_LL_LAT = @"^(?:[0-8]\d|90)\s*°?\s*[0-5]\d\s*'?\s*[0-5]\d(?:\.\d+)?\s*(?:\""|'')?$";
+        /// <summary>
+        /// Regex for Longitude. Allows valid numbers 0-180, 0-59, 0-59 and coordinate units, optional decimal part for seconds
+        /// </summary>
+        private const string REGEX_LL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*'?\s*[0-5]\d(?:\.\d+)?\s*(?:\""|'')?$";
+        /// <summary>
+        /// Regex for Latitude. Allows valid numbers 0-90, 0-59, 0-59 and coordinate units, optional decimal part for seconds
+        /// </summary>
+        private const string REGEX_LL_DECIMAL_LAT = @"^(?:[0-8]\d|90)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
+        /// <summary>
+        /// Regex for Longitude. Allows valid numbers 0-180, 0-59, 0-59 and coordinate units, optional decimal part for seconds
+        /// </summary>
+        private const string REGEX_LL_DECIMAL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
+        #endregion
 
         #region LL        
         /// <summary>
@@ -1524,6 +1528,7 @@ namespace CoordinateConverter
             CoordinateDataEntry other = dataEntries[targetIdx];
             entry.SwapIds(other);
             dataEntries.Sort((a, b) => a.Id.CompareTo(b.Id));
+            ResetIDs();
             RefreshDataGrid();
             return true;
         }
@@ -1779,7 +1784,7 @@ namespace CoordinateConverter
                 mi.Checked = mi.Name == sender.Name;
             }
 
-            // Remind user here: "Transfer uses MGRS instead of L/L if mgrs selected, cockpit must match"
+            // Remind user here: "Transfer uses MGRS instead of L/L if MGRS selected, cockpit must match"
             if (sender.Name == aH64PLTToolStripMenuItem.Name)
             {
                 selectedAircraft = new AH64(true);
@@ -2102,9 +2107,7 @@ namespace CoordinateConverter
                 else if (pointType == F18C.SLAMER_STP_STR)
                 {
                     // SLAM-ER Steerpoint
-                    string pointOption = ComboItem<string>.GetSelectedValue(cb_pointOption);
-                    F18CSpecificData.EStationSetting stationSetting = (F18CSpecificData.EStationSetting)Enum.Parse(typeof(F18CSpecificData.EStationSetting), pointOption.Substring("Auto Increment - ".Length));
-                    input.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData(true, stationSetting);
+                    input.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData(true);
                 }
                 else
                 {
@@ -2196,6 +2199,7 @@ namespace CoordinateConverter
 
                 // Open the form and get the data
                 FormUnitImporter fui = new FormUnitImporter(dataEntries);
+                fui.TopMost = TopMost;
                 fui.ShowDialog(this);
                 if (fui.Coordinates != null)
                 {
@@ -2265,10 +2269,13 @@ namespace CoordinateConverter
 
                 if (message.CurrentCommandIndex.HasValue)
                 {
-                    lock (lockObjProgressBar)
+                    if (message.CurrentCommandIndex.Value <= pb_Transfer.Maximum)
                     {
-                        pb_Transfer.Value = message.CurrentCommandIndex.Value;
-                        pb_Transfer.Visible = true;
+                        lock (lockObjProgressBar)
+                        {
+                            pb_Transfer.Value = message.CurrentCommandIndex.Value;
+                            pb_Transfer.Visible = true;
+                        }
                     }
                 }
                 else
@@ -2504,6 +2511,85 @@ namespace CoordinateConverter
             }
 
             cameraPosMode = terrainElevationUnderCameraToolStripMenuItem.Checked ? ECameraPosMode.TerrainElevation : ECameraPosMode.CameraAltitude;
+
+            dele = new WinEventDelegate(WinEventProc);
+            IntPtr m_hhook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, dele, 0, 0, WINEVENT_OUTOFCONTEXT);
         }
+
+        #region MagicForSingleClickButtons
+        #region Mouse        
+        /// <summary>
+        /// Causes a system callback to simulate a mouse event.
+        /// </summary>
+        /// <param name="dwFlags">The dw flags.</param>
+        /// <param name="dx">The dx.</param>
+        /// <param name="dy">The dy.</param>
+        /// <param name="cButtons">The c buttons.</param>
+        /// <param name="dwExtraInfo">The dw extra information.</param>
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
+        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        private const int MOUSEEVENTF_LEFTUP = 0x04;
+        private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
+        private const int MOUSEEVENTF_RIGHTUP = 0x10;
+
+        /// <summary>
+        /// Does the mouse click.
+        /// </summary>
+        public void DoMouseClick()
+        {
+            //Call the imported function with the cursor's current position
+            uint X = (uint)Cursor.Position.X;
+            uint Y = (uint)Cursor.Position.Y;
+            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
+        }
+        #endregion
+        #region WindowsCallbackOnActiveWindowChange
+        WinEventDelegate dele = null;
+
+        delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
+
+        [DllImport("user32.dll")]
+        static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
+
+        private const uint WINEVENT_OUTOFCONTEXT = 0;
+        private const uint EVENT_SYSTEM_FOREGROUND = 3;
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
+
+        private string GetActiveWindowTitle()
+        {
+            const int nChars = 256;
+            IntPtr handle = IntPtr.Zero;
+            StringBuilder Buff = new StringBuilder(nChars);
+            handle = GetForegroundWindow();
+
+            if (GetWindowText(handle, Buff, nChars) > 0)
+            {
+                return Buff.ToString();
+            }
+            return null;
+        }
+
+        public void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+        {
+            MouseButtons mb = Control.MouseButtons;
+            if (GetActiveWindowTitle() != this.Text)
+            {
+                return;
+            }
+            // this form was just put into focus
+            if ((mb & MouseButtons.Left) == MouseButtons.Left)
+            {
+                // mouse button is down
+                DoMouseClick();
+            }
+        }
+        #endregion
+        #endregion
     }
 }

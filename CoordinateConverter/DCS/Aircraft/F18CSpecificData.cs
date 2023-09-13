@@ -26,12 +26,12 @@ namespace CoordinateConverter.DCS.Aircraft
         /// Initializes a new instance of the <see cref="F18CSpecificData"/> class.
         /// The data is for a standard waypoint.
         /// </summary>
-        public F18CSpecificData(bool isSlamErSTP, EStationSetting stationSetting)
+        public F18CSpecificData(bool isSlamErSTP)
         {
             if (isSlamErSTP)
             {
                 WeaponType = F18C.EWeaponType.SLAMER;
-                StationSetting = stationSetting;
+                StationSetting = EStationSetting.All;
             }
         }
 

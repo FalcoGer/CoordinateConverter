@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormUnitImporter));
             this.label1 = new System.Windows.Forms.Label();
             this.cb_CoalitionFilter = new System.Windows.Forms.ComboBox();
             this.cb_TypeFilter = new System.Windows.Forms.ComboBox();
@@ -103,7 +104,7 @@
             this.cb_RadiusCenter.FormattingEnabled = true;
             this.cb_RadiusCenter.Location = new System.Drawing.Point(245, 39);
             this.cb_RadiusCenter.Name = "cb_RadiusCenter";
-            this.cb_RadiusCenter.Size = new System.Drawing.Size(546, 21);
+            this.cb_RadiusCenter.Size = new System.Drawing.Size(773, 21);
             this.cb_RadiusCenter.TabIndex = 6;
             // 
             // label6
@@ -147,7 +148,7 @@
             this.dgv_Units.Location = new System.Drawing.Point(12, 66);
             this.dgv_Units.Name = "dgv_Units";
             this.dgv_Units.ReadOnly = true;
-            this.dgv_Units.Size = new System.Drawing.Size(860, 354);
+            this.dgv_Units.Size = new System.Drawing.Size(1087, 354);
             this.dgv_Units.TabIndex = 8;
             this.dgv_Units.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Units_CellContentClick);
             this.dgv_Units.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgv_Units_KeyPress);
@@ -227,7 +228,7 @@
             // 
             this.btn_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btn_Cancel.Location = new System.Drawing.Point(716, 426);
+            this.btn_Cancel.Location = new System.Drawing.Point(943, 426);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(75, 23);
             this.btn_Cancel.TabIndex = 10;
@@ -238,7 +239,7 @@
             // btn_Import
             // 
             this.btn_Import.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Import.Location = new System.Drawing.Point(797, 426);
+            this.btn_Import.Location = new System.Drawing.Point(1024, 426);
             this.btn_Import.Name = "btn_Import";
             this.btn_Import.Size = new System.Drawing.Size(75, 23);
             this.btn_Import.TabIndex = 11;
@@ -271,7 +272,7 @@
             // btn_ApplyFilter
             // 
             this.btn_ApplyFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_ApplyFilter.Location = new System.Drawing.Point(797, 37);
+            this.btn_ApplyFilter.Location = new System.Drawing.Point(1024, 37);
             this.btn_ApplyFilter.Name = "btn_ApplyFilter";
             this.btn_ApplyFilter.Size = new System.Drawing.Size(75, 23);
             this.btn_ApplyFilter.TabIndex = 7;
@@ -296,7 +297,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btn_Cancel;
-            this.ClientSize = new System.Drawing.Size(884, 461);
+            this.ClientSize = new System.Drawing.Size(1111, 461);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_ApplyFilter);
             this.Controls.Add(this.nud_RadiusValue);
@@ -312,6 +313,7 @@
             this.Controls.Add(this.cb_TypeFilter);
             this.Controls.Add(this.cb_CoalitionFilter);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormUnitImporter";
             this.Text = "Unit Import";
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Units)).EndInit();
