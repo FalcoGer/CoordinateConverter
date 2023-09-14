@@ -182,9 +182,9 @@ namespace CoordinateConverter
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_FetchCoordinates = new System.Windows.Forms.ToolStripButton();
             this.btn_ImportUnits = new System.Windows.Forms.ToolStripButton();
-            this.label19 = new System.Windows.Forms.Label();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_AlwaysOnTop = new System.Windows.Forms.ToolStripButton();
+            this.label19 = new System.Windows.Forms.Label();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MGRS_Precision)).BeginInit();
             this.GrpBox_Input.SuspendLayout();
@@ -1828,16 +1828,6 @@ namespace CoordinateConverter
             this.btn_ImportUnits.Text = "Import";
             this.btn_ImportUnits.Click += new System.EventHandler(this.ImportUnitsControl_Click);
             // 
-            // label19
-            // 
-            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(505, 467);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(616, 26);
-            this.label19.TabIndex = 33;
-            this.label19.Text = resources.GetString("label19.Text");
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -1852,6 +1842,16 @@ namespace CoordinateConverter
             this.btn_AlwaysOnTop.Size = new System.Drawing.Size(36, 36);
             this.btn_AlwaysOnTop.Text = "Always on top";
             this.btn_AlwaysOnTop.Click += new System.EventHandler(this.Control_AlwaysOnTop_Click);
+            // 
+            // label19
+            // 
+            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(505, 467);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(616, 26);
+            this.label19.TabIndex = 33;
+            this.label19.Text = resources.GetString("label19.Text");
             // 
             // MainForm
             // 
