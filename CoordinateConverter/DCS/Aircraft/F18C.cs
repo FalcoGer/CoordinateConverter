@@ -265,7 +265,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="System.ArgumentException">SLAM-ER single STPT entry not supported</exception>
         public override List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate)
         {
             if (!coordinate.AircraftSpecificData.ContainsKey(typeof(F18C)))
@@ -718,7 +718,6 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A list of names for point options.
         /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
         public override List<string> GetPointOptionsForType(string pointTypeStr)
         {
             List<string> options = new List<string>();
@@ -749,7 +748,6 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A list of valid point types.
         /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
         public override List<string> GetPointTypes()
         {
             List<string> types = new List<string>()

@@ -107,7 +107,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        /// <exception cref="NotImplementedException">Bad Point Type</exception>
+        /// <exception cref="System.ArgumentException">Bad Point Type</exception>
         public override List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate)
         {
             AH64SpecificData extraData = null;
@@ -133,7 +133,7 @@ namespace CoordinateConverter.DCS.Aircraft
                         keyMFDPointType = EKeyCode.RMFD_L6;
                         break;
                     default:
-                        throw new NotImplementedException("Bad Point Type");
+                        throw new ArgumentException("Bad Point Type");
                 }
             }
 

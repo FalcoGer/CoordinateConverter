@@ -17,7 +17,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="System.ArgumentException">Unknown point type</exception>
         public override List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate)
         {
             if (!coordinate.AircraftSpecificData.ContainsKey(typeof(KA50)))
@@ -145,7 +145,6 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A list of names for point options.
         /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
         public override List<string> GetPointOptionsForType(string pointTypeStr)
         {
             return new List<string>() { "Point" };
@@ -157,7 +156,6 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A list of valid point types.
         /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
         public override List<string> GetPointTypes()
         {
             return Enum.GetNames(typeof(EPointType)).ToList();
@@ -169,7 +167,6 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
         public override List<DCSCommand> GetPostPointActions()
         {
             nextPointIdForType = null;
@@ -186,7 +183,6 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
         public override List<DCSCommand> GetPrePointActions()
         {
             nextPointIdForType = new Dictionary<EPointType, int>();

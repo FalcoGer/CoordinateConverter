@@ -858,7 +858,7 @@ namespace CoordinateConverter
             }
             else
             {
-                throw new NotImplementedException("Altitude unit not implemented");
+                throw new ArgumentException("Altitude unit not valid");
             }
         }
 
@@ -866,7 +866,7 @@ namespace CoordinateConverter
         /// Gets the altitude in m from the input text box.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException">Altitude unit not implemented.</exception>
+        /// <exception cref="ArgumentException">Altitude unit not implemented.</exception>
         private double GetAltitudeInM()
         {
             lbl_Error.Visible = false;
@@ -887,7 +887,7 @@ namespace CoordinateConverter
             {
                 return altitude / CoordinateDataEntry.FT_PER_M;
             }
-            throw new NotImplementedException("Altitude unit not implemented.");
+            throw new ArgumentException("Altitude unit not valid.");
         }
 
         private void cb_AltitudeUnit_SelectedIndexChanged(object sender, EventArgs e)
@@ -906,7 +906,7 @@ namespace CoordinateConverter
                 }
                 else
                 {
-                    throw new NotImplementedException("Altitude unit not implemented");
+                    throw new ArgumentException("Altitude unit not valid");
                 }
             }
             else
@@ -929,7 +929,7 @@ namespace CoordinateConverter
                 }
                 else
                 {
-                    throw new NotImplementedException("Altitude unit not implemented");
+                    throw new ArgumentException("Altitude unit not valid");
                 }
             }
 
@@ -1397,7 +1397,7 @@ namespace CoordinateConverter
                 case ECoordinateFormat.Bullseye:
                     return entry.getCoordinateStrBullseye(bulls);
                 default:
-                    throw new NotImplementedException("Couldn't format coordinate to string.");
+                    throw new ArgumentException("Couldn't format coordinate to string.");
             }
         }
 

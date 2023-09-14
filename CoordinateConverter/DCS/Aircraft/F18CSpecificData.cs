@@ -109,7 +109,6 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
         public override string ToString()
         {
             
