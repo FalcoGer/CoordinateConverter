@@ -465,5 +465,28 @@ namespace CoordinateConverter
             }
             return entry;
         }
+
+        /// <summary>
+        /// Gets the user friendly string representation.
+        /// </summary>
+        /// <param name="AircraftType">Type of the aircraft.</param>
+        /// <returns>A string representing this data entry.</returns>
+        public string GetUserFriendlyString(Type AircraftType)
+        {
+            if (AircraftType == null)
+            {
+                return Name;
+            }
+            if (AircraftType == typeof(A10C))
+            {
+                return Name + " [" + A10C.GetLabelForPoint(Name, Id) + "]";
+            }
+            if (AircraftSpecificData.ContainsKey(AircraftType))
+            {
+                return Name + " [" + AircraftSpecificData[AircraftType].ToString() + "]";
+            }
+
+            return Name;
+        }
     }
 }

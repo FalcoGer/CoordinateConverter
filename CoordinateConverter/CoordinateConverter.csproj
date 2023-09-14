@@ -60,11 +60,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DCS\Tools\AH64PointDeleter.cs">
+    <Compile Include="DCS\Aircraft\A10C.cs" />
+    <Compile Include="DCS\Tools\FormAH64PointDeleter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DCS\Tools\AH64PointDeleter.Designer.cs">
-      <DependentUpon>AH64PointDeleter.cs</DependentUpon>
+    <Compile Include="DCS\Tools\FormAH64PointDeleter.Designer.cs">
+      <DependentUpon>FormAH64PointDeleter.cs</DependentUpon>
     </Compile>
     <Compile Include="DCS\Aircraft\AH64.cs" />
     <Compile Include="DCS\Aircraft\AH64SpecificData.cs" />
@@ -88,6 +89,12 @@
     <Compile Include="DCS\Communication\DCSCoordinate.cs" />
     <Compile Include="DCS\Communication\DCSUnit.cs" />
     <Compile Include="DCS\Communication\DebugCommandList.cs" />
+    <Compile Include="DCS\Tools\FormAskBinaryQuestion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DCS\Tools\FormAskBinaryQuestion.Designer.cs">
+      <DependentUpon>FormAskBinaryQuestion.cs</DependentUpon>
+    </Compile>
     <Compile Include="DCS\Tools\FormStartingWaypoint.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,14 +115,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DCS\Tools\ReticleForm.cs">
+    <Compile Include="DCS\Tools\FormReticle.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DCS\Tools\ReticleForm.Designer.cs">
-      <DependentUpon>ReticleForm.cs</DependentUpon>
+    <Compile Include="DCS\Tools\FormReticle.Designer.cs">
+      <DependentUpon>FormReticle.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="DCS\Tools\AH64PointDeleter.resx">
-      <DependentUpon>AH64PointDeleter.cs</DependentUpon>
+    <EmbeddedResource Include="DCS\Tools\FormAH64PointDeleter.resx">
+      <DependentUpon>FormAH64PointDeleter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DCS\Tools\FormAskBinaryQuestion.resx">
+      <DependentUpon>FormAskBinaryQuestion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DCS\Tools\FormStartingWaypoint.resx">
       <DependentUpon>FormStartingWaypoint.cs</DependentUpon>
@@ -136,8 +146,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="DCS\Tools\ReticleForm.resx">
-      <DependentUpon>ReticleForm.cs</DependentUpon>
+    <EmbeddedResource Include="DCS\Tools\FormReticle.resx">
+      <DependentUpon>FormReticle.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="DCS\Communication\CoordinateConverter.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

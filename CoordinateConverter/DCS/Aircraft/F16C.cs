@@ -76,7 +76,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// </returns>
         public override List<string> GetPointOptionsForType(string pointTypeStr)
         {
-            return new List<string>() { "Waypoint" };
+            return new List<string>() { "Point" };
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace CoordinateConverter.DCS.Aircraft
             {
                 new DCSCommand(DEVICE_UFC, (int)EKeyCodes.DCS_RTN, 500, -1),  // return to main page
                 new DCSCommand(DEVICE_UFC, (int)EKeyCodes.DCS_RTN, 200, 0),  // return to main page
-                new DCSCommand(DEVICE_UFC, (int)EKeyCodes.DIG4_STPT) // steerpoints page
+                new DCSCommand(DEVICE_UFC, (int)EKeyCodes.DIG4_STPT) // steer points page
             };
             // Enter start point
             commands.AddRange(EnterUFCData(StartingWaypoint.ToString() + "\n"));

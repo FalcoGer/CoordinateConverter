@@ -1,6 +1,6 @@
 ﻿namespace CoordinateConverter.DCS.Tools
 {
-    partial class ReticleForm
+    partial class FormReticle
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReticleForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormReticle));
             this.SuspendLayout();
             // 
             // ReticleForm

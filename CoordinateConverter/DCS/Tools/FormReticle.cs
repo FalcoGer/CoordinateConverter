@@ -8,12 +8,12 @@ namespace CoordinateConverter.DCS.Tools
     /// A Form that has magenta as the transparency key and is placed at the center of a screen. An image of a reticle is loaded.
     /// </summary>
     /// <seealso cref="Form" />
-    public partial class ReticleForm : Form
+    public partial class FormReticle : Form
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReticleForm"/> class.
+        /// Initializes a new instance of the <see cref="FormReticle"/> class.
         /// </summary>
-        public ReticleForm()
+        public FormReticle()
         {
             InitializeComponent();
             FileInfo fi = new FileInfo("Crosshair.png");

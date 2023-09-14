@@ -39,7 +39,7 @@ namespace CoordinateConverter
         private string oldAltitudeUnit;
 
         private ToolStripItem selectedScreenMenuItem = null;
-        private readonly ReticleForm reticleForm = new ReticleForm();
+        private readonly FormReticle reticleForm = new FormReticle();
 
         private DCSAircraft selectedAircraft = null;
 
@@ -1181,11 +1181,7 @@ namespace CoordinateConverter
             var result = dataEntries.Select(
                 entry => new {
                     ID = entry.Id,
-                    Name = entry.Name +
-                        (
-                            (selectedAircraft == null || !entry.AircraftSpecificData.ContainsKey(selectedAircraft.GetType())) ? String.Empty
-                            : " [" + entry.AircraftSpecificData[selectedAircraft.GetType()].ToString() + "]"
-                        ),
+                    Name = entry.GetUserFriendlyString(selectedAircraft?.GetType()),
                     CoordinateStr = GetEntryCoordinateStr(entry),
                     Altitude = entry.GetAltitudeString(cb_AltitudeUnit.Text == "ft"),
                     XFER = entry.XFer
@@ -1647,7 +1643,7 @@ namespace CoordinateConverter
         private List<ToolStripMenuItem> AircraftSelectionMenuStripItems {
             get => new List<ToolStripMenuItem>()
             {
-                tsmi_A10,
+                tsmi_A10C,
                 tsmi_AH64_CPG,
                 tsmi_AH64_PLT,
                 tsmi_AV8B,
@@ -1661,7 +1657,7 @@ namespace CoordinateConverter
             };
         }
 
-        private void AutoAircraftToolStripMenuItem_Click(object objSender, EventArgs e)
+        private void Tsmi_Aircraft_Auto_Click(object objSender, EventArgs e)
         {
             lbl_Error.Visible = false;
 
@@ -1700,6 +1696,7 @@ namespace CoordinateConverter
             tsmi_AH64_ClearPoints.Enabled = false;
             tsmi_F16_SetStartFirstPoint.Enabled = false;
             tsmi_JF17_SetFirstPoint.Enabled = false;
+            tsmi_A10C_UseMGRS.Enabled = false;
 
             if (string.IsNullOrEmpty(model) || model == "null")
             {
@@ -1719,7 +1716,7 @@ namespace CoordinateConverter
                             break;
                         }
                         bool isPlt = DialogResult.Yes == MessageBox.Show("Are you pilot?", "PLT/CPG?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        AircraftSelectionToolStripMenuItem_Click(isPlt ? tsmi_AH64_PLT : tsmi_AH64_CPG, null);
+                        Tsmi_AircraftSelection_Click(isPlt ? tsmi_AH64_PLT : tsmi_AH64_CPG, null);
                         break;
                     case "FA-18C_hornet":
                         tsmi_F18.Enabled = true;
@@ -1727,7 +1724,7 @@ namespace CoordinateConverter
                         {
                             break;
                         }
-                        AircraftSelectionToolStripMenuItem_Click(tsmi_F18, null);
+                        Tsmi_AircraftSelection_Click(tsmi_F18, null);
                         break;
                     case "F-16C_50":
                         tsmi_F16.Enabled = true;
@@ -1736,7 +1733,7 @@ namespace CoordinateConverter
                         {
                             break;
                         }
-                        AircraftSelectionToolStripMenuItem_Click(tsmi_F16, null);
+                        Tsmi_AircraftSelection_Click(tsmi_F16, null);
                         break;
                     case "Ka-50":
                     case "Ka-50_3":
@@ -1745,7 +1742,17 @@ namespace CoordinateConverter
                         {
                             break;
                         }
-                        AircraftSelectionToolStripMenuItem_Click(tsmi_KA50, null);
+                        Tsmi_AircraftSelection_Click(tsmi_KA50, null);
+                        break;
+                    case "A-10C":
+                    case "A-10C_2":
+                        tsmi_A10C_UseMGRS.Enabled = true;
+                        tsmi_A10C.Enabled = true;
+                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(A10C))
+                        {
+                            break;
+                        }
+                        Tsmi_AircraftSelection_Click(tsmi_A10C, null);
                         break;
                     case "JF-17":
                         tsmi_JF17.Enabled = true;
@@ -1754,7 +1761,7 @@ namespace CoordinateConverter
                         {
                             break;
                         }
-                        AircraftSelectionToolStripMenuItem_Click(tsmi_JF17, null);
+                        Tsmi_AircraftSelection_Click(tsmi_JF17, null);
                         break;
                     default:
                         lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";
@@ -1764,7 +1771,7 @@ namespace CoordinateConverter
             }
         }
 
-        private void AircraftSelectionToolStripMenuItem_Click(object objSender, EventArgs e)
+        private void Tsmi_AircraftSelection_Click(object objSender, EventArgs e)
         {
             lbl_Error.Visible = false;
 
@@ -1799,6 +1806,21 @@ namespace CoordinateConverter
             {
                 Tsmi_F16_SetFirstPoint_Click(tsmi_F16_SetStartFirstPoint, null);
             }
+            else if (sender.Name == tsmi_A10C.Name)
+            {
+                // Ask if user wants to use MGRS or LL
+                string questionText = "Do you wish to use MGRS/UTM or L/L?\n" +
+                    "The correct setting must be set in the CDU before points are entered.";
+                FormAskBinaryQuestion mgrsQuestion = new FormAskBinaryQuestion("Use MGRS or L/L?", "Use L/L", "Use MGRS/UTM", questionText);
+                mgrsQuestion.ShowDialog();
+                bool useLL = mgrsQuestion.Result;
+
+                // Set checkmark
+                tsmi_A10C_UseMGRS.Checked = !useLL;
+
+                // Select aircraft
+                selectedAircraft = new A10C(!useLL);
+            }
             else if (sender.Name == tsmi_JF17.Name)
             {
                 Tsmi_JF17_SetFirstPoint_Click(tsmi_JF17_SetFirstPoint, null);
@@ -1806,6 +1828,10 @@ namespace CoordinateConverter
             else if (sender.Name == tsmi_KA50.Name)
             {
                 selectedAircraft = new KA50();
+            }
+            else if (sender.Name == tsmi_A10C.Name)
+            {
+                Tsmi_A10C_UseMGRS_Click(tsmi_A10C_UseMGRS, null);
             }
             else
             {
@@ -1822,7 +1848,7 @@ namespace CoordinateConverter
                 return;
             }
 
-            // Update point types
+            // Update point types for aircraft that have them
             cb_PointType.Items.Clear();
             if (selectedAircraft.GetType() == typeof(AH64))
             {
@@ -1859,6 +1885,7 @@ namespace CoordinateConverter
                 cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(x => new ComboItem<string>(x, x)).ToArray());
             }
             cb_PointType.Enabled = cb_PointType.Items.Count > 1;
+            
 
             // Add aircraft specific data to the input if input is valid (exists)
             if (selectedAircraft.GetType() == typeof(AH64))
@@ -1956,6 +1983,10 @@ namespace CoordinateConverter
                 {
                     cb_PointType.SelectedIndex = 0;
                 }
+            }
+            else
+            {
+                cb_PointType.SelectedIndex = 0;
             }
 
             RefreshDataGrid();
@@ -2148,7 +2179,7 @@ namespace CoordinateConverter
 
         private void Tsmi_AH64_ClearPoints_Click(object sender, EventArgs e)
         {
-            AH64PointDeleter pointDeleter = new AH64PointDeleter(selectedAircraft as AH64);
+            FormAH64PointDeleter pointDeleter = new FormAH64PointDeleter(selectedAircraft as AH64);
             pointDeleter.ShowDialog(this);
             if (pointDeleter.NumberOfCommands > 0)
             {
@@ -2174,6 +2205,18 @@ namespace CoordinateConverter
             startingWaypointForm.ShowDialog();
             int startingWaypoint = startingWaypointForm.StartingWaypoint;
             selectedAircraft = new JF17(startingWaypoint);
+        }
+
+        private void Tsmi_A10C_UseMGRS_Click(object sender, EventArgs e)
+        {
+            if (selectedAircraft == null || selectedAircraft.GetType() != typeof(A10C))
+            {
+                tsmi_A10C_UseMGRS.Checked = false;
+                return;
+            }
+            bool useMGRS = !(selectedAircraft as A10C).UsingMGRS;
+            selectedAircraft = new A10C(usingMGRS: useMGRS);
+            tsmi_A10C_UseMGRS.Checked = useMGRS;
         }
 
         private void FetchCoordinatesControl_Click(object sender, EventArgs e)
@@ -2589,6 +2632,7 @@ namespace CoordinateConverter
             }
         }
         #endregion
+
         #endregion
     }
 }

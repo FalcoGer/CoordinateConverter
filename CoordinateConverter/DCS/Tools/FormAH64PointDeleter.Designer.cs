@@ -1,6 +1,6 @@
 ﻿namespace CoordinateConverter.DCS.Tools
 {
-    partial class AH64PointDeleter
+    partial class FormAH64PointDeleter
     {
         /// <summary>
         /// Required designer variable.
