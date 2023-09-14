@@ -29,7 +29,8 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
             - might be impossible, this is 9 years old
         - if not possible use LoSetSharedTexture (Export.lua L1061) and analyze bitmap (?)
             - test with multiple resolutions
-        - SLAM-ER (point type: SLAM-ER Station (how to differenciate?)) -> point options: (WP1 .. 5)
+        - SLAM-ER
+            - STP for each station?
         - hornet, autoswitch all to PP2 after dropping from BRU?
     - A10C
         - remind user that selection MGRS will use MGRS input into CDU
