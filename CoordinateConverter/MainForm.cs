@@ -2505,10 +2505,11 @@ namespace CoordinateConverter
             tsmi_Opacity50.Checked = false;
             tsmi_Opacity25.Checked = false;
         }
-        private void Tsmi_AlwaysOnTop_Click(object sender, EventArgs e)
+        private void Control_AlwaysOnTop_Click(object sender, EventArgs e)
         {
             this.TopMost = !this.TopMost;
             tsmi_AlwaysOnTop.Checked = this.TopMost;
+            btn_AlwaysOnTop.BackColor = this.TopMost ? Color.FromArgb(0x66, 0x99, 0x00) : DefaultBackColor;
         }
         #endregion
         #endregion
