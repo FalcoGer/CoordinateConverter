@@ -315,6 +315,7 @@
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormUnitImporter";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Unit Import";
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Units)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_RadiusValue)).EndInit();

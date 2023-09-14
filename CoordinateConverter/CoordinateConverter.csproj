@@ -60,10 +60,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AH64PointDeleter.cs">
+    <Compile Include="DCS\Tools\AH64PointDeleter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AH64PointDeleter.Designer.cs">
+    <Compile Include="DCS\Tools\AH64PointDeleter.Designer.cs">
       <DependentUpon>AH64PointDeleter.cs</DependentUpon>
     </Compile>
     <Compile Include="DCS\Aircraft\AH64.cs" />
@@ -114,7 +114,7 @@
     <Compile Include="DCS\Tools\ReticleForm.Designer.cs">
       <DependentUpon>ReticleForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AH64PointDeleter.resx">
+    <EmbeddedResource Include="DCS\Tools\AH64PointDeleter.resx">
       <DependentUpon>AH64PointDeleter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DCS\Tools\FormStartingWaypoint.resx">

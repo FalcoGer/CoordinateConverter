@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace CoordinateConverter
+namespace CoordinateConverter.DCS.Tools
 {
     /// <summary>
     /// A tool to delete pointy from the AH64
@@ -17,7 +17,7 @@ namespace CoordinateConverter
         /// The number of commands.
         /// </value>
         public int NumberOfCommands { get; private set; } = 0;
-        private AH64 selectedAircraft;
+        private readonly AH64 selectedAircraft;
         /// <summary>
         /// Initializes a new instance of the <see cref="AH64PointDeleter"/> class.
         /// </summary>
@@ -35,40 +35,40 @@ namespace CoordinateConverter
             this.selectedAircraft = selectedAircraft;
         }
 
-        private void cb_PointType_SelectedIndexChanged(object objSender, EventArgs e)
+        private void Cb_PointType_SelectedIndexChanged(object objSender, EventArgs e)
         {
             ComboBox sender = objSender as ComboBox;
             AH64.EPointType pointType = ComboItem<AH64.EPointType>.GetSelectedValue(sender);
             // Update Minima
             if (pointType == AH64.EPointType.ControlMeasure)
             {
-                nud_firstPointIdx.Minimum = 51;
-                nud_lastPointIdx.Minimum = 51;
+                nud_FirstPointIdx.Minimum = 51;
+                nud_LastPointIdx.Minimum = 51;
             }
             else
             {
-                nud_firstPointIdx.Minimum = 1;
-                nud_lastPointIdx.Minimum = 1;
+                nud_FirstPointIdx.Minimum = 1;
+                nud_LastPointIdx.Minimum = 1;
             }
             // Update Maxima
-            nud_firstPointIdx.Maximum = nud_firstPointIdx.Minimum + 49;
-            nud_lastPointIdx.Maximum = nud_lastPointIdx.Minimum + 49;
+            nud_FirstPointIdx.Maximum = nud_FirstPointIdx.Minimum + 49;
+            nud_LastPointIdx.Maximum = nud_LastPointIdx.Minimum + 49;
             
             // Set Values
-            nud_firstPointIdx.Value = nud_firstPointIdx.Minimum;
-            nud_lastPointIdx.Value = nud_lastPointIdx.Maximum;
+            nud_FirstPointIdx.Value = nud_FirstPointIdx.Minimum;
+            nud_LastPointIdx.Value = nud_LastPointIdx.Maximum;
         }
 
-        private void btn_Cancel_Click(object sender, EventArgs e)
+        private void Btn_Cancel_Click(object sender, EventArgs e)
         {
             NumberOfCommands = 0;
             Close();
         }
 
-        private void btn_Ok_Click(object sender, EventArgs e)
+        private void Btn_Ok_Click(object sender, EventArgs e)
         {
             AH64.EPointType pointType = ComboItem<AH64.EPointType>.GetSelectedValue(cb_PointType);
-            NumberOfCommands = selectedAircraft.ClearPoints(pointType, (int)nud_firstPointIdx.Value, (int)nud_lastPointIdx.Value);
+            NumberOfCommands = selectedAircraft.ClearPoints(pointType, (int)nud_FirstPointIdx.Value, (int)nud_LastPointIdx.Value);
             Close();
         }
     }

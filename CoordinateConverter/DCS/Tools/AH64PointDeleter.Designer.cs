@@ -1,4 +1,4 @@
-﻿namespace CoordinateConverter
+﻿namespace CoordinateConverter.DCS.Tools
 {
     partial class AH64PointDeleter
     {
@@ -28,31 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.nud_firstPointIdx = new System.Windows.Forms.NumericUpDown();
-            this.nud_lastPointIdx = new System.Windows.Forms.NumericUpDown();
+            this.nud_FirstPointIdx = new System.Windows.Forms.NumericUpDown();
+            this.nud_LastPointIdx = new System.Windows.Forms.NumericUpDown();
             this.cb_PointType = new System.Windows.Forms.ComboBox();
             this.btn_Ok = new System.Windows.Forms.Button();
             this.btn_Cancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_firstPointIdx)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_lastPointIdx)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_FirstPointIdx)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_LastPointIdx)).BeginInit();
             this.SuspendLayout();
             // 
-            // nud_firstPointIdx
+            // nud_FirstPointIdx
             // 
-            this.nud_firstPointIdx.Location = new System.Drawing.Point(92, 39);
-            this.nud_firstPointIdx.Name = "nud_firstPointIdx";
-            this.nud_firstPointIdx.Size = new System.Drawing.Size(120, 20);
-            this.nud_firstPointIdx.TabIndex = 0;
+            this.nud_FirstPointIdx.Location = new System.Drawing.Point(92, 39);
+            this.nud_FirstPointIdx.Name = "nud_FirstPointIdx";
+            this.nud_FirstPointIdx.Size = new System.Drawing.Size(120, 20);
+            this.nud_FirstPointIdx.TabIndex = 0;
             // 
-            // nudLastPointIdx
+            // nud_LastPointIdx
             // 
-            this.nud_lastPointIdx.Location = new System.Drawing.Point(92, 65);
-            this.nud_lastPointIdx.Name = "nudLastPointIdx";
-            this.nud_lastPointIdx.Size = new System.Drawing.Size(120, 20);
-            this.nud_lastPointIdx.TabIndex = 1;
+            this.nud_LastPointIdx.Location = new System.Drawing.Point(92, 65);
+            this.nud_LastPointIdx.Name = "nud_LastPointIdx";
+            this.nud_LastPointIdx.Size = new System.Drawing.Size(120, 20);
+            this.nud_LastPointIdx.TabIndex = 1;
             // 
             // cb_PointType
             // 
@@ -61,7 +61,7 @@
             this.cb_PointType.Name = "cb_PointType";
             this.cb_PointType.Size = new System.Drawing.Size(121, 21);
             this.cb_PointType.TabIndex = 2;
-            this.cb_PointType.SelectedIndexChanged += new System.EventHandler(this.cb_PointType_SelectedIndexChanged);
+            this.cb_PointType.SelectedIndexChanged += new System.EventHandler(this.Cb_PointType_SelectedIndexChanged);
             // 
             // btn_Ok
             // 
@@ -71,17 +71,18 @@
             this.btn_Ok.TabIndex = 3;
             this.btn_Ok.Text = "Delete";
             this.btn_Ok.UseVisualStyleBackColor = true;
-            this.btn_Ok.Click += new System.EventHandler(this.btn_Ok_Click);
+            this.btn_Ok.Click += new System.EventHandler(this.Btn_Ok_Click);
             // 
             // btn_Cancel
             // 
+            this.btn_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_Cancel.Location = new System.Drawing.Point(12, 93);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(92, 23);
             this.btn_Cancel.TabIndex = 4;
             this.btn_Cancel.Text = "Cancel";
             this.btn_Cancel.UseVisualStyleBackColor = true;
-            this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
+            this.btn_Cancel.Click += new System.EventHandler(this.Btn_Cancel_Click);
             // 
             // label1
             // 
@@ -123,8 +124,8 @@
             this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.btn_Ok);
             this.Controls.Add(this.cb_PointType);
-            this.Controls.Add(this.nud_lastPointIdx);
-            this.Controls.Add(this.nud_firstPointIdx);
+            this.Controls.Add(this.nud_LastPointIdx);
+            this.Controls.Add(this.nud_FirstPointIdx);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(240, 160);
@@ -132,9 +133,10 @@
             this.MinimumSize = new System.Drawing.Size(240, 160);
             this.Name = "AH64PointDeleter";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Remove points from AH64";
-            ((System.ComponentModel.ISupportInitialize)(this.nud_firstPointIdx)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_lastPointIdx)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_FirstPointIdx)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_LastPointIdx)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,8 +144,8 @@
 
         #endregion
 
-        private System.Windows.Forms.NumericUpDown nud_firstPointIdx;
-        private System.Windows.Forms.NumericUpDown nud_lastPointIdx;
+        private System.Windows.Forms.NumericUpDown nud_FirstPointIdx;
+        private System.Windows.Forms.NumericUpDown nud_LastPointIdx;
         private System.Windows.Forms.ComboBox cb_PointType;
         private System.Windows.Forms.Button btn_Ok;
         private System.Windows.Forms.Button btn_Cancel;

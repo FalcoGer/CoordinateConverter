@@ -86,6 +86,7 @@
             this.MinimizeBox = false;
             this.Name = "FormStartingWaypoint";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.nud_PointNumber)).EndInit();
             this.ResumeLayout(false);

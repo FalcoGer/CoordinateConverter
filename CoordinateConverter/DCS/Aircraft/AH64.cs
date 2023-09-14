@@ -17,7 +17,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <value>
         ///   <c>true</c> if this instance is pilot; otherwise, <c>false</c>.
         /// </value>
-        public bool IsPilot { get; set; }
+        public bool IsPilot { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AH64"/> class.
