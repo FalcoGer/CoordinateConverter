@@ -1241,6 +1241,7 @@ namespace CoordinateConverter
                 }
 
                 // Update the grid
+                ResetIDs();
                 RefreshDataGrid();
 
                 // Reselect all the rows
