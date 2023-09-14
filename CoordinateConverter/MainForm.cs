@@ -16,13 +16,13 @@ namespace CoordinateConverter
     /// <summary>
     /// Main application
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
+    /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
         
-        private readonly System.Drawing.Color ERROR_COLOR = Color.Pink;
-        private readonly System.Drawing.Color DCS_ERROR_COLOR = Color.Yellow;
-        private readonly System.Drawing.Color DCS_OK_COLOR = Color.Green;
+        private readonly Color ERROR_COLOR = Color.Pink;
+        private readonly Color DCS_ERROR_COLOR = Color.Yellow;
+        private readonly Color DCS_OK_COLOR = Color.Green;
 
         private CoordinateDataEntry input = null;
         private Bullseye bulls = null;
@@ -866,7 +866,7 @@ namespace CoordinateConverter
         /// Gets the altitude in m from the input text box.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="System.NotImplementedException">Altitude unit not implemented.</exception>
+        /// <exception cref="NotImplementedException">Altitude unit not implemented.</exception>
         private double GetAltitudeInM()
         {
             lbl_Error.Visible = false;
@@ -1507,7 +1507,7 @@ namespace CoordinateConverter
         /// <param name="idx">The index of the first row.</param>
         /// <param name="targetIdx">Index of row where it supposed to go.</param>
         /// <returns>true if a swap occurred, false if the targetidx is invalid</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">idx is not a valid index in the datagrid</exception>
+        /// <exception cref="ArgumentOutOfRangeException">idx is not a valid index in the datagrid</exception>
         private bool swapRows(int idx, int targetIdx)
         {
             lbl_Error.Visible = false;
@@ -1584,7 +1584,7 @@ namespace CoordinateConverter
                 using (FileStream fileHandle = fi.Open(FileMode.Create, FileAccess.Write))
                 {
                     string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dataEntries, jsonSerializerSettings);
-                    byte[] data = new System.Text.UTF8Encoding(true).GetBytes(jsonData);
+                    byte[] data = new UTF8Encoding(true).GetBytes(jsonData);
                     fileHandle.Write(data, 0, data.Length);
                 }
             }

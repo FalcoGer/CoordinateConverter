@@ -8,7 +8,7 @@ namespace CoordinateConverter.DCS.Aircraft
     /// <summary>
     /// This class represents the AH64 aircraft
     /// </summary>
-    /// <seealso cref="DCS.Aircraft.DCSAircraft" />
+    /// <seealso cref="DCSAircraft" />
     public class AH64 : DCSAircraft
     {
         /// <summary>
@@ -107,7 +107,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        /// <exception cref="System.NotImplementedException">Bad Point Type</exception>
+        /// <exception cref="NotImplementedException">Bad Point Type</exception>
         public override List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate)
         {
             AH64SpecificData extraData = null;

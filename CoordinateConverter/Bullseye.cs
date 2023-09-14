@@ -8,7 +8,7 @@ namespace CoordinateConverter
     /// </summary>
     public class Bullseye
     {
-        private Coordinate bullseyeCoord = new CoordinateSharp.Coordinate(0.0, 0.0);
+        private Coordinate bullseyeCoord = new Coordinate(0.0, 0.0);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Bullseye"/> class.
@@ -24,14 +24,14 @@ namespace CoordinateConverter
         /// <param name="lon">The longitude of that point.</param>
         public Bullseye(double lat, double lon)
         {
-            bullseyeCoord = new CoordinateSharp.Coordinate(lat: lat, longi: lon);
+            bullseyeCoord = new Coordinate(lat: lat, longi: lon);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Bullseye"/> class.
         /// </summary>
         /// <param name="bullseyeCoord">The bullseye coordinates.</param>
-        /// <exception cref="System.ArgumentNullException">bullseyeCoord</exception>
+        /// <exception cref="ArgumentNullException">bullseyeCoord</exception>
         public Bullseye(Coordinate bullseyeCoord)
         {
             this.bullseyeCoord = bullseyeCoord ?? throw new ArgumentNullException(nameof(bullseyeCoord));
@@ -44,7 +44,7 @@ namespace CoordinateConverter
         /// <param name="lon">The longitude.</param>
         public void SetBullseye(double lat, double lon)
         {
-            bullseyeCoord = new CoordinateSharp.Coordinate(lat: lat, longi: lon);
+            bullseyeCoord = new Coordinate(lat: lat, longi: lon);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace CoordinateConverter
         /// </summary>
         /// <param name="coord">The coordinates to get the offset for.</param>
         /// <returns>The bearing and range from bullseye to <paramref name="coord"/></returns>
-        /// <exception cref="System.ArgumentNullException">coord</exception>
+        /// <exception cref="ArgumentNullException">coord</exception>
         public BRA GetBRA(Coordinate coord)
         {
             if (coord == null)

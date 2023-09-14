@@ -7,7 +7,7 @@ namespace CoordinateConverter.DCS.Aircraft
     /// <summary>
     /// Represents JF17 aircraft
     /// </summary>
-    /// <seealso cref="CoordinateConverter.DCS.Aircraft.DCSAircraft" />
+    /// <seealso cref="DCSAircraft" />
     public class JF17 : DCSAircraft
     {
         /// <summary>

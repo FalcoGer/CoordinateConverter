@@ -7,7 +7,7 @@ namespace CoordinateConverter.DCS.Aircraft
     /// <summary>
     /// A representation of the KA50-2 or KA50-3
     /// </summary>
-    /// <seealso cref="CoordinateConverter.DCS.Aircraft.DCSAircraft" />
+    /// <seealso cref="DCSAircraft" />
     public class KA50 : DCSAircraft
     {
         /// <summary>
@@ -17,7 +17,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate)
         {
             if (!coordinate.AircraftSpecificData.ContainsKey(typeof(KA50)))
@@ -145,7 +145,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A list of names for point options.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override List<string> GetPointOptionsForType(string pointTypeStr)
         {
             return new List<string>() { "Point" };
@@ -157,7 +157,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A list of valid point types.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override List<string> GetPointTypes()
         {
             return Enum.GetNames(typeof(EPointType)).ToList();
@@ -169,7 +169,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override List<DCSCommand> GetPostPointActions()
         {
             nextPointIdForType = null;
@@ -186,7 +186,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override List<DCSCommand> GetPrePointActions()
         {
             nextPointIdForType = new Dictionary<EPointType, int>();

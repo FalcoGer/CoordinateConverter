@@ -147,6 +147,6 @@ namespace CoordinateConverter.DCS.Communication
         /// The units.
         /// </value>
         [JsonProperty("Units")]
-        public List<Communication.DCSUnit> Units { get; set; } = null;
+        public List<DCSUnit> Units { get; set; } = null;
     }
 }

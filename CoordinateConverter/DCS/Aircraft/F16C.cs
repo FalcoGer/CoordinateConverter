@@ -6,7 +6,7 @@ namespace CoordinateConverter.DCS.Aircraft
     /// <summary>
     /// The F16C aircraft from DCS
     /// </summary>
-    /// <seealso cref="CoordinateConverter.DCS.Aircraft.DCSAircraft" />
+    /// <seealso cref="DCSAircraft" />
     public class F16C : DCSAircraft
     {
         /// <summary>

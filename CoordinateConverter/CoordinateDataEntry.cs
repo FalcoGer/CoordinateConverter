@@ -111,7 +111,7 @@ namespace CoordinateConverter
         /// <param name="altitudeIsAGL">if set to <c>true</c> altitude is agl.</param>
         /// <param name="name">The label for this point.</param>
         /// <param name="xfer">if set to <c>true</c> will transfer to DCS.</param>
-        /// <exception cref="System.ArgumentNullException">coordinate</exception>
+        /// <exception cref="ArgumentNullException">coordinate</exception>
         public CoordinateDataEntry(int id, CoordinateSharp.Coordinate coordinate, double altitudeInM = 0, bool altitudeIsAGL = false, string name = "", bool xfer = true)
         {
             if (coordinate == null)

@@ -12,7 +12,7 @@ namespace CoordinateConverter
     /// <summary>
     /// Represents a form that is used to import the coordinates of units from DCS
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
+    /// <seealso cref="Form" />
     public partial class FormUnitImporter : Form
     {
         private int nextPointID;

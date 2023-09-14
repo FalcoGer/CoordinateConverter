@@ -7,7 +7,7 @@ namespace CoordinateConverter
     /// <summary>
     /// A tool to delete pointy from the AH64
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
+    /// <seealso cref="Form" />
     public partial class AH64PointDeleter : Form
     {
         /// <summary>

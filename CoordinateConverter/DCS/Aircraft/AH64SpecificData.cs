@@ -8,7 +8,7 @@ namespace CoordinateConverter.DCS.Aircraft
     /// <summary>
     /// Data for a point, specific to the AH64
     /// </summary>
-    /// <seealso cref="DCS.Aircraft.AircraftSpecificData" />
+    /// <seealso cref="AircraftSpecificData" />
     public class AH64SpecificData : AircraftSpecificData
     {
         /// <summary>
@@ -300,7 +300,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        /// <exception cref="System.Exception">Bad point type</exception>
+        /// <exception cref="Exception">Bad point type</exception>
         public override string ToString()
         {
             string pointTypeStr = string.Empty;

@@ -3,7 +3,7 @@
     /// <summary>
     /// Point data specific to the JF17
     /// </summary>
-    /// <seealso cref="CoordinateConverter.DCS.Aircraft.AircraftSpecificData" />
+    /// <seealso cref="AircraftSpecificData" />
     public class JF17SpecificData : AircraftSpecificData
     {
         /// <summary>

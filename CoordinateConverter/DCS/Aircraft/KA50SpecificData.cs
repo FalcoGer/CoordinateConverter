@@ -3,7 +3,7 @@
     /// <summary>
     /// Data for a <see cref="CoordinateDataEntry"/> specific to the KA50-2 and KA50-3
     /// </summary>
-    /// <seealso cref="CoordinateConverter.DCS.Aircraft.AircraftSpecificData" />
+    /// <seealso cref="AircraftSpecificData" />
     public class KA50SpecificData : AircraftSpecificData
     {
         /// <summary>

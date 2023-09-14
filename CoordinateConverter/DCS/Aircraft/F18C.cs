@@ -8,7 +8,7 @@ namespace CoordinateConverter.DCS.Aircraft
     /// <summary>
     /// Represents F18C aircraft
     /// </summary>
-    /// <seealso cref="CoordinateConverter.DCS.Aircraft.DCSAircraft" />
+    /// <seealso cref="DCSAircraft" />
     public class F18C : DCSAircraft
     {
         private List<WeaponStation> weapons = new List<WeaponStation>();
@@ -265,7 +265,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate)
         {
             if (!coordinate.AircraftSpecificData.ContainsKey(typeof(F18C)))
@@ -718,7 +718,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A list of names for point options.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override List<string> GetPointOptionsForType(string pointTypeStr)
         {
             List<string> options = new List<string>();
@@ -749,7 +749,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A list of valid point types.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override List<string> GetPointTypes()
         {
             List<string> types = new List<string>()

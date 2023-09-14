@@ -6,7 +6,7 @@ namespace CoordinateConverter.DCS.Aircraft
     /// <summary>
     /// coordinate data specific to F18C
     /// </summary>
-    /// <seealso cref="CoordinateConverter.DCS.Aircraft.AircraftSpecificData" />
+    /// <seealso cref="AircraftSpecificData" />
     public class F18CSpecificData : AircraftSpecificData
     {
         /// <summary>
@@ -109,7 +109,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override string ToString()
         {
             

@@ -6,7 +6,7 @@ namespace CoordinateConverter
     /// <summary>
     /// A form to select a starting waypoint for the F16
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
+    /// <seealso cref="Form" />
     public partial class FormStartingWaypoint : Form
     {
         /// <summary>
