@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace CoordinateConverter
+namespace CoordinateConverter.DCS.Tools
 {
     /// <summary>
     /// A form to select a starting waypoint for the F16

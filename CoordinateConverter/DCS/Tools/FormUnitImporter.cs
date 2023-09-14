@@ -7,7 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CoordinateConverter
+namespace CoordinateConverter.DCS.Tools
 {
     /// <summary>
     /// Represents a form that is used to import the coordinates of units from DCS

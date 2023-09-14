@@ -1,5 +1,6 @@
 ﻿using CoordinateConverter.DCS.Aircraft;
 using CoordinateConverter.DCS.Communication;
+using CoordinateConverter.DCS.Tools;
 using System;
 using System.Collections.Generic;
 using System.Data;

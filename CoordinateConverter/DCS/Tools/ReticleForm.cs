@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace CoordinateConverter
+namespace CoordinateConverter.DCS.Tools
 {
     /// <summary>
     /// A Form that has magenta as the transparency key and is placed at the center of a screen. An image of a reticle is loaded.

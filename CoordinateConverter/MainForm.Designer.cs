@@ -561,7 +561,7 @@ namespace CoordinateConverter
             this.tb_Label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_Label.Location = new System.Drawing.Point(308, 219);
-            this.tb_Label.MaxLength = 12;
+            this.tb_Label.MaxLength = 50;
             this.tb_Label.Name = "tb_Label";
             this.tb_Label.Size = new System.Drawing.Size(172, 20);
             this.tb_Label.TabIndex = 9;

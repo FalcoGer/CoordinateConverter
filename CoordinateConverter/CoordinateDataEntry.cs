@@ -145,7 +145,7 @@ namespace CoordinateConverter
                 }
                 else
                 {
-                    name = value.Length <= 12 ? value : value.Substring(0, 12);
+                    name = value;
                 }
             }
         }

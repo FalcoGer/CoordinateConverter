@@ -1,4 +1,4 @@
-﻿namespace CoordinateConverter
+﻿namespace CoordinateConverter.DCS.Tools
 {
     partial class FormUnitImporter
     {
