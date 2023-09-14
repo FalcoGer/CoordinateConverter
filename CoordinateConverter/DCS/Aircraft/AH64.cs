@@ -303,7 +303,7 @@ namespace CoordinateConverter.DCS.Aircraft
 
             for (int pointIdx = startIdx - ((pointType == EPointType.ControlMeasure) ? 50 : 0); pointIdx <= endIdx - ((pointType == EPointType.ControlMeasure) ? 50 : 0); pointIdx++)
             {
-                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_TSD)); // Reset to TSD after every point, to a void weirdness.
+                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_TSD)); // Reset to TSD after every point, to avoid weirdness.
                 commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_B6)); // Point
                 commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_L1)); // Point >
                 commands.AddRange(GetCommandsForKUText(pointType.ToString().First() + pointIdx.ToString() + "\n", true)); // Enter point identifier

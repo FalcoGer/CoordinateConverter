@@ -25,7 +25,7 @@ namespace CoordinateConverter.DCS.Tools
         /// </value>
         public List<CoordinateDataEntry> Coordinates { get; private set; } = null;
         private readonly Dictionary<int, CoordinateDataEntry> referencePoints = null;
-        private const int IMPORT_CHECKBOX_COLUMN_ID = 6;
+        private const int IMPORT_CHECKBOX_COLUMN_ID = 8;
 
         private void UpdateAllUnitsFromDCS()
         {
@@ -102,9 +102,9 @@ namespace CoordinateConverter.DCS.Tools
             }
             Bullseye be = new Bullseye(refPoint.Coordinate);
 
+            ERangeUnit rangeUnit = ComboItem<ERangeUnit>.GetSelectedValue(cb_RadiusUnit);
             if (cb_WithRadiusFilter.Checked)
             {
-                ERangeUnit rangeUnit = ComboItem<ERangeUnit>.GetSelectedValue(cb_RadiusUnit);
                 double rawRangeValue = (double)nud_RadiusValue.Value;
                 double rangeInM = 0;
                 switch (rangeUnit)
@@ -178,11 +178,25 @@ namespace CoordinateConverter.DCS.Tools
                     Format = CoordinateSharp.CoordinateFormatType.Degree_Minutes_Seconds
                 };
 
-                string positionStr = coordinate.ToString(options);
+                string rangeStr = string.Empty;
                 if (cb_WithRadiusFilter.Checked)
                 {
-
-                    positionStr += " | From Ref: [" + be.GetBRA(coordinate).ToString() + "]";
+                    double rangeInNmi = be.GetBRA(coordinate).Range;
+                    switch (rangeUnit)
+                    {
+                        case ERangeUnit.Feet:
+                            rangeStr = Math.Round(rangeInNmi * 6076.12, 1).ToString() + " ft";
+                            break;
+                        case ERangeUnit.NauticalMile:
+                            rangeStr = Math.Round(rangeInNmi * 1, 1).ToString() + " nmi";
+                            break;
+                        case ERangeUnit.Meter:
+                            rangeStr = Math.Round(rangeInNmi * 1852, 1).ToString() + " m";
+                            break;
+                        case ERangeUnit.KiloMeter:
+                            rangeStr = Math.Round(rangeInNmi * 1.852, 1).ToString() + " km";
+                            break;
+                    }
                 }
 
                 int rowIdx = dgv_Units.Rows.Add(
@@ -191,7 +205,9 @@ namespace CoordinateConverter.DCS.Tools
                     unit.TypeName,
                     unit.Type.Level2.ToString() + " / " + unit.Type.Level3.ToString(),
                     (unit.UnitName ?? string.Empty) + " / " + (unit.GroupName ?? string.Empty),
-                    positionStr,
+                    coordinate.ToString(),
+                    be != null ? Math.Round(be.GetBRA(coordinate).Bearing, 1).ToString() : String.Empty,
+                    rangeStr,
                     true
                 );
 
@@ -290,7 +306,6 @@ namespace CoordinateConverter.DCS.Tools
         {
             nud_RadiusValue.Enabled = cb_WithRadiusFilter.Checked;
             cb_RadiusUnit.Enabled = cb_WithRadiusFilter.Checked;
-            cb_RadiusCenter.Enabled = cb_WithRadiusFilter.Checked;
         }
 
         private void Btn_ApplyFilter_Click(object sender, EventArgs e)

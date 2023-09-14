@@ -38,19 +38,21 @@
             this.label6 = new System.Windows.Forms.Label();
             this.cb_WithRadiusFilter = new System.Windows.Forms.CheckBox();
             this.dgv_Units = new System.Windows.Forms.DataGridView();
-            this.dgvColId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvColCoalition = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvColTypeName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvColClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvColUnitName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvColPosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvColImport = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btn_Refresh = new System.Windows.Forms.Button();
             this.btn_Cancel = new System.Windows.Forms.Button();
             this.btn_Import = new System.Windows.Forms.Button();
             this.nud_RadiusValue = new System.Windows.Forms.NumericUpDown();
             this.btn_ApplyFilter = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.dgvColId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvColCoalition = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvColTypeName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvColClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvColUnitName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvColPosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvColBearing = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvColRange = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvColImport = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Units)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_RadiusValue)).BeginInit();
             this.SuspendLayout();
@@ -144,6 +146,8 @@
             this.dgvColClass,
             this.dgvColUnitName,
             this.dgvColPosition,
+            this.dgvColBearing,
+            this.dgvColRange,
             this.dgvColImport});
             this.dgv_Units.Location = new System.Drawing.Point(12, 66);
             this.dgv_Units.Name = "dgv_Units";
@@ -152,66 +156,6 @@
             this.dgv_Units.TabIndex = 8;
             this.dgv_Units.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Units_CellContentClick);
             this.dgv_Units.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Dgv_Units_KeyPress);
-            // 
-            // dgvColId
-            // 
-            this.dgvColId.Frozen = true;
-            this.dgvColId.HeaderText = "ID";
-            this.dgvColId.MinimumWidth = 60;
-            this.dgvColId.Name = "dgvColId";
-            this.dgvColId.ReadOnly = true;
-            this.dgvColId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvColId.Width = 60;
-            // 
-            // dgvColCoalition
-            // 
-            this.dgvColCoalition.HeaderText = "Coalition";
-            this.dgvColCoalition.MinimumWidth = 55;
-            this.dgvColCoalition.Name = "dgvColCoalition";
-            this.dgvColCoalition.ReadOnly = true;
-            this.dgvColCoalition.Width = 55;
-            // 
-            // dgvColTypeName
-            // 
-            this.dgvColTypeName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgvColTypeName.FillWeight = 10F;
-            this.dgvColTypeName.HeaderText = "Type";
-            this.dgvColTypeName.MinimumWidth = 100;
-            this.dgvColTypeName.Name = "dgvColTypeName";
-            this.dgvColTypeName.ReadOnly = true;
-            // 
-            // dgvColClass
-            // 
-            this.dgvColClass.FillWeight = 30F;
-            this.dgvColClass.HeaderText = "Class";
-            this.dgvColClass.Name = "dgvColClass";
-            this.dgvColClass.ReadOnly = true;
-            // 
-            // dgvColUnitName
-            // 
-            this.dgvColUnitName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgvColUnitName.FillWeight = 15F;
-            this.dgvColUnitName.HeaderText = "Unit/Group Name";
-            this.dgvColUnitName.MinimumWidth = 50;
-            this.dgvColUnitName.Name = "dgvColUnitName";
-            this.dgvColUnitName.ReadOnly = true;
-            // 
-            // dgvColPosition
-            // 
-            this.dgvColPosition.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgvColPosition.FillWeight = 25F;
-            this.dgvColPosition.HeaderText = "Position";
-            this.dgvColPosition.MinimumWidth = 170;
-            this.dgvColPosition.Name = "dgvColPosition";
-            this.dgvColPosition.ReadOnly = true;
-            // 
-            // dgvColImport
-            // 
-            this.dgvColImport.HeaderText = "Import";
-            this.dgvColImport.MinimumWidth = 40;
-            this.dgvColImport.Name = "dgvColImport";
-            this.dgvColImport.ReadOnly = true;
-            this.dgvColImport.Width = 40;
             // 
             // btn_Refresh
             // 
@@ -291,6 +235,78 @@
             this.label2.Text = "Refresh asks DCS for a new unit list. Use apply above to apply a filter change.\r\n" +
     "CTRL/Shift+Click to highlight multiple and use space to select/deselect.";
             // 
+            // dgvColId
+            // 
+            this.dgvColId.Frozen = true;
+            this.dgvColId.HeaderText = "ID";
+            this.dgvColId.MinimumWidth = 60;
+            this.dgvColId.Name = "dgvColId";
+            this.dgvColId.ReadOnly = true;
+            this.dgvColId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvColId.Width = 60;
+            // 
+            // dgvColCoalition
+            // 
+            this.dgvColCoalition.HeaderText = "Coalition";
+            this.dgvColCoalition.MinimumWidth = 55;
+            this.dgvColCoalition.Name = "dgvColCoalition";
+            this.dgvColCoalition.ReadOnly = true;
+            this.dgvColCoalition.Width = 55;
+            // 
+            // dgvColTypeName
+            // 
+            this.dgvColTypeName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgvColTypeName.FillWeight = 10F;
+            this.dgvColTypeName.HeaderText = "Type";
+            this.dgvColTypeName.MinimumWidth = 100;
+            this.dgvColTypeName.Name = "dgvColTypeName";
+            this.dgvColTypeName.ReadOnly = true;
+            // 
+            // dgvColClass
+            // 
+            this.dgvColClass.FillWeight = 30F;
+            this.dgvColClass.HeaderText = "Class";
+            this.dgvColClass.Name = "dgvColClass";
+            this.dgvColClass.ReadOnly = true;
+            // 
+            // dgvColUnitName
+            // 
+            this.dgvColUnitName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgvColUnitName.FillWeight = 15F;
+            this.dgvColUnitName.HeaderText = "Unit/Group Name";
+            this.dgvColUnitName.MinimumWidth = 50;
+            this.dgvColUnitName.Name = "dgvColUnitName";
+            this.dgvColUnitName.ReadOnly = true;
+            // 
+            // dgvColPosition
+            // 
+            this.dgvColPosition.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgvColPosition.FillWeight = 25F;
+            this.dgvColPosition.HeaderText = "Position";
+            this.dgvColPosition.MinimumWidth = 170;
+            this.dgvColPosition.Name = "dgvColPosition";
+            this.dgvColPosition.ReadOnly = true;
+            // 
+            // dgvColBearing
+            // 
+            this.dgvColBearing.HeaderText = "REF BRG";
+            this.dgvColBearing.Name = "dgvColBearing";
+            this.dgvColBearing.ReadOnly = true;
+            // 
+            // dgvColRange
+            // 
+            this.dgvColRange.HeaderText = "REF RNG";
+            this.dgvColRange.Name = "dgvColRange";
+            this.dgvColRange.ReadOnly = true;
+            // 
+            // dgvColImport
+            // 
+            this.dgvColImport.HeaderText = "Import";
+            this.dgvColImport.MinimumWidth = 40;
+            this.dgvColImport.Name = "dgvColImport";
+            this.dgvColImport.ReadOnly = true;
+            this.dgvColImport.Width = 40;
+            // 
             // FormUnitImporter
             // 
             this.AcceptButton = this.btn_ApplyFilter;
@@ -340,13 +356,15 @@
         private System.Windows.Forms.Button btn_Import;
         private System.Windows.Forms.NumericUpDown nud_RadiusValue;
         private System.Windows.Forms.Button btn_ApplyFilter;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvColId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvColCoalition;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvColTypeName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvColClass;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvColUnitName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvColPosition;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvColBearing;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvColRange;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dgvColImport;
-        private System.Windows.Forms.Label label2;
     }
 }
