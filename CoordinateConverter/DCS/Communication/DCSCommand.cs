@@ -1,6 +1,4 @@
-﻿using CoordinateConverter.DCS.Communication;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
 
 namespace CoordinateConverter.DCS.Aircraft
 {

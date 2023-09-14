@@ -88,16 +88,16 @@
     <Compile Include="DCS\Communication\DCSCoordinate.cs" />
     <Compile Include="DCS\Communication\DCSUnit.cs" />
     <Compile Include="DCS\Communication\DebugCommandList.cs" />
-    <Compile Include="FormStartingWaypoint.cs">
+    <Compile Include="DCS\Tools\FormStartingWaypoint.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormStartingWaypoint.Designer.cs">
+    <Compile Include="DCS\Tools\FormStartingWaypoint.Designer.cs">
       <DependentUpon>FormStartingWaypoint.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUnitImporter.cs">
+    <Compile Include="DCS\Tools\FormUnitImporter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormUnitImporter.Designer.cs">
+    <Compile Include="DCS\Tools\FormUnitImporter.Designer.cs">
       <DependentUpon>FormUnitImporter.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
@@ -108,19 +108,19 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReticleForm.cs">
+    <Compile Include="DCS\Tools\ReticleForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ReticleForm.Designer.cs">
+    <Compile Include="DCS\Tools\ReticleForm.Designer.cs">
       <DependentUpon>ReticleForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AH64PointDeleter.resx">
       <DependentUpon>AH64PointDeleter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormStartingWaypoint.resx">
+    <EmbeddedResource Include="DCS\Tools\FormStartingWaypoint.resx">
       <DependentUpon>FormStartingWaypoint.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormUnitImporter.resx">
+    <EmbeddedResource Include="DCS\Tools\FormUnitImporter.resx">
       <DependentUpon>FormUnitImporter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -136,7 +136,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ReticleForm.resx">
+    <EmbeddedResource Include="DCS\Tools\ReticleForm.resx">
       <DependentUpon>ReticleForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="DCS\Communication\CoordinateConverter.lua">

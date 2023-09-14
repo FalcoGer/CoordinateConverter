@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CoordinateConverter.DCS.Aircraft
+﻿namespace CoordinateConverter.DCS.Aircraft
 {
     /// <summary>
     /// Point data specific to the JF17
