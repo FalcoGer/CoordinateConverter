@@ -26,8 +26,8 @@ namespace CoordinateConverter.DCS.Aircraft
             }
             EPointType pt = (coordinate.AircraftSpecificData[typeof(KA50)] as KA50SpecificData).PointType;
             List<DCSCommand> commands = new List<DCSCommand>();
-            int nextPointNumber = 0;
-            int pointTypeButton = 0;
+            int nextPointNumber;
+            int pointTypeButton;
             switch (pt)
             {
                 case EPointType.Waypoint:
@@ -54,7 +54,7 @@ namespace CoordinateConverter.DCS.Aircraft
                     throw new ArgumentException("Unknown point type: \"" + pt.ToString() + "\"");
             }
 
-            if (nextPointNumber > getMaxPointsForType(pt))
+            if (nextPointNumber > GetMaxPointsForType(pt))
             {
                 // Maximum points exceeded
                 return commands;
@@ -198,7 +198,7 @@ namespace CoordinateConverter.DCS.Aircraft
             };
         }
 
-        private int getMaxPointsForType(EPointType pointType)
+        private int GetMaxPointsForType(EPointType pointType)
         {
             switch (pointType)
             {

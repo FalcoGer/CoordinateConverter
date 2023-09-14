@@ -22,13 +22,13 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <param name="lat">The latitude.</param>
         /// <param name="lon">The longitude.</param>
         /// <param name="alt">The altitude.</param>
-        /// <param name="elev">The ground elevation.</param>
-        public DCSCoordinate(double lat, double lon, double? alt = null, double? elev = null)
+        /// <param name="elevation">The ground elevation.</param>
+        public DCSCoordinate(double lat, double lon, double? alt = null, double? elevation = null)
         {
             Lat = lat;
             Lon = lon;
             Alt = alt;
-            Elev = elev;
+            Elevation = elevation;
         }
 
         /// <summary>
@@ -40,14 +40,14 @@ namespace CoordinateConverter.DCS.Aircraft
             Lat = coordinate.Latitude.DecimalDegree;
             Lon = coordinate.Longitude.DecimalDegree;
             Alt = null;
-            Elev = null;
+            Elevation = null;
         }
 
         /// <summary>
         /// Gets the coordinate.
         /// </summary>
         /// <returns></returns>
-        public CoordinateSharp.Coordinate getCoordinate()
+        public CoordinateSharp.Coordinate GetCoordinate()
         {
             return new CoordinateSharp.Coordinate(Lat, Lon);
         }
@@ -86,6 +86,6 @@ namespace CoordinateConverter.DCS.Aircraft
         /// The elevation.
         /// </value>
         [JsonProperty("Elev")]
-        public double? Elev { get; set; }
+        public double? Elevation { get; set; }
     }
 }

@@ -149,7 +149,7 @@ namespace CoordinateConverter.DCS.Aircraft
 
             // DATA
             { "{AWW-13}", EWeaponType.DL13 },
-            { "{AN_ASQ_228}", EWeaponType.TPOD }, // ATFlir
+            { "{AN_ASQ_228}", EWeaponType.TPOD }, // AT-FLIR
             { "{A111396E-D3E8-4b9c-8AC9-2432489304D5}", EWeaponType.TPOD }, // AAQ-28 Litening (Center pylon)
             { "{AAQ-28_LEFT}", EWeaponType.TPOD },
             { "{AIS_ASQ_T50}", EWeaponType.AIR_SENSOR },
@@ -246,7 +246,7 @@ namespace CoordinateConverter.DCS.Aircraft
         }
 
         /// <summary>
-        /// The next slamer STP number to be entered. needed to press the correct option select button on the UFC
+        /// The next SLAM-ER STP number to be entered. needed to press the correct option select button on the UFC
         /// </summary>
         private int currentSlamErStp = 0;
         /// <summary>
@@ -375,10 +375,10 @@ namespace CoordinateConverter.DCS.Aircraft
                         // is a valid SLAMER STP
                         if (currentSlamErStp == 1)
                         {
-                            // delete all slammer stpts from this weapon
-                            commands.AddRange(DeleteSlammerStpt(coordinate, stationBtn));
+                            // delete all slammer STPTs from this weapon
+                            commands.AddRange(DeleteSlammerSteerPoint(stationBtn));
                         }
-                        commands.AddRange(EnterSlammerStpt(coordinate, stationBtn, currentSlamErStp));
+                        commands.AddRange(EnterSlammerSteerPoint(coordinate, stationBtn, currentSlamErStp));
                     }
                 }
                 if (!extraData.PreplanPointIdx.HasValue)
@@ -401,11 +401,11 @@ namespace CoordinateConverter.DCS.Aircraft
             return commands;
         }
 
-        private List<DCSCommand> EnterSlammerStpt(CoordinateDataEntry coordinate, EKeyCodes stationBtn, int currentSlamerStpt)
+        private List<DCSCommand> EnterSlammerSteerPoint(CoordinateDataEntry coordinate, EKeyCodes stationBtn, int currentSlamErSteerPoint)
         {
             List<DCSCommand> commands = new List<DCSCommand>();
             int keyCodeStationSelect = (int)stationBtn;
-            int keyCodeStpButton = (int)EKeyCodes.UFC_PB1 + currentSlamerStpt - 1;
+            int keyCodeStpButton = (int)EKeyCodes.UFC_PB1 + currentSlamErSteerPoint - 1;
 
             // Select station
             commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 500));
@@ -460,7 +460,7 @@ namespace CoordinateConverter.DCS.Aircraft
             commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 500));
             commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 300, 0));
             string altitudeStr = ((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString();
-            commands.AddRange(UFCEnterString(((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString() + '\n'));
+            commands.AddRange(UFCEnterString(altitudeStr + '\n'));
 
             // Deselect STP
             commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB11, 200));
@@ -473,7 +473,7 @@ namespace CoordinateConverter.DCS.Aircraft
             return commands;
         }
 
-        private List<DCSCommand> DeleteSlammerStpt(CoordinateDataEntry coordinate, EKeyCodes stationBtn)
+        private List<DCSCommand> DeleteSlammerSteerPoint(EKeyCodes stationBtn)
         {
             List<DCSCommand> commands = new List<DCSCommand>();
             int keyCodeStationSelect = (int)stationBtn;
@@ -508,7 +508,7 @@ namespace CoordinateConverter.DCS.Aircraft
             bool isPenetrator = pwt == EWeaponType.J109;
             int keyCodeStationSelect = (int)stationBtn;
             // JDAMs are PB11, everything else (JSOW, SLAM, SLAMER) on PB12 for DSPLY page
-            int keyCodeWpnDsplyPage = (int)EKeyCodes.MDI_PB11 + (isBomb ? 0 : 1);
+            int keyCodeWpnDisplayPage = (int)EKeyCodes.MDI_PB11 + (isBomb ? 0 : 1);
 
             List<DCSCommand> commands = new List<DCSCommand>();
             // var commands = new DebugCommandList();
@@ -526,8 +526,8 @@ namespace CoordinateConverter.DCS.Aircraft
             }
 
             // Enter DSPLY page
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeWpnDsplyPage, 300));
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeWpnDsplyPage, 300, 0));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeWpnDisplayPage, 300));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeWpnDisplayPage, 300, 0));
 
             if (isAGM84Variant)
             {
@@ -999,7 +999,7 @@ namespace CoordinateConverter.DCS.Aircraft
             _LAST_AG_LISTED,
 
             /// <summary>
-            /// The AIM7 familiy missiles
+            /// The AIM7 family missiles
             /// </summary>
             AIM7,
 

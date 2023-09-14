@@ -39,14 +39,14 @@ namespace CoordinateConverter
         private string oldAltitudeUnit;
 
         private ToolStripItem selectedScreenMenuItem = null;
-        ReticleForm reticleForm = new ReticleForm();
+        private readonly ReticleForm reticleForm = new ReticleForm();
 
         private DCSAircraft selectedAircraft = null;
 
         /// <summary>
         /// The lock object for the progress bar, so that tmr250 doesn't set value before SendToDCS has set the maximum, causing exceptions during race conditions
         /// </summary>
-        private object lockObjProgressBar = new object();
+        private readonly object lockObjProgressBar = new object();
 
         #region Input
 
@@ -69,34 +69,34 @@ namespace CoordinateConverter
         private const string REGEX_LL_DECIMAL_LON = @"^(?:0\d\d|1[0-7]\d|180)\s*°?\s*[0-5]\d\s*(?:\.\d+)?'?$";
         #endregion
 
-        #region LL        
+        #region LL_DecimalSeconds      
         /// <summary>
         /// Checks the LL textboxes and marks them as error if format invalid.
         /// </summary>
         /// <returns>true if valid, otherwise false</returns>
-        private bool CheckAndMarkLL()
+        private bool CheckAndMarkLL_DecimalSeconds()
         {
             bool ok = true;
             // TB Lat
-            if (Regex.IsMatch(TB_LL_Lat.Text, REGEX_LL_LAT))
+            if (Regex.IsMatch(TB_LL_DecimalSeconds_Latitude.Text, REGEX_LL_LAT))
             {
-                TB_LL_Lat.BackColor = default;
+                TB_LL_DecimalSeconds_Latitude.BackColor = default;
             }
             else
             {
                 ok = false;
-                TB_LL_Lat.BackColor = ERROR_COLOR;
+                TB_LL_DecimalSeconds_Latitude.BackColor = ERROR_COLOR;
             }
 
             // TB Lon
-            if (Regex.IsMatch(TB_LL_Lon.Text, REGEX_LL_LON))
+            if (Regex.IsMatch(TB_LL_DecimalSeconds_Longitude.Text, REGEX_LL_LON))
             {
-                TB_LL_Lon.BackColor = default;
+                TB_LL_DecimalSeconds_Longitude.BackColor = default;
             }
             else
             {
                 ok = false;
-                TB_LL_Lon.BackColor = ERROR_COLOR;
+                TB_LL_DecimalSeconds_Longitude.BackColor = ERROR_COLOR;
             }
 
             return ok;
@@ -104,39 +104,39 @@ namespace CoordinateConverter
         /// <summary>
         /// Calculates the Coordinates from the LL textboxes.
         /// </summary>
-        private void CalcLL()
+        private void CalculatePositionFromLL_DecimalSeconds()
         {
             try
             {
                 lbl_Error.Visible = false;
 
-                if (CheckAndMarkLL())
+                if (CheckAndMarkLL_DecimalSeconds())
                 {
                     double lat = 0.0;
                     double lon = 0.0;
                     // get Lat
                     {
-                        string strLat = TB_LL_Lat.Text; // Lat = N/S
+                        string strLat = TB_LL_DecimalSeconds_Latitude.Text; // Lat = N/S
                         strLat = strLat.Replace("°", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty).Replace(" ", string.Empty).Trim();
                         double deg = int.Parse(strLat.Substring(0, 2), System.Globalization.CultureInfo.InvariantCulture);
                         double min = int.Parse(strLat.Substring(2, 2), System.Globalization.CultureInfo.InvariantCulture);
                         double sec = double.Parse(strLat.Substring(4), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lat = (RB_LL_N.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
+                        lat = (RB_LL_DecimalSeconds_N.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
                     }
                     // get Lon
                     {
-                        string strLon = TB_LL_Lon.Text; // Lon = E/W
+                        string strLon = TB_LL_DecimalSeconds_Longitude.Text; // Lon = E/W
                         strLon = strLon.Replace("°", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty).Replace(" ", string.Empty).Trim();
                         double deg = int.Parse(strLon.Substring(0, 3), System.Globalization.CultureInfo.InvariantCulture);
                         double min = int.Parse(strLon.Substring(3, 2), System.Globalization.CultureInfo.InvariantCulture);
                         double sec = double.Parse(strLon.Substring(5), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lon = (RB_LL_E.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
+                        lon = (RB_LL_DecimalSeconds_E.Checked ? 1 : -1) * (deg + (min / 60) + (sec / 3600));
                     }
 
                     CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(lat, lon);
-                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_AltitudeIsAGL.Checked, tb_Label.Text);
                     RefreshCoordinates(EUpdateType.OutputOnly);
                 }
                 else
@@ -151,43 +151,43 @@ namespace CoordinateConverter
             }
         }
 
-        private void TB_LL_Lat_TextChanged(object sender, EventArgs e)
+        private void TB_LL_DecimalSeconds_Latitude_TextChanged(object sender, EventArgs e)
         {
-            CalcLL();
+            CalculatePositionFromLL_DecimalSeconds();
         }
 
-        private void TB_LL_Lon_TextChanged(object sender, EventArgs e)
+        private void TB_LL_DecimalSeconds_Longitude_TextChanged(object sender, EventArgs e)
         {
-            CalcLL();
+            CalculatePositionFromLL_DecimalSeconds();
         }
 
-        private void RB_LL_CheckedChanged(object sender, EventArgs e)
+        private void RB_LL_DecimalSeconds_CheckedChanged(object sender, EventArgs e)
         {
-            CalcLL();
+            CalculatePositionFromLL_DecimalSeconds();
             RefreshCoordinates(EUpdateType.CoordinateInput);
         }
 
-        private void TB_LL_KeyPress(object sender, KeyPressEventArgs e)
+        private void TB_LL_DecimalSeconds_KeyPress(object sender, KeyPressEventArgs e)
         {
             char[] validSingleCharacters = { '°', '.', '"', '\'' };
             // Automatically switch focus
             switch (e.KeyChar)
             {
                 case 'n':
-                    RB_LL_N.Checked = true;
-                    TB_LL_Lat.Focus();
+                    RB_LL_DecimalSeconds_N.Checked = true;
+                    TB_LL_DecimalSeconds_Latitude.Focus();
                     break;
                 case 's':
-                    RB_LL_S.Checked = true;
-                    TB_LL_Lat.Focus();
+                    RB_LL_DecimalSeconds_S.Checked = true;
+                    TB_LL_DecimalSeconds_Latitude.Focus();
                     break;
                 case 'e':
-                    RB_LL_E.Checked = true;
-                    TB_LL_Lon.Focus();
+                    RB_LL_DecimalSeconds_E.Checked = true;
+                    TB_LL_DecimalSeconds_Longitude.Focus();
                     break;
                 case 'w':
-                    RB_LL_W.Checked = true;
-                    TB_LL_Lon.Focus();
+                    RB_LL_DecimalSeconds_W.Checked = true;
+                    TB_LL_DecimalSeconds_Longitude.Focus();
                     break;
             }
             // allow numbers or any of the validSingleCharacters as long as they aren't in the text already
@@ -207,33 +207,34 @@ namespace CoordinateConverter
         }
         #endregion // LL
 
-        #region LLDecimal        
+        #region LL_DecimalMinutes
+
         /// <summary>
         /// Checks the LL Decimal textboxes and marks them as error if format invalid.
         /// </summary>
         /// <returns>true if valid, otherwise false</returns>
-        private bool CheckAndMarkLLDecimal()
+        private bool CheckAndMarkLL_DecimalMinutes()
         {
             bool ok = true;
             // TB Lat
-            if (Regex.IsMatch(TB_LLDec_Lat.Text, REGEX_LL_DECIMAL_LAT))
+            if (Regex.IsMatch(TB_LL_DecimalMinutes_Latitude.Text, REGEX_LL_DECIMAL_LAT))
             {
-                TB_LLDec_Lat.BackColor = default;
+                TB_LL_DecimalMinutes_Latitude.BackColor = default;
             }
             else
             {
                 ok = false;
-                TB_LLDec_Lat.BackColor = ERROR_COLOR;
+                TB_LL_DecimalMinutes_Latitude.BackColor = ERROR_COLOR;
             }
             // TB Lon
-            if (Regex.IsMatch(TB_LLDec_Lon.Text, REGEX_LL_DECIMAL_LON))
+            if (Regex.IsMatch(TB_LL_DecimalMinutes_Longitude.Text, REGEX_LL_DECIMAL_LON))
             {
-                TB_LLDec_Lon.BackColor = default;
+                TB_LL_DecimalMinutes_Longitude.BackColor = default;
             }
             else
             {
                 ok = false;
-                TB_LLDec_Lon.BackColor = ERROR_COLOR;
+                TB_LL_DecimalMinutes_Longitude.BackColor = ERROR_COLOR;
             }
 
             return ok;
@@ -242,37 +243,37 @@ namespace CoordinateConverter
         /// <summary>
         /// Calculates the coordinates from the ll decimal textboxes.
         /// </summary>
-        private void CalcLLDecimal()
+        private void CalculatePositionFromLL_DecimalMinutes()
         {
             try
             {
                 lbl_Error.Visible = false;
 
-                if (CheckAndMarkLLDecimal())
+                if (CheckAndMarkLL_DecimalMinutes())
                 {
                     double lat = 0.0;
                     double lon = 0.0;
 
                     {
-                        string strLat = TB_LLDec_Lat.Text; // Lat = N/S
+                        string strLat = TB_LL_DecimalMinutes_Latitude.Text; // Lat = N/S
                         strLat = strLat.Replace("°", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty).Replace(" ", string.Empty).Trim();
                         double deg = int.Parse(strLat.Substring(0, 2), System.Globalization.CultureInfo.InvariantCulture);
                         double min = double.Parse(strLat.Substring(2), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lat = (RB_LLDec_N.Checked ? 1 : -1) * (deg + (min / 60));
+                        lat = (RB_LL_DecimalMinutes_N.Checked ? 1 : -1) * (deg + (min / 60));
                     }
 
                     {
-                        string strLon = TB_LLDec_Lon.Text; // Lon = E/W
+                        string strLon = TB_LL_DecimalMinutes_Longitude.Text; // Lon = E/W
                         strLon = strLon.Replace("°", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty).Replace(" ", string.Empty).Trim();
                         double deg = int.Parse(strLon.Substring(0, 3), System.Globalization.CultureInfo.InvariantCulture);
                         double min = double.Parse(strLon.Substring(3), System.Globalization.CultureInfo.InvariantCulture);
 
-                        lon = (RB_LLDec_E.Checked ? 1 : -1) * (deg + (min / 60));
+                        lon = (RB_LL_DecimalMinutes_E.Checked ? 1 : -1) * (deg + (min / 60));
                     }
 
                     CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(lat, lon);
-                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_AltitudeIsAGL.Checked, tb_Label.Text);
                     RefreshCoordinates(EUpdateType.OutputOnly);
                 }
                 else
@@ -287,43 +288,43 @@ namespace CoordinateConverter
             }
         }
 
-        private void TB_LLDecimal_Lat_TextChanged(object sender, EventArgs e)
+        private void TB_LL_DecimalMinutes_Latitude_TextChanged(object sender, EventArgs e)
         {
-            CalcLLDecimal();
+            CalculatePositionFromLL_DecimalMinutes();
         }
 
-        private void TB_LLDecimal_Lon_TextChanged(object sender, EventArgs e)
+        private void TB_LL_DecimalMinutes_Longitude_TextChanged(object sender, EventArgs e)
         {
-            CalcLLDecimal();
+            CalculatePositionFromLL_DecimalMinutes();
         }
 
-        private void RB_LLDecimal_CheckedChanged(object sender, EventArgs e)
+        private void RB_LL_DecimalMinutes_CheckedChanged(object sender, EventArgs e)
         {
-            CalcLLDecimal();
+            CalculatePositionFromLL_DecimalMinutes();
             RefreshCoordinates(EUpdateType.CoordinateInput);
         }
 
-        private void TB_LL_Decimal_KeyPress(object sender, KeyPressEventArgs e)
+        private void TB_LL_DecimalMinutes_KeyPress(object sender, KeyPressEventArgs e)
         {
             char[] validSingleCharacters = { '°', '.', '\'' };
             // Automatically switch focus
             switch (e.KeyChar)
             {
                 case 'n':
-                    RB_LLDec_N.Checked = true;
-                    TB_LLDec_Lat.Focus();
+                    RB_LL_DecimalMinutes_N.Checked = true;
+                    TB_LL_DecimalMinutes_Latitude.Focus();
                     break;
                 case 's':
-                    RB_LLDec_S.Checked = true;
-                    TB_LLDec_Lat.Focus();
+                    RB_LL_DecimalMinutes_S.Checked = true;
+                    TB_LL_DecimalMinutes_Latitude.Focus();
                     break;
                 case 'e':
-                    RB_LLDec_E.Checked = true;
-                    TB_LLDec_Lon.Focus();
+                    RB_LL_DecimalMinutes_E.Checked = true;
+                    TB_LL_DecimalMinutes_Longitude.Focus();
                     break;
                 case 'w':
-                    RB_LLDec_W.Checked = true;
-                    TB_LLDec_Lon.Focus();
+                    RB_LL_DecimalMinutes_W.Checked = true;
+                    TB_LL_DecimalMinutes_Longitude.Focus();
                     break;
             }
             // allow numbers or any of the validSingleCharacters as long as they aren't in the text already
@@ -359,8 +360,8 @@ namespace CoordinateConverter
         {
             bool ok = true;
             // Check Latitude GridCoordinate
-            string latz = TB_MGRS_LatZone.Text.ToUpperInvariant();
-            if (!(latz.Length != 1 || latz[0] == 'I' || latz[0] == 'O')) // Must be single character which is not I or O
+            string latitudeZone = TB_MGRS_LatZone.Text.ToUpperInvariant();
+            if (!(latitudeZone.Length != 1 || latitudeZone[0] == 'I' || latitudeZone[0] == 'O')) // Must be single character which is not I or O
             {
                 TB_MGRS_LatZone.BackColor = default;
             }
@@ -371,9 +372,9 @@ namespace CoordinateConverter
             }
 
             // Check Longitude GridCoordinate
-            if (int.TryParse(TB_MGRS_LongZone.Text, out int lonz))
+            if (int.TryParse(TB_MGRS_LongZone.Text, out int longitudeZone))
             {
-                if (lonz >= 1 && lonz <= 60)
+                if (longitudeZone >= 1 && longitudeZone <= 60)
                 {
                     TB_MGRS_LongZone.BackColor = default;
                 }
@@ -420,7 +421,7 @@ namespace CoordinateConverter
                     string strEasting = strFraction.Substring(0, strFraction.Length / 2).PadRight(5, '0');
                     string strNorthing = strFraction.Substring(strFraction.Length / 2).PadRight(5, '0');
                     // Check Easting
-                    if (double.TryParse(strEasting, out double check))
+                    if (double.TryParse(strEasting, out _))
                     {
                         TB_MGRS_Fraction.BackColor = default;
                     }
@@ -429,8 +430,9 @@ namespace CoordinateConverter
                         ok = false;
                         TB_MGRS_Fraction.BackColor = ERROR_COLOR;
                     }
+
                     // Check Northing
-                    if (double.TryParse(strNorthing, out check))
+                    if (double.TryParse(strNorthing, out _))
                     {
                         TB_MGRS_Fraction.BackColor = default;
                     }
@@ -446,9 +448,9 @@ namespace CoordinateConverter
         }
 
         /// <summary>
-        /// Calculates the coordnates from the MGRS textboxes.
+        /// Calculates the coordinates from the MGRS textboxes.
         /// </summary>
-        private void CalcMGRS()
+        private void CalculatePositionFromMGRS()
         {
             try
             {
@@ -456,16 +458,16 @@ namespace CoordinateConverter
 
                 if (CheckAndMarkMGRS())
                 {
-                    string latz = TB_MGRS_LatZone.Text.ToUpperInvariant();
-                    int lonz = int.Parse(TB_MGRS_LongZone.Text);
+                    string latitudeZone = TB_MGRS_LatZone.Text.ToUpperInvariant();
+                    int longitudeZone = int.Parse(TB_MGRS_LongZone.Text);
                     string digraph = TB_MGRS_Digraph.Text.ToUpperInvariant();
                     string fractionText = TB_MGRS_Fraction.Text.Replace(" ", "");
                     double easting = double.Parse(fractionText.Substring(0, fractionText.Length / 2).PadRight(5, '0'));
                     double northing = double.Parse(fractionText.Substring(fractionText.Length / 2).PadRight(5, '0'));
 
-                    CoordinateSharp.MilitaryGridReferenceSystem mgrs = new CoordinateSharp.MilitaryGridReferenceSystem(latz: latz, longz: lonz, d: digraph, e: easting, n: northing);
+                    CoordinateSharp.MilitaryGridReferenceSystem mgrs = new CoordinateSharp.MilitaryGridReferenceSystem(latz: latitudeZone, longz: longitudeZone, d: digraph, e: easting, n: northing);
                     CoordinateSharp.Coordinate coordinate = CoordinateSharp.MilitaryGridReferenceSystem.MGRStoLatLong(mgrs);
-                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_AltitudeIsAGL.Checked, tb_Label.Text);
                     RefreshCoordinates(EUpdateType.OutputOnly);
                 }
                 else
@@ -506,13 +508,10 @@ namespace CoordinateConverter
                     // Nothing to do in this case
                 }
 
-                if (nextBox != null)
-                {
-                    nextBox.Focus();
-                }
+                nextBox?.Focus();
             }
 
-            CalcMGRS();
+            CalculatePositionFromMGRS();
         }
 
         private void TB_MGRS_Fraction_KeyPress(object sender, KeyPressEventArgs e)
@@ -556,8 +555,8 @@ namespace CoordinateConverter
             bool ok = true;
 
             // Check Latitude GridCoordinate
-            string latz = TB_UTM_LatZone.Text.ToUpperInvariant();
-            if (!(latz.Length != 1 || latz[0] == 'I' || latz[0] == 'O')) // Must be single character which is not I or O
+            string latitudeZone = TB_UTM_LatZone.Text.ToUpperInvariant();
+            if (!(latitudeZone.Length != 1 || latitudeZone[0] == 'I' || latitudeZone[0] == 'O')) // Must be single character which is not I or O
             {
                 TB_UTM_LatZone.BackColor = default;
             }
@@ -568,9 +567,9 @@ namespace CoordinateConverter
             }
 
             // Check Longitude GridCoordinate
-            if (int.TryParse(TB_UTM_LongZone.Text, out int lonz))
+            if (int.TryParse(TB_UTM_LongZone.Text, out int longitudeZone))
             {
-                if (lonz >= 1 && lonz <= 60)
+                if (longitudeZone >= 1 && longitudeZone <= 60)
                 {
                     TB_UTM_LongZone.BackColor = default;
                 }
@@ -610,7 +609,7 @@ namespace CoordinateConverter
             return ok;
         }
 
-        private void CalcUTM()
+        private void CalculatePositionFromUTM()
         {
             try
             {
@@ -618,14 +617,14 @@ namespace CoordinateConverter
 
                 if (CheckAndMarkUTM())
                 {
-                    string latz = TB_UTM_LatZone.Text.ToUpperInvariant();
-                    int lonz = int.Parse(TB_UTM_LongZone.Text, CI);
+                    string latitudeZone = TB_UTM_LatZone.Text.ToUpperInvariant();
+                    int longitudeZone = int.Parse(TB_UTM_LongZone.Text, CI);
                     double easting = double.Parse(TB_UTM_Easting.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI);
                     double northing = double.Parse(TB_UTM_Northing.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI);
 
-                    CoordinateSharp.UniversalTransverseMercator utm = new CoordinateSharp.UniversalTransverseMercator(latz: latz, longz: lonz, est: easting, nrt: northing);
+                    CoordinateSharp.UniversalTransverseMercator utm = new CoordinateSharp.UniversalTransverseMercator(latz: latitudeZone, longz: longitudeZone, est: easting, nrt: northing);
                     CoordinateSharp.Coordinate coordinate = CoordinateSharp.UniversalTransverseMercator.ConvertUTMtoLatLong(utm);
-                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_AltitudeIsAGL.Checked, tb_Label.Text);
                     RefreshCoordinates(EUpdateType.OutputOnly);
                 }
                 else
@@ -673,12 +672,9 @@ namespace CoordinateConverter
                     // nothing to do here
                 }
 
-                if (nextBox != null)
-                {
-                    nextBox.Focus();
-                }
+                nextBox?.Focus();
             }
-            CalcUTM();
+            CalculatePositionFromUTM();
         }
 
         #endregion
@@ -694,31 +690,31 @@ namespace CoordinateConverter
             {
                 bool ok = true;
                 // check bearing
-                if (double.TryParse(TB_Bulls_Bearing.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI, out _))
+                if (double.TryParse(tb_Bullseye_Bearing.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI, out _))
                 {
-                    TB_Bulls_Bearing.BackColor = default;
+                    tb_Bullseye_Bearing.BackColor = default;
                 }
                 else
                 {
                     ok = false;
-                    TB_Bulls_Bearing.BackColor = ERROR_COLOR;
+                    tb_Bullseye_Bearing.BackColor = ERROR_COLOR;
                 }
                 // check range
-                if (double.TryParse(TB_Bulls_Range.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI, out _))
+                if (double.TryParse(tb_Bullseye_Range.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI, out _))
                 {
-                    TB_Bulls_Range.BackColor = default;
+                    tb_Bullseye_Range.BackColor = default;
                 }
                 else
                 {
                     ok = false;
-                    TB_Bulls_Range.BackColor = ERROR_COLOR;
+                    tb_Bullseye_Range.BackColor = ERROR_COLOR;
                 }
 
                 return ok;
             }
         }
 
-        private void CalcBulls()
+        private void CalculatePositionFromBullseye()
         {
             try
             {
@@ -726,11 +722,11 @@ namespace CoordinateConverter
 
                 if (CheckAndMarkBulls())
                 {
-                    double bearing = double.Parse(TB_Bulls_Bearing.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI);
-                    double range = double.Parse(TB_Bulls_Range.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI);
+                    double bearing = double.Parse(tb_Bullseye_Bearing.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI);
+                    double range = double.Parse(tb_Bullseye_Range.Text, System.Globalization.NumberStyles.AllowDecimalPoint, CI);
 
                     CoordinateSharp.Coordinate coordinate = bulls.GetOffsetPosition(new BRA(bearing: bearing, range: range));
-                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_altitudeIsAGL.Checked, tb_Label.Text);
+                    input = new CoordinateDataEntry(dataEntries.Count, coordinate, GetAltitudeInM(), cb_AltitudeIsAGL.Checked, tb_Label.Text);
                     RefreshCoordinates(EUpdateType.OutputOnly);
                 }
                 else
@@ -745,29 +741,12 @@ namespace CoordinateConverter
             }
         }
 
-        private void TB_Bulls_Bearing_TextChanged(object sender, EventArgs e)
+        private void Tb_Bullseye_Bearing_TextChanged(object sender, EventArgs e)
         {
-            CalcBulls();
+            CalculatePositionFromBullseye();
         }
 
-        private void TB_Bulls_Bearing_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            bool tbHasDecimalPoint = ((TextBox)sender).Text.Contains(".");
-            // allow any number and a single decimal point
-            e.Handled = !(
-                (e.KeyChar >= '0' && e.KeyChar <= '9') ||
-                (!tbHasDecimalPoint && e.KeyChar == '.') ||
-                (e.KeyChar < 0x20) ||
-                (e.KeyChar == 0x7F)
-            );
-        }
-
-        private void TB_Bulls_Range_TextChanged(object sender, EventArgs e)
-        {
-            CalcBulls();
-        }
-
-        private void TB_Bulls_Range_KeyPress(object sender, KeyPressEventArgs e)
+        private void Tb_Bullseye_Bearing_KeyPress(object sender, KeyPressEventArgs e)
         {
             bool tbHasDecimalPoint = ((TextBox)sender).Text.Contains(".");
             // allow any number and a single decimal point
@@ -779,7 +758,24 @@ namespace CoordinateConverter
             );
         }
 
-        private void btn_SetBE_Click(object sender, EventArgs e)
+        private void Tb_Bullseye_Range_TextChanged(object sender, EventArgs e)
+        {
+            CalculatePositionFromBullseye();
+        }
+
+        private void Tb_Bullseye_Range_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            bool tbHasDecimalPoint = ((TextBox)sender).Text.Contains(".");
+            // allow any number and a single decimal point
+            e.Handled = !(
+                (e.KeyChar >= '0' && e.KeyChar <= '9') ||
+                (!tbHasDecimalPoint && e.KeyChar == '.') ||
+                (e.KeyChar < 0x20) ||
+                (e.KeyChar == 0x7F)
+            );
+        }
+
+        private void Btn_SetBE_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
             if (input == null)
@@ -806,7 +802,7 @@ namespace CoordinateConverter
 
             if (GetSelectedFormat() == ECoordinateFormat.Bullseye)
             {
-                lbl_BEPosition.Text = new CoordinateDataEntry(0, bulls.GetBullseye()).getCoordinateStrLLDecSec();
+                lbl_BEPosition.Text = new CoordinateDataEntry(0, bulls.GetBullseye()).GetCoordinateStrLLDecSec();
             }
             else
             {
@@ -818,13 +814,13 @@ namespace CoordinateConverter
 
         #region MiscInput
 
-        private void tb_Altitude_KeyPress(object sender, KeyPressEventArgs e)
+        private void Tb_Altitude_KeyPress(object sender, KeyPressEventArgs e)
         {
             // only allow numbers and control characters (backspace + delete)
             e.Handled = !((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar < 0x20 || e.KeyChar == 0x7F);
         }
 
-        private void tb_Label_KeyPress(object sender, KeyPressEventArgs e)
+        private void Tb_Label_KeyPress(object sender, KeyPressEventArgs e)
         {
             // only allow numbers, letters, space and control characters (backspace + delete)
             e.Handled = !(
@@ -835,10 +831,9 @@ namespace CoordinateConverter
                 e.KeyChar == 0x7F
             );
         }
-        private void tb_Altitude_TextChanged(object sender, EventArgs e)
+        private void Tb_Altitude_TextChanged(object sender, EventArgs e)
         {
-            int altitude = 0;
-            if (tb_Altitude.Text == string.Empty || !int.TryParse(tb_Altitude.Text, out altitude))
+            if (tb_Altitude.Text == string.Empty || !int.TryParse(tb_Altitude.Text, out int altitude))
             {
                 tb_Altitude.Text = "0";
                 altitude = 0;
@@ -872,8 +867,7 @@ namespace CoordinateConverter
         {
             lbl_Error.Visible = false;
 
-            int altitude;
-            if (!int.TryParse(tb_Altitude.Text, out altitude))
+            if (!int.TryParse(tb_Altitude.Text, out int altitude))
             {
                 lbl_Error.Visible = true;
                 lbl_Error.Text = "Could not parse altitude as a whole number.";
@@ -891,7 +885,7 @@ namespace CoordinateConverter
             throw new ArgumentException("Altitude unit not valid.");
         }
 
-        private void cb_AltitudeUnit_SelectedIndexChanged(object sender, EventArgs e)
+        private void Cb_AltitudeUnit_SelectedIndexChanged(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
 
@@ -912,8 +906,7 @@ namespace CoordinateConverter
             }
             else
             {
-                int oldAltitudeValue;
-                if (!int.TryParse(tb_Altitude.Text, out oldAltitudeValue))
+                if (!int.TryParse(tb_Altitude.Text, out int oldAltitudeValue))
                 {
                     lbl_Error.Visible = true;
                     lbl_Error.Text = "Could not parse altitude as a whole number.";
@@ -938,7 +931,7 @@ namespace CoordinateConverter
             RefreshDataGrid();
         }
 
-        private void tb_Label_TextChanged(object sender, EventArgs e)
+        private void Tb_Label_TextChanged(object sender, EventArgs e)
         {
             if (input != null)
             {
@@ -972,11 +965,11 @@ namespace CoordinateConverter
         {
             if (input != null)
             {
-                TB_Out_LL.Text = input.getCoordinateStrLLDecSec();
-                TB_Out_LLDec.Text = input.getCoordinateStrLLDecMin();
-                TB_Out_MGRS.Text = input.getCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
-                TB_Out_UTM.Text = input.getCoordinateStrUTM();
-                TB_Out_Bulls.Text = input.getCoordinateStrBullseye(bulls);
+                tb_Out_LL_DecimalSeconds.Text = input.GetCoordinateStrLLDecSec();
+                tb_Out_LL_DecimalMinutes.Text = input.GetCoordinateStrLLDecMin();
+                tb_Out_MGRS.Text = input.GetCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
+                tb_Out_UTM.Text = input.GetCoordinateStrUTM();
+                tb_Out_Bullseye.Text = input.GetCoordinateStrBullseye(bulls);
 
                 if (updateType == EUpdateType.OutputOnly)
                 {
@@ -984,50 +977,49 @@ namespace CoordinateConverter
                 }
 
                 // altitude
-                tb_Altitude.TextChanged -= tb_Altitude_TextChanged;
-                cb_altitudeIsAGL.CheckedChanged -= cb_altitutudeIsAGL_CheckedChanged;
+                tb_Altitude.TextChanged -= Tb_Altitude_TextChanged;
+                cb_AltitudeIsAGL.CheckedChanged -= Cb_AltitudeIsAGL_CheckedChanged;
 
-                cb_altitudeIsAGL.Checked = input.AltitudeIsAGL;
+                cb_AltitudeIsAGL.Checked = input.AltitudeIsAGL;
                 tb_Altitude.Text = Math.Round(cb_AltitudeUnit.Text == "ft" ? input.AltitudeInFt : input.AltitudeInM).ToString();
 
                 tb_Label.Text = input.Name;
 
-                tb_Altitude.TextChanged += tb_Altitude_TextChanged;
-                cb_altitudeIsAGL.CheckedChanged += cb_altitutudeIsAGL_CheckedChanged;
+                tb_Altitude.TextChanged += Tb_Altitude_TextChanged;
+                cb_AltitudeIsAGL.CheckedChanged += Cb_AltitudeIsAGL_CheckedChanged;
 
                 // point type & point option
                 if (updateType == EUpdateType.Everything)
                 {
-                    cb_pointType.SelectedIndexChanged -= cb_pointType_SelectedIndexChanged;
-                    cb_pointOption.SelectedIndexChanged -= cb_PointOption_SelectedIndexChanged;
+                    cb_PointType.SelectedIndexChanged -= Cb_pointType_SelectedIndexChanged;
+                    cb_PointOption.SelectedIndexChanged -= Cb_PointOption_SelectedIndexChanged;
 
                     if (selectedAircraft == null || !input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
                     {
-                        cb_pointType.SelectedIndex = 0;
-                        cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                        if (cb_pointOption.Items.Count > 0)
+                        cb_PointType.SelectedIndex = 0;
+                        Cb_pointType_SelectedIndexChanged(cb_PointType, null);
+                        if (cb_PointOption.Items.Count > 0)
                         {
-                            cb_pointOption.SelectedIndex = 0;
-                            cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                            cb_PointOption.SelectedIndex = 0;
+                            Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
                         }
                     }
                     else if (selectedAircraft.GetType() == typeof(AH64))
                     {
                         AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
-                        cb_pointType.SelectedIndex = ComboItem<AH64.EPointType>.FindValue(cb_pointType, extraData.PointType) ?? 0;
+                        cb_PointType.SelectedIndex = ComboItem<AH64.EPointType>.FindValue(cb_PointType, extraData.PointType) ?? 0;
                         // select the correct point type and option
-                        cb_pointType_SelectedIndexChanged(cb_pointType, null); // needed to repopulate the point option combo box
-                        cb_pointOption.SelectedIndex = ComboItem<AH64.EPointIdent>.FindValue(cb_pointOption, extraData.Ident) ?? 0;
-                        cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                        Cb_pointType_SelectedIndexChanged(cb_PointType, null); // needed to repopulate the point option combo box
+                        cb_PointOption.SelectedIndex = ComboItem<AH64.EPointIdent>.FindValue(cb_PointOption, extraData.Ident) ?? 0;
+                        Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
                     }
                     else if (selectedAircraft.GetType() == typeof(F18C))
                     {
-                        cb_pointType.SelectedIndex = 0;
-                        F18CSpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as F18CSpecificData;
-                        if (extraData == null || extraData.WeaponType == null)
+                        cb_PointType.SelectedIndex = 0;
+                        if (!(input.AircraftSpecificData[selectedAircraft.GetType()] is F18CSpecificData extraData) || extraData.WeaponType == null)
                         {
-                            cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                            cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                            Cb_pointType_SelectedIndexChanged(cb_PointType, null);
+                            Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
                         }
                         else if (extraData.WeaponType != null)
                         {
@@ -1035,43 +1027,43 @@ namespace CoordinateConverter
                             if (!extraData.PreplanPointIdx.HasValue)
                             {
                                 // SLAM-ER STP
-                                cb_pointType.SelectedIndex = ComboItem<string>.FindValue(cb_pointType, F18C.SLAMER_STP_STR) ?? 0;
-                                cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                                cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                                cb_PointType.SelectedIndex = ComboItem<string>.FindValue(cb_PointType, F18C.SLAMER_STP_STR) ?? 0;
+                                Cb_pointType_SelectedIndexChanged(cb_PointType, null);
+                                Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
                             }
                             else
                             {
                                 // PP
-                                cb_pointType.SelectedIndex = ComboItem<string>.FindValue(cb_pointType,F18C.GetPointTypePPStrForWeaponType(extraData.WeaponType.Value)) ?? 0;
-                                cb_pointType_SelectedIndexChanged(cb_pointType, null);
-                                cb_pointOption.SelectedIndex = ComboItem<string>.FindValue(cb_pointOption, string.Format("PP {0} - {1}", extraData.PreplanPointIdx.Value, extraData.StationSetting.ToString())) ?? 0;
-                                cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                                cb_PointType.SelectedIndex = ComboItem<string>.FindValue(cb_PointType, F18C.GetPointTypePPStrForWeaponType(extraData.WeaponType.Value)) ?? 0;
+                                Cb_pointType_SelectedIndexChanged(cb_PointType, null);
+                                cb_PointOption.SelectedIndex = ComboItem<string>.FindValue(cb_PointOption, string.Format("PP {0} - {1}", extraData.PreplanPointIdx.Value, extraData.StationSetting.ToString())) ?? 0;
+                                Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
                             }
                         }
                     }
                     else if (selectedAircraft.GetType() == typeof(KA50))
                     {
                         KA50SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as KA50SpecificData;
-                        cb_pointType.SelectedIndex = ComboItem<KA50.EPointType>.FindValue(cb_pointType, extraData.PointType) ?? 0;
-                        cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                        cb_PointType.SelectedIndex = ComboItem<KA50.EPointType>.FindValue(cb_PointType, extraData.PointType) ?? 0;
+                        Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
                     }
                     else if (selectedAircraft.GetType() == typeof(JF17))
                     {
                         JF17SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as JF17SpecificData;
-                        cb_pointType.SelectedIndex = ComboItem<JF17.EPointType>.FindValue(cb_pointType, extraData.PointType) ?? 0;
-                        cb_PointOption_SelectedIndexChanged(cb_pointOption, null);
+                        cb_PointType.SelectedIndex = ComboItem<JF17.EPointType>.FindValue(cb_PointType, extraData.PointType) ?? 0;
+                        Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
                     }
 
-                    cb_pointType.SelectedIndexChanged += cb_pointType_SelectedIndexChanged;
-                    cb_pointOption.SelectedIndexChanged += cb_PointOption_SelectedIndexChanged;
+                    cb_PointType.SelectedIndexChanged += Cb_pointType_SelectedIndexChanged;
+                    cb_PointOption.SelectedIndexChanged += Cb_PointOption_SelectedIndexChanged;
                 }
                 else
                 {
                     // Update point type
-                    int pointOptionIdx = cb_pointOption.SelectedIndex;
-                    cb_pointType_SelectedIndexChanged(cb_pointType, null);
+                    int pointOptionIdx = cb_PointOption.SelectedIndex;
+                    Cb_pointType_SelectedIndexChanged(cb_PointType, null);
                     // update point option
-                    cb_pointOption.SelectedIndex = pointOptionIdx;
+                    cb_PointOption.SelectedIndex = pointOptionIdx;
                 }
                 
                 // coordinates
@@ -1081,70 +1073,70 @@ namespace CoordinateConverter
                 CoordinateSharp.UniversalTransverseMercator utm = input.Coordinate.UTM;
 
                 // LL
-                TB_LL_Lat.TextChanged -= TB_LL_Lat_TextChanged;
-                TB_LL_Lat.Text = lat.Degrees.ToString(CI).PadLeft(2, '0') + "°" + lat.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lat.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
-                TB_LL_Lat.TextChanged += TB_LL_Lat_TextChanged;
+                TB_LL_DecimalSeconds_Latitude.TextChanged -= TB_LL_DecimalSeconds_Latitude_TextChanged;
+                TB_LL_DecimalSeconds_Latitude.Text = lat.Degrees.ToString(CI).PadLeft(2, '0') + "°" + lat.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lat.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
+                TB_LL_DecimalSeconds_Latitude.TextChanged += TB_LL_DecimalSeconds_Latitude_TextChanged;
 
-                TB_LL_Lon.TextChanged -= TB_LL_Lon_TextChanged;
-                TB_LL_Lon.Text = lon.Degrees.ToString(CI).PadLeft(3, '0') + "°" + lon.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lon.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
-                TB_LL_Lon.TextChanged += TB_LL_Lon_TextChanged;
+                TB_LL_DecimalSeconds_Longitude.TextChanged -= TB_LL_DecimalSeconds_Longitude_TextChanged;
+                TB_LL_DecimalSeconds_Longitude.Text = lon.Degrees.ToString(CI).PadLeft(3, '0') + "°" + lon.Minutes.ToString(CI).PadLeft(2, '0') + "'" + Math.Round(lon.Seconds, 2).ToString(CI).PadLeft(2, '0') + "\"";
+                TB_LL_DecimalSeconds_Longitude.TextChanged += TB_LL_DecimalSeconds_Longitude_TextChanged;
 
-                List<Control> controls = new List<Control>() { RB_LL_N, RB_LL_S, RB_LL_E, RB_LL_W };
-                foreach (RadioButton rb in controls)
+                List<Control> controls = new List<Control>() { RB_LL_DecimalSeconds_N, RB_LL_DecimalSeconds_S, RB_LL_DecimalSeconds_E, RB_LL_DecimalSeconds_W };
+                foreach (RadioButton rb in controls.Cast<RadioButton>())
                 {
-                    rb.CheckedChanged -= RB_LL_CheckedChanged;
+                    rb.CheckedChanged -= RB_LL_DecimalSeconds_CheckedChanged;
                 }
-                RB_LL_N.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.N;
-                RB_LL_S.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.S;
-                RB_LL_E.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.E;
-                RB_LL_W.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.W;
-                foreach (RadioButton rb in controls)
+                RB_LL_DecimalSeconds_N.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.N;
+                RB_LL_DecimalSeconds_S.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.S;
+                RB_LL_DecimalSeconds_E.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.E;
+                RB_LL_DecimalSeconds_W.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.W;
+                foreach (RadioButton rb in controls.Cast<RadioButton>())
                 {
-                    rb.CheckedChanged += RB_LL_CheckedChanged;
+                    rb.CheckedChanged += RB_LL_DecimalSeconds_CheckedChanged;
                 }
 
                 // LL Dec
-                TB_LLDec_Lat.TextChanged -= TB_LLDecimal_Lat_TextChanged;
-                TB_LLDec_Lat.Text = lat.Degrees.ToString(CI).PadLeft(2, '0') + "°" + Math.Round(lat.DecimalMinute, 4).ToString(CI).PadLeft(2, '0');
-                TB_LLDec_Lat.TextChanged += TB_LLDecimal_Lat_TextChanged;
+                TB_LL_DecimalMinutes_Latitude.TextChanged -= TB_LL_DecimalMinutes_Latitude_TextChanged;
+                TB_LL_DecimalMinutes_Latitude.Text = lat.Degrees.ToString(CI).PadLeft(2, '0') + "°" + Math.Round(lat.DecimalMinute, 4).ToString(CI).PadLeft(2, '0');
+                TB_LL_DecimalMinutes_Latitude.TextChanged += TB_LL_DecimalMinutes_Latitude_TextChanged;
 
-                TB_LLDec_Lon.TextChanged -= TB_LLDecimal_Lon_TextChanged;
-                TB_LLDec_Lon.Text = lon.Degrees.ToString(CI).PadLeft(3, '0') + "°" + Math.Round(lon.DecimalMinute, 4).ToString(CI).PadLeft(2, '0');
-                TB_LLDec_Lon.TextChanged += TB_LLDecimal_Lon_TextChanged;
+                TB_LL_DecimalMinutes_Longitude.TextChanged -= TB_LL_DecimalMinutes_Longitude_TextChanged;
+                TB_LL_DecimalMinutes_Longitude.Text = lon.Degrees.ToString(CI).PadLeft(3, '0') + "°" + Math.Round(lon.DecimalMinute, 4).ToString(CI).PadLeft(2, '0');
+                TB_LL_DecimalMinutes_Longitude.TextChanged += TB_LL_DecimalMinutes_Longitude_TextChanged;
 
-                controls = new List<Control>() { RB_LLDec_N, RB_LLDec_S, RB_LLDec_E, RB_LLDec_W };
-                foreach (RadioButton rb in controls)
+                controls = new List<Control>() { RB_LL_DecimalMinutes_N, RB_LL_DecimalMinutes_S, RB_LL_DecimalMinutes_E, RB_LL_DecimalMinutes_W };
+                foreach (RadioButton rb in controls.Cast<RadioButton>())
                 {
-                    rb.CheckedChanged -= RB_LLDecimal_CheckedChanged;
+                    rb.CheckedChanged -= RB_LL_DecimalMinutes_CheckedChanged;
                 }
-                RB_LLDec_N.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.N;
-                RB_LLDec_S.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.S;
-                RB_LLDec_E.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.E;
-                RB_LLDec_W.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.W;
-                foreach (RadioButton rb in controls)
+                RB_LL_DecimalMinutes_N.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.N;
+                RB_LL_DecimalMinutes_S.Checked = lat.Position == CoordinateSharp.CoordinatesPosition.S;
+                RB_LL_DecimalMinutes_E.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.E;
+                RB_LL_DecimalMinutes_W.Checked = lon.Position == CoordinateSharp.CoordinatesPosition.W;
+                foreach (RadioButton rb in controls.Cast<RadioButton>())
                 {
-                    rb.CheckedChanged += RB_LLDecimal_CheckedChanged;
+                    rb.CheckedChanged += RB_LL_DecimalMinutes_CheckedChanged;
                 }
 
                 // MGRS
                 controls = new List<Control>() { TB_MGRS_LongZone, TB_MGRS_LatZone, TB_MGRS_Digraph, TB_MGRS_Fraction };
-                foreach (TextBox tb in controls)
+                foreach (TextBox tb in controls.Cast<TextBox>())
                 {
                     tb.TextChanged -= InputMGRSChanged;
                 }
-                string mgrsText = input.getCoordinateStrMGRS();
+                string mgrsText = input.GetCoordinateStrMGRS();
                 TB_MGRS_LongZone.Text = mgrsText.Substring(0, 2);
                 TB_MGRS_LatZone.Text = mgrsText.Substring(2, 1); // one space after this
                 TB_MGRS_Digraph.Text = mgrsText.Substring(4, 2); // one space after this
                 TB_MGRS_Fraction.Text = mgrsText.Substring(7).Remove(5, 1); // remove center space
-                foreach (TextBox tb in controls)
+                foreach (TextBox tb in controls.Cast<TextBox>())
                 {
                     tb.TextChanged += InputMGRSChanged;
                 }
 
                 // UTM
                 controls = new List<Control>() { TB_UTM_LongZone, TB_UTM_LatZone, TB_UTM_Easting, TB_UTM_Northing };
-                foreach (TextBox tb in controls)
+                foreach (TextBox tb in controls.Cast<TextBox>())
                 {
                     tb.TextChanged -= InputUTMChanged;
                 }
@@ -1152,7 +1144,7 @@ namespace CoordinateConverter
                 TB_UTM_LatZone.Text = utm.LatZone;
                 TB_UTM_Easting.Text = Math.Round(utm.Easting, 3).ToString(CI);
                 TB_UTM_Northing.Text = Math.Round(utm.Northing, 3).ToString(CI);
-                foreach (TextBox tb in controls)
+                foreach (TextBox tb in controls.Cast<TextBox>())
                 {
                     tb.TextChanged += InputUTMChanged;
                 }
@@ -1161,18 +1153,18 @@ namespace CoordinateConverter
                 {
                     BRA bra = bulls.GetBRA(input.Coordinate);
 
-                    TB_Bulls_Bearing.TextChanged -= TB_Bulls_Bearing_TextChanged;
-                    TB_Bulls_Bearing.Text = Math.Round(bra.Bearing, 1).ToString(CI);
-                    TB_Bulls_Bearing.TextChanged += TB_Bulls_Bearing_TextChanged;
+                    tb_Bullseye_Bearing.TextChanged -= Tb_Bullseye_Bearing_TextChanged;
+                    tb_Bullseye_Bearing.Text = Math.Round(bra.Bearing, 1).ToString(CI);
+                    tb_Bullseye_Bearing.TextChanged += Tb_Bullseye_Bearing_TextChanged;
 
-                    TB_Bulls_Range.TextChanged -= TB_Bulls_Range_TextChanged;
-                    TB_Bulls_Range.Text = Math.Round(bra.Range, 2).ToString(CI);
-                    TB_Bulls_Range.TextChanged += TB_Bulls_Range_TextChanged;
+                    tb_Bullseye_Range.TextChanged -= Tb_Bullseye_Range_TextChanged;
+                    tb_Bullseye_Range.Text = Math.Round(bra.Range, 2).ToString(CI);
+                    tb_Bullseye_Range.TextChanged += Tb_Bullseye_Range_TextChanged;
                 }
             }
         }
 
-        private void nud_MGRS_Precision_ValueChanged(object sender, EventArgs e)
+        private void Nud_MGRS_Precision_ValueChanged(object sender, EventArgs e)
         {
             RefreshCoordinates(EUpdateType.OutputOnly);
             if (GetSelectedFormat() == ECoordinateFormat.MGRS)
@@ -1195,7 +1187,7 @@ namespace CoordinateConverter
                             : " [" + entry.AircraftSpecificData[selectedAircraft.GetType()].ToString() + "]"
                         ),
                     CoordinateStr = GetEntryCoordinateStr(entry),
-                    Altitude = entry.getAltitudeString(cb_AltitudeUnit.Text == "ft"),
+                    Altitude = entry.GetAltitudeString(cb_AltitudeUnit.Text == "ft"),
                     XFER = entry.XFer
                 }
             ).OrderBy(x => x.ID).ToList();
@@ -1213,10 +1205,10 @@ namespace CoordinateConverter
             }
         }
 
-        private void dgv_CoordinateList_KeyDown(object objSender, KeyEventArgs e)
+        private void Dgv_CoordinateList_KeyDown(object objSender, KeyEventArgs e)
         {
             DataGridView sender = objSender as DataGridView;
-            var selectedRowIds = GetSelectedRowIndicies();
+            var selectedRowIds = GetSelectedRowIndices();
             if (selectedRowIds.Count == 0)
             {
                 return;
@@ -1263,7 +1255,7 @@ namespace CoordinateConverter
             }
         }
 
-        private void dgv_CoordinateList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void Dgv_CoordinateList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
@@ -1272,7 +1264,7 @@ namespace CoordinateConverter
             }
         }
 
-        private void dgv_CoordinateList_CellContentClick(object objSender, DataGridViewCellEventArgs e)
+        private void Dgv_CoordinateList_CellContentClick(object objSender, DataGridViewCellEventArgs e)
         {
             const int DELETE_BUTTON_COLID = 0;
             const int XFER_CB_COLID = 5;
@@ -1292,7 +1284,7 @@ namespace CoordinateConverter
             }
             if (sender.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex < 0)
             {
-                // a button colum was clicked
+                // a button column was clicked
                 if (e.ColumnIndex == DELETE_BUTTON_COLID)
                 {
                     DialogResult answer = MessageBox.Show("Delete all points?", "Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -1358,11 +1350,11 @@ namespace CoordinateConverter
 
         private ECoordinateFormat GetSelectedFormat()
         {
-            if (rb_Format_LL.Checked)
+            if (rb_Format_LL_DecimalSeconds.Checked)
             {
                 return ECoordinateFormat.LL_DMSs;
             }
-            if (rb_Format_LLDec.Checked)
+            if (rb_Format_LL_DecimalMinutes.Checked)
             {
                 return ECoordinateFormat.LL_DMm;
             }
@@ -1374,7 +1366,7 @@ namespace CoordinateConverter
             {
                 return ECoordinateFormat.UTM;
             }
-            if (rb_Format_BE.Checked)
+            if (rb_Format_Bullseye.Checked)
             {
                 return ECoordinateFormat.Bullseye;
             }
@@ -1386,17 +1378,17 @@ namespace CoordinateConverter
             switch (GetSelectedFormat())
             {
                 case ECoordinateFormat.LL_DMSs:
-                    return entry.getCoordinateStrLLDecSec();
+                    return entry.GetCoordinateStrLLDecSec();
                 case ECoordinateFormat.LL_DMm:
-                    return entry.getCoordinateStrLLDecMin();
+                    return entry.GetCoordinateStrLLDecMin();
                 case ECoordinateFormat.LL_Dd:
-                    return entry.getCoordinateStrLLDecDeg();
+                    return entry.GetCoordinateStrLLDecDeg();
                 case ECoordinateFormat.MGRS:
-                    return entry.getCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
+                    return entry.GetCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
                 case ECoordinateFormat.UTM:
-                    return entry.getCoordinateStrUTM();
+                    return entry.GetCoordinateStrUTM();
                 case ECoordinateFormat.Bullseye:
-                    return entry.getCoordinateStrBullseye(bulls);
+                    return entry.GetCoordinateStrBullseye(bulls);
                 default:
                     throw new ArgumentException("Couldn't format coordinate to string.");
             }
@@ -1408,7 +1400,7 @@ namespace CoordinateConverter
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void btn_Add_Click(object sender, EventArgs e)
+        private void Btn_Add_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
             if (input == null)
@@ -1421,11 +1413,11 @@ namespace CoordinateConverter
             RefreshDataGrid();
         }
 
-        private void btn_Replace_Click(object sender, EventArgs e)
+        private void Btn_Replace_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
-            var rowIds = GetSelectedRowIndicies();
-            int? rowIdx = (rowIds.Count) == 1 ? rowIds.First() : (int?)null;
+            var rowIds = GetSelectedRowIndices();
+            int? rowIdx = rowIds.Count == 1 ? rowIds.First() : (int?)null;
             if (!rowIdx.HasValue)
             {
                 lbl_Error.Visible = true;
@@ -1438,7 +1430,7 @@ namespace CoordinateConverter
             dgv_CoordinateList.Rows[rowIdx.Value].Selected = true;
         }
 
-        private List<int> GetSelectedRowIndicies()
+        private List<int> GetSelectedRowIndices()
         {
             // Get all row IDs that are selected
             List<int> selectedRowIds = new List<int>();
@@ -1460,11 +1452,11 @@ namespace CoordinateConverter
             return selectedRowIds;
         }
 
-        private void btn_MoveUp_Click(object sender, EventArgs e)
+        private void Btn_MoveUp_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
 
-            var rowIds = GetSelectedRowIndicies();
+            var rowIds = GetSelectedRowIndices();
             int? idx = rowIds.Count == 1 ? rowIds.First() : (int?)null;
 
             if (idx == null)
@@ -1475,17 +1467,17 @@ namespace CoordinateConverter
             }
 
             int tgt = idx.Value - 1;
-            if (swapRows(idx.Value, tgt))
+            if (SwapRows(idx.Value, tgt))
             {
                 dgv_CoordinateList.Rows[tgt].Selected = true;
             }
         }
 
-        private void btn_MoveDown_Click(object sender, EventArgs e)
+        private void Btn_MoveDown_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
 
-            var rowIds = GetSelectedRowIndicies();
+            var rowIds = GetSelectedRowIndices();
             int? idx = rowIds.Count == 1 ? rowIds.First() : (int?)null;
 
             if (idx == null)
@@ -1496,7 +1488,7 @@ namespace CoordinateConverter
             }
 
             int tgt = idx.Value + 1;
-            if (swapRows(idx.Value, tgt))
+            if (SwapRows(idx.Value, tgt))
             {
                 dgv_CoordinateList.Rows[tgt].Selected = true;
             }
@@ -1507,9 +1499,9 @@ namespace CoordinateConverter
         /// </summary>
         /// <param name="idx">The index of the first row.</param>
         /// <param name="targetIdx">Index of row where it supposed to go.</param>
-        /// <returns>true if a swap occurred, false if the targetidx is invalid</returns>
-        /// <exception cref="ArgumentOutOfRangeException">idx is not a valid index in the datagrid</exception>
-        private bool swapRows(int idx, int targetIdx)
+        /// <returns>true if a swap occurred, false if <paramref name="targetIdx"/> is invalid</returns>
+        /// <exception cref="ArgumentOutOfRangeException">idx is not a valid index in the data grid</exception>
+        private bool SwapRows(int idx, int targetIdx)
         {
             lbl_Error.Visible = false;
             if (idx < 0)
@@ -1518,7 +1510,7 @@ namespace CoordinateConverter
             }
             if (idx >= dgv_CoordinateList.RowCount)
             {
-                throw new ArgumentOutOfRangeException(nameof(idx) + " > Rowcount");
+                throw new ArgumentOutOfRangeException(nameof(idx) + " > Row count");
             }
             if (targetIdx < 0 || targetIdx >= dgv_CoordinateList.RowCount)
             {
@@ -1533,7 +1525,7 @@ namespace CoordinateConverter
             return true;
         }
 
-        private void rb_Format_CheckedChanged(object sender, EventArgs e)
+        private void Rb_Format_CheckedChanged(object sender, EventArgs e)
         {
             if (((RadioButton)sender).Checked)
             {
@@ -1547,7 +1539,7 @@ namespace CoordinateConverter
 
         #region File management
 
-        private OpenFileDialog ofd = new OpenFileDialog()
+        private readonly OpenFileDialog ofd = new OpenFileDialog()
         {
             Title = "Open Coordinate List",
             AddExtension = true,
@@ -1559,7 +1551,7 @@ namespace CoordinateConverter
             ShowReadOnly = false
         };
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
             ofd.CheckFileExists = false;
@@ -1596,7 +1588,7 @@ namespace CoordinateConverter
             }
         }
 
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
 
@@ -1640,7 +1632,7 @@ namespace CoordinateConverter
 
         #region DCS
 
-        private void cb_altitutudeIsAGL_CheckedChanged(object objSender, EventArgs e)
+        private void Cb_AltitudeIsAGL_CheckedChanged(object objSender, EventArgs e)
         {
             CheckBox sender = objSender as CheckBox;
 
@@ -1655,21 +1647,21 @@ namespace CoordinateConverter
         private List<ToolStripMenuItem> AircraftSelectionMenuStripItems {
             get => new List<ToolStripMenuItem>()
             {
-                a10ToolStripMenuItem,
-                aH64CPGToolStripMenuItem,
-                aH64PLTToolStripMenuItem,
-                aV8BToolStripMenuItem,
-                f15EPilotToolStripMenuItem,
-                f15EWSOToolStripMenuItem,
-                f16ToolStripMenuItem,
-                jF17ToolStripMenuItem,
-                f18ToolStripMenuItem,
-                kA50ToolStripMenuItem,
-                m2000ToolStripMenuItem
+                tsmi_A10,
+                tsmi_AH64_CPG,
+                tsmi_AH64_PLT,
+                tsmi_AV8B,
+                tsmi_F15E_Pilot,
+                tsmi_F15E_WSO,
+                tsmi_F16,
+                tsmi_JF17,
+                tsmi_F18,
+                tsmi_KA50,
+                tsmi_M2000
             };
         }
 
-        private void autoAircraftToolStripMenuItem_Click(object objSender, EventArgs e)
+        private void AutoAircraftToolStripMenuItem_Click(object objSender, EventArgs e)
         {
             lbl_Error.Visible = false;
 
@@ -1693,9 +1685,9 @@ namespace CoordinateConverter
                 {
                     menuItem.Enabled = true;
                 }
-                aH64ClearPointsToolStripMenuItem.Enabled = true;
-                setF16StartIndexToolStripMenuItem.Enabled = true;
-                setJF17StartIndexToolStripMenuItem.Enabled = true;
+                tsmi_AH64_ClearPoints.Enabled = true;
+                tsmi_F16_SetStartFirstPoint.Enabled = true;
+                tsmi_JF17_SetFirstPoint.Enabled = true;
             }
         }
 
@@ -1705,9 +1697,9 @@ namespace CoordinateConverter
             {
                 mi.Enabled = false;
             }
-            aH64ClearPointsToolStripMenuItem.Enabled = false;
-            setF16StartIndexToolStripMenuItem.Enabled = false;
-            setJF17StartIndexToolStripMenuItem.Enabled = false;
+            tsmi_AH64_ClearPoints.Enabled = false;
+            tsmi_F16_SetStartFirstPoint.Enabled = false;
+            tsmi_JF17_SetFirstPoint.Enabled = false;
 
             if (string.IsNullOrEmpty(model) || model == "null")
             {
@@ -1715,54 +1707,54 @@ namespace CoordinateConverter
             }
             else
             {
-                // Switch aircraft. Ask user here which version of the cockit they are in. (AH64, F15E)
+                // Switch aircraft. Ask user here which version of the cockpit they are in. (AH64, F15E)
                 switch (model)
                 {
                     case "AH-64D_BLK_II":
-                        aH64PLTToolStripMenuItem.Enabled = true;
-                        aH64CPGToolStripMenuItem.Enabled = true;
-                        aH64ClearPointsToolStripMenuItem.Enabled = true;
+                        tsmi_AH64_PLT.Enabled = true;
+                        tsmi_AH64_CPG.Enabled = true;
+                        tsmi_AH64_ClearPoints.Enabled = true;
                         if (selectedAircraft != null && selectedAircraft.GetType() == typeof(AH64))
                         {
                             break;
                         }
                         bool isPlt = DialogResult.Yes == MessageBox.Show("Are you pilot?", "PLT/CPG?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        aircraftSelectionToolStripMenuItem_Click(isPlt ? aH64PLTToolStripMenuItem : aH64CPGToolStripMenuItem, null);
+                        AircraftSelectionToolStripMenuItem_Click(isPlt ? tsmi_AH64_PLT : tsmi_AH64_CPG, null);
                         break;
                     case "FA-18C_hornet":
-                        f18ToolStripMenuItem.Enabled = true;
+                        tsmi_F18.Enabled = true;
                         if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F18C))
                         {
                             break;
                         }
-                        aircraftSelectionToolStripMenuItem_Click(f18ToolStripMenuItem, null);
+                        AircraftSelectionToolStripMenuItem_Click(tsmi_F18, null);
                         break;
                     case "F-16C_50":
-                        f16ToolStripMenuItem.Enabled = true;
-                        setF16StartIndexToolStripMenuItem.Enabled = true;
+                        tsmi_F16.Enabled = true;
+                        tsmi_F16_SetStartFirstPoint.Enabled = true;
                         if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F16C))
                         {
                             break;
                         }
-                        aircraftSelectionToolStripMenuItem_Click(f16ToolStripMenuItem, null);
+                        AircraftSelectionToolStripMenuItem_Click(tsmi_F16, null);
                         break;
                     case "Ka-50":
                     case "Ka-50_3":
-                        kA50ToolStripMenuItem.Enabled = true;
+                        tsmi_KA50.Enabled = true;
                         if (selectedAircraft != null && selectedAircraft.GetType() == typeof(KA50))
                         {
                             break;
                         }
-                        aircraftSelectionToolStripMenuItem_Click(kA50ToolStripMenuItem, null);
+                        AircraftSelectionToolStripMenuItem_Click(tsmi_KA50, null);
                         break;
                     case "JF-17":
-                        jF17ToolStripMenuItem.Enabled = true;
-                        setJF17StartIndexToolStripMenuItem.Enabled = true;
+                        tsmi_JF17.Enabled = true;
+                        tsmi_JF17_SetFirstPoint.Enabled = true;
                         if (selectedAircraft != null && selectedAircraft.GetType() == typeof(JF17))
                         {
                             break;
                         }
-                        aircraftSelectionToolStripMenuItem_Click(jF17ToolStripMenuItem, null);
+                        AircraftSelectionToolStripMenuItem_Click(tsmi_JF17, null);
                         break;
                     default:
                         lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";
@@ -1772,7 +1764,7 @@ namespace CoordinateConverter
             }
         }
 
-        private void aircraftSelectionToolStripMenuItem_Click(object objSender, EventArgs e)
+        private void AircraftSelectionToolStripMenuItem_Click(object objSender, EventArgs e)
         {
             lbl_Error.Visible = false;
 
@@ -1785,15 +1777,15 @@ namespace CoordinateConverter
             }
 
             // Remind user here: "Transfer uses MGRS instead of L/L if MGRS selected, cockpit must match"
-            if (sender.Name == aH64PLTToolStripMenuItem.Name)
+            if (sender.Name == tsmi_AH64_PLT.Name)
             {
                 selectedAircraft = new AH64(true);
             }
-            else if (sender.Name == aH64CPGToolStripMenuItem.Name)
+            else if (sender.Name == tsmi_AH64_CPG.Name)
             {
                 selectedAircraft = new AH64(false);
             }
-            else if (sender.Name == f18ToolStripMenuItem.Name)
+            else if (sender.Name == tsmi_F18.Name)
             {
                 selectedAircraft = new F18C();
                 MessageBox.Show("Make sure PRECISE mode is selected in HSI->Data.\n" +
@@ -1803,15 +1795,15 @@ namespace CoordinateConverter
                     "Make sure no weapon is selected prior to entering weapon data\n" +
                     "Maximum number SLAM-ER of steer points is 5.", "Reminder", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else if (sender.Name == f16ToolStripMenuItem.Name)
+            else if (sender.Name == tsmi_F16.Name)
             {
-                setF16StartIndexToolStripMenuItem_Click(setF16StartIndexToolStripMenuItem, null);
+                Tsmi_F16_SetFirstPoint_Click(tsmi_F16_SetStartFirstPoint, null);
             }
-            else if (sender.Name == jF17ToolStripMenuItem.Name)
+            else if (sender.Name == tsmi_JF17.Name)
             {
-                setJF17StartIndexToolStripMenuItem_Click(setJF17StartIndexToolStripMenuItem, null);
+                Tsmi_JF17_SetFirstPoint_Click(tsmi_JF17_SetFirstPoint, null);
             }
-            else if (sender.Name == kA50ToolStripMenuItem.Name)
+            else if (sender.Name == tsmi_KA50.Name)
             {
                 selectedAircraft = new KA50();
             }
@@ -1822,19 +1814,19 @@ namespace CoordinateConverter
                 lbl_Error.Visible = true;
                 lbl_Error.Text = "Currently this aircraft is not implemented";
 
-                cb_pointType.Items.Clear();
-                cb_pointType.Items.Add(new ComboItem<string>("Waypoint", "Waypoint"));
-                cb_pointType.Enabled = false;
-                cb_pointType.SelectedIndex = 0;
+                cb_PointType.Items.Clear();
+                cb_PointType.Items.Add(new ComboItem<string>("Waypoint", "Waypoint"));
+                cb_PointType.Enabled = false;
+                cb_PointType.SelectedIndex = 0;
                 RefreshDataGrid();
                 return;
             }
 
             // Update point types
-            cb_pointType.Items.Clear();
+            cb_PointType.Items.Clear();
             if (selectedAircraft.GetType() == typeof(AH64))
             {
-                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
+                cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
                     x =>
                     {
                         AH64.EPointType pt = (AH64.EPointType)Enum.Parse(typeof(AH64.EPointType), x);
@@ -1844,7 +1836,7 @@ namespace CoordinateConverter
             }
             else if (selectedAircraft.GetType() == typeof(KA50))
             {
-                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
+                cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
                     x =>
                     {
                         KA50.EPointType pt = (KA50.EPointType)Enum.Parse(typeof(KA50.EPointType), x);
@@ -1854,7 +1846,7 @@ namespace CoordinateConverter
             }
             else if (selectedAircraft.GetType() == typeof(JF17))
             {
-                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
+                cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
                     x =>
                     {
                         JF17.EPointType pt = (JF17.EPointType)Enum.Parse(typeof(JF17.EPointType), x);
@@ -1864,9 +1856,9 @@ namespace CoordinateConverter
             }
             else
             {
-                cb_pointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(x => new ComboItem<string>(x, x)).ToArray());
+                cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(x => new ComboItem<string>(x, x)).ToArray());
             }
-            cb_pointType.Enabled = cb_pointType.Items.Count > 1;
+            cb_PointType.Enabled = cb_PointType.Items.Count > 1;
 
             // Add aircraft specific data to the input if input is valid (exists)
             if (selectedAircraft.GetType() == typeof(AH64))
@@ -1875,18 +1867,18 @@ namespace CoordinateConverter
                 if (input != null && input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
                 {
                     AH64SpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as AH64SpecificData;
-                    cb_pointType.SelectedIndex = ComboItem<AH64.EPointType>.FindValue(cb_pointType, extraData.PointType) ?? 0;
-                    cb_pointOption.SelectedValue = extraData.Ident;
+                    cb_PointType.SelectedIndex = ComboItem<AH64.EPointType>.FindValue(cb_PointType, extraData.PointType) ?? 0;
+                    cb_PointOption.SelectedValue = extraData.Ident;
                 }
                 else if (input != null) // otherwise we add it.
                 {
                     AH64SpecificData extraData = new AH64SpecificData();
                     input.AircraftSpecificData.Add(selectedAircraft.GetType(), extraData);
-                    cb_pointType.SelectedIndex = 0;
+                    cb_PointType.SelectedIndex = 0;
                 }
                 else
                 {
-                    cb_pointType.SelectedIndex = 0;
+                    cb_PointType.SelectedIndex = 0;
                 }
             }
             else if (selectedAircraft.GetType() == typeof(F18C))
@@ -1901,30 +1893,30 @@ namespace CoordinateConverter
                         if (extraData.PreplanPointIdx.HasValue)
                         {
                             // GPS PP Target
-                            cb_pointType.SelectedIndex = ComboItem<string>.FindValue(cb_pointType, F18C.GetPointTypePPStrForWeaponType(pwt)) ?? 0;
-                            cb_pointOption.SelectedIndex = extraData.PreplanPointIdx.Value;
+                            cb_PointType.SelectedIndex = ComboItem<string>.FindValue(cb_PointType, F18C.GetPointTypePPStrForWeaponType(pwt)) ?? 0;
+                            cb_PointOption.SelectedIndex = extraData.PreplanPointIdx.Value;
                         }
                         else
                         {
                             // SLAM-ER STP
-                            cb_pointType.SelectedIndex = cb_pointType.Items.Count - 1;
+                            cb_PointType.SelectedIndex = cb_PointType.Items.Count - 1;
                         }
                     }
                     else
                     {
                         // Standard waypoint
-                        cb_pointType.SelectedIndex = 0;
+                        cb_PointType.SelectedIndex = 0;
                     }
                 }
                 else if (input != null) // otherwise we add it.
                 {
                     F18CSpecificData extraData = new F18CSpecificData();
                     input.AircraftSpecificData.Add(selectedAircraft.GetType(), extraData);
-                    cb_pointType.SelectedIndex = 0;
+                    cb_PointType.SelectedIndex = 0;
                 }
                 else
                 {
-                    cb_pointType.SelectedIndex = 0;
+                    cb_PointType.SelectedIndex = 0;
                 }
             }
             else if (selectedAircraft.GetType() == typeof(KA50))
@@ -1933,17 +1925,17 @@ namespace CoordinateConverter
                 if (input != null && input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
                 {
                     KA50.EPointType pt = (input.AircraftSpecificData[selectedAircraft.GetType()] as KA50SpecificData).PointType;
-                    cb_pointType.SelectedIndex = ComboItem<KA50.EPointType>.FindValue(cb_pointType, pt) ?? 0;
+                    cb_PointType.SelectedIndex = ComboItem<KA50.EPointType>.FindValue(cb_PointType, pt) ?? 0;
                 }
                 else if (input != null) // otherwise we add it.
                 {
                     KA50SpecificData extraData = new KA50SpecificData(KA50.EPointType.Waypoint);
                     input.AircraftSpecificData.Add(selectedAircraft.GetType(), extraData);
-                    cb_pointType.SelectedIndex = 0;
+                    cb_PointType.SelectedIndex = 0;
                 }
                 else
                 {
-                    cb_pointType.SelectedIndex = 0;
+                    cb_PointType.SelectedIndex = 0;
                 }
             }
             else if (selectedAircraft.GetType() == typeof(JF17))
@@ -1952,59 +1944,59 @@ namespace CoordinateConverter
                 if (input != null && input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
                 {
                     JF17.EPointType pt = (input.AircraftSpecificData[selectedAircraft.GetType()] as JF17SpecificData).PointType;
-                    cb_pointType.SelectedIndex = ComboItem<JF17.EPointType>.FindValue(cb_pointType, pt) ?? 0;
+                    cb_PointType.SelectedIndex = ComboItem<JF17.EPointType>.FindValue(cb_PointType, pt) ?? 0;
                 }
                 else if (input != null) // otherwise we add it.
                 {
                     JF17SpecificData extraData = new JF17SpecificData(JF17.EPointType.Waypoint);
                     input.AircraftSpecificData.Add(selectedAircraft.GetType(), extraData);
-                    cb_pointType.SelectedIndex = 0;
+                    cb_PointType.SelectedIndex = 0;
                 }
                 else
                 {
-                    cb_pointType.SelectedIndex = 0;
+                    cb_PointType.SelectedIndex = 0;
                 }
             }
 
             RefreshDataGrid();
         }
 
-        private void cb_pointType_SelectedIndexChanged(object objSender, EventArgs e)
+        private void Cb_pointType_SelectedIndexChanged(object objSender, EventArgs e)
         {
             ComboBox sender = objSender as ComboBox;
-            cb_pointOption.Items.Clear();
+            cb_PointOption.Items.Clear();
 
             if (selectedAircraft == null)
             {
-                cb_pointOption.Items.Add(new ComboItem<string>("Waypoint", "Waypoint"));
-                cb_pointOption.SelectedIndex = 0;
-                cb_pointOption.Enabled = false;
+                cb_PointOption.Items.Add(new ComboItem<string>("Waypoint", "Waypoint"));
+                cb_PointOption.SelectedIndex = 0;
+                cb_PointOption.Enabled = false;
                 return;
             }
 
             if (selectedAircraft.GetType() == typeof(AH64))
             {
                 // add all the options for the AH64
-                AH64.EPointType ePointType = ComboItem<AH64.EPointType>.GetSelectedValue(cb_pointType);
+                AH64.EPointType ePointType = ComboItem<AH64.EPointType>.GetSelectedValue(cb_PointType);
                 object[] items;
                 
                 switch (ePointType)
                 {
                     case AH64.EPointType.Waypoint:
                         items = AH64.EWPOptionDescriptions.Select(x => (object)(new ComboItem<AH64.EPointIdent>(x.Value, x.Key))).ToArray();
-                        cb_pointOption.Items.AddRange(items);
+                        cb_PointOption.Items.AddRange(items);
                         break;
                     case AH64.EPointType.Hazard:
                         items = AH64.EHZOptionDescriptions.Select(x => (object)(new ComboItem<AH64.EPointIdent>(x.Value, x.Key))).ToArray();
-                        cb_pointOption.Items.AddRange(items);
+                        cb_PointOption.Items.AddRange(items);
                         break;
                     case AH64.EPointType.ControlMeasure:
                         items = AH64.ECMOptionDescriptions.Select(x => (object)(new ComboItem<AH64.EPointIdent>(x.Value, x.Key))).ToArray();
-                        cb_pointOption.Items.AddRange(items);
+                        cb_PointOption.Items.AddRange(items);
                         break;
                     case AH64.EPointType.Target:
                         items = AH64.ETGOptionDescriptions.Select(x => (object)(new ComboItem<AH64.EPointIdent>(x.Value, x.Key))).ToArray();
-                        cb_pointOption.Items.AddRange(items);
+                        cb_PointOption.Items.AddRange(items);
                         break;
                     default:
                         throw new Exception("Bad point type.");
@@ -2024,8 +2016,8 @@ namespace CoordinateConverter
             }
             else if (selectedAircraft.GetType() == typeof(KA50))
             {
-                KA50.EPointType pt = ComboItem<KA50.EPointType>.GetSelectedValue(cb_pointType);
-                cb_pointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pt.ToString()).Select(x => new ComboItem<string>(x, x)).ToArray());
+                KA50.EPointType pt = ComboItem<KA50.EPointType>.GetSelectedValue(cb_PointType);
+                cb_PointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pt.ToString()).Select(x => new ComboItem<string>(x, x)).ToArray());
                 if (input != null)
                 {
                     if (!input.AircraftSpecificData.ContainsKey(typeof(KA50)))
@@ -2040,8 +2032,8 @@ namespace CoordinateConverter
             }
             else if (selectedAircraft.GetType() == typeof(JF17))
             {
-                JF17.EPointType pt = ComboItem<JF17.EPointType>.GetSelectedValue(cb_pointType);
-                cb_pointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pt.ToString()).Select(x => new ComboItem<string>(x, x)).ToArray());
+                JF17.EPointType pt = ComboItem<JF17.EPointType>.GetSelectedValue(cb_PointType);
+                cb_PointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pt.ToString()).Select(x => new ComboItem<string>(x, x)).ToArray());
                 if (input != null)
                 {
                     if (!input.AircraftSpecificData.ContainsKey(typeof(JF17)))
@@ -2056,14 +2048,14 @@ namespace CoordinateConverter
             }
             else
             {
-                string pointTypeStr = ComboItem<string>.GetSelectedValue(cb_pointType);
-                cb_pointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pointTypeStr).Select(x => new ComboItem<string>(x, x)).ToArray());
+                string pointTypeStr = ComboItem<string>.GetSelectedValue(cb_PointType);
+                cb_PointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pointTypeStr).Select(x => new ComboItem<string>(x, x)).ToArray());
             }
-            cb_pointOption.SelectedIndex = 0;
-            cb_pointOption.Enabled = cb_pointOption.Items.Count > 1;
+            cb_PointOption.SelectedIndex = 0;
+            cb_PointOption.Enabled = cb_PointOption.Items.Count > 1;
         }
 
-        private void cb_PointOption_SelectedIndexChanged(object objSender, EventArgs e)
+        private void Cb_PointOption_SelectedIndexChanged(object objSender, EventArgs e)
         {
             if (selectedAircraft == null)
             {
@@ -2099,21 +2091,21 @@ namespace CoordinateConverter
                     input.AircraftSpecificData.Add(selectedAircraft.GetType(), null);
                 }
                 
-                string pointType = ComboItem<string>.GetSelectedValue(cb_pointType);
+                string pointType = ComboItem<string>.GetSelectedValue(cb_PointType);
                 if (pointType == F18C.WAYPOINT_STR)
                 {
                     input.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData();
                 }
                 else if (pointType == F18C.SLAMER_STP_STR)
                 {
-                    // SLAM-ER Steerpoint
+                    // SLAM-ER Steer point
                     input.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData(true);
                 }
                 else
                 {
                     // PrePlanned Target
                     F18C.EWeaponType pwt = (F18C.EWeaponType)Enum.Parse(typeof(F18C.EWeaponType), pointType.Split(' ').First());
-                    string pointOption = ComboItem<string>.GetSelectedValue(cb_pointOption);
+                    string pointOption = ComboItem<string>.GetSelectedValue(cb_PointOption);
                     int ppIdx = int.Parse(pointOption.Substring("PP ".Length, 1));
                     F18CSpecificData.EStationSetting stationSetting = (F18CSpecificData.EStationSetting)Enum.Parse(typeof(F18CSpecificData.EStationSetting), pointOption.Substring("PP # - ".Length));
                     input.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData(pwt, ppIdx, stationSetting);
@@ -2121,7 +2113,7 @@ namespace CoordinateConverter
             }
         }
 
-        private void transferControl_Click(object sender, EventArgs e)
+        private void TransferControl_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
             if (selectedAircraft == null)
@@ -2145,7 +2137,7 @@ namespace CoordinateConverter
             }
         }
 
-        private void stopTransferControl_Click(object sender, EventArgs e)
+        private void StopTransferControl_Click(object sender, EventArgs e)
         {
             DCSMessage message = new DCSMessage()
             {
@@ -2154,7 +2146,7 @@ namespace CoordinateConverter
             DCSConnection.sendRequest(message);
         }
 
-        private void aH64ClearPointsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_AH64_ClearPoints_Click(object sender, EventArgs e)
         {
             AH64PointDeleter pointDeleter = new AH64PointDeleter(selectedAircraft as AH64);
             pointDeleter.ShowDialog(this);
@@ -2168,7 +2160,7 @@ namespace CoordinateConverter
             }
         }
 
-        private void setF16StartIndexToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_F16_SetFirstPoint_Click(object sender, EventArgs e)
         {
             FormStartingWaypoint startingWaypointForm = new FormStartingWaypoint(1, 699, 200);
             startingWaypointForm.ShowDialog();
@@ -2176,7 +2168,7 @@ namespace CoordinateConverter
             selectedAircraft = new F16C(startingWaypoint);
         }
 
-        private void setJF17StartIndexToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_JF17_SetFirstPoint_Click(object sender, EventArgs e)
         {
             FormStartingWaypoint startingWaypointForm = new FormStartingWaypoint(1, 29, 10);
             startingWaypointForm.ShowDialog();
@@ -2184,13 +2176,13 @@ namespace CoordinateConverter
             selectedAircraft = new JF17(startingWaypoint);
         }
 
-        private void fetchCameraPositionControl_Click(object sender, EventArgs e)
+        private void FetchCoordinatesControl_Click(object sender, EventArgs e)
         {
             input = dcsCoordinate;
             RefreshCoordinates(EUpdateType.CoordinateInput);
         }
 
-        private void importUnitsControl_Click(object sender, EventArgs e)
+        private void ImportUnitsControl_Click(object sender, EventArgs e)
         {
             try
             {
@@ -2198,8 +2190,10 @@ namespace CoordinateConverter
                 tmr250ms.Stop();
 
                 // Open the form and get the data
-                FormUnitImporter fui = new FormUnitImporter(dataEntries);
-                fui.TopMost = TopMost;
+                FormUnitImporter fui = new FormUnitImporter(dataEntries)
+                {
+                    TopMost = TopMost
+                };
                 fui.ShowDialog(this);
                 if (fui.Coordinates != null)
                 {
@@ -2216,7 +2210,7 @@ namespace CoordinateConverter
         private CoordinateDataEntry dcsCoordinate = null;
         private bool wasConnected = false;
         private DateTime lastDCSErrorTime = DateTime.MinValue;
-        private void tmr250ms_Tick(object sender, EventArgs e)
+        private void Tmr250ms_Tick(object sender, EventArgs e)
         {
             tmr250ms.Stop(); // only run one timer at a time
             try
@@ -2224,7 +2218,7 @@ namespace CoordinateConverter
                 DCSMessage message = new DCSMessage()
                 {
                     FetchCameraPosition = true,
-                    FetchAircraftType = autoToolStripMenuItem.Checked,
+                    FetchAircraftType = tsmi_Auto.Checked,
                     FetchWeaponStations = selectedAircraft != null && selectedAircraft.GetType() == typeof(F18C)
                 };
                 message = DCSConnection.sendRequest(message);
@@ -2255,7 +2249,7 @@ namespace CoordinateConverter
                     return;
                 }
 
-                if (autoToolStripMenuItem.Checked)
+                if (tsmi_Auto.Checked)
                 {
                     AutoSelectAircraft(message.AircraftType);
                 }
@@ -2288,7 +2282,7 @@ namespace CoordinateConverter
                     if (message.IsF10View ?? false)
                     {
                         reticleForm.Show();
-                        ScreenToolStripMenuItemClick(selectedScreenMenuItem, null); // set to screen center
+                        Tsmi_Screen_Click(selectedScreenMenuItem, null); // set to screen center
                     }
                     else
                     {
@@ -2312,12 +2306,12 @@ namespace CoordinateConverter
                 bool altitudeIsAGL = cameraPosMode == ECameraPosMode.TerrainElevation;
                 dcsCoordinate = new CoordinateDataEntry(-1, coordinate, altitudeInM, altitudeIsAGL)
                 {
-                    GroundElevationInM = message.CameraPosition.Elev,
+                    GroundElevationInM = message.CameraPosition.Elevation,
                     XFer = true,
                     Name = String.Empty
                 };
 
-                string coordinateText = GetEntryCoordinateStr(dcsCoordinate) + " | " + dcsCoordinate.getAltitudeString(cb_AltitudeUnit.Text == "ft");
+                string coordinateText = GetEntryCoordinateStr(dcsCoordinate) + " | " + dcsCoordinate.GetAltitudeString(cb_AltitudeUnit.Text == "ft");
                 
 
                 lbl_DCS_Status.Text = coordinateText;
@@ -2330,7 +2324,7 @@ namespace CoordinateConverter
             }
         }
 
-        private void lbl_DCS_Status_BackColorChanged(object objSender, EventArgs e)
+        private void Lbl_DCS_Status_BackColorChanged(object objSender, EventArgs e)
         {
             ToolStripStatusLabel sender = objSender as ToolStripStatusLabel;
             if (sender.BackColor == DCS_ERROR_COLOR)
@@ -2358,18 +2352,18 @@ namespace CoordinateConverter
         }
 
         private ECameraPosMode cameraPosMode;
-        private void terrainElevationUnderCameraToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_TerrainElevationUnderCamera_Click(object sender, EventArgs e)
         {
             cameraPosMode = ECameraPosMode.TerrainElevation;
-            terrainElevationUnderCameraToolStripMenuItem.Checked = true;
-            cameraAltitudeToolStripMenuItem.Checked = false;
+            tsmi_TerrainElevationUnderCamera.Checked = true;
+            tsmi_CameraAltitude.Checked = false;
         }
 
-        private void cameraAltitudeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_CameraAltitude_Click(object sender, EventArgs e)
         {
             cameraPosMode = ECameraPosMode.CameraAltitude;
-            terrainElevationUnderCameraToolStripMenuItem.Checked = false;
-            cameraAltitudeToolStripMenuItem.Checked = true;
+            tsmi_TerrainElevationUnderCamera.Checked = false;
+            tsmi_CameraAltitude.Checked = true;
         }
 
         #region ReticleSettings
@@ -2382,36 +2376,36 @@ namespace CoordinateConverter
 
         private EReticleSetting eReticleSetting = EReticleSetting.WhenF10;
 
-        private void ScreenToolStripMenuItemClick(object objSender, EventArgs e)
+        private void Tsmi_Screen_Click(object objSender, EventArgs e)
         {
             // Gets the screen associated with the menu item and sets the reticle to the center of that screen
             ToolStripMenuItem sender = objSender as ToolStripMenuItem;
             selectedScreenMenuItem = sender;
             int idx = int.Parse(sender.Name.Split('_').Last());
             Rectangle screen = Screen.AllScreens[idx].Bounds;
-            Point screenCenter = new Point(screen.X + screen.Width / 2, screen.Y + screen.Height / 2);
+            Point screenCenter = new Point(screen.X + (screen.Width / 2), screen.Y + (screen.Height / 2));
 
-            reticleForm.Location = new Point(screenCenter.X - reticleForm.Width / 2, screenCenter.Y - reticleForm.Height / 2);
+            reticleForm.Location = new Point(screenCenter.X - (reticleForm.Width / 2), screenCenter.Y - (reticleForm.Height / 2));
 
             // Unsets all checkboxes except the one clicked
-            foreach (ToolStripMenuItem mi in dCSMainScreenToolStripMenuItem.DropDownItems)
+            foreach (ToolStripMenuItem mi in tsmi_DCSMainScreenMenu.DropDownItems)
             {
                 mi.Checked = mi.Name == sender.Name;
             }
         }
-        private void whenInF10MapToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_Reticle_WhenInF10Map_Click(object sender, EventArgs e)
         {
             eReticleSetting = EReticleSetting.WhenF10;
             SetReticleSettingsCheckmarks();
         }
 
-        private void alwaysToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_Reticle_Always_Click(object sender, EventArgs e)
         {
             eReticleSetting = EReticleSetting.Always;
             SetReticleSettingsCheckmarks();
         }
 
-        private void neverToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_Reticle_Never_Click(object sender, EventArgs e)
         {
             eReticleSetting = EReticleSetting.Never;
             SetReticleSettingsCheckmarks();
@@ -2419,9 +2413,9 @@ namespace CoordinateConverter
 
         private void SetReticleSettingsCheckmarks()
         {
-            whenInF10MapToolStripMenuItem.Checked = eReticleSetting == EReticleSetting.WhenF10;
-            alwaysToolStripMenuItem.Checked = eReticleSetting == EReticleSetting.Always;
-            neverToolStripMenuItem.Checked = eReticleSetting == EReticleSetting.Never;
+            tsmi_Reticle_WhenInF10Map.Checked = eReticleSetting == EReticleSetting.WhenF10;
+            tsmi_Reticle_Always.Checked = eReticleSetting == EReticleSetting.Always;
+            tsmi_Reticle_Never.Checked = eReticleSetting == EReticleSetting.Never;
 
             if (eReticleSetting == EReticleSetting.Always)
             {
@@ -2435,43 +2429,43 @@ namespace CoordinateConverter
         #endregion
         
         #region VisibilitySettings
-        private void opaqueToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_Opaque_Click(object sender, EventArgs e)
         {
             this.Opacity = 1.0;
-            opaqueToolStripMenuItem.Checked = true;
-            opacity75ToolStripMenuItem.Checked = false;
-            opacity50ToolStripMenuItem.Checked = false;
-            opacity25ToolStripMenuItem.Checked = false;
+            tsmi_opaque.Checked = true;
+            tsmi_Opacity75.Checked = false;
+            tsmi_Opacity50.Checked = false;
+            tsmi_Opacity25.Checked = false;
         }
-        private void opacity50ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_Opacity50_Click(object sender, EventArgs e)
         {
             this.Opacity = 0.5;
-            opaqueToolStripMenuItem.Checked = false;
-            opacity75ToolStripMenuItem.Checked = false;
-            opacity50ToolStripMenuItem.Checked = true;
-            opacity25ToolStripMenuItem.Checked = false;
+            tsmi_opaque.Checked = false;
+            tsmi_Opacity75.Checked = false;
+            tsmi_Opacity50.Checked = true;
+            tsmi_Opacity25.Checked = false;
 
         }
-        private void opacity25ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_Opacity25_Click(object sender, EventArgs e)
         {
             this.Opacity = 0.25;
-            opaqueToolStripMenuItem.Checked = false;
-            opacity75ToolStripMenuItem.Checked = false;
-            opacity50ToolStripMenuItem.Checked = false;
-            opacity25ToolStripMenuItem.Checked = true;
+            tsmi_opaque.Checked = false;
+            tsmi_Opacity75.Checked = false;
+            tsmi_Opacity50.Checked = false;
+            tsmi_Opacity25.Checked = true;
         }
-        private void opacity75ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_Opacity75_Click(object sender, EventArgs e)
         {
             this.Opacity = 0.75;
-            opaqueToolStripMenuItem.Checked = false;
-            opacity75ToolStripMenuItem.Checked = true;
-            opacity50ToolStripMenuItem.Checked = false;
-            opacity25ToolStripMenuItem.Checked = false;
+            tsmi_opaque.Checked = false;
+            tsmi_Opacity75.Checked = true;
+            tsmi_Opacity50.Checked = false;
+            tsmi_Opacity25.Checked = false;
         }
-        private void alwaysOnTopToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Tsmi_AlwaysOnTop_Click(object sender, EventArgs e)
         {
             this.TopMost = !this.TopMost;
-            alwaysOnTopToolStripMenuItem.Checked = this.TopMost;
+            tsmi_AlwaysOnTop.Checked = this.TopMost;
         }
         #endregion
         #endregion
@@ -2482,10 +2476,10 @@ namespace CoordinateConverter
         public MainForm()
         {
             InitializeComponent();
-            cb_pointType.ValueMember = "Value";
-            cb_pointType.DisplayMember = "Text";
-            cb_pointOption.ValueMember = "Value";
-            cb_pointOption.DisplayMember = "Text";
+            cb_PointType.ValueMember = "Value";
+            cb_PointType.DisplayMember = "Text";
+            cb_PointOption.ValueMember = "Value";
+            cb_PointOption.DisplayMember = "Text";
             SetReticleSettingsCheckmarks();
             tmr250ms.Start();
 
@@ -2500,17 +2494,17 @@ namespace CoordinateConverter
                     Checked = screen.Primary,
                     Name = string.Format("ScreenToolStripMenuItem_{0}", idx),
                 };
-                screenMenuItem.Click += ScreenToolStripMenuItemClick;
-                dCSMainScreenToolStripMenuItem.DropDownItems.Add(screenMenuItem);
+                screenMenuItem.Click += Tsmi_Screen_Click;
+                tsmi_DCSMainScreenMenu.DropDownItems.Add(screenMenuItem);
                 if (screenMenuItem.Checked)
                 {
                     selectedScreenMenuItem = screenMenuItem;
-                    ScreenToolStripMenuItemClick(screenMenuItem, null);
+                    Tsmi_Screen_Click(screenMenuItem, null);
                 }
                 idx++;
             }
 
-            cameraPosMode = terrainElevationUnderCameraToolStripMenuItem.Checked ? ECameraPosMode.TerrainElevation : ECameraPosMode.CameraAltitude;
+            cameraPosMode = tsmi_TerrainElevationUnderCamera.Checked ? ECameraPosMode.TerrainElevation : ECameraPosMode.CameraAltitude;
 
             dele = new WinEventDelegate(WinEventProc);
             IntPtr m_hhook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, dele, 0, 0, WINEVENT_OUTOFCONTEXT);
@@ -2528,10 +2522,14 @@ namespace CoordinateConverter
         /// <param name="dwExtraInfo">The dw extra information.</param>
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
-        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
-        private const int MOUSEEVENTF_LEFTUP = 0x04;
-        private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
-        private const int MOUSEEVENTF_RIGHTUP = 0x10;
+        private enum MouseEvents
+        {
+            LeftDown = 0x02,
+            LeftUp = 0x04,
+            RightDown = 0x08,
+            RightUp = 0x10
+    }
+        
 
         /// <summary>
         /// Does the mouse click.
@@ -2541,11 +2539,11 @@ namespace CoordinateConverter
             //Call the imported function with the cursor's current position
             uint X = (uint)Cursor.Position.X;
             uint Y = (uint)Cursor.Position.Y;
-            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
+            mouse_event((int)MouseEvents.LeftDown | (int)MouseEvents.LeftUp, X, Y, 0, 0);
         }
         #endregion
         #region WindowsCallbackOnActiveWindowChange
-        WinEventDelegate dele = null;
+        readonly WinEventDelegate dele = null;
 
         delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
 
@@ -2564,9 +2562,8 @@ namespace CoordinateConverter
         private string GetActiveWindowTitle()
         {
             const int nChars = 256;
-            IntPtr handle = IntPtr.Zero;
             StringBuilder Buff = new StringBuilder(nChars);
-            handle = GetForegroundWindow();
+            IntPtr handle = GetForegroundWindow();
 
             if (GetWindowText(handle, Buff, nChars) > 0)
             {

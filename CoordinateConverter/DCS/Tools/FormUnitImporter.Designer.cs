@@ -127,7 +127,7 @@
             this.cb_WithRadiusFilter.TabIndex = 3;
             this.cb_WithRadiusFilter.Text = "Within";
             this.cb_WithRadiusFilter.UseVisualStyleBackColor = true;
-            this.cb_WithRadiusFilter.CheckedChanged += new System.EventHandler(this.cb_WithRadiusFilter_CheckedChanged);
+            this.cb_WithRadiusFilter.CheckedChanged += new System.EventHandler(this.Cb_WithRadiusFilter_CheckedChanged);
             // 
             // dgv_Units
             // 
@@ -150,8 +150,8 @@
             this.dgv_Units.ReadOnly = true;
             this.dgv_Units.Size = new System.Drawing.Size(1087, 354);
             this.dgv_Units.TabIndex = 8;
-            this.dgv_Units.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Units_CellContentClick);
-            this.dgv_Units.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgv_Units_KeyPress);
+            this.dgv_Units.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Units_CellContentClick);
+            this.dgv_Units.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Dgv_Units_KeyPress);
             // 
             // dgvColId
             // 
@@ -222,7 +222,7 @@
             this.btn_Refresh.TabIndex = 9;
             this.btn_Refresh.Text = "Refresh";
             this.btn_Refresh.UseVisualStyleBackColor = true;
-            this.btn_Refresh.Click += new System.EventHandler(this.btn_Refresh_Click);
+            this.btn_Refresh.Click += new System.EventHandler(this.Btn_Refresh_Click);
             // 
             // btn_Cancel
             // 
@@ -234,7 +234,7 @@
             this.btn_Cancel.TabIndex = 10;
             this.btn_Cancel.Text = "Cancel";
             this.btn_Cancel.UseVisualStyleBackColor = true;
-            this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
+            this.btn_Cancel.Click += new System.EventHandler(this.Btn_Cancel_Click);
             // 
             // btn_Import
             // 
@@ -245,7 +245,7 @@
             this.btn_Import.TabIndex = 11;
             this.btn_Import.Text = "Import";
             this.btn_Import.UseVisualStyleBackColor = true;
-            this.btn_Import.Click += new System.EventHandler(this.btn_Import_Click);
+            this.btn_Import.Click += new System.EventHandler(this.Btn_Import_Click);
             // 
             // nud_RadiusValue
             // 
@@ -278,7 +278,7 @@
             this.btn_ApplyFilter.TabIndex = 7;
             this.btn_ApplyFilter.Text = "Apply";
             this.btn_ApplyFilter.UseVisualStyleBackColor = true;
-            this.btn_ApplyFilter.Click += new System.EventHandler(this.btn_ApplyFilter_Click);
+            this.btn_ApplyFilter.Click += new System.EventHandler(this.Btn_ApplyFilter_Click);
             // 
             // label2
             // 

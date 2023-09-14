@@ -152,7 +152,7 @@ namespace CoordinateConverter.DCS.Aircraft
             commands.AddRange(GetCommandsForKUText((coordinate.Name.Length <= 3 ? coordinate.Name : coordinate.Name.Substring(0, 3)) + '\n', false));
             // enter MGRS coordinates
             // remove spaces and append enter
-            string mgrsString = string.Join(string.Empty ,coordinate.getCoordinateStrMGRS(4).Where(ch => ch != ' ')) + '\n';
+            string mgrsString = string.Join(string.Empty ,coordinate.GetCoordinateStrMGRS(4).Where(ch => ch != ' ')) + '\n';
             commands.AddRange(GetCommandsForKUText(mgrsString, true));
 
             // enter altitude
@@ -312,7 +312,7 @@ namespace CoordinateConverter.DCS.Aircraft
             }
             commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_TSD)); // reset to TSD
             DCSMessage message = new DCSMessage() { Commands = commands };
-            message = DCSConnection.sendRequest(message);
+            _ = DCSConnection.sendRequest(message);
             return commands.Count;
         }
 
@@ -377,15 +377,15 @@ namespace CoordinateConverter.DCS.Aircraft
             { EPointIdent.CM_AB, "FND Airborne" },
             { EPointIdent.CM_AM, "FND Armor" },
             { EPointIdent.CM_CA, "FND CAV Armor" },
-            { EPointIdent.CM_MA, "FND AV Maint" },
+            { EPointIdent.CM_MA, "FND AV Maintenance" },
             { EPointIdent.CM_CF, "FND Chemical" },
-            { EPointIdent.CM_DF, "FND Decon" },
+            { EPointIdent.CM_DF, "FND Decontamination" },
             { EPointIdent.CM_EN, "FND Engineers" },
             { EPointIdent.CM_FW, "FND EW" },
             { EPointIdent.CM_WF, "FND Fixed Wing" },
             { EPointIdent.CM_FL, "FND Fixed Arty" },
-            { EPointIdent.CM_AH, "FND Attack Helo" },
-            { EPointIdent.CM_FG, "FND General Helo" },
+            { EPointIdent.CM_AH, "FND Attack Helicopter" },
+            { EPointIdent.CM_FG, "FND General Helicopter" },
             { EPointIdent.CM_HO, "FND Hospital" },
             { EPointIdent.CM_FI, "FND Infantry" },
             { EPointIdent.CM_MI, "FND Mechanized" },
@@ -398,15 +398,15 @@ namespace CoordinateConverter.DCS.Aircraft
             { EPointIdent.CM_EB, "EMY Airborne" },
             { EPointIdent.CM_EC, "EMY CAV Armor" },
             { EPointIdent.CM_AE, "EMY Armor" },
-            { EPointIdent.CM_ME, "EMY AV Maint" },
+            { EPointIdent.CM_ME, "EMY AV Maintenance" },
             { EPointIdent.CM_CE, "EMY Chemical" },
-            { EPointIdent.CM_DE, "EMY Decon" },
+            { EPointIdent.CM_DE, "EMY Decontamination" },
             { EPointIdent.CM_EE, "EMY Engineers" },
             { EPointIdent.CM_WR, "EMY EW" },
             { EPointIdent.CM_EF, "EMY Fixed Wing" },
             { EPointIdent.CM_WE, "EMY Fixed Arty" },
-            { EPointIdent.CM_EK, "EMY Attack Helo" },
-            { EPointIdent.CM_HG, "EMY General Helo" },
+            { EPointIdent.CM_EK, "EMY Attack Helicopter" },
+            { EPointIdent.CM_HG, "EMY General Helicopter" },
             { EPointIdent.CM_EH, "EMY Hospital" },
             { EPointIdent.CM_EI, "EMY Infantry" },
             { EPointIdent.CM_EM, "EMY Mechanized" },
@@ -440,12 +440,12 @@ namespace CoordinateConverter.DCS.Aircraft
             { EPointIdent.TG_GT, "Gun Towed" },
             { EPointIdent.TG_ZU, "Gun ZSU-23" },
             { EPointIdent.TG_NV, "Naval" },
-            { EPointIdent.TG_SR, "Surveilance Radar" },
+            { EPointIdent.TG_SR, "Surveillance Radar" },
             { EPointIdent.TG_TR, "Acquisition Radar" },
             { EPointIdent.TG_70, "RBS-70" },
             { EPointIdent.TG_BP, "SAM Blowpipe" },
             { EPointIdent.TG_BH, "SAM Bloodhound" },
-            { EPointIdent.TG_CH, "SAM Chapparal" },
+            { EPointIdent.TG_CH, "SAM Chaparral" },
             { EPointIdent.TG_CT, "SAM Crotale" },
             { EPointIdent.TG_C2, "SAM CSA-2/1/X" },
             { EPointIdent.TG_HK, "SAM Hawk" },
@@ -474,7 +474,7 @@ namespace CoordinateConverter.DCS.Aircraft
             { EPointIdent.TG_SM, "SAM SAMP" },
             { EPointIdent.TG_SC, "SAM SATCP" },
             { EPointIdent.TG_SP, "SAM Self-Propelled" },
-            { EPointIdent.TG_SH, "SAM Shahine/R440" },
+            { EPointIdent.TG_SH, "SAM Shahin/R440" },
             { EPointIdent.TG_SS, "SAM Starstreak" },
             { EPointIdent.TG_TC, "SAM Tigercat" },
             { EPointIdent.TG_ST, "SAM Stinger" },

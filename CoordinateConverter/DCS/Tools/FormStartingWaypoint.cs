@@ -19,25 +19,25 @@ namespace CoordinateConverter.DCS.Tools
         /// <summary>
         /// Initializes a new instance of the <see cref="FormStartingWaypoint"/> class.
         /// </summary>
-        public FormStartingWaypoint(int minStpt, int maxStpt, int defaultValue)
+        public FormStartingWaypoint(int minSteerPoint, int maxSteerPoint, int defaultValue)
         {
             InitializeComponent();
-            if (minStpt > defaultValue || minStpt > maxStpt || maxStpt < defaultValue)
+            if (minSteerPoint > defaultValue || minSteerPoint > maxSteerPoint || maxSteerPoint < defaultValue)
             {
-                throw new ArgumentException(string.Format("Arguments make no sense. Must be {0} ({3}) <= {1} ({4}) <= {2} ({5})", nameof(minStpt), nameof(defaultValue), nameof(maxStpt), minStpt, defaultValue, maxStpt));
+                throw new ArgumentException(string.Format("Arguments make no sense. Must be {0} ({3}) <= {1} ({4}) <= {2} ({5})", nameof(minSteerPoint), nameof(defaultValue), nameof(maxSteerPoint), minSteerPoint, defaultValue, maxSteerPoint));
             }
-            lbl_FirstSPTPToUse.Text = string.Format("First STPT to use [{0} .. {1}]:", minStpt, maxStpt);
-            nud_PointNumber.Minimum = minStpt;
-            nud_PointNumber.Maximum = maxStpt;
+            lbl_FirstSPTPToUse.Text = string.Format("First STPT to use [{0} .. {1}]:", minSteerPoint, maxSteerPoint);
+            nud_PointNumber.Minimum = minSteerPoint;
+            nud_PointNumber.Maximum = maxSteerPoint;
             nud_PointNumber.Value = defaultValue;
         }
 
-        private void btn_OK_Click(object sender, EventArgs e)
+        private void Btn_OK_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void nud_PointNumber_ValueChanged(object sender, EventArgs e)
+        private void Nud_PointNumber_ValueChanged(object sender, EventArgs e)
         {
             StartingWaypoint = (int)((sender as NumericUpDown).Value);
         }

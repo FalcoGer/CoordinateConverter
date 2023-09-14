@@ -19,7 +19,7 @@ namespace CoordinateConverter
         /// </summary>
         public readonly static double FT_PER_M = 3.28084;
 
-        private CoordinateSharp.CoordinateFormatOptions formatOptions = new CoordinateSharp.CoordinateFormatOptions
+        private readonly CoordinateSharp.CoordinateFormatOptions formatOptions = new CoordinateSharp.CoordinateFormatOptions
         {
             Display_Degree_Symbol = true,
             Display_Minute_Symbol = true,
@@ -37,7 +37,7 @@ namespace CoordinateConverter
         /// </summary>
         /// <param name="inFt">if set to <c>true</c> units will be in [ft], otherwise in [m].</param>
         /// <returns></returns>
-        public string getAltitudeString(bool inFt)
+        public string GetAltitudeString(bool inFt)
         {
             string altString = inFt
                 ? Math.Round(AltitudeInFt, 1).ToString(System.Globalization.CultureInfo.InvariantCulture) + " ft"
@@ -70,8 +70,8 @@ namespace CoordinateConverter
         override public string ToString()
         {
             // altitude value of the point
-            string altStr = getAltitudeString(true);
-            return string.Format("ID: {0}, Name: {1}, Position: {2} | {3}", Id, Name, getCoordinateStrLLDecDeg(), altStr);
+            string altStr = GetAltitudeString(true);
+            return string.Format("ID: {0}, Name: {1}, Position: {2} | {3}", Id, Name, GetCoordinateStrLLDecDeg(), altStr);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace CoordinateConverter
             AltitudeIsAGL = other.AltitudeIsAGL;
             foreach (KeyValuePair<Type, AircraftSpecificData> kvp in other.AircraftSpecificData)
             {
-                AircraftSpecificData.Add(kvp.Key, kvp.Value == null ? null : kvp.Value.Clone());
+                AircraftSpecificData.Add(kvp.Key, kvp.Value?.Clone());
             }
         }
 
@@ -114,12 +114,8 @@ namespace CoordinateConverter
         /// <exception cref="ArgumentNullException">coordinate</exception>
         public CoordinateDataEntry(int id, CoordinateSharp.Coordinate coordinate, double altitudeInM = 0, bool altitudeIsAGL = false, string name = "", bool xfer = true)
         {
-            if (coordinate == null)
-            {
-                throw new ArgumentNullException(nameof(coordinate));
-            }
             this.id = id;
-            Coordinate = coordinate;
+            Coordinate = coordinate ?? throw new ArgumentNullException(nameof(coordinate));
             AltitudeInM = altitudeInM;
             Name = name ?? String.Empty;
             XFer = xfer;
@@ -188,7 +184,7 @@ namespace CoordinateConverter
                         {
                             return null;
                         }
-                        groundElevationInM = message.Altitudes.First().Elev;
+                        groundElevationInM = message.Altitudes.First().Elevation;
                     }
                     catch (Exception)
                     {
@@ -273,13 +269,13 @@ namespace CoordinateConverter
         }
 
         /// <summary>
-        /// Gets or sets the lattitude.
+        /// Gets or sets the latitude.
         /// </summary>
         /// <value>
-        /// The lattitude.
+        /// The latitude.
         /// </value>
         [JsonProperty(PropertyName = "lat")]
-        public double Lat {
+        public double Latitude {
             get =>  Coordinate.Latitude.DecimalDegree; set => Coordinate.Latitude.DecimalDegree = value; }
 
         /// <summary>
@@ -289,7 +285,7 @@ namespace CoordinateConverter
         /// The longitude.
         /// </value>
         [JsonProperty(PropertyName = "long")]
-        public double Longi { get => Coordinate.Longitude.DecimalDegree; set => Coordinate.Longitude.DecimalDegree = value; }
+        public double Longitude { get => Coordinate.Longitude.DecimalDegree; set => Coordinate.Longitude.DecimalDegree = value; }
 
         /// <summary>
         /// Gets the identifier.
@@ -301,7 +297,7 @@ namespace CoordinateConverter
         public int Id { get => id; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the point is to be transfered to DCS.
+        /// Gets or sets a value indicating whether the point is to be transferred to DCS.
         /// </summary>
         /// <value>
         ///   <c>true</c> if transfer is set; otherwise, <c>false</c>.
@@ -333,7 +329,7 @@ namespace CoordinateConverter
         /// Gets the coordinate in ll format as a string.
         /// </summary>
         /// <returns></returns>
-        public string getCoordinateStrLLDecSec()
+        public string GetCoordinateStrLLDecSec()
         {
             formatOptions.Round = 2;
             formatOptions.Format = CoordinateSharp.CoordinateFormatType.Degree_Minutes_Seconds;
@@ -345,7 +341,7 @@ namespace CoordinateConverter
         /// Gets the coordinate in ll decimal format as a string.
         /// </summary>
         /// <returns></returns>
-        public string getCoordinateStrLLDecMin()
+        public string GetCoordinateStrLLDecMin()
         {
             formatOptions.Format = CoordinateSharp.CoordinateFormatType.Degree_Decimal_Minutes;
             formatOptions.Round = 4;
@@ -357,7 +353,7 @@ namespace CoordinateConverter
         /// Gets the coordinate in ll deg format as a string.
         /// </summary>
         /// <returns></returns>
-        public string getCoordinateStrLLDecDeg()
+        public string GetCoordinateStrLLDecDeg()
         {
             formatOptions.Format = CoordinateSharp.CoordinateFormatType.Decimal_Degree;
             formatOptions.Round = 10;
@@ -370,7 +366,7 @@ namespace CoordinateConverter
         /// </summary>
         /// <param name="precision">The precision.</param>
         /// <returns></returns>
-        public string getCoordinateStrMGRS(int precision = 5)
+        public string GetCoordinateStrMGRS(int precision = 5)
         {
             if (precision < 0)
             {
@@ -432,7 +428,7 @@ namespace CoordinateConverter
         /// Gets the coordinate in utm format as a string.
         /// </summary>
         /// <returns></returns>
-        public string getCoordinateStrUTM()
+        public string GetCoordinateStrUTM()
         {
             CoordinateSharp.UniversalTransverseMercator utm = Coordinate.UTM;
             return utm.ToString();
@@ -443,7 +439,7 @@ namespace CoordinateConverter
         /// </summary>
         /// <param name="bullseye">The bullseye.</param>
         /// <returns></returns>
-        public string getCoordinateStrBullseye(Bullseye bullseye)
+        public string GetCoordinateStrBullseye(Bullseye bullseye)
         {
             if (bullseye == null)
             {

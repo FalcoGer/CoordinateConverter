@@ -51,7 +51,7 @@
             this.btn_OK.TabIndex = 1;
             this.btn_OK.Text = "OK";
             this.btn_OK.UseVisualStyleBackColor = true;
-            this.btn_OK.Click += new System.EventHandler(this.btn_OK_Click);
+            this.btn_OK.Click += new System.EventHandler(this.Btn_OK_Click);
             // 
             // nud_PointNumber
             // 
@@ -69,7 +69,7 @@
             0,
             0,
             0});
-            this.nud_PointNumber.ValueChanged += new System.EventHandler(this.nud_PointNumber_ValueChanged);
+            this.nud_PointNumber.ValueChanged += new System.EventHandler(this.Nud_PointNumber_ValueChanged);
             // 
             // FormStartingWaypoint
             // 

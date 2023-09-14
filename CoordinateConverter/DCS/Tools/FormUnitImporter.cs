@@ -24,7 +24,7 @@ namespace CoordinateConverter.DCS.Tools
         /// The coordinates.
         /// </value>
         public List<CoordinateDataEntry> Coordinates { get; private set; } = null;
-        private Dictionary<int, CoordinateDataEntry> referencePoints = null;
+        private readonly Dictionary<int, CoordinateDataEntry> referencePoints = null;
         private const int IMPORT_CHECKBOX_COLUMN_ID = 6;
 
         private void UpdateAllUnitsFromDCS()
@@ -46,7 +46,7 @@ namespace CoordinateConverter.DCS.Tools
             Filter();
         }
 
-        private void btn_Import_Click(object sender, EventArgs e)
+        private void Btn_Import_Click(object sender, EventArgs e)
         {
             Coordinates = new List<CoordinateDataEntry>();
             foreach (DataGridViewRow row in dgv_Units.Rows)
@@ -57,14 +57,14 @@ namespace CoordinateConverter.DCS.Tools
                     DCSUnit unit = allDCSUnits.First(x => x.ObjectId == unitId);
                     DCSCoordinate dcsCoord = unit.Coordinate;
                     CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(dcsCoord.Lat, dcsCoord.Lon);
-                    string freetext = unit.TypeName;
-                    if (freetext.StartsWith("SA-"))
+                    string freeText = unit.TypeName;
+                    if (freeText.StartsWith("SA-"))
                     {
-                        freetext = "S" + freetext.Substring(3);
+                        freeText = "S" + freeText.Substring(3);
                     }
-                    freetext = freetext.Replace("-", string.Empty);
+                    freeText = freeText.Replace("-", string.Empty);
 
-                    CoordinateDataEntry entry = new CoordinateDataEntry(nextPointID++, coordinate, dcsCoord.Alt.Value, false, freetext, true);
+                    CoordinateDataEntry entry = new CoordinateDataEntry(nextPointID++, coordinate, dcsCoord.Alt.Value, false, freeText, true);
 
                     // Add the AH64 data
                     entry.AircraftSpecificData.Add(typeof(AH64), new AH64SpecificData(unit));
@@ -94,7 +94,7 @@ namespace CoordinateConverter.DCS.Tools
                 DCSMessage message = new DCSMessage() { FetchCameraPosition = true };
                 message = DCSConnection.sendRequest(message);
 
-                refPoint = new CoordinateDataEntry(-1, message.CameraPosition.getCoordinate());
+                refPoint = new CoordinateDataEntry(-1, message.CameraPosition.GetCoordinate());
             }
             else
             {
@@ -124,8 +124,8 @@ namespace CoordinateConverter.DCS.Tools
                 }
                 units = units.Where(x =>
                 {
-                    CoordinateSharp.Coordinate coord = new CoordinateSharp.Coordinate(x.Coordinate.Lat, x.Coordinate.Lon);
-                    BRA bra = be.GetBRA(coord);
+                    CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(x.Coordinate.Lat, x.Coordinate.Lon);
+                    BRA bra = be.GetBRA(coordinate);
                     return bra.Range < (rangeInM / 1852); // bra range is in nmi
                 }).ToList();
             }
@@ -199,11 +199,11 @@ namespace CoordinateConverter.DCS.Tools
             }
         }
 
-        private void btn_Refresh_Click(object sender, EventArgs e)
+        private void Btn_Refresh_Click(object sender, EventArgs e)
         {
             UpdateAllUnitsFromDCS();
         }
-        private void btn_Cancel_Click(object sender, EventArgs e)
+        private void Btn_Cancel_Click(object sender, EventArgs e)
         {
             Coordinates = null;
             Close();
@@ -267,7 +267,7 @@ namespace CoordinateConverter.DCS.Tools
             cb_RadiusUnit.Items.Add(new ComboItem<ERangeUnit>("m", ERangeUnit.Meter));
             cb_RadiusUnit.SelectedIndex = 0;
 
-            cb_WithRadiusFilter_CheckedChanged(cb_WithRadiusFilter, null);
+            Cb_WithRadiusFilter_CheckedChanged(cb_WithRadiusFilter, null);
 
             // Setup reference points
             cb_RadiusCenter.DisplayMember = "Text";
@@ -286,19 +286,19 @@ namespace CoordinateConverter.DCS.Tools
             UpdateAllUnitsFromDCS();
         }
 
-        private void cb_WithRadiusFilter_CheckedChanged(object sender, EventArgs e)
+        private void Cb_WithRadiusFilter_CheckedChanged(object sender, EventArgs e)
         {
             nud_RadiusValue.Enabled = cb_WithRadiusFilter.Checked;
             cb_RadiusUnit.Enabled = cb_WithRadiusFilter.Checked;
             cb_RadiusCenter.Enabled = cb_WithRadiusFilter.Checked;
         }
 
-        private void btn_ApplyFilter_Click(object sender, EventArgs e)
+        private void Btn_ApplyFilter_Click(object sender, EventArgs e)
         {
             Filter();
         }
 
-        private void dgv_Units_CellContentClick(object objSender, DataGridViewCellEventArgs e)
+        private void Dgv_Units_CellContentClick(object objSender, DataGridViewCellEventArgs e)
         {
             DataGridView sender = objSender as DataGridView;
             if (sender.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
@@ -333,7 +333,7 @@ namespace CoordinateConverter.DCS.Tools
             }
         }
 
-        private void dgv_Units_KeyPress(object objSender, KeyPressEventArgs e)
+        private void Dgv_Units_KeyPress(object objSender, KeyPressEventArgs e)
         {
             DataGridView sender = objSender as DataGridView;
             if (e.KeyChar == ' ')
