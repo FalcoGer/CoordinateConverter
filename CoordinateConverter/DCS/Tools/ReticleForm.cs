@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 
 namespace CoordinateConverter.DCS.Tools
 {
@@ -14,6 +16,15 @@ namespace CoordinateConverter.DCS.Tools
         public ReticleForm()
         {
             InitializeComponent();
+            FileInfo fi = new FileInfo("Crosshair.png");
+            if (fi.Exists )
+            {
+                using (FileStream fileStream = fi.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    BackgroundImage = Image.FromStream(fileStream);
+                }
+            }
+            Size = BackgroundImage.Size;
         }
     }
 }
