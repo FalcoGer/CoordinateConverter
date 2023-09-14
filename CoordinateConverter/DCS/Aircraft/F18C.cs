@@ -498,7 +498,8 @@ namespace CoordinateConverter.DCS.Aircraft
                 commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB5, 300, 0));
             }
             // Deselect STP
-            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB11, 200));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB11, 300));
+            commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB11, 300, 0));
             // Deselect station
             commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 500));
             commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, keyCodeStationSelect, 300, 0));
