@@ -556,10 +556,21 @@ namespace CoordinateConverter.DCS.Aircraft
             commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB14, 300));
             // TERM
             commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB1, 300));
-            // ANG
+            // ANG or HT
             commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB3, 300));
-            // 60° for bombs, otherwise 30°
-            commands.AddRange(UFCEnterString(isBomb ? "60\n" : "30\n"));
+            if (pwt == EWeaponType.JSA)
+            {
+                // JSA (CBU) doesn't have angle but Height
+                commands.AddRange(UFCEnterString("1500\n"));
+            }
+            else
+            {
+                // ANG
+                // 60° for bombs, otherwise 30°
+                commands.AddRange(UFCEnterString(isBomb ? "60\n" : "30\n"));
+            }
+            
+            
             // VEL
             commands.Add(new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_PB5, 300));
             commands.AddRange(UFCEnterString("700\n"));
