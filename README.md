@@ -11,7 +11,7 @@ Invalid inputs will mark the relevant textbox pink to indicate the error.
 4. An altitude in `ft` or `m` may be entered and a label may be provided.
 
 - Clicking the Add button will add the point to the list on the right.
-- Clicking the `-´ button in the list will delete that point from the list.
+- Clicking the `-` button in the list will delete that point from the list. The delete key may also be used to delete marked rows.
 - Click the "Del" header above those buttons to delete all points in the list. A warning will be provided to avoid accidental deletion.
 - Changing the radio boxes next to the output fields, changes the format in the list.
 - Double clicking an entry in the list will put the coordinates into the input boxes for adjustments
