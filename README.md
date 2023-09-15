@@ -8,7 +8,7 @@ Convert coordinates to and from L/L, L/L Decimal, UTM and MGRS as well as Bullse
 2. Enter the coordinates you wish to convert. More details on valid inputs down below.  
 Invalid inputs will mark the relevant textbox pink to indicate the error.
 3. When the input is valid, the conversion will be written to the output in various formats.
-4. An altitude in `ft` or `m` may be entered as well as a 12 character long label may be provided.
+4. An altitude in `ft` or `m` may be entered and a label may be provided.
 
 - Clicking the Add button will add the point to the list on the right.
 - Clicking the `-´ button in the list will delete that point from the list.
