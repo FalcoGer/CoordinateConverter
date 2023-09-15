@@ -1,4 +1,5 @@
 Add support for remote (DCS) hosts
+    - auto switch reticle to never if ip is not localhost, because that makes no sense.
 Change logic for editing points
     - single click (selected cells changed) should bring the point over in new point mode
     - double clicking points enters "edit mode", making changes goes directly to both "input", as well as the point in the list
