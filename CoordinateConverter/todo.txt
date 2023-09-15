@@ -1,3 +1,4 @@
+Add support for remote (DCS) hosts
 Change logic for editing points
     - single click (selected cells changed) should bring the point over in new point mode
     - double clicking points enters "edit mode", making changes goes directly to both "input", as well as the point in the list
