@@ -44,7 +44,6 @@
             // 
             // btn_Affirm
             // 
-            this.btn_Affirm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Affirm.AutoSize = true;
             this.btn_Affirm.Location = new System.Drawing.Point(93, 33);
             this.btn_Affirm.Name = "btn_Affirm";
@@ -56,7 +55,6 @@
             // 
             // btn_Deny
             // 
-            this.btn_Deny.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_Deny.AutoSize = true;
             this.btn_Deny.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_Deny.Location = new System.Drawing.Point(12, 33);
@@ -72,8 +70,6 @@
             this.AcceptButton = this.btn_Affirm;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CancelButton = this.btn_Deny;
             this.ClientSize = new System.Drawing.Size(181, 66);
             this.Controls.Add(this.btn_Deny);

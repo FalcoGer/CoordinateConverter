@@ -60,11 +60,28 @@ namespace CoordinateConverter.DCS.Tools
             btn_Affirm.Text = yesButtonText;
             btn_Deny.Text = noButtonText;
 
-            // Form will auto size to fit everything.
+            Rectangle screenRectangle = RectangleToScreen(ClientRectangle);
+            int titleHeight = screenRectangle.Top - Top;
+            int borderWidth = screenRectangle.Left - Left;
 
-            // Adjust positions, button X positions will be set by means of the anchor
-            btn_Affirm.Location = new Point(btn_Affirm.Location.X, lbl_QuestionText.Bottom + 4);
-            btn_Deny.Location = new Point(btn_Deny.Location.X, lbl_QuestionText.Bottom + 4);
+            const int MARGIN = 13;
+
+            lbl_QuestionText.Location = new Point(MARGIN, MARGIN);
+
+            int widthRequiredForButtons = btn_Deny.Width + MARGIN + btn_Affirm.Width;
+            int width = Math.Max(widthRequiredForButtons, lbl_QuestionText.Width) + (MARGIN * 2) + (borderWidth * 2);
+            int height = borderWidth + titleHeight + lbl_QuestionText.Top + lbl_QuestionText.Height + MARGIN + Math.Max(btn_Affirm.Height, btn_Deny.Height) + MARGIN;
+
+            Size = new Size(width, height);
+
+            // Left button
+            btn_Deny.Location = new Point(MARGIN, lbl_QuestionText.Location.Y + lbl_QuestionText.Height + MARGIN);
+            // btn_Deny.Location = new Point(btn_Deny.Location.X, lbl_QuestionText.Location.Y + lbl_QuestionText.Height + MARGIN);
+            // Right button
+            btn_Affirm.Location = new Point(btn_Deny.Location.X + btn_Deny.Width + MARGIN, btn_Deny.Location.Y);
+            // btn_Affirm.Location = new Point(btn_Affirm.Location.X, btn_Deny.Location.Y);
+
+            
         }
 
         private void Btn_Deny_Click(object sender, EventArgs e)
