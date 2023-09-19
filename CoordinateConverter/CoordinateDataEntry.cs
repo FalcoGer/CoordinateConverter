@@ -179,7 +179,7 @@ namespace CoordinateConverter
                                 new DCSCoordinate(Coordinate)
                             }
                         };
-                        message = DCSConnection.sendRequest(message);
+                        message = DCSConnection.SendRequest(message);
                         if (message == null || message.Altitudes == null)
                         {
                             return null;

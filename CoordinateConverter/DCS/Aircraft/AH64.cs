@@ -312,7 +312,7 @@ namespace CoordinateConverter.DCS.Aircraft
             }
             commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_TSD)); // reset to TSD
             DCSMessage message = new DCSMessage() { Commands = commands };
-            _ = DCSConnection.sendRequest(message);
+            _ = DCSConnection.SendRequest(message);
             return commands.Count;
         }
 

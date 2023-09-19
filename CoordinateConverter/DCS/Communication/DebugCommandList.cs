@@ -17,7 +17,7 @@ namespace CoordinateConverter.DCS.Communication
         {
             base.Add(command);
             DCSMessage message = new DCSMessage() { Commands = new List<DCSCommand>() { command } };
-            DCSConnection.sendRequest(message);
+            DCSConnection.SendRequest(message);
 
             // force sleep, so it prevents stepping through the instructions so fast that the server doesn't have time to open the connection again or is still busy typing
             System.Threading.Thread.Sleep(command.Delay * 2);
@@ -31,7 +31,7 @@ namespace CoordinateConverter.DCS.Communication
         {
             base.AddRange(commands);
             DCSMessage message = new DCSMessage() { Commands = commands.ToList() };
-            DCSConnection.sendRequest(message);
+            DCSConnection.SendRequest(message);
 
             // force sleep, so it prevents stepping through the instructions so fast that the server doesn't have time to open the connection again or is still busy typing
             System.Threading.Thread.Sleep(commands.Sum(x => x.Delay) * 2);

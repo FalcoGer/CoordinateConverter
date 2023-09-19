@@ -26,7 +26,7 @@ namespace CoordinateConverter.DCS.Aircraft
                 Commands = commands
             };
 
-            message = DCSConnection.sendRequest(message);
+            message = DCSConnection.SendRequest(message);
             if (message.ServerErrors != null && message.ServerErrors.Count > 0)
             {
                 string errorMessage = string.Join("\n", message.ServerErrors);

@@ -1531,15 +1531,8 @@ namespace CoordinateConverter
 
         private void Btn_Edit_Click(object sender, EventArgs e)
         {
-            if (currentlyEditingIndices.Count > 0)
-            {
-                StartEdit(null);
-            }
-            else
-            {
-                var rowIds = GetSelectedRowIndices();
-                StartEdit(rowIds);
-            }
+            var rowIds = GetSelectedRowIndices();
+            StartEdit(rowIds);
         }
 
         private List<int> GetSelectedRowIndices()
@@ -2281,7 +2274,7 @@ namespace CoordinateConverter
             {
                 Stop = true
             };
-            DCSConnection.sendRequest(message);
+            DCSConnection.SendRequest(message);
         }
 
         private void Tsmi_AH64_ClearPoints_Click(object sender, EventArgs e)
@@ -2374,7 +2367,7 @@ namespace CoordinateConverter
                     FetchAircraftType = tsmi_Auto.Checked,
                     FetchWeaponStations = selectedAircraft != null && selectedAircraft.GetType() == typeof(F18C)
                 };
-                message = DCSConnection.sendRequest(message);
+                message = DCSConnection.SendRequest(message);
 
                 if (message == null)
                 {
@@ -2668,94 +2661,8 @@ namespace CoordinateConverter
                 idx++;
             }
 
-            // handle clicking when not in focus
-            dele = new WinEventDelegate(WinEventProc);
-            IntPtr m_hhook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, dele, 0, 0, WINEVENT_OUTOFCONTEXT);
-
             // Start the timer last
             tmr250ms.Start();
         }
-
-        #region MagicForSingleClickButtons
-        #region Mouse        
-        /// <summary>
-        /// Causes a system callback to simulate a mouse event.
-        /// </summary>
-        /// <param name="dwFlags">The dw flags.</param>
-        /// <param name="dx">The dx.</param>
-        /// <param name="dy">The dy.</param>
-        /// <param name="cButtons">The c buttons.</param>
-        /// <param name="dwExtraInfo">The dw extra information.</param>
-        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
-        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
-        private enum MouseEvents
-        {
-            LeftDown = 0x02,
-            LeftUp = 0x04,
-            RightDown = 0x08,
-            RightUp = 0x10
-    }
-        
-
-        /// <summary>
-        /// Does the mouse click.
-        /// </summary>
-        public void DoMouseClick()
-        {
-            //Call the imported function with the cursor's current position
-            uint X = (uint)Cursor.Position.X;
-            uint Y = (uint)Cursor.Position.Y;
-            mouse_event((int)MouseEvents.LeftDown | (int)MouseEvents.LeftUp, X, Y, 0, 0);
-        }
-        #endregion
-        #region WindowsCallbackOnActiveWindowChange
-        readonly WinEventDelegate dele = null;
-
-        delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
-
-        [DllImport("user32.dll")]
-        static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
-
-        private const uint WINEVENT_OUTOFCONTEXT = 0;
-        private const uint EVENT_SYSTEM_FOREGROUND = 3;
-
-        [DllImport("user32.dll")]
-        static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
-
-        private string GetActiveWindowTitle()
-        {
-            const int nChars = 256;
-            StringBuilder Buff = new StringBuilder(nChars);
-            IntPtr handle = GetForegroundWindow();
-
-            if (GetWindowText(handle, Buff, nChars) > 0)
-            {
-                return Buff.ToString();
-            }
-            return null;
-        }
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
-            MouseButtons mb = Control.MouseButtons;
-            if (GetActiveWindowTitle() != this.Text)
-            {
-                return;
-            }
-            // this form was just put into focus
-            if ((mb & MouseButtons.Left) == MouseButtons.Left)
-            {
-                // mouse button is down
-                DoMouseClick();
-            }
-        }
-        #endregion
-
-        #endregion
     }
 }

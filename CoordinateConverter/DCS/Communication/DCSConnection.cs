@@ -27,7 +27,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// </summary>
         /// <param name="requestMessage">The requests.</param>
         /// <returns>The response from the remote host</returns>
-        public static DCSMessage sendRequest(DCSMessage requestMessage)
+        public static DCSMessage SendRequest(DCSMessage requestMessage)
         {
             if ((DateTime.Now - lastConnectionAttempt).TotalSeconds < 15)
             {
