@@ -1043,10 +1043,13 @@ namespace CoordinateConverter
                 cb_AltitudeIsAGL.Checked = input.AltitudeIsAGL;
                 tb_Altitude.Text = Math.Round(cb_AltitudeUnit.Text == "ft" ? input.AltitudeInFt : input.AltitudeInM).ToString();
 
-                tb_Label.Text = input.Name;
-
                 tb_Altitude.TextChanged += Tb_Altitude_TextChanged;
                 cb_AltitudeIsAGL.CheckedChanged += Cb_AltitudeIsAGL_CheckedChanged;
+
+                // Label
+                tb_Label.TextChanged -= Tb_Label_TextChanged;
+                tb_Label.Text = input.Name;
+                tb_Label.TextChanged += Tb_Label_TextChanged;
 
                 // point type & point option
                 if (updateType == EUpdateType.Everything)
@@ -1245,6 +1248,15 @@ namespace CoordinateConverter
 
             // Add the selected indices to the list
             currentlyEditingIndices.Clear();
+
+            if (indices.Count > 0)
+            {
+                // Update the input fields for the first one
+                // This must be done before setting currentlyEditingIndices to avoid copying the data over every point
+                input = dataEntries[indices.First()];
+                RefreshCoordinates(EUpdateType.Everything);
+            }
+
             currentlyEditingIndices.AddRange(indices);
 
             // change the button and row colors to match the selected entries
@@ -1270,13 +1282,6 @@ namespace CoordinateConverter
                 control.Enabled = indices.Count <= 1;
             }
             btn_Add.Enabled = indices.Count <= 1;
-
-            // If it's only one, update everything.
-            if (indices.Count >= 1)
-            {
-                input = dataEntries[indices.First()];
-                RefreshCoordinates(EUpdateType.Everything);
-            }
         }
 
         private enum EDataGridUpdateType
@@ -1710,6 +1715,7 @@ namespace CoordinateConverter
                     {
                         string data = sr.ReadToEnd();
                         dataEntries = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CoordinateDataEntry>>(data, jsonSerializerSettings);
+                        StartEdit(null);
                         ResetIDs();
                         RefreshDataGrid(EDataGridUpdateType.UpdateGrid);
                     }

@@ -1,6 +1,5 @@
 Add support for remote (DCS) hosts
     - auto switch reticle to never if ip is not localhost, because that makes no sense.
-Only update point options for all points to be edited when actually changing it
 Connection to DCS asyncronous to prevent ui freezes.
     - have the lua script connect to this tool?
 When saving/loading, update the default location and file name
