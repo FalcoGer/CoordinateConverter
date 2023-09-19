@@ -90,11 +90,11 @@ function LuaExportBeforeNextFrame()
                     end
                     -- Push the button
                     GetDevice(lastDevice):performClickableAction(lastCode, value)
-                    --Store the time when we will need to depress
+                    -- Store the time when we will need to depress
                     whenToDepress = socket.gettime() + (delay / 1000)
                     isPressed = true
                 else
-                    --if there's nothing else to press, we are done
+                    -- if there's nothing else to press, we are done
                     busy = false
                     currCommandIndex = 1
                 end

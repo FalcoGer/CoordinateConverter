@@ -329,6 +329,11 @@ namespace CoordinateConverter.DCS.Aircraft
             if (!leftDDIWasSetUp)
             {
                 // Setup left DDI for weapon entry.
+                // Make sure the aircraft is in A/G mode, not A/A
+                commands.Add(new DCSCommand((int)EDevices.SMS, (int)EKeyCodes.AA_MASTER_MODE_SW, 300)); // Turn on or off AA mode
+                // Aircraft is now in AA or NAV mode
+                commands.Add(new DCSCommand((int)EDevices.SMS, (int)EKeyCodes.AG_MASTER_MODE_SW, 300)); // Turn on AG mode
+
                 // Make sure the stores page is up
                 commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB18, 300)); // go to TAC or SUPT page
                 commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB20, 300)); // go to TGT Data or Fuel page
@@ -1075,7 +1080,7 @@ namespace CoordinateConverter.DCS.Aircraft
             UFC = 25,
             MDI_LEFT = 35,
             AMPCD = 37,
-
+            SMS = 23
         }
 
         // from command_defs.lua, numbers are calculated from the counter() function.
@@ -1131,6 +1136,9 @@ namespace CoordinateConverter.DCS.Aircraft
             UFC_KB9,
             UFC_KB_CLR,
             UFC_KB_ENT,
+
+            AA_MASTER_MODE_SW = 3001,
+            AG_MASTER_MODE_SW
         }
     }
 }
