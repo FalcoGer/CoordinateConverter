@@ -1353,10 +1353,21 @@ namespace CoordinateConverter
             {
                 // Check if they are all on or if some or all are off
                 bool allAreOn = true;
+                // find check box cell column id
+                int colId = 0;
+                foreach (DataGridViewColumn col in dgv_CoordinateList.Columns)
+                {
+                    if (col is DataGridViewCheckBoxColumn)
+                    {
+                        break;
+                    }
+                    colId++;
+                }
+                // check/decheck all
                 foreach (int rowIdx in selectedRowIds)
                 {
                     DataGridViewRow row = sender.Rows[rowIdx];
-                    DataGridViewCheckBoxCell cell = row.Cells[5] as DataGridViewCheckBoxCell;
+                    DataGridViewCheckBoxCell cell = row.Cells[colId] as DataGridViewCheckBoxCell;
                     if (!(cell.Value as bool? ?? false))
                     {
                         allAreOn = false;
