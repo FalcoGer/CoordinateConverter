@@ -65,6 +65,7 @@ namespace CoordinateConverter.DCS.Tools
                     freeText = freeText.Replace("-", string.Empty);
 
                     CoordinateDataEntry entry = new CoordinateDataEntry(nextPointID++, coordinate, dcsCoord.Alt.Value, false, freeText, true);
+                    entry.GroundElevationInM = dcsCoord.Elevation;
 
                     // Add the AH64 data
                     entry.AircraftSpecificData.Add(typeof(AH64), new AH64SpecificData(unit));

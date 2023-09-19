@@ -1,18 +1,8 @@
 Add support for remote (DCS) hosts
     - auto switch reticle to never if ip is not localhost, because that makes no sense.
-Change logic for editing points
-    - single click (selected cells changed) should bring the point over in new point mode
-    - double clicking points enters "edit mode", making changes goes directly to both "input", as well as the point in the list
-        - needs to update the list entry on every change (change the row, don't call refresh all the time)
-        - also add an edit button
-        - edit multiple points should be possible, but only to change the point type/point option
-    - Clicking "fetch coordinates" should place it directly into the list and enter edit mode for that point
-    - change the replace button to clone or copy to "disconnect" the input from the list entry and make a new one and stop edit mode
-    - make some obvious indicator to show the user is in edit mode or new point mode
-Put the buttons into the tool strip to use the realestate
+Only update point options for all points to be edited when actually changing it
 Connection to DCS asyncronous to prevent ui freezes.
     - have the lua script connect to this tool?
-Re-add sorting by header for rapid selection
 When saving/loading, update the default location and file name
      - add a save option that just overwrites the last file loaded/saved
 Add support for selection instead of camera position when something is selected

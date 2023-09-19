@@ -67,41 +67,41 @@ namespace CoordinateConverter
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.TB_LL_DecimalSeconds_Longitude = new System.Windows.Forms.TextBox();
-            this.RB_LL_DecimalSeconds_W = new System.Windows.Forms.RadioButton();
-            this.RB_LL_DecimalSeconds_E = new System.Windows.Forms.RadioButton();
+            this.tb_LL_DecimalSeconds_Longitude = new System.Windows.Forms.TextBox();
+            this.rb_LL_DecimalSeconds_W = new System.Windows.Forms.RadioButton();
+            this.rb_LL_DecimalSeconds_E = new System.Windows.Forms.RadioButton();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.TB_LL_DecimalSeconds_Latitude = new System.Windows.Forms.TextBox();
-            this.RB_LL_DecimalSeconds_N = new System.Windows.Forms.RadioButton();
-            this.RB_LL_DecimalSeconds_S = new System.Windows.Forms.RadioButton();
+            this.tb_LL_DecimalSeconds_Latitude = new System.Windows.Forms.TextBox();
+            this.rb_LL_DecimalSeconds_N = new System.Windows.Forms.RadioButton();
+            this.rb_LL_DecimalSeconds_S = new System.Windows.Forms.RadioButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.TB_LL_DecimalMinutes_Longitude = new System.Windows.Forms.TextBox();
-            this.RB_LL_DecimalMinutes_W = new System.Windows.Forms.RadioButton();
-            this.RB_LL_DecimalMinutes_E = new System.Windows.Forms.RadioButton();
+            this.tb_LL_DecimalMinutes_Longitude = new System.Windows.Forms.TextBox();
+            this.rb_LL_DecimalMinutes_W = new System.Windows.Forms.RadioButton();
+            this.rb_LL_DecimalMinutes_E = new System.Windows.Forms.RadioButton();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.TB_LL_DecimalMinutes_Latitude = new System.Windows.Forms.TextBox();
-            this.RB_LL_DecimalMinutes_N = new System.Windows.Forms.RadioButton();
-            this.RB_LL_DecimalMinutes_S = new System.Windows.Forms.RadioButton();
+            this.tb_LL_DecimalMinutes_Latitude = new System.Windows.Forms.TextBox();
+            this.rb_LL_DecimalMinutes_N = new System.Windows.Forms.RadioButton();
+            this.rb_LL_DecimalMinutes_S = new System.Windows.Forms.RadioButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.TB_MGRS_Digraph = new System.Windows.Forms.TextBox();
-            this.TB_MGRS_Fraction = new System.Windows.Forms.TextBox();
-            this.TB_MGRS_LatZone = new System.Windows.Forms.TextBox();
-            this.TB_MGRS_LongZone = new System.Windows.Forms.TextBox();
+            this.tb_MGRS_Digraph = new System.Windows.Forms.TextBox();
+            this.tb_MGRS_Fraction = new System.Windows.Forms.TextBox();
+            this.tb_MGRS_LatZone = new System.Windows.Forms.TextBox();
+            this.tb_MGRS_LongZone = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.TB_UTM_LatZone = new System.Windows.Forms.TextBox();
+            this.tb_UTM_LatZone = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.TB_UTM_Easting = new System.Windows.Forms.TextBox();
-            this.TB_UTM_Northing = new System.Windows.Forms.TextBox();
-            this.TB_UTM_LongZone = new System.Windows.Forms.TextBox();
+            this.tb_UTM_Easting = new System.Windows.Forms.TextBox();
+            this.tb_UTM_Northing = new System.Windows.Forms.TextBox();
+            this.tb_UTM_LongZone = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.lbl_BEPosition = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -117,12 +117,6 @@ namespace CoordinateConverter
             this.lbl_DCS_Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_Error = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgv_CoordinateList = new System.Windows.Forms.DataGridView();
-            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCoordinates = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAltitude = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colXFer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsmi_FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Load = new System.Windows.Forms.ToolStripMenuItem();
@@ -177,16 +171,22 @@ namespace CoordinateConverter
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_FetchCoordinates = new System.Windows.Forms.ToolStripButton();
             this.btn_ImportUnits = new System.Windows.Forms.ToolStripButton();
+            this.btn_SetBE = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_AlwaysOnTop = new System.Windows.Forms.ToolStripButton();
-            this.label19 = new System.Windows.Forms.Label();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.btn_MoveUp = new System.Windows.Forms.ToolStripButton();
-            this.btn_MoveDown = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_Add = new System.Windows.Forms.ToolStripButton();
             this.btn_Edit = new System.Windows.Forms.ToolStripButton();
-            this.btn_SetBE = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.btn_MoveDown = new System.Windows.Forms.ToolStripButton();
+            this.btn_MoveUp = new System.Windows.Forms.ToolStripButton();
+            this.label19 = new System.Windows.Forms.Label();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCoordinates = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAltitude = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colXFer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MGRS_Precision)).BeginInit();
             this.GrpBox_Input.SuspendLayout();
@@ -517,7 +517,7 @@ namespace CoordinateConverter
             this.tb_Label.Size = new System.Drawing.Size(172, 20);
             this.tb_Label.TabIndex = 9;
             this.tb_Label.TextChanged += new System.EventHandler(this.Tb_Label_TextChanged);
-            this.tb_Label.Enter += new System.EventHandler(this.TB_Input_Enter);
+            this.tb_Label.Enter += new System.EventHandler(this.Tb_Input_Enter);
             this.tb_Label.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_Label_KeyPress);
             // 
             // cb_AltitudeUnit
@@ -544,7 +544,7 @@ namespace CoordinateConverter
             this.tb_Altitude.TabIndex = 6;
             this.tb_Altitude.Text = "0";
             this.tb_Altitude.TextChanged += new System.EventHandler(this.Tb_Altitude_TextChanged);
-            this.tb_Altitude.Enter += new System.EventHandler(this.TB_Input_Enter);
+            this.tb_Altitude.Enter += new System.EventHandler(this.Tb_Input_Enter);
             this.tb_Altitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_Altitude_KeyPress);
             // 
             // label16
@@ -625,105 +625,105 @@ namespace CoordinateConverter
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.TB_LL_DecimalSeconds_Longitude);
-            this.panel1.Controls.Add(this.RB_LL_DecimalSeconds_W);
-            this.panel1.Controls.Add(this.RB_LL_DecimalSeconds_E);
+            this.panel1.Controls.Add(this.tb_LL_DecimalSeconds_Longitude);
+            this.panel1.Controls.Add(this.rb_LL_DecimalSeconds_W);
+            this.panel1.Controls.Add(this.rb_LL_DecimalSeconds_E);
             this.panel1.Location = new System.Drawing.Point(6, 39);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(461, 27);
             this.panel1.TabIndex = 1;
             // 
-            // TB_LL_DecimalSeconds_Longitude
+            // tb_LL_DecimalSeconds_Longitude
             // 
-            this.TB_LL_DecimalSeconds_Longitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tb_LL_DecimalSeconds_Longitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_LL_DecimalSeconds_Longitude.Location = new System.Drawing.Point(3, 3);
-            this.TB_LL_DecimalSeconds_Longitude.MaxLength = 16;
-            this.TB_LL_DecimalSeconds_Longitude.Name = "TB_LL_DecimalSeconds_Longitude";
-            this.TB_LL_DecimalSeconds_Longitude.Size = new System.Drawing.Size(375, 20);
-            this.TB_LL_DecimalSeconds_Longitude.TabIndex = 2;
-            this.TB_LL_DecimalSeconds_Longitude.TextChanged += new System.EventHandler(this.TB_LL_DecimalSeconds_Longitude_TextChanged);
-            this.TB_LL_DecimalSeconds_Longitude.Enter += new System.EventHandler(this.TB_Input_Enter);
-            this.TB_LL_DecimalSeconds_Longitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_DecimalSeconds_KeyPress);
-            this.TB_LL_DecimalSeconds_Longitude.Leave += new System.EventHandler(this.TB_Input_Leave);
+            this.tb_LL_DecimalSeconds_Longitude.Location = new System.Drawing.Point(3, 3);
+            this.tb_LL_DecimalSeconds_Longitude.MaxLength = 16;
+            this.tb_LL_DecimalSeconds_Longitude.Name = "tb_LL_DecimalSeconds_Longitude";
+            this.tb_LL_DecimalSeconds_Longitude.Size = new System.Drawing.Size(375, 20);
+            this.tb_LL_DecimalSeconds_Longitude.TabIndex = 2;
+            this.tb_LL_DecimalSeconds_Longitude.TextChanged += new System.EventHandler(this.TB_LL_DecimalSeconds_Longitude_TextChanged);
+            this.tb_LL_DecimalSeconds_Longitude.Enter += new System.EventHandler(this.Tb_Input_Enter);
+            this.tb_LL_DecimalSeconds_Longitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_DecimalSeconds_KeyPress);
+            this.tb_LL_DecimalSeconds_Longitude.Leave += new System.EventHandler(this.Tb_Input_Leave);
             // 
-            // RB_LL_DecimalSeconds_W
+            // rb_LL_DecimalSeconds_W
             // 
-            this.RB_LL_DecimalSeconds_W.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RB_LL_DecimalSeconds_W.AutoSize = true;
-            this.RB_LL_DecimalSeconds_W.Location = new System.Drawing.Point(387, 4);
-            this.RB_LL_DecimalSeconds_W.Name = "RB_LL_DecimalSeconds_W";
-            this.RB_LL_DecimalSeconds_W.Size = new System.Drawing.Size(36, 17);
-            this.RB_LL_DecimalSeconds_W.TabIndex = 5;
-            this.RB_LL_DecimalSeconds_W.Text = "W";
-            this.RB_LL_DecimalSeconds_W.UseVisualStyleBackColor = true;
-            this.RB_LL_DecimalSeconds_W.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalSeconds_CheckedChanged);
+            this.rb_LL_DecimalSeconds_W.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb_LL_DecimalSeconds_W.AutoSize = true;
+            this.rb_LL_DecimalSeconds_W.Location = new System.Drawing.Point(387, 4);
+            this.rb_LL_DecimalSeconds_W.Name = "rb_LL_DecimalSeconds_W";
+            this.rb_LL_DecimalSeconds_W.Size = new System.Drawing.Size(36, 17);
+            this.rb_LL_DecimalSeconds_W.TabIndex = 5;
+            this.rb_LL_DecimalSeconds_W.Text = "W";
+            this.rb_LL_DecimalSeconds_W.UseVisualStyleBackColor = true;
+            this.rb_LL_DecimalSeconds_W.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalSeconds_CheckedChanged);
             // 
-            // RB_LL_DecimalSeconds_E
+            // rb_LL_DecimalSeconds_E
             // 
-            this.RB_LL_DecimalSeconds_E.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RB_LL_DecimalSeconds_E.AutoSize = true;
-            this.RB_LL_DecimalSeconds_E.Checked = true;
-            this.RB_LL_DecimalSeconds_E.Location = new System.Drawing.Point(426, 4);
-            this.RB_LL_DecimalSeconds_E.Name = "RB_LL_DecimalSeconds_E";
-            this.RB_LL_DecimalSeconds_E.Size = new System.Drawing.Size(32, 17);
-            this.RB_LL_DecimalSeconds_E.TabIndex = 6;
-            this.RB_LL_DecimalSeconds_E.TabStop = true;
-            this.RB_LL_DecimalSeconds_E.Text = "E";
-            this.RB_LL_DecimalSeconds_E.UseVisualStyleBackColor = true;
-            this.RB_LL_DecimalSeconds_E.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalSeconds_CheckedChanged);
+            this.rb_LL_DecimalSeconds_E.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb_LL_DecimalSeconds_E.AutoSize = true;
+            this.rb_LL_DecimalSeconds_E.Checked = true;
+            this.rb_LL_DecimalSeconds_E.Location = new System.Drawing.Point(426, 4);
+            this.rb_LL_DecimalSeconds_E.Name = "rb_LL_DecimalSeconds_E";
+            this.rb_LL_DecimalSeconds_E.Size = new System.Drawing.Size(32, 17);
+            this.rb_LL_DecimalSeconds_E.TabIndex = 6;
+            this.rb_LL_DecimalSeconds_E.TabStop = true;
+            this.rb_LL_DecimalSeconds_E.Text = "E";
+            this.rb_LL_DecimalSeconds_E.UseVisualStyleBackColor = true;
+            this.rb_LL_DecimalSeconds_E.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalSeconds_CheckedChanged);
             // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.TB_LL_DecimalSeconds_Latitude);
-            this.panel2.Controls.Add(this.RB_LL_DecimalSeconds_N);
-            this.panel2.Controls.Add(this.RB_LL_DecimalSeconds_S);
+            this.panel2.Controls.Add(this.tb_LL_DecimalSeconds_Latitude);
+            this.panel2.Controls.Add(this.rb_LL_DecimalSeconds_N);
+            this.panel2.Controls.Add(this.rb_LL_DecimalSeconds_S);
             this.panel2.Location = new System.Drawing.Point(6, 6);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(461, 27);
             this.panel2.TabIndex = 0;
             // 
-            // TB_LL_DecimalSeconds_Latitude
+            // tb_LL_DecimalSeconds_Latitude
             // 
-            this.TB_LL_DecimalSeconds_Latitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tb_LL_DecimalSeconds_Latitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_LL_DecimalSeconds_Latitude.Location = new System.Drawing.Point(3, 3);
-            this.TB_LL_DecimalSeconds_Latitude.MaxLength = 16;
-            this.TB_LL_DecimalSeconds_Latitude.Name = "TB_LL_DecimalSeconds_Latitude";
-            this.TB_LL_DecimalSeconds_Latitude.Size = new System.Drawing.Size(375, 20);
-            this.TB_LL_DecimalSeconds_Latitude.TabIndex = 1;
-            this.TB_LL_DecimalSeconds_Latitude.TextChanged += new System.EventHandler(this.TB_LL_DecimalSeconds_Latitude_TextChanged);
-            this.TB_LL_DecimalSeconds_Latitude.Enter += new System.EventHandler(this.TB_Input_Enter);
-            this.TB_LL_DecimalSeconds_Latitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_DecimalSeconds_KeyPress);
-            this.TB_LL_DecimalSeconds_Latitude.Leave += new System.EventHandler(this.TB_Input_Leave);
+            this.tb_LL_DecimalSeconds_Latitude.Location = new System.Drawing.Point(3, 3);
+            this.tb_LL_DecimalSeconds_Latitude.MaxLength = 16;
+            this.tb_LL_DecimalSeconds_Latitude.Name = "tb_LL_DecimalSeconds_Latitude";
+            this.tb_LL_DecimalSeconds_Latitude.Size = new System.Drawing.Size(375, 20);
+            this.tb_LL_DecimalSeconds_Latitude.TabIndex = 1;
+            this.tb_LL_DecimalSeconds_Latitude.TextChanged += new System.EventHandler(this.TB_LL_DecimalSeconds_Latitude_TextChanged);
+            this.tb_LL_DecimalSeconds_Latitude.Enter += new System.EventHandler(this.Tb_Input_Enter);
+            this.tb_LL_DecimalSeconds_Latitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_DecimalSeconds_KeyPress);
+            this.tb_LL_DecimalSeconds_Latitude.Leave += new System.EventHandler(this.Tb_Input_Leave);
             // 
-            // RB_LL_DecimalSeconds_N
+            // rb_LL_DecimalSeconds_N
             // 
-            this.RB_LL_DecimalSeconds_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RB_LL_DecimalSeconds_N.AutoSize = true;
-            this.RB_LL_DecimalSeconds_N.Checked = true;
-            this.RB_LL_DecimalSeconds_N.Location = new System.Drawing.Point(387, 4);
-            this.RB_LL_DecimalSeconds_N.Name = "RB_LL_DecimalSeconds_N";
-            this.RB_LL_DecimalSeconds_N.Size = new System.Drawing.Size(33, 17);
-            this.RB_LL_DecimalSeconds_N.TabIndex = 3;
-            this.RB_LL_DecimalSeconds_N.TabStop = true;
-            this.RB_LL_DecimalSeconds_N.Text = "N";
-            this.RB_LL_DecimalSeconds_N.UseVisualStyleBackColor = true;
-            this.RB_LL_DecimalSeconds_N.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalSeconds_CheckedChanged);
+            this.rb_LL_DecimalSeconds_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb_LL_DecimalSeconds_N.AutoSize = true;
+            this.rb_LL_DecimalSeconds_N.Checked = true;
+            this.rb_LL_DecimalSeconds_N.Location = new System.Drawing.Point(387, 4);
+            this.rb_LL_DecimalSeconds_N.Name = "rb_LL_DecimalSeconds_N";
+            this.rb_LL_DecimalSeconds_N.Size = new System.Drawing.Size(33, 17);
+            this.rb_LL_DecimalSeconds_N.TabIndex = 3;
+            this.rb_LL_DecimalSeconds_N.TabStop = true;
+            this.rb_LL_DecimalSeconds_N.Text = "N";
+            this.rb_LL_DecimalSeconds_N.UseVisualStyleBackColor = true;
+            this.rb_LL_DecimalSeconds_N.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalSeconds_CheckedChanged);
             // 
-            // RB_LL_DecimalSeconds_S
+            // rb_LL_DecimalSeconds_S
             // 
-            this.RB_LL_DecimalSeconds_S.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RB_LL_DecimalSeconds_S.AutoSize = true;
-            this.RB_LL_DecimalSeconds_S.Location = new System.Drawing.Point(426, 4);
-            this.RB_LL_DecimalSeconds_S.Name = "RB_LL_DecimalSeconds_S";
-            this.RB_LL_DecimalSeconds_S.Size = new System.Drawing.Size(32, 17);
-            this.RB_LL_DecimalSeconds_S.TabIndex = 4;
-            this.RB_LL_DecimalSeconds_S.Text = "S";
-            this.RB_LL_DecimalSeconds_S.UseVisualStyleBackColor = true;
-            this.RB_LL_DecimalSeconds_S.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalSeconds_CheckedChanged);
+            this.rb_LL_DecimalSeconds_S.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb_LL_DecimalSeconds_S.AutoSize = true;
+            this.rb_LL_DecimalSeconds_S.Location = new System.Drawing.Point(426, 4);
+            this.rb_LL_DecimalSeconds_S.Name = "rb_LL_DecimalSeconds_S";
+            this.rb_LL_DecimalSeconds_S.Size = new System.Drawing.Size(32, 17);
+            this.rb_LL_DecimalSeconds_S.TabIndex = 4;
+            this.rb_LL_DecimalSeconds_S.Text = "S";
+            this.rb_LL_DecimalSeconds_S.UseVisualStyleBackColor = true;
+            this.rb_LL_DecimalSeconds_S.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalSeconds_CheckedChanged);
             // 
             // tabPage1
             // 
@@ -767,105 +767,105 @@ namespace CoordinateConverter
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel3.Controls.Add(this.TB_LL_DecimalMinutes_Longitude);
-            this.panel3.Controls.Add(this.RB_LL_DecimalMinutes_W);
-            this.panel3.Controls.Add(this.RB_LL_DecimalMinutes_E);
+            this.panel3.Controls.Add(this.tb_LL_DecimalMinutes_Longitude);
+            this.panel3.Controls.Add(this.rb_LL_DecimalMinutes_W);
+            this.panel3.Controls.Add(this.rb_LL_DecimalMinutes_E);
             this.panel3.Location = new System.Drawing.Point(6, 39);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(464, 27);
             this.panel3.TabIndex = 1;
             // 
-            // TB_LL_DecimalMinutes_Longitude
+            // tb_LL_DecimalMinutes_Longitude
             // 
-            this.TB_LL_DecimalMinutes_Longitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tb_LL_DecimalMinutes_Longitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_LL_DecimalMinutes_Longitude.Location = new System.Drawing.Point(3, 3);
-            this.TB_LL_DecimalMinutes_Longitude.MaxLength = 16;
-            this.TB_LL_DecimalMinutes_Longitude.Name = "TB_LL_DecimalMinutes_Longitude";
-            this.TB_LL_DecimalMinutes_Longitude.Size = new System.Drawing.Size(378, 20);
-            this.TB_LL_DecimalMinutes_Longitude.TabIndex = 2;
-            this.TB_LL_DecimalMinutes_Longitude.TextChanged += new System.EventHandler(this.TB_LL_DecimalMinutes_Longitude_TextChanged);
-            this.TB_LL_DecimalMinutes_Longitude.Enter += new System.EventHandler(this.TB_Input_Enter);
-            this.TB_LL_DecimalMinutes_Longitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_DecimalMinutes_KeyPress);
-            this.TB_LL_DecimalMinutes_Longitude.Leave += new System.EventHandler(this.TB_Input_Leave);
+            this.tb_LL_DecimalMinutes_Longitude.Location = new System.Drawing.Point(3, 3);
+            this.tb_LL_DecimalMinutes_Longitude.MaxLength = 16;
+            this.tb_LL_DecimalMinutes_Longitude.Name = "tb_LL_DecimalMinutes_Longitude";
+            this.tb_LL_DecimalMinutes_Longitude.Size = new System.Drawing.Size(378, 20);
+            this.tb_LL_DecimalMinutes_Longitude.TabIndex = 2;
+            this.tb_LL_DecimalMinutes_Longitude.TextChanged += new System.EventHandler(this.TB_LL_DecimalMinutes_Longitude_TextChanged);
+            this.tb_LL_DecimalMinutes_Longitude.Enter += new System.EventHandler(this.Tb_Input_Enter);
+            this.tb_LL_DecimalMinutes_Longitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_DecimalMinutes_KeyPress);
+            this.tb_LL_DecimalMinutes_Longitude.Leave += new System.EventHandler(this.Tb_Input_Leave);
             // 
-            // RB_LL_DecimalMinutes_W
+            // rb_LL_DecimalMinutes_W
             // 
-            this.RB_LL_DecimalMinutes_W.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RB_LL_DecimalMinutes_W.AutoSize = true;
-            this.RB_LL_DecimalMinutes_W.Location = new System.Drawing.Point(387, 4);
-            this.RB_LL_DecimalMinutes_W.Name = "RB_LL_DecimalMinutes_W";
-            this.RB_LL_DecimalMinutes_W.Size = new System.Drawing.Size(36, 17);
-            this.RB_LL_DecimalMinutes_W.TabIndex = 5;
-            this.RB_LL_DecimalMinutes_W.Text = "W";
-            this.RB_LL_DecimalMinutes_W.UseVisualStyleBackColor = true;
-            this.RB_LL_DecimalMinutes_W.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalMinutes_CheckedChanged);
+            this.rb_LL_DecimalMinutes_W.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb_LL_DecimalMinutes_W.AutoSize = true;
+            this.rb_LL_DecimalMinutes_W.Location = new System.Drawing.Point(387, 4);
+            this.rb_LL_DecimalMinutes_W.Name = "rb_LL_DecimalMinutes_W";
+            this.rb_LL_DecimalMinutes_W.Size = new System.Drawing.Size(36, 17);
+            this.rb_LL_DecimalMinutes_W.TabIndex = 5;
+            this.rb_LL_DecimalMinutes_W.Text = "W";
+            this.rb_LL_DecimalMinutes_W.UseVisualStyleBackColor = true;
+            this.rb_LL_DecimalMinutes_W.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalMinutes_CheckedChanged);
             // 
-            // RB_LL_DecimalMinutes_E
+            // rb_LL_DecimalMinutes_E
             // 
-            this.RB_LL_DecimalMinutes_E.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RB_LL_DecimalMinutes_E.AutoSize = true;
-            this.RB_LL_DecimalMinutes_E.Checked = true;
-            this.RB_LL_DecimalMinutes_E.Location = new System.Drawing.Point(429, 4);
-            this.RB_LL_DecimalMinutes_E.Name = "RB_LL_DecimalMinutes_E";
-            this.RB_LL_DecimalMinutes_E.Size = new System.Drawing.Size(32, 17);
-            this.RB_LL_DecimalMinutes_E.TabIndex = 6;
-            this.RB_LL_DecimalMinutes_E.TabStop = true;
-            this.RB_LL_DecimalMinutes_E.Text = "E";
-            this.RB_LL_DecimalMinutes_E.UseVisualStyleBackColor = true;
-            this.RB_LL_DecimalMinutes_E.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalMinutes_CheckedChanged);
+            this.rb_LL_DecimalMinutes_E.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb_LL_DecimalMinutes_E.AutoSize = true;
+            this.rb_LL_DecimalMinutes_E.Checked = true;
+            this.rb_LL_DecimalMinutes_E.Location = new System.Drawing.Point(429, 4);
+            this.rb_LL_DecimalMinutes_E.Name = "rb_LL_DecimalMinutes_E";
+            this.rb_LL_DecimalMinutes_E.Size = new System.Drawing.Size(32, 17);
+            this.rb_LL_DecimalMinutes_E.TabIndex = 6;
+            this.rb_LL_DecimalMinutes_E.TabStop = true;
+            this.rb_LL_DecimalMinutes_E.Text = "E";
+            this.rb_LL_DecimalMinutes_E.UseVisualStyleBackColor = true;
+            this.rb_LL_DecimalMinutes_E.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalMinutes_CheckedChanged);
             // 
             // panel4
             // 
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel4.Controls.Add(this.TB_LL_DecimalMinutes_Latitude);
-            this.panel4.Controls.Add(this.RB_LL_DecimalMinutes_N);
-            this.panel4.Controls.Add(this.RB_LL_DecimalMinutes_S);
+            this.panel4.Controls.Add(this.tb_LL_DecimalMinutes_Latitude);
+            this.panel4.Controls.Add(this.rb_LL_DecimalMinutes_N);
+            this.panel4.Controls.Add(this.rb_LL_DecimalMinutes_S);
             this.panel4.Location = new System.Drawing.Point(6, 6);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(464, 27);
             this.panel4.TabIndex = 0;
             // 
-            // TB_LL_DecimalMinutes_Latitude
+            // tb_LL_DecimalMinutes_Latitude
             // 
-            this.TB_LL_DecimalMinutes_Latitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tb_LL_DecimalMinutes_Latitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_LL_DecimalMinutes_Latitude.Location = new System.Drawing.Point(3, 3);
-            this.TB_LL_DecimalMinutes_Latitude.MaxLength = 16;
-            this.TB_LL_DecimalMinutes_Latitude.Name = "TB_LL_DecimalMinutes_Latitude";
-            this.TB_LL_DecimalMinutes_Latitude.Size = new System.Drawing.Size(378, 20);
-            this.TB_LL_DecimalMinutes_Latitude.TabIndex = 1;
-            this.TB_LL_DecimalMinutes_Latitude.TextChanged += new System.EventHandler(this.TB_LL_DecimalMinutes_Latitude_TextChanged);
-            this.TB_LL_DecimalMinutes_Latitude.Enter += new System.EventHandler(this.TB_Input_Enter);
-            this.TB_LL_DecimalMinutes_Latitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_DecimalMinutes_KeyPress);
-            this.TB_LL_DecimalMinutes_Latitude.Leave += new System.EventHandler(this.TB_Input_Leave);
+            this.tb_LL_DecimalMinutes_Latitude.Location = new System.Drawing.Point(3, 3);
+            this.tb_LL_DecimalMinutes_Latitude.MaxLength = 16;
+            this.tb_LL_DecimalMinutes_Latitude.Name = "tb_LL_DecimalMinutes_Latitude";
+            this.tb_LL_DecimalMinutes_Latitude.Size = new System.Drawing.Size(378, 20);
+            this.tb_LL_DecimalMinutes_Latitude.TabIndex = 1;
+            this.tb_LL_DecimalMinutes_Latitude.TextChanged += new System.EventHandler(this.TB_LL_DecimalMinutes_Latitude_TextChanged);
+            this.tb_LL_DecimalMinutes_Latitude.Enter += new System.EventHandler(this.Tb_Input_Enter);
+            this.tb_LL_DecimalMinutes_Latitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LL_DecimalMinutes_KeyPress);
+            this.tb_LL_DecimalMinutes_Latitude.Leave += new System.EventHandler(this.Tb_Input_Leave);
             // 
-            // RB_LL_DecimalMinutes_N
+            // rb_LL_DecimalMinutes_N
             // 
-            this.RB_LL_DecimalMinutes_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RB_LL_DecimalMinutes_N.AutoSize = true;
-            this.RB_LL_DecimalMinutes_N.Checked = true;
-            this.RB_LL_DecimalMinutes_N.Location = new System.Drawing.Point(387, 4);
-            this.RB_LL_DecimalMinutes_N.Name = "RB_LL_DecimalMinutes_N";
-            this.RB_LL_DecimalMinutes_N.Size = new System.Drawing.Size(33, 17);
-            this.RB_LL_DecimalMinutes_N.TabIndex = 3;
-            this.RB_LL_DecimalMinutes_N.TabStop = true;
-            this.RB_LL_DecimalMinutes_N.Text = "N";
-            this.RB_LL_DecimalMinutes_N.UseVisualStyleBackColor = true;
-            this.RB_LL_DecimalMinutes_N.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalMinutes_CheckedChanged);
+            this.rb_LL_DecimalMinutes_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb_LL_DecimalMinutes_N.AutoSize = true;
+            this.rb_LL_DecimalMinutes_N.Checked = true;
+            this.rb_LL_DecimalMinutes_N.Location = new System.Drawing.Point(387, 4);
+            this.rb_LL_DecimalMinutes_N.Name = "rb_LL_DecimalMinutes_N";
+            this.rb_LL_DecimalMinutes_N.Size = new System.Drawing.Size(33, 17);
+            this.rb_LL_DecimalMinutes_N.TabIndex = 3;
+            this.rb_LL_DecimalMinutes_N.TabStop = true;
+            this.rb_LL_DecimalMinutes_N.Text = "N";
+            this.rb_LL_DecimalMinutes_N.UseVisualStyleBackColor = true;
+            this.rb_LL_DecimalMinutes_N.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalMinutes_CheckedChanged);
             // 
-            // RB_LL_DecimalMinutes_S
+            // rb_LL_DecimalMinutes_S
             // 
-            this.RB_LL_DecimalMinutes_S.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RB_LL_DecimalMinutes_S.AutoSize = true;
-            this.RB_LL_DecimalMinutes_S.Location = new System.Drawing.Point(429, 4);
-            this.RB_LL_DecimalMinutes_S.Name = "RB_LL_DecimalMinutes_S";
-            this.RB_LL_DecimalMinutes_S.Size = new System.Drawing.Size(32, 17);
-            this.RB_LL_DecimalMinutes_S.TabIndex = 4;
-            this.RB_LL_DecimalMinutes_S.Text = "S";
-            this.RB_LL_DecimalMinutes_S.UseVisualStyleBackColor = true;
-            this.RB_LL_DecimalMinutes_S.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalMinutes_CheckedChanged);
+            this.rb_LL_DecimalMinutes_S.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb_LL_DecimalMinutes_S.AutoSize = true;
+            this.rb_LL_DecimalMinutes_S.Location = new System.Drawing.Point(429, 4);
+            this.rb_LL_DecimalMinutes_S.Name = "rb_LL_DecimalMinutes_S";
+            this.rb_LL_DecimalMinutes_S.Size = new System.Drawing.Size(32, 17);
+            this.rb_LL_DecimalMinutes_S.TabIndex = 4;
+            this.rb_LL_DecimalMinutes_S.Text = "S";
+            this.rb_LL_DecimalMinutes_S.UseVisualStyleBackColor = true;
+            this.rb_LL_DecimalMinutes_S.CheckedChanged += new System.EventHandler(this.RB_LL_DecimalMinutes_CheckedChanged);
             // 
             // tabPage2
             // 
@@ -907,61 +907,61 @@ namespace CoordinateConverter
             // 
             this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel5.Controls.Add(this.TB_MGRS_Digraph);
-            this.panel5.Controls.Add(this.TB_MGRS_Fraction);
-            this.panel5.Controls.Add(this.TB_MGRS_LatZone);
-            this.panel5.Controls.Add(this.TB_MGRS_LongZone);
+            this.panel5.Controls.Add(this.tb_MGRS_Digraph);
+            this.panel5.Controls.Add(this.tb_MGRS_Fraction);
+            this.panel5.Controls.Add(this.tb_MGRS_LatZone);
+            this.panel5.Controls.Add(this.tb_MGRS_LongZone);
             this.panel5.Location = new System.Drawing.Point(3, 6);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(467, 35);
             this.panel5.TabIndex = 0;
             // 
-            // TB_MGRS_Digraph
+            // tb_MGRS_Digraph
             // 
-            this.TB_MGRS_Digraph.Location = new System.Drawing.Point(80, 8);
-            this.TB_MGRS_Digraph.MaxLength = 2;
-            this.TB_MGRS_Digraph.Name = "TB_MGRS_Digraph";
-            this.TB_MGRS_Digraph.Size = new System.Drawing.Size(34, 20);
-            this.TB_MGRS_Digraph.TabIndex = 3;
-            this.TB_MGRS_Digraph.TextChanged += new System.EventHandler(this.InputMGRSChanged);
-            this.TB_MGRS_Digraph.Enter += new System.EventHandler(this.TB_Input_Enter);
-            this.TB_MGRS_Digraph.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_MGRS_Digraph_KeyPress);
+            this.tb_MGRS_Digraph.Location = new System.Drawing.Point(80, 8);
+            this.tb_MGRS_Digraph.MaxLength = 2;
+            this.tb_MGRS_Digraph.Name = "tb_MGRS_Digraph";
+            this.tb_MGRS_Digraph.Size = new System.Drawing.Size(34, 20);
+            this.tb_MGRS_Digraph.TabIndex = 3;
+            this.tb_MGRS_Digraph.TextChanged += new System.EventHandler(this.InputMGRSChanged);
+            this.tb_MGRS_Digraph.Enter += new System.EventHandler(this.Tb_Input_Enter);
+            this.tb_MGRS_Digraph.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_MGRS_Digraph_KeyPress);
             // 
-            // TB_MGRS_Fraction
+            // tb_MGRS_Fraction
             // 
-            this.TB_MGRS_Fraction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tb_MGRS_Fraction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_MGRS_Fraction.Location = new System.Drawing.Point(120, 8);
-            this.TB_MGRS_Fraction.MaxLength = 11;
-            this.TB_MGRS_Fraction.Name = "TB_MGRS_Fraction";
-            this.TB_MGRS_Fraction.Size = new System.Drawing.Size(344, 20);
-            this.TB_MGRS_Fraction.TabIndex = 4;
-            this.TB_MGRS_Fraction.TextChanged += new System.EventHandler(this.InputMGRSChanged);
-            this.TB_MGRS_Fraction.Enter += new System.EventHandler(this.TB_MGRS_Fraction_Enter);
-            this.TB_MGRS_Fraction.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_MGRS_Fraction_KeyPress);
-            this.TB_MGRS_Fraction.Leave += new System.EventHandler(this.TB_MGRS_Fraction_Leave);
+            this.tb_MGRS_Fraction.Location = new System.Drawing.Point(120, 8);
+            this.tb_MGRS_Fraction.MaxLength = 11;
+            this.tb_MGRS_Fraction.Name = "tb_MGRS_Fraction";
+            this.tb_MGRS_Fraction.Size = new System.Drawing.Size(344, 20);
+            this.tb_MGRS_Fraction.TabIndex = 4;
+            this.tb_MGRS_Fraction.TextChanged += new System.EventHandler(this.InputMGRSChanged);
+            this.tb_MGRS_Fraction.Enter += new System.EventHandler(this.TB_MGRS_Fraction_Enter);
+            this.tb_MGRS_Fraction.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_MGRS_Fraction_KeyPress);
+            this.tb_MGRS_Fraction.Leave += new System.EventHandler(this.TB_MGRS_Fraction_Leave);
             // 
-            // TB_MGRS_LatZone
+            // tb_MGRS_LatZone
             // 
-            this.TB_MGRS_LatZone.Location = new System.Drawing.Point(40, 8);
-            this.TB_MGRS_LatZone.MaxLength = 1;
-            this.TB_MGRS_LatZone.Name = "TB_MGRS_LatZone";
-            this.TB_MGRS_LatZone.Size = new System.Drawing.Size(34, 20);
-            this.TB_MGRS_LatZone.TabIndex = 2;
-            this.TB_MGRS_LatZone.TextChanged += new System.EventHandler(this.InputMGRSChanged);
-            this.TB_MGRS_LatZone.Enter += new System.EventHandler(this.TB_Input_Enter);
-            this.TB_MGRS_LatZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LatZone_KeyPress);
+            this.tb_MGRS_LatZone.Location = new System.Drawing.Point(40, 8);
+            this.tb_MGRS_LatZone.MaxLength = 1;
+            this.tb_MGRS_LatZone.Name = "tb_MGRS_LatZone";
+            this.tb_MGRS_LatZone.Size = new System.Drawing.Size(34, 20);
+            this.tb_MGRS_LatZone.TabIndex = 2;
+            this.tb_MGRS_LatZone.TextChanged += new System.EventHandler(this.InputMGRSChanged);
+            this.tb_MGRS_LatZone.Enter += new System.EventHandler(this.Tb_Input_Enter);
+            this.tb_MGRS_LatZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LatZone_KeyPress);
             // 
-            // TB_MGRS_LongZone
+            // tb_MGRS_LongZone
             // 
-            this.TB_MGRS_LongZone.Location = new System.Drawing.Point(3, 8);
-            this.TB_MGRS_LongZone.MaxLength = 2;
-            this.TB_MGRS_LongZone.Name = "TB_MGRS_LongZone";
-            this.TB_MGRS_LongZone.Size = new System.Drawing.Size(34, 20);
-            this.TB_MGRS_LongZone.TabIndex = 1;
-            this.TB_MGRS_LongZone.TextChanged += new System.EventHandler(this.InputMGRSChanged);
-            this.TB_MGRS_LongZone.Enter += new System.EventHandler(this.TB_Input_Enter);
-            this.TB_MGRS_LongZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LongZone_KeyPress);
+            this.tb_MGRS_LongZone.Location = new System.Drawing.Point(3, 8);
+            this.tb_MGRS_LongZone.MaxLength = 2;
+            this.tb_MGRS_LongZone.Name = "tb_MGRS_LongZone";
+            this.tb_MGRS_LongZone.Size = new System.Drawing.Size(34, 20);
+            this.tb_MGRS_LongZone.TabIndex = 1;
+            this.tb_MGRS_LongZone.TextChanged += new System.EventHandler(this.InputMGRSChanged);
+            this.tb_MGRS_LongZone.Enter += new System.EventHandler(this.Tb_Input_Enter);
+            this.tb_MGRS_LongZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LongZone_KeyPress);
             // 
             // tabPage3
             // 
@@ -1003,24 +1003,24 @@ namespace CoordinateConverter
             // 
             this.panel8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel8.Controls.Add(this.TB_UTM_LatZone);
+            this.panel8.Controls.Add(this.tb_UTM_LatZone);
             this.panel8.Controls.Add(this.tableLayoutPanel1);
-            this.panel8.Controls.Add(this.TB_UTM_LongZone);
+            this.panel8.Controls.Add(this.tb_UTM_LongZone);
             this.panel8.Location = new System.Drawing.Point(3, 6);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(464, 35);
             this.panel8.TabIndex = 0;
             // 
-            // TB_UTM_LatZone
+            // tb_UTM_LatZone
             // 
-            this.TB_UTM_LatZone.Location = new System.Drawing.Point(40, 8);
-            this.TB_UTM_LatZone.MaxLength = 1;
-            this.TB_UTM_LatZone.Name = "TB_UTM_LatZone";
-            this.TB_UTM_LatZone.Size = new System.Drawing.Size(34, 20);
-            this.TB_UTM_LatZone.TabIndex = 2;
-            this.TB_UTM_LatZone.TextChanged += new System.EventHandler(this.InputUTMChanged);
-            this.TB_UTM_LatZone.Enter += new System.EventHandler(this.TB_Input_Enter);
-            this.TB_UTM_LatZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LatZone_KeyPress);
+            this.tb_UTM_LatZone.Location = new System.Drawing.Point(40, 8);
+            this.tb_UTM_LatZone.MaxLength = 1;
+            this.tb_UTM_LatZone.Name = "tb_UTM_LatZone";
+            this.tb_UTM_LatZone.Size = new System.Drawing.Size(34, 20);
+            this.tb_UTM_LatZone.TabIndex = 2;
+            this.tb_UTM_LatZone.TextChanged += new System.EventHandler(this.InputUTMChanged);
+            this.tb_UTM_LatZone.Enter += new System.EventHandler(this.Tb_Input_Enter);
+            this.tb_UTM_LatZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LatZone_KeyPress);
             // 
             // tableLayoutPanel1
             // 
@@ -1031,8 +1031,8 @@ namespace CoordinateConverter
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.TB_UTM_Easting, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.TB_UTM_Northing, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tb_UTM_Easting, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tb_UTM_Northing, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(80, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -1041,44 +1041,44 @@ namespace CoordinateConverter
             this.tableLayoutPanel1.Size = new System.Drawing.Size(378, 26);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // TB_UTM_Easting
+            // tb_UTM_Easting
             // 
-            this.TB_UTM_Easting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tb_UTM_Easting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_UTM_Easting.Location = new System.Drawing.Point(3, 3);
-            this.TB_UTM_Easting.MaxLength = 16;
-            this.TB_UTM_Easting.Name = "TB_UTM_Easting";
-            this.TB_UTM_Easting.Size = new System.Drawing.Size(183, 20);
-            this.TB_UTM_Easting.TabIndex = 3;
-            this.TB_UTM_Easting.TextChanged += new System.EventHandler(this.InputUTMChanged);
-            this.TB_UTM_Easting.Enter += new System.EventHandler(this.TB_Input_Enter);
-            this.TB_UTM_Easting.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RB_UTM_Northing_Easting_KeyPress);
-            this.TB_UTM_Easting.Leave += new System.EventHandler(this.TB_Input_Leave);
+            this.tb_UTM_Easting.Location = new System.Drawing.Point(3, 3);
+            this.tb_UTM_Easting.MaxLength = 16;
+            this.tb_UTM_Easting.Name = "tb_UTM_Easting";
+            this.tb_UTM_Easting.Size = new System.Drawing.Size(183, 20);
+            this.tb_UTM_Easting.TabIndex = 3;
+            this.tb_UTM_Easting.TextChanged += new System.EventHandler(this.InputUTMChanged);
+            this.tb_UTM_Easting.Enter += new System.EventHandler(this.Tb_Input_Enter);
+            this.tb_UTM_Easting.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RB_UTM_Northing_Easting_KeyPress);
+            this.tb_UTM_Easting.Leave += new System.EventHandler(this.Tb_Input_Leave);
             // 
-            // TB_UTM_Northing
+            // tb_UTM_Northing
             // 
-            this.TB_UTM_Northing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tb_UTM_Northing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_UTM_Northing.Location = new System.Drawing.Point(192, 3);
-            this.TB_UTM_Northing.MaxLength = 16;
-            this.TB_UTM_Northing.Name = "TB_UTM_Northing";
-            this.TB_UTM_Northing.Size = new System.Drawing.Size(183, 20);
-            this.TB_UTM_Northing.TabIndex = 4;
-            this.TB_UTM_Northing.TextChanged += new System.EventHandler(this.InputUTMChanged);
-            this.TB_UTM_Northing.Enter += new System.EventHandler(this.TB_Input_Enter);
-            this.TB_UTM_Northing.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RB_UTM_Northing_Easting_KeyPress);
-            this.TB_UTM_Northing.Leave += new System.EventHandler(this.TB_Input_Leave);
+            this.tb_UTM_Northing.Location = new System.Drawing.Point(192, 3);
+            this.tb_UTM_Northing.MaxLength = 16;
+            this.tb_UTM_Northing.Name = "tb_UTM_Northing";
+            this.tb_UTM_Northing.Size = new System.Drawing.Size(183, 20);
+            this.tb_UTM_Northing.TabIndex = 4;
+            this.tb_UTM_Northing.TextChanged += new System.EventHandler(this.InputUTMChanged);
+            this.tb_UTM_Northing.Enter += new System.EventHandler(this.Tb_Input_Enter);
+            this.tb_UTM_Northing.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RB_UTM_Northing_Easting_KeyPress);
+            this.tb_UTM_Northing.Leave += new System.EventHandler(this.Tb_Input_Leave);
             // 
-            // TB_UTM_LongZone
+            // tb_UTM_LongZone
             // 
-            this.TB_UTM_LongZone.Location = new System.Drawing.Point(3, 8);
-            this.TB_UTM_LongZone.MaxLength = 2;
-            this.TB_UTM_LongZone.Name = "TB_UTM_LongZone";
-            this.TB_UTM_LongZone.Size = new System.Drawing.Size(34, 20);
-            this.TB_UTM_LongZone.TabIndex = 1;
-            this.TB_UTM_LongZone.TextChanged += new System.EventHandler(this.InputUTMChanged);
-            this.TB_UTM_LongZone.Enter += new System.EventHandler(this.TB_Input_Enter);
-            this.TB_UTM_LongZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LongZone_KeyPress);
+            this.tb_UTM_LongZone.Location = new System.Drawing.Point(3, 8);
+            this.tb_UTM_LongZone.MaxLength = 2;
+            this.tb_UTM_LongZone.Name = "tb_UTM_LongZone";
+            this.tb_UTM_LongZone.Size = new System.Drawing.Size(34, 20);
+            this.tb_UTM_LongZone.TabIndex = 1;
+            this.tb_UTM_LongZone.TextChanged += new System.EventHandler(this.InputUTMChanged);
+            this.tb_UTM_LongZone.Enter += new System.EventHandler(this.Tb_Input_Enter);
+            this.tb_UTM_LongZone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_UTM_MGRS_LongZone_KeyPress);
             // 
             // tabPage4
             // 
@@ -1154,9 +1154,9 @@ namespace CoordinateConverter
             this.tb_Bullseye_Range.Size = new System.Drawing.Size(118, 20);
             this.tb_Bullseye_Range.TabIndex = 2;
             this.tb_Bullseye_Range.TextChanged += new System.EventHandler(this.Tb_Bullseye_Range_TextChanged);
-            this.tb_Bullseye_Range.Enter += new System.EventHandler(this.TB_Input_Enter);
+            this.tb_Bullseye_Range.Enter += new System.EventHandler(this.Tb_Input_Enter);
             this.tb_Bullseye_Range.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_Bullseye_Range_KeyPress);
-            this.tb_Bullseye_Range.Leave += new System.EventHandler(this.TB_Input_Leave);
+            this.tb_Bullseye_Range.Leave += new System.EventHandler(this.Tb_Input_Leave);
             // 
             // panel10
             // 
@@ -1189,9 +1189,9 @@ namespace CoordinateConverter
             this.tb_Bullseye_Bearing.Size = new System.Drawing.Size(118, 20);
             this.tb_Bullseye_Bearing.TabIndex = 1;
             this.tb_Bullseye_Bearing.TextChanged += new System.EventHandler(this.Tb_Bullseye_Bearing_TextChanged);
-            this.tb_Bullseye_Bearing.Enter += new System.EventHandler(this.TB_Input_Enter);
+            this.tb_Bullseye_Bearing.Enter += new System.EventHandler(this.Tb_Input_Enter);
             this.tb_Bullseye_Bearing.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_Bullseye_Bearing_KeyPress);
-            this.tb_Bullseye_Bearing.Leave += new System.EventHandler(this.TB_Input_Leave);
+            this.tb_Bullseye_Bearing.Leave += new System.EventHandler(this.Tb_Input_Leave);
             // 
             // statusStrip1
             // 
@@ -1235,6 +1235,7 @@ namespace CoordinateConverter
             // 
             this.dgv_CoordinateList.AllowUserToAddRows = false;
             this.dgv_CoordinateList.AllowUserToDeleteRows = false;
+            this.dgv_CoordinateList.AllowUserToResizeRows = false;
             this.dgv_CoordinateList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -1246,6 +1247,7 @@ namespace CoordinateConverter
             this.colAltitude,
             this.colXFer,
             this.colDelete});
+            this.dgv_CoordinateList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgv_CoordinateList.Location = new System.Drawing.Point(505, 66);
             this.dgv_CoordinateList.Name = "dgv_CoordinateList";
             this.dgv_CoordinateList.ReadOnly = true;
@@ -1254,79 +1256,6 @@ namespace CoordinateConverter
             this.dgv_CoordinateList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_CoordinateList_CellContentClick);
             this.dgv_CoordinateList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_CoordinateList_CellDoubleClick);
             this.dgv_CoordinateList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Dgv_CoordinateList_KeyDown);
-            // 
-            // colId
-            // 
-            this.colId.DataPropertyName = "ID";
-            this.colId.Frozen = true;
-            this.colId.HeaderText = "#";
-            this.colId.MinimumWidth = 35;
-            this.colId.Name = "colId";
-            this.colId.ReadOnly = true;
-            this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colId.ToolTipText = "ID of the point.";
-            this.colId.Width = 35;
-            // 
-            // colLabel
-            // 
-            this.colLabel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colLabel.DataPropertyName = "Name";
-            this.colLabel.FillWeight = 40F;
-            this.colLabel.HeaderText = "Label";
-            this.colLabel.MaxInputLength = 12;
-            this.colLabel.MinimumWidth = 30;
-            this.colLabel.Name = "colLabel";
-            this.colLabel.ReadOnly = true;
-            this.colLabel.ToolTipText = "User defined label for the point";
-            // 
-            // colCoordinates
-            // 
-            this.colCoordinates.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colCoordinates.DataPropertyName = "CoordinateStr";
-            this.colCoordinates.FillWeight = 40F;
-            this.colCoordinates.HeaderText = "Coordinates";
-            this.colCoordinates.MinimumWidth = 180;
-            this.colCoordinates.Name = "colCoordinates";
-            this.colCoordinates.ReadOnly = true;
-            this.colCoordinates.ToolTipText = "Coordinate of the point.";
-            // 
-            // colAltitude
-            // 
-            this.colAltitude.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colAltitude.DataPropertyName = "Altitude";
-            this.colAltitude.FillWeight = 20F;
-            this.colAltitude.HeaderText = "Altitude";
-            this.colAltitude.MaxInputLength = 5;
-            this.colAltitude.MinimumWidth = 100;
-            this.colAltitude.Name = "colAltitude";
-            this.colAltitude.ReadOnly = true;
-            this.colAltitude.ToolTipText = "Altitude of the point.";
-            // 
-            // colXFer
-            // 
-            this.colXFer.DataPropertyName = "XFER";
-            this.colXFer.FalseValue = "";
-            this.colXFer.HeaderText = "XFER";
-            this.colXFer.IndeterminateValue = "";
-            this.colXFer.MinimumWidth = 40;
-            this.colXFer.Name = "colXFer";
-            this.colXFer.ReadOnly = true;
-            this.colXFer.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colXFer.ToolTipText = "Check to enable transfer to DCS.";
-            this.colXFer.TrueValue = "";
-            this.colXFer.Width = 40;
-            // 
-            // colDelete
-            // 
-            this.colDelete.HeaderText = "Del";
-            this.colDelete.MinimumWidth = 30;
-            this.colDelete.Name = "colDelete";
-            this.colDelete.ReadOnly = true;
-            this.colDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colDelete.Text = "-";
-            this.colDelete.ToolTipText = "Remove a point from the list.";
-            this.colDelete.UseColumnTextForButtonValue = true;
-            this.colDelete.Width = 30;
             // 
             // menuStrip1
             // 
@@ -1782,6 +1711,16 @@ namespace CoordinateConverter
             this.btn_ImportUnits.Text = "Import";
             this.btn_ImportUnits.Click += new System.EventHandler(this.ImportUnitsControl_Click);
             // 
+            // btn_SetBE
+            // 
+            this.btn_SetBE.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_SetBE.Image = ((System.Drawing.Image)(resources.GetObject("btn_SetBE.Image")));
+            this.btn_SetBE.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_SetBE.Name = "btn_SetBE";
+            this.btn_SetBE.Size = new System.Drawing.Size(36, 36);
+            this.btn_SetBE.Text = "Set Bullseye";
+            this.btn_SetBE.Click += new System.EventHandler(this.Btn_SetBE_Click);
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -1797,45 +1736,10 @@ namespace CoordinateConverter
             this.btn_AlwaysOnTop.Text = "Always on top";
             this.btn_AlwaysOnTop.Click += new System.EventHandler(this.Control_AlwaysOnTop_Click);
             // 
-            // label19
-            // 
-            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(505, 467);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(616, 26);
-            this.label19.TabIndex = 33;
-            this.label19.Text = resources.GetString("label19.Text");
-            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 39);
-            // 
-            // btn_MoveUp
-            // 
-            this.btn_MoveUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_MoveUp.Image = ((System.Drawing.Image)(resources.GetObject("btn_MoveUp.Image")));
-            this.btn_MoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_MoveUp.Name = "btn_MoveUp";
-            this.btn_MoveUp.Size = new System.Drawing.Size(36, 36);
-            this.btn_MoveUp.Text = "Move Up";
-            this.btn_MoveUp.Click += new System.EventHandler(this.Btn_MoveUp_Click);
-            // 
-            // btn_MoveDown
-            // 
-            this.btn_MoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_MoveDown.Image = ((System.Drawing.Image)(resources.GetObject("btn_MoveDown.Image")));
-            this.btn_MoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_MoveDown.Name = "btn_MoveDown";
-            this.btn_MoveDown.Size = new System.Drawing.Size(36, 36);
-            this.btn_MoveDown.Text = "Move Down";
-            this.btn_MoveDown.Click += new System.EventHandler(this.Btn_MoveDown_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 39);
             // 
             // btn_Add
             // 
@@ -1855,17 +1759,119 @@ namespace CoordinateConverter
             this.btn_Edit.Name = "btn_Edit";
             this.btn_Edit.Size = new System.Drawing.Size(36, 36);
             this.btn_Edit.Text = "Edit";
-            this.btn_Edit.Click += new System.EventHandler(this.Btn_Replace_Click);
+            this.btn_Edit.Click += new System.EventHandler(this.Btn_Edit_Click);
             // 
-            // btn_SetBE
+            // toolStripSeparator5
             // 
-            this.btn_SetBE.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_SetBE.Image = ((System.Drawing.Image)(resources.GetObject("btn_SetBE.Image")));
-            this.btn_SetBE.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_SetBE.Name = "btn_SetBE";
-            this.btn_SetBE.Size = new System.Drawing.Size(36, 36);
-            this.btn_SetBE.Text = "Set Bullseye";
-            this.btn_SetBE.Click += new System.EventHandler(this.Btn_SetBE_Click);
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 39);
+            // 
+            // btn_MoveDown
+            // 
+            this.btn_MoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_MoveDown.Image = ((System.Drawing.Image)(resources.GetObject("btn_MoveDown.Image")));
+            this.btn_MoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_MoveDown.Name = "btn_MoveDown";
+            this.btn_MoveDown.Size = new System.Drawing.Size(36, 36);
+            this.btn_MoveDown.Text = "Move Down";
+            this.btn_MoveDown.Click += new System.EventHandler(this.Btn_MoveDown_Click);
+            // 
+            // btn_MoveUp
+            // 
+            this.btn_MoveUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_MoveUp.Image = ((System.Drawing.Image)(resources.GetObject("btn_MoveUp.Image")));
+            this.btn_MoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_MoveUp.Name = "btn_MoveUp";
+            this.btn_MoveUp.Size = new System.Drawing.Size(36, 36);
+            this.btn_MoveUp.Text = "Move Up";
+            this.btn_MoveUp.Click += new System.EventHandler(this.Btn_MoveUp_Click);
+            // 
+            // label19
+            // 
+            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(505, 467);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(616, 26);
+            this.label19.TabIndex = 33;
+            this.label19.Text = resources.GetString("label19.Text");
+            // 
+            // colId
+            // 
+            this.colId.DataPropertyName = "ID";
+            this.colId.Frozen = true;
+            this.colId.HeaderText = "#";
+            this.colId.MinimumWidth = 35;
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colId.ToolTipText = "ID of the point.";
+            this.colId.Width = 35;
+            // 
+            // colLabel
+            // 
+            this.colLabel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colLabel.DataPropertyName = "Name";
+            this.colLabel.FillWeight = 40F;
+            this.colLabel.HeaderText = "Label";
+            this.colLabel.MaxInputLength = 12;
+            this.colLabel.MinimumWidth = 30;
+            this.colLabel.Name = "colLabel";
+            this.colLabel.ReadOnly = true;
+            this.colLabel.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colLabel.ToolTipText = "User defined label for the point";
+            // 
+            // colCoordinates
+            // 
+            this.colCoordinates.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colCoordinates.DataPropertyName = "CoordinateStr";
+            this.colCoordinates.FillWeight = 40F;
+            this.colCoordinates.HeaderText = "Coordinates";
+            this.colCoordinates.MinimumWidth = 180;
+            this.colCoordinates.Name = "colCoordinates";
+            this.colCoordinates.ReadOnly = true;
+            this.colCoordinates.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colCoordinates.ToolTipText = "Coordinate of the point.";
+            // 
+            // colAltitude
+            // 
+            this.colAltitude.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colAltitude.DataPropertyName = "Altitude";
+            this.colAltitude.FillWeight = 20F;
+            this.colAltitude.HeaderText = "Altitude";
+            this.colAltitude.MaxInputLength = 5;
+            this.colAltitude.MinimumWidth = 100;
+            this.colAltitude.Name = "colAltitude";
+            this.colAltitude.ReadOnly = true;
+            this.colAltitude.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colAltitude.ToolTipText = "Altitude of the point.";
+            // 
+            // colXFer
+            // 
+            this.colXFer.DataPropertyName = "XFER";
+            this.colXFer.FalseValue = "";
+            this.colXFer.HeaderText = "XFER";
+            this.colXFer.IndeterminateValue = "";
+            this.colXFer.MinimumWidth = 40;
+            this.colXFer.Name = "colXFer";
+            this.colXFer.ReadOnly = true;
+            this.colXFer.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colXFer.ToolTipText = "Check to enable transfer to DCS.";
+            this.colXFer.TrueValue = "";
+            this.colXFer.Width = 40;
+            // 
+            // colDelete
+            // 
+            this.colDelete.HeaderText = "Del";
+            this.colDelete.MinimumWidth = 30;
+            this.colDelete.Name = "colDelete";
+            this.colDelete.ReadOnly = true;
+            this.colDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colDelete.Text = "-";
+            this.colDelete.ToolTipText = "Remove a point from the list.";
+            this.colDelete.UseColumnTextForButtonValue = true;
+            this.colDelete.Width = 30;
             // 
             // MainForm
             // 
@@ -1945,27 +1951,27 @@ namespace CoordinateConverter
         private System.Windows.Forms.TabControl TC_Input;
         private System.Windows.Forms.TabPage TabPage_LatLon;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox TB_LL_DecimalSeconds_Longitude;
-        private System.Windows.Forms.RadioButton RB_LL_DecimalSeconds_W;
-        private System.Windows.Forms.RadioButton RB_LL_DecimalSeconds_E;
+        private System.Windows.Forms.TextBox tb_LL_DecimalSeconds_Longitude;
+        private System.Windows.Forms.RadioButton rb_LL_DecimalSeconds_W;
+        private System.Windows.Forms.RadioButton rb_LL_DecimalSeconds_E;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TextBox TB_LL_DecimalSeconds_Latitude;
-        private System.Windows.Forms.RadioButton RB_LL_DecimalSeconds_N;
-        private System.Windows.Forms.RadioButton RB_LL_DecimalSeconds_S;
+        private System.Windows.Forms.TextBox tb_LL_DecimalSeconds_Latitude;
+        private System.Windows.Forms.RadioButton rb_LL_DecimalSeconds_N;
+        private System.Windows.Forms.RadioButton rb_LL_DecimalSeconds_S;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.TextBox TB_LL_DecimalMinutes_Longitude;
-        private System.Windows.Forms.RadioButton RB_LL_DecimalMinutes_W;
-        private System.Windows.Forms.RadioButton RB_LL_DecimalMinutes_E;
+        private System.Windows.Forms.TextBox tb_LL_DecimalMinutes_Longitude;
+        private System.Windows.Forms.RadioButton rb_LL_DecimalMinutes_W;
+        private System.Windows.Forms.RadioButton rb_LL_DecimalMinutes_E;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.TextBox TB_LL_DecimalMinutes_Latitude;
-        private System.Windows.Forms.RadioButton RB_LL_DecimalMinutes_N;
-        private System.Windows.Forms.RadioButton RB_LL_DecimalMinutes_S;
+        private System.Windows.Forms.TextBox tb_LL_DecimalMinutes_Latitude;
+        private System.Windows.Forms.RadioButton rb_LL_DecimalMinutes_N;
+        private System.Windows.Forms.RadioButton rb_LL_DecimalMinutes_S;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.TextBox TB_UTM_Northing;
-        private System.Windows.Forms.TextBox TB_UTM_Easting;
-        private System.Windows.Forms.TextBox TB_UTM_LongZone;
+        private System.Windows.Forms.TextBox tb_UTM_Northing;
+        private System.Windows.Forms.TextBox tb_UTM_Easting;
+        private System.Windows.Forms.TextBox tb_UTM_LongZone;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel9;
@@ -1975,19 +1981,19 @@ namespace CoordinateConverter
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tb_Bullseye_Bearing;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TextBox TB_UTM_LatZone;
+        private System.Windows.Forms.TextBox tb_UTM_LatZone;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.TextBox TB_MGRS_Fraction;
-        private System.Windows.Forms.TextBox TB_MGRS_LatZone;
-        private System.Windows.Forms.TextBox TB_MGRS_LongZone;
+        private System.Windows.Forms.TextBox tb_MGRS_Fraction;
+        private System.Windows.Forms.TextBox tb_MGRS_LatZone;
+        private System.Windows.Forms.TextBox tb_MGRS_LongZone;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox TB_MGRS_Digraph;
+        private System.Windows.Forms.TextBox tb_MGRS_Digraph;
         private Label lbl_BEPosition;
         private Label label4;
         private StatusStrip statusStrip1;
@@ -2057,12 +2063,6 @@ namespace CoordinateConverter
         private ToolStripMenuItem tsmi_StopTransfer;
         private ToolStripMenuItem tsmi_F16;
         private ToolStripMenuItem tsmi_F16_SetStartFirstPoint;
-        private DataGridViewTextBoxColumn colId;
-        private DataGridViewTextBoxColumn colLabel;
-        private DataGridViewTextBoxColumn colCoordinates;
-        private DataGridViewTextBoxColumn colAltitude;
-        private DataGridViewCheckBoxColumn colXFer;
-        private DataGridViewButtonColumn colDelete;
         private ToolStripMenuItem tsmi_JF17Menu;
         private ToolStripMenuItem tsmi_JF17;
         private ToolStripMenuItem tsmi_JF17_SetFirstPoint;
@@ -2084,6 +2084,12 @@ namespace CoordinateConverter
         private ToolStripButton btn_Add;
         private ToolStripButton btn_Edit;
         private ToolStripButton btn_SetBE;
+        private DataGridViewTextBoxColumn colId;
+        private DataGridViewTextBoxColumn colLabel;
+        private DataGridViewTextBoxColumn colCoordinates;
+        private DataGridViewTextBoxColumn colAltitude;
+        private DataGridViewCheckBoxColumn colXFer;
+        private DataGridViewButtonColumn colDelete;
     }
 }
 

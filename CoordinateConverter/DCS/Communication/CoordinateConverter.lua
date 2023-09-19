@@ -306,6 +306,15 @@ function LuaExportAfterNextFrame()
                                 unit["Pitch"] = nil
                                 unit["Bank"] = nil
                                 unit["Position"] = nil
+                                -- add ground elevation
+                                local point = unit["LatLongAlt"]
+                                if point then
+                                    local loLo = LoGeoCoordinatesToLoCoordinates(point["Lat"], point["Long"])
+                                    local elevation = LoGetAltitude(loLo['x'], loLo['z'])
+                                    point["Elev"] = tostring(elevation)
+                                    unit["LatLongAlt"] = point
+                                end
+
                                 -- remove unneeded flags
                                 if unit["Flags"] then
                                     unit["Flags"]["RadarActive"] = nil
