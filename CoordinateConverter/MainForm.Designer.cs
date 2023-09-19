@@ -34,9 +34,6 @@ namespace CoordinateConverter
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.GrpBox_Output = new System.Windows.Forms.GroupBox();
-            this.btn_Replace = new System.Windows.Forms.Button();
-            this.btn_MoveUp = new System.Windows.Forms.Button();
-            this.btn_MoveDown = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.nud_MGRS_Precision = new System.Windows.Forms.NumericUpDown();
             this.rb_Format_Bullseye = new System.Windows.Forms.RadioButton();
@@ -44,8 +41,6 @@ namespace CoordinateConverter
             this.rb_Format_MGRS = new System.Windows.Forms.RadioButton();
             this.rb_Format_LL_DecimalMinutes = new System.Windows.Forms.RadioButton();
             this.rb_Format_LL_DecimalSeconds = new System.Windows.Forms.RadioButton();
-            this.btn_SetBE = new System.Windows.Forms.Button();
-            this.btn_Add = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.tb_Out_Bullseye = new System.Windows.Forms.TextBox();
@@ -185,6 +180,13 @@ namespace CoordinateConverter
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_AlwaysOnTop = new System.Windows.Forms.ToolStripButton();
             this.label19 = new System.Windows.Forms.Label();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.btn_MoveUp = new System.Windows.Forms.ToolStripButton();
+            this.btn_MoveDown = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.btn_Add = new System.Windows.Forms.ToolStripButton();
+            this.btn_Edit = new System.Windows.Forms.ToolStripButton();
+            this.btn_SetBE = new System.Windows.Forms.ToolStripButton();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MGRS_Precision)).BeginInit();
             this.GrpBox_Input.SuspendLayout();
@@ -212,9 +214,6 @@ namespace CoordinateConverter
             // GrpBox_Output
             // 
             this.GrpBox_Output.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.GrpBox_Output.Controls.Add(this.btn_Replace);
-            this.GrpBox_Output.Controls.Add(this.btn_MoveUp);
-            this.GrpBox_Output.Controls.Add(this.btn_MoveDown);
             this.GrpBox_Output.Controls.Add(this.label14);
             this.GrpBox_Output.Controls.Add(this.nud_MGRS_Precision);
             this.GrpBox_Output.Controls.Add(this.rb_Format_Bullseye);
@@ -222,8 +221,6 @@ namespace CoordinateConverter
             this.GrpBox_Output.Controls.Add(this.rb_Format_MGRS);
             this.GrpBox_Output.Controls.Add(this.rb_Format_LL_DecimalMinutes);
             this.GrpBox_Output.Controls.Add(this.rb_Format_LL_DecimalSeconds);
-            this.GrpBox_Output.Controls.Add(this.btn_SetBE);
-            this.GrpBox_Output.Controls.Add(this.btn_Add);
             this.GrpBox_Output.Controls.Add(this.label12);
             this.GrpBox_Output.Controls.Add(this.label11);
             this.GrpBox_Output.Controls.Add(this.tb_Out_Bullseye);
@@ -241,40 +238,10 @@ namespace CoordinateConverter
             this.GrpBox_Output.TabStop = false;
             this.GrpBox_Output.Text = "Output";
             // 
-            // btn_Replace
-            // 
-            this.btn_Replace.Location = new System.Drawing.Point(87, 150);
-            this.btn_Replace.Name = "btn_Replace";
-            this.btn_Replace.Size = new System.Drawing.Size(75, 23);
-            this.btn_Replace.TabIndex = 16;
-            this.btn_Replace.Text = "Replace";
-            this.btn_Replace.UseVisualStyleBackColor = true;
-            this.btn_Replace.Click += new System.EventHandler(this.Btn_Replace_Click);
-            // 
-            // btn_MoveUp
-            // 
-            this.btn_MoveUp.Location = new System.Drawing.Point(392, 152);
-            this.btn_MoveUp.Name = "btn_MoveUp";
-            this.btn_MoveUp.Size = new System.Drawing.Size(47, 23);
-            this.btn_MoveUp.TabIndex = 19;
-            this.btn_MoveUp.Text = "Up";
-            this.btn_MoveUp.UseVisualStyleBackColor = true;
-            this.btn_MoveUp.Click += new System.EventHandler(this.Btn_MoveUp_Click);
-            // 
-            // btn_MoveDown
-            // 
-            this.btn_MoveDown.Location = new System.Drawing.Point(445, 152);
-            this.btn_MoveDown.Name = "btn_MoveDown";
-            this.btn_MoveDown.Size = new System.Drawing.Size(47, 23);
-            this.btn_MoveDown.TabIndex = 20;
-            this.btn_MoveDown.Text = "Down";
-            this.btn_MoveDown.UseVisualStyleBackColor = true;
-            this.btn_MoveDown.Click += new System.EventHandler(this.Btn_MoveDown_Click);
-            // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(249, 155);
+            this.label14.Location = new System.Drawing.Point(6, 155);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(88, 13);
             this.label14.TabIndex = 18;
@@ -282,7 +249,7 @@ namespace CoordinateConverter
             // 
             // nud_MGRS_Precision
             // 
-            this.nud_MGRS_Precision.Location = new System.Drawing.Point(343, 153);
+            this.nud_MGRS_Precision.Location = new System.Drawing.Point(100, 153);
             this.nud_MGRS_Precision.Maximum = new decimal(new int[] {
             5,
             0,
@@ -349,26 +316,6 @@ namespace CoordinateConverter
             this.rb_Format_LL_DecimalSeconds.TabStop = true;
             this.rb_Format_LL_DecimalSeconds.UseVisualStyleBackColor = true;
             this.rb_Format_LL_DecimalSeconds.CheckedChanged += new System.EventHandler(this.Rb_Format_CheckedChanged);
-            // 
-            // btn_SetBE
-            // 
-            this.btn_SetBE.Location = new System.Drawing.Point(168, 150);
-            this.btn_SetBE.Name = "btn_SetBE";
-            this.btn_SetBE.Size = new System.Drawing.Size(75, 23);
-            this.btn_SetBE.TabIndex = 17;
-            this.btn_SetBE.Text = "Set Bullseye";
-            this.btn_SetBE.UseVisualStyleBackColor = true;
-            this.btn_SetBE.Click += new System.EventHandler(this.Btn_SetBE_Click);
-            // 
-            // btn_Add
-            // 
-            this.btn_Add.Location = new System.Drawing.Point(6, 150);
-            this.btn_Add.Name = "btn_Add";
-            this.btn_Add.Size = new System.Drawing.Size(75, 23);
-            this.btn_Add.TabIndex = 15;
-            this.btn_Add.Text = "Add";
-            this.btn_Add.UseVisualStyleBackColor = true;
-            this.btn_Add.Click += new System.EventHandler(this.Btn_Add_Click);
             // 
             // label12
             // 
@@ -1775,8 +1722,15 @@ namespace CoordinateConverter
             this.toolStripSeparator2,
             this.btn_FetchCoordinates,
             this.btn_ImportUnits,
+            this.btn_SetBE,
             this.toolStripSeparator3,
-            this.btn_AlwaysOnTop});
+            this.btn_AlwaysOnTop,
+            this.toolStripSeparator4,
+            this.btn_Add,
+            this.btn_Edit,
+            this.toolStripSeparator5,
+            this.btn_MoveDown,
+            this.btn_MoveUp});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1189, 39);
@@ -1853,9 +1807,68 @@ namespace CoordinateConverter
             this.label19.TabIndex = 33;
             this.label19.Text = resources.GetString("label19.Text");
             // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 39);
+            // 
+            // btn_MoveUp
+            // 
+            this.btn_MoveUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_MoveUp.Image = ((System.Drawing.Image)(resources.GetObject("btn_MoveUp.Image")));
+            this.btn_MoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_MoveUp.Name = "btn_MoveUp";
+            this.btn_MoveUp.Size = new System.Drawing.Size(36, 36);
+            this.btn_MoveUp.Text = "Move Up";
+            this.btn_MoveUp.Click += new System.EventHandler(this.Btn_MoveUp_Click);
+            // 
+            // btn_MoveDown
+            // 
+            this.btn_MoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_MoveDown.Image = ((System.Drawing.Image)(resources.GetObject("btn_MoveDown.Image")));
+            this.btn_MoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_MoveDown.Name = "btn_MoveDown";
+            this.btn_MoveDown.Size = new System.Drawing.Size(36, 36);
+            this.btn_MoveDown.Text = "Move Down";
+            this.btn_MoveDown.Click += new System.EventHandler(this.Btn_MoveDown_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 39);
+            // 
+            // btn_Add
+            // 
+            this.btn_Add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Add.Image")));
+            this.btn_Add.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_Add.Name = "btn_Add";
+            this.btn_Add.Size = new System.Drawing.Size(36, 36);
+            this.btn_Add.Text = "Add";
+            this.btn_Add.Click += new System.EventHandler(this.Btn_Add_Click);
+            // 
+            // btn_Edit
+            // 
+            this.btn_Edit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_Edit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Edit.Image")));
+            this.btn_Edit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_Edit.Name = "btn_Edit";
+            this.btn_Edit.Size = new System.Drawing.Size(36, 36);
+            this.btn_Edit.Text = "Edit";
+            this.btn_Edit.Click += new System.EventHandler(this.Btn_Replace_Click);
+            // 
+            // btn_SetBE
+            // 
+            this.btn_SetBE.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_SetBE.Image = ((System.Drawing.Image)(resources.GetObject("btn_SetBE.Image")));
+            this.btn_SetBE.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_SetBE.Name = "btn_SetBE";
+            this.btn_SetBE.Size = new System.Drawing.Size(36, 36);
+            this.btn_SetBE.Text = "Set Bullseye";
+            this.btn_SetBE.Click += new System.EventHandler(this.Btn_SetBE_Click);
+            // 
             // MainForm
             // 
-            this.AcceptButton = this.btn_Add;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1189, 525);
@@ -1975,8 +1988,6 @@ namespace CoordinateConverter
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox TB_MGRS_Digraph;
-        private Button btn_Add;
-        private Button btn_SetBE;
         private Label lbl_BEPosition;
         private Label label4;
         private StatusStrip statusStrip1;
@@ -1989,14 +2000,11 @@ namespace CoordinateConverter
         private RadioButton rb_Format_LL_DecimalMinutes;
         private Label label14;
         private NumericUpDown nud_MGRS_Precision;
-        private Button btn_MoveUp;
-        private Button btn_MoveDown;
         private Label label15;
         private ComboBox cb_AltitudeUnit;
         private TextBox tb_Altitude;
         private Label label16;
         private TextBox tb_Label;
-        private Button btn_Replace;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem tsmi_FileMenu;
         private ToolStripMenuItem tsmi_DCSMenu;
@@ -2069,6 +2077,13 @@ namespace CoordinateConverter
         private ToolStripMenuItem tsmi_A10C_UseMGRS;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripButton btn_AlwaysOnTop;
+        private ToolStripSeparator toolStripSeparator4;
+        private ToolStripButton btn_MoveDown;
+        private ToolStripButton btn_MoveUp;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolStripButton btn_Add;
+        private ToolStripButton btn_Edit;
+        private ToolStripButton btn_SetBE;
     }
 }
 

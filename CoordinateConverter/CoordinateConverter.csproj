@@ -168,6 +168,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\ButtonAlwaysOnTop.png" />
+    <Content Include="Resources\ButtonBullseye.png" />
+    <Content Include="Resources\ButtonCloneAdd.png" />
+    <Content Include="Resources\ButtonEdit.png" />
+    <Content Include="Resources\ButtonMoveDown.png" />
+    <Content Include="Resources\ButtonMoveUp.png" />
+    <Content Include="Resources\ButtonPlay.png" />
+    <Content Include="Resources\ButtonPosition.png" />
+    <Content Include="Resources\ButtonStop.png" />
+    <Content Include="Resources\ButtonUnitImport.png" />
     <Content Include="Resources\Crosshair.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
