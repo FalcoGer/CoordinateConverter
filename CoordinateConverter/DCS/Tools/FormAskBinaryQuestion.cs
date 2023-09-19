@@ -60,10 +60,12 @@ namespace CoordinateConverter.DCS.Tools
             btn_Affirm.Text = yesButtonText;
             btn_Deny.Text = noButtonText;
 
+            // Get border sizes
             Rectangle screenRectangle = RectangleToScreen(ClientRectangle);
             int titleHeight = screenRectangle.Top - Top;
             int borderWidth = screenRectangle.Left - Left;
 
+            // Spacing between controls and also between controls and window border
             const int MARGIN = 13;
 
             lbl_QuestionText.Location = new Point(MARGIN, MARGIN);
@@ -76,12 +78,8 @@ namespace CoordinateConverter.DCS.Tools
 
             // Left button
             btn_Deny.Location = new Point(MARGIN, lbl_QuestionText.Location.Y + lbl_QuestionText.Height + MARGIN);
-            // btn_Deny.Location = new Point(btn_Deny.Location.X, lbl_QuestionText.Location.Y + lbl_QuestionText.Height + MARGIN);
             // Right button
             btn_Affirm.Location = new Point(btn_Deny.Location.X + btn_Deny.Width + MARGIN, btn_Deny.Location.Y);
-            // btn_Affirm.Location = new Point(btn_Affirm.Location.X, btn_Deny.Location.Y);
-
-            
         }
 
         private void Btn_Deny_Click(object sender, EventArgs e)
