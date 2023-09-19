@@ -1813,8 +1813,9 @@ namespace CoordinateConverter
                         {
                             break;
                         }
-                        bool isPlt = DialogResult.Yes == MessageBox.Show("Are you pilot?", "PLT/CPG?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        Tsmi_AircraftSelection_Click(isPlt ? tsmi_AH64_PLT : tsmi_AH64_CPG, null);
+                        FormAskBinaryQuestion isPltForm = new FormAskBinaryQuestion("Which station are you in?", "Pilot", "CPG");
+                        isPltForm.ShowDialog();
+                        Tsmi_AircraftSelection_Click(isPltForm.Result ? tsmi_AH64_PLT : tsmi_AH64_CPG, null);
                         break;
                     case "FA-18C_hornet":
                         tsmi_F18.Enabled = true;

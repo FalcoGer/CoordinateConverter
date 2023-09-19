@@ -203,12 +203,12 @@ function LuaExportAfterNextFrame()
                     local camPos = LoGetCameraPosition()
 
                     if camPos then
-                        local loX = camPos['p']['x']
-                        local loZ = camPos['p']['z']
-                        local loY = camPos['p']['y']
+                        local loX = camPos['p']['x'] -- game coordinate x
+                        local loY = camPos['p']['y'] -- altitude in m ASL
+                        local loZ = camPos['p']['z'] -- game coordinate y
 
-                        local elevation = LoGetAltitude(loX, loZ)
-                        local coords = LoLoCoordinatesToGeoCoordinates(loX, loZ)
+                        local elevation = LoGetAltitude(loX, loZ)                   -- ground elevation
+                        local coords = LoLoCoordinatesToGeoCoordinates(loX, loZ)    -- geo coordinates in L/L decimal degrees
 
                         response["CameraPosition"] = {}
                         response["CameraPosition"]["Lat"] = tostring(coords.latitude)
@@ -216,6 +216,7 @@ function LuaExportAfterNextFrame()
                         response["CameraPosition"]["Alt"] = tostring(loY)
                         response["CameraPosition"]["Elev"] = tostring(elevation)
 
+                        -- Find out if we are in F10 map mode
                         local xRot = camPos['x']
                         local yRot = camPos['y']
                         local zRot = camPos['z']
@@ -251,7 +252,7 @@ function LuaExportAfterNextFrame()
                         if DEBUGGING then
                             log.write(LOG_MODNAME, log.INFO, "Fetching point altitudes for: " .. JSON:encode(point))
                         end
-                        local loLo = LoGeoCoordinatesToLoCoordinates(point["Lat"], point["Long"])
+                        local loLo = LoGeoCoordinatesToLoCoordinates(point["Long"], point["Lat"]) -- longitude first
                         local loX = loLo['x']
                         local loZ = loLo['z']
                         local elevation = LoGetAltitude(loX, loZ)
@@ -309,7 +310,7 @@ function LuaExportAfterNextFrame()
                                 -- add ground elevation
                                 local point = unit["LatLongAlt"]
                                 if point then
-                                    local loLo = LoGeoCoordinatesToLoCoordinates(point["Lat"], point["Long"])
+                                    local loLo = LoGeoCoordinatesToLoCoordinates(point["Long"], point["Lat"]) -- longitude first
                                     local elevation = LoGetAltitude(loLo['x'], loLo['z'])
                                     point["Elev"] = tostring(elevation)
                                     unit["LatLongAlt"] = point
