@@ -21,6 +21,14 @@ namespace CoordinateConverter.GitHub
         public const string REPO = "CoordinateConverter";
 
         /// <summary>
+        /// Gets the releases URL.
+        /// </summary>
+        /// <value>
+        /// The releases URL.
+        /// </value>
+        public static string RELEASES_URL { get => string.Format("https://github.com/{0}/{1}/releases/latest", ORG, REPO); }
+
+        /// <summary>
         /// Gets the major version number.
         /// </summary>
         /// <value>

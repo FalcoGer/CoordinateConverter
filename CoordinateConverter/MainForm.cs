@@ -2681,11 +2681,12 @@ namespace CoordinateConverter
             GitHub.Version latest = GitHub.Version.GetLatest();
             if (latest.CompareTo(VERSION) > 0)
             {
-                FormAskBinaryQuestion fetchLatestQuestion = new FormAskBinaryQuestion("Get latest?", "Yes", "Maybe later", "A new version is available.\nDo you want to get it now?");
+                string question = string.Format("A new version is available.\nYour version: {0}\nNew version: {1}\nDo you want to get it now?", VERSION.ToString(), latest.ToString());
+                FormAskBinaryQuestion fetchLatestQuestion = new FormAskBinaryQuestion("Get latest?", "Yes", "Maybe later", question);
                 fetchLatestQuestion.ShowDialog();
                 if (fetchLatestQuestion.Result)
                 {
-                    System.Diagnostics.Process.Start(string.Format("https://github.com/{0}/{1}/releases", GitHub.Version.ORG, GitHub.Version.REPO));
+                    System.Diagnostics.Process.Start(GitHub.Version.RELEASES_URL);
                 }
             }
             else
