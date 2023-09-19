@@ -622,6 +622,12 @@ namespace CoordinateConverter.DCS.Aircraft
             string altitudeStr = ((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString();
             commands.AddRange(UFCEnterString((altitudeStr == "0" ? "1" : altitudeStr) + '\n'));
 
+            if (keyCodePPIdx != (int)EKeyCodes.MDI_PB06)
+            {
+                // select PP1
+                commands.Add(new DCSCommand((int)EDevices.MDI_LEFT, (int)EKeyCodes.MDI_PB06, 300));
+            }
+
             if (step)
             {
                 // Step. Option does not exist if only one weapon of the type
