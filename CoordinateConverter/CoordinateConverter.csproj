@@ -107,6 +107,7 @@
     <Compile Include="DCS\Tools\FormUnitImporter.Designer.cs">
       <DependentUpon>FormUnitImporter.cs</DependentUpon>
     </Compile>
+    <Compile Include="GitHub\GitHubRelease.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +122,7 @@
     <Compile Include="DCS\Tools\FormReticle.Designer.cs">
       <DependentUpon>FormReticle.cs</DependentUpon>
     </Compile>
+    <Compile Include="GitHub\Version.cs" />
     <EmbeddedResource Include="DCS\Tools\FormAH64PointDeleter.resx">
       <DependentUpon>FormAH64PointDeleter.cs</DependentUpon>
     </EmbeddedResource>

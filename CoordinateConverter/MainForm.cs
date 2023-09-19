@@ -7,7 +7,6 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -20,7 +19,8 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        
+        private readonly GitHub.Version VERSION = new GitHub.Version(5, 0, 0);
+
         private readonly Color ERROR_COLOR = Color.Pink;
         private readonly Color DCS_ERROR_COLOR = Color.Yellow;
         private readonly Color DCS_OK_COLOR = Color.Green;
@@ -1363,7 +1363,7 @@ namespace CoordinateConverter
                     }
                     colId++;
                 }
-                // check/decheck all
+                // check/uncheck all
                 foreach (int rowIdx in selectedRowIds)
                 {
                     DataGridViewRow row = sender.Rows[rowIdx];
@@ -2674,6 +2674,24 @@ namespace CoordinateConverter
 
             // Start the timer last
             tmr250ms.Start();
+        }
+
+        private void Tsmi_CheckForUpdates_Click(object sender, EventArgs e)
+        {
+            GitHub.Version latest = GitHub.Version.GetLatest();
+            if (latest.CompareTo(VERSION) > 0)
+            {
+                FormAskBinaryQuestion fetchLatestQuestion = new FormAskBinaryQuestion("Get latest?", "Yes", "Maybe later", "A new version is available.\nDo you want to get it now?");
+                fetchLatestQuestion.ShowDialog();
+                if (fetchLatestQuestion.Result)
+                {
+                    System.Diagnostics.Process.Start(string.Format("https://github.com/{0}/{1}/releases", GitHub.Version.ORG, GitHub.Version.REPO));
+                }
+            }
+            else
+            {
+                MessageBox.Show("You are using the latest version.\n" + VERSION.ToString(), "Up to date!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
