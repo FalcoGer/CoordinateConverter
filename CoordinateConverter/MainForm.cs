@@ -19,7 +19,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 2);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 3);
 
         private readonly Color ERROR_COLOR = Color.Pink;
         private readonly Color DCS_ERROR_COLOR = Color.Yellow;
@@ -1261,10 +1261,8 @@ namespace CoordinateConverter
 
             // change the button and row colors to match the selected entries
             btn_Edit.BackColor = indices.Count == 0 ? DefaultBackColor : EDITING_COLOR;
-            foreach (DataGridViewRow row in dgv_CoordinateList.Rows)
-            {
-                row.DefaultCellStyle.BackColor = indices.Contains(row.Index) ? EDITING_COLOR : DefaultBackColor;
-            }
+            // Updates the color, but also deselects all rows
+            RefreshDataGrid(EDataGridUpdateType.UpdateCells);
 
             // Disable/Enable controls if multiple are selected
             List<Control> coordinateInputControls = new List<Control>()
@@ -1395,6 +1393,10 @@ namespace CoordinateConverter
                 {
                     dgv_CoordinateList.Rows[rowIdx].Selected = true;
                 }
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                Btn_Edit_Click(btn_Edit, null);
             }
         }
 
