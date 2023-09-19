@@ -2691,7 +2691,8 @@ namespace CoordinateConverter
             }
             else
             {
-                MessageBox.Show("You are using the latest version.\n" + VERSION.ToString(), "Up to date!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string message = string.Format("You are using the latest version.\nYour version: {0}\nLatest version: {1}", VERSION.ToString(), latest.ToString());
+                MessageBox.Show(message, "Up to date!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
