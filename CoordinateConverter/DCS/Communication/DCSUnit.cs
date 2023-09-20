@@ -223,7 +223,7 @@ namespace CoordinateConverter.DCS.Communication
             // Air objects, Airplane
             Fighter = 1,
             F_Bomber = 2,
-            Intercepter = 3,
+            Intercepter = 3, // sic. not interceptor
             Intruder = 4,
             Cruiser = 5,
             Battleplane = 6,
