@@ -19,7 +19,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 3);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 4);
 
         private readonly Color ERROR_COLOR = Color.Pink;
         private readonly Color DCS_ERROR_COLOR = Color.Yellow;
@@ -844,7 +844,7 @@ namespace CoordinateConverter
 
             if (GetSelectedFormat() == ECoordinateFormat.Bullseye)
             {
-                lbl_BEPosition.Text = new CoordinateDataEntry(0, bulls.GetBullseye()).GetCoordinateStrLLDecSec();
+                lbl_BEPosition.Text = new CoordinateDataEntry(0, bulls.GetBullseye()).GetCoordinateStrLLDecSec((int)nud_LL_DecimalSeconds_Precision.Value);
             }
             else
             {
@@ -1025,8 +1025,8 @@ namespace CoordinateConverter
         {
             if (input != null)
             {
-                tb_Out_LL_DecimalSeconds.Text = input.GetCoordinateStrLLDecSec();
-                tb_Out_LL_DecimalMinutes.Text = input.GetCoordinateStrLLDecMin();
+                tb_Out_LL_DecimalSeconds.Text = input.GetCoordinateStrLLDecSec((int)nud_LL_DecimalSeconds_Precision.Value);
+                tb_Out_LL_DecimalMinutes.Text = input.GetCoordinateStrLLDecMin((int)nud_LL_DecimalMinutes_Precision.Value);
                 tb_Out_MGRS.Text = input.GetCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
                 tb_Out_UTM.Text = input.GetCoordinateStrUTM();
                 tb_Out_Bullseye.Text = input.GetCoordinateStrBullseye(bulls);
@@ -1231,6 +1231,30 @@ namespace CoordinateConverter
         {
             RefreshCoordinates(EUpdateType.OutputOnly);
             if (GetSelectedFormat() == ECoordinateFormat.MGRS)
+            {
+                RefreshDataGrid(EDataGridUpdateType.UpdateCells);
+                RefreshBullseyeFormat();
+            }
+        }
+
+        private void Nud_LL_DecimalSeconds_Precision_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshCoordinates(EUpdateType.OutputOnly);
+            ECoordinateFormat format = GetSelectedFormat();
+            if (format == ECoordinateFormat.LL_DMSs)
+            {
+                RefreshDataGrid(EDataGridUpdateType.UpdateCells);
+            }
+            if (format == ECoordinateFormat.LL_DMSs || format == ECoordinateFormat.Bullseye)
+            {
+                RefreshBullseyeFormat();
+            }
+        }
+
+        private void Nud_LL_DecimalMinutes_Precision_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshCoordinates(EUpdateType.OutputOnly);
+            if (GetSelectedFormat() == ECoordinateFormat.LL_DMm)
             {
                 RefreshDataGrid(EDataGridUpdateType.UpdateCells);
                 RefreshBullseyeFormat();
@@ -1511,11 +1535,11 @@ namespace CoordinateConverter
             switch (GetSelectedFormat())
             {
                 case ECoordinateFormat.LL_DMSs:
-                    return entry.GetCoordinateStrLLDecSec();
+                    return entry.GetCoordinateStrLLDecSec((int)nud_LL_DecimalSeconds_Precision.Value);
                 case ECoordinateFormat.LL_DMm:
-                    return entry.GetCoordinateStrLLDecMin();
+                    return entry.GetCoordinateStrLLDecMin((int)nud_LL_DecimalMinutes_Precision.Value);
                 case ECoordinateFormat.LL_Dd:
-                    return entry.GetCoordinateStrLLDecDeg();
+                    return entry.GetCoordinateStrLLDecDeg(8);
                 case ECoordinateFormat.MGRS:
                     return entry.GetCoordinateStrMGRS((int)nud_MGRS_Precision.Value);
                 case ECoordinateFormat.UTM:

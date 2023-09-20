@@ -34,7 +34,8 @@ namespace CoordinateConverter
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.GrpBox_Output = new System.Windows.Forms.GroupBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.nud_LL_DecimalMinutes_Precision = new System.Windows.Forms.NumericUpDown();
+            this.nud_LL_DecimalSeconds_Precision = new System.Windows.Forms.NumericUpDown();
             this.nud_MGRS_Precision = new System.Windows.Forms.NumericUpDown();
             this.rb_Format_Bullseye = new System.Windows.Forms.RadioButton();
             this.rb_Format_UTM = new System.Windows.Forms.RadioButton();
@@ -170,6 +171,7 @@ namespace CoordinateConverter
             this.tsmi_Opacity75 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Opacity50 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Opacity25 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.tmr250ms = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btn_Transfer = new System.Windows.Forms.ToolStripButton();
@@ -187,8 +189,9 @@ namespace CoordinateConverter
             this.btn_MoveDown = new System.Windows.Forms.ToolStripButton();
             this.btn_MoveUp = new System.Windows.Forms.ToolStripButton();
             this.label19 = new System.Windows.Forms.Label();
-            this.tsmi_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.GrpBox_Output.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalMinutes_Precision)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalSeconds_Precision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MGRS_Precision)).BeginInit();
             this.GrpBox_Input.SuspendLayout();
             this.TC_Input.SuspendLayout();
@@ -215,7 +218,8 @@ namespace CoordinateConverter
             // GrpBox_Output
             // 
             this.GrpBox_Output.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.GrpBox_Output.Controls.Add(this.label14);
+            this.GrpBox_Output.Controls.Add(this.nud_LL_DecimalMinutes_Precision);
+            this.GrpBox_Output.Controls.Add(this.nud_LL_DecimalSeconds_Precision);
             this.GrpBox_Output.Controls.Add(this.nud_MGRS_Precision);
             this.GrpBox_Output.Controls.Add(this.rb_Format_Bullseye);
             this.GrpBox_Output.Controls.Add(this.rb_Format_UTM);
@@ -232,25 +236,52 @@ namespace CoordinateConverter
             this.GrpBox_Output.Controls.Add(this.label8);
             this.GrpBox_Output.Controls.Add(this.tb_Out_LL_DecimalSeconds);
             this.GrpBox_Output.Controls.Add(this.tb_Out_LL_DecimalMinutes);
-            this.GrpBox_Output.Location = new System.Drawing.Point(0, 317);
+            this.GrpBox_Output.Location = new System.Drawing.Point(0, 316);
             this.GrpBox_Output.Name = "GrpBox_Output";
-            this.GrpBox_Output.Size = new System.Drawing.Size(499, 183);
+            this.GrpBox_Output.Size = new System.Drawing.Size(499, 155);
             this.GrpBox_Output.TabIndex = 2;
             this.GrpBox_Output.TabStop = false;
             this.GrpBox_Output.Text = "Output";
             // 
-            // label14
+            // nud_LL_DecimalMinutes_Precision
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(6, 155);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(88, 13);
-            this.label14.TabIndex = 18;
-            this.label14.Text = "MGRS Precision:";
+            this.nud_LL_DecimalMinutes_Precision.Location = new System.Drawing.Point(446, 46);
+            this.nud_LL_DecimalMinutes_Precision.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.nud_LL_DecimalMinutes_Precision.Name = "nud_LL_DecimalMinutes_Precision";
+            this.nud_LL_DecimalMinutes_Precision.Size = new System.Drawing.Size(27, 20);
+            this.nud_LL_DecimalMinutes_Precision.TabIndex = 12;
+            this.nud_LL_DecimalMinutes_Precision.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.nud_LL_DecimalMinutes_Precision.ValueChanged += new System.EventHandler(this.Nud_LL_DecimalMinutes_Precision_ValueChanged);
+            // 
+            // nud_LL_DecimalSeconds_Precision
+            // 
+            this.nud_LL_DecimalSeconds_Precision.Location = new System.Drawing.Point(446, 20);
+            this.nud_LL_DecimalSeconds_Precision.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.nud_LL_DecimalSeconds_Precision.Name = "nud_LL_DecimalSeconds_Precision";
+            this.nud_LL_DecimalSeconds_Precision.Size = new System.Drawing.Size(27, 20);
+            this.nud_LL_DecimalSeconds_Precision.TabIndex = 10;
+            this.nud_LL_DecimalSeconds_Precision.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nud_LL_DecimalSeconds_Precision.ValueChanged += new System.EventHandler(this.Nud_LL_DecimalSeconds_Precision_ValueChanged);
             // 
             // nud_MGRS_Precision
             // 
-            this.nud_MGRS_Precision.Location = new System.Drawing.Point(100, 153);
+            this.nud_MGRS_Precision.Location = new System.Drawing.Point(446, 72);
             this.nud_MGRS_Precision.Maximum = new decimal(new int[] {
             5,
             0,
@@ -258,7 +289,7 @@ namespace CoordinateConverter
             0});
             this.nud_MGRS_Precision.Name = "nud_MGRS_Precision";
             this.nud_MGRS_Precision.Size = new System.Drawing.Size(27, 20);
-            this.nud_MGRS_Precision.TabIndex = 18;
+            this.nud_MGRS_Precision.TabIndex = 14;
             this.nud_MGRS_Precision.Value = new decimal(new int[] {
             5,
             0,
@@ -272,7 +303,7 @@ namespace CoordinateConverter
             this.rb_Format_Bullseye.Location = new System.Drawing.Point(479, 127);
             this.rb_Format_Bullseye.Name = "rb_Format_Bullseye";
             this.rb_Format_Bullseye.Size = new System.Drawing.Size(14, 13);
-            this.rb_Format_Bullseye.TabIndex = 14;
+            this.rb_Format_Bullseye.TabIndex = 17;
             this.rb_Format_Bullseye.UseVisualStyleBackColor = true;
             this.rb_Format_Bullseye.CheckedChanged += new System.EventHandler(this.Rb_Format_CheckedChanged);
             // 
@@ -282,7 +313,7 @@ namespace CoordinateConverter
             this.rb_Format_UTM.Location = new System.Drawing.Point(479, 101);
             this.rb_Format_UTM.Name = "rb_Format_UTM";
             this.rb_Format_UTM.Size = new System.Drawing.Size(14, 13);
-            this.rb_Format_UTM.TabIndex = 13;
+            this.rb_Format_UTM.TabIndex = 16;
             this.rb_Format_UTM.UseVisualStyleBackColor = true;
             this.rb_Format_UTM.CheckedChanged += new System.EventHandler(this.Rb_Format_CheckedChanged);
             // 
@@ -292,7 +323,7 @@ namespace CoordinateConverter
             this.rb_Format_MGRS.Location = new System.Drawing.Point(479, 75);
             this.rb_Format_MGRS.Name = "rb_Format_MGRS";
             this.rb_Format_MGRS.Size = new System.Drawing.Size(14, 13);
-            this.rb_Format_MGRS.TabIndex = 12;
+            this.rb_Format_MGRS.TabIndex = 15;
             this.rb_Format_MGRS.UseVisualStyleBackColor = true;
             this.rb_Format_MGRS.CheckedChanged += new System.EventHandler(this.Rb_Format_CheckedChanged);
             // 
@@ -302,7 +333,7 @@ namespace CoordinateConverter
             this.rb_Format_LL_DecimalMinutes.Location = new System.Drawing.Point(479, 49);
             this.rb_Format_LL_DecimalMinutes.Name = "rb_Format_LL_DecimalMinutes";
             this.rb_Format_LL_DecimalMinutes.Size = new System.Drawing.Size(14, 13);
-            this.rb_Format_LL_DecimalMinutes.TabIndex = 11;
+            this.rb_Format_LL_DecimalMinutes.TabIndex = 13;
             this.rb_Format_LL_DecimalMinutes.UseVisualStyleBackColor = true;
             this.rb_Format_LL_DecimalMinutes.CheckedChanged += new System.EventHandler(this.Rb_Format_CheckedChanged);
             // 
@@ -313,7 +344,7 @@ namespace CoordinateConverter
             this.rb_Format_LL_DecimalSeconds.Location = new System.Drawing.Point(479, 23);
             this.rb_Format_LL_DecimalSeconds.Name = "rb_Format_LL_DecimalSeconds";
             this.rb_Format_LL_DecimalSeconds.Size = new System.Drawing.Size(14, 13);
-            this.rb_Format_LL_DecimalSeconds.TabIndex = 10;
+            this.rb_Format_LL_DecimalSeconds.TabIndex = 11;
             this.rb_Format_LL_DecimalSeconds.TabStop = true;
             this.rb_Format_LL_DecimalSeconds.UseVisualStyleBackColor = true;
             this.rb_Format_LL_DecimalSeconds.CheckedChanged += new System.EventHandler(this.Rb_Format_CheckedChanged);
@@ -376,7 +407,7 @@ namespace CoordinateConverter
             this.tb_Out_MGRS.Location = new System.Drawing.Point(50, 72);
             this.tb_Out_MGRS.Name = "tb_Out_MGRS";
             this.tb_Out_MGRS.ReadOnly = true;
-            this.tb_Out_MGRS.Size = new System.Drawing.Size(423, 20);
+            this.tb_Out_MGRS.Size = new System.Drawing.Size(390, 20);
             this.tb_Out_MGRS.TabIndex = 2;
             this.tb_Out_MGRS.TabStop = false;
             this.tb_Out_MGRS.Text = "Enter Coordinates";
@@ -406,7 +437,7 @@ namespace CoordinateConverter
             this.tb_Out_LL_DecimalSeconds.Location = new System.Drawing.Point(50, 20);
             this.tb_Out_LL_DecimalSeconds.Name = "tb_Out_LL_DecimalSeconds";
             this.tb_Out_LL_DecimalSeconds.ReadOnly = true;
-            this.tb_Out_LL_DecimalSeconds.Size = new System.Drawing.Size(423, 20);
+            this.tb_Out_LL_DecimalSeconds.Size = new System.Drawing.Size(390, 20);
             this.tb_Out_LL_DecimalSeconds.TabIndex = 0;
             this.tb_Out_LL_DecimalSeconds.TabStop = false;
             this.tb_Out_LL_DecimalSeconds.Text = "Enter Coordinates";
@@ -418,7 +449,7 @@ namespace CoordinateConverter
             this.tb_Out_LL_DecimalMinutes.Location = new System.Drawing.Point(50, 46);
             this.tb_Out_LL_DecimalMinutes.Name = "tb_Out_LL_DecimalMinutes";
             this.tb_Out_LL_DecimalMinutes.ReadOnly = true;
-            this.tb_Out_LL_DecimalMinutes.Size = new System.Drawing.Size(423, 20);
+            this.tb_Out_LL_DecimalMinutes.Size = new System.Drawing.Size(390, 20);
             this.tb_Out_LL_DecimalMinutes.TabIndex = 1;
             this.tb_Out_LL_DecimalMinutes.TabStop = false;
             this.tb_Out_LL_DecimalMinutes.Text = "Enter Coordinates";
@@ -440,7 +471,7 @@ namespace CoordinateConverter
             this.GrpBox_Input.Controls.Add(this.TC_Input);
             this.GrpBox_Input.Location = new System.Drawing.Point(12, 66);
             this.GrpBox_Input.Name = "GrpBox_Input";
-            this.GrpBox_Input.Size = new System.Drawing.Size(487, 245);
+            this.GrpBox_Input.Size = new System.Drawing.Size(487, 244);
             this.GrpBox_Input.TabIndex = 0;
             this.GrpBox_Input.TabStop = false;
             this.GrpBox_Input.Text = "Input";
@@ -451,7 +482,7 @@ namespace CoordinateConverter
             this.cb_AltitudeIsAGL.AutoSize = true;
             this.cb_AltitudeIsAGL.Checked = true;
             this.cb_AltitudeIsAGL.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_AltitudeIsAGL.Location = new System.Drawing.Point(199, 221);
+            this.cb_AltitudeIsAGL.Location = new System.Drawing.Point(199, 220);
             this.cb_AltitudeIsAGL.Name = "cb_AltitudeIsAGL";
             this.cb_AltitudeIsAGL.Size = new System.Drawing.Size(47, 17);
             this.cb_AltitudeIsAGL.TabIndex = 8;
@@ -466,7 +497,7 @@ namespace CoordinateConverter
             "Waypoint"});
             this.cb_PointOption.Enabled = false;
             this.cb_PointOption.FormattingEnabled = true;
-            this.cb_PointOption.Location = new System.Drawing.Point(308, 192);
+            this.cb_PointOption.Location = new System.Drawing.Point(308, 191);
             this.cb_PointOption.Name = "cb_PointOption";
             this.cb_PointOption.Size = new System.Drawing.Size(172, 21);
             this.cb_PointOption.TabIndex = 12;
@@ -476,7 +507,7 @@ namespace CoordinateConverter
             // 
             this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(264, 195);
+            this.label18.Location = new System.Drawing.Point(264, 194);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(38, 13);
             this.label18.TabIndex = 11;
@@ -491,7 +522,7 @@ namespace CoordinateConverter
             this.cb_PointType.FormattingEnabled = true;
             this.cb_PointType.Items.AddRange(new object[] {
             "Waypoint"});
-            this.cb_PointType.Location = new System.Drawing.Point(79, 192);
+            this.cb_PointType.Location = new System.Drawing.Point(79, 191);
             this.cb_PointType.Name = "cb_PointType";
             this.cb_PointType.Size = new System.Drawing.Size(179, 21);
             this.cb_PointType.TabIndex = 10;
@@ -502,7 +533,7 @@ namespace CoordinateConverter
             // 
             this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(15, 195);
+            this.label17.Location = new System.Drawing.Point(15, 194);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(58, 13);
             this.label17.TabIndex = 9;
@@ -512,7 +543,7 @@ namespace CoordinateConverter
             // 
             this.tb_Label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tb_Label.Location = new System.Drawing.Point(308, 219);
+            this.tb_Label.Location = new System.Drawing.Point(308, 218);
             this.tb_Label.MaxLength = 50;
             this.tb_Label.Name = "tb_Label";
             this.tb_Label.Size = new System.Drawing.Size(172, 20);
@@ -528,7 +559,7 @@ namespace CoordinateConverter
             this.cb_AltitudeUnit.Items.AddRange(new object[] {
             "ft",
             "m"});
-            this.cb_AltitudeUnit.Location = new System.Drawing.Point(156, 219);
+            this.cb_AltitudeUnit.Location = new System.Drawing.Point(156, 218);
             this.cb_AltitudeUnit.Name = "cb_AltitudeUnit";
             this.cb_AltitudeUnit.Size = new System.Drawing.Size(36, 21);
             this.cb_AltitudeUnit.TabIndex = 7;
@@ -538,7 +569,7 @@ namespace CoordinateConverter
             // tb_Altitude
             // 
             this.tb_Altitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tb_Altitude.Location = new System.Drawing.Point(79, 219);
+            this.tb_Altitude.Location = new System.Drawing.Point(79, 218);
             this.tb_Altitude.MaxLength = 6;
             this.tb_Altitude.Name = "tb_Altitude";
             this.tb_Altitude.Size = new System.Drawing.Size(71, 20);
@@ -552,7 +583,7 @@ namespace CoordinateConverter
             // 
             this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(269, 222);
+            this.label16.Location = new System.Drawing.Point(269, 221);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(33, 13);
             this.label16.TabIndex = 2;
@@ -562,7 +593,7 @@ namespace CoordinateConverter
             // 
             this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(31, 222);
+            this.label15.Location = new System.Drawing.Point(31, 221);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(42, 13);
             this.label15.TabIndex = 1;
@@ -581,7 +612,7 @@ namespace CoordinateConverter
             this.TC_Input.Location = new System.Drawing.Point(3, 16);
             this.TC_Input.Name = "TC_Input";
             this.TC_Input.SelectedIndex = 0;
-            this.TC_Input.Size = new System.Drawing.Size(481, 170);
+            this.TC_Input.Size = new System.Drawing.Size(481, 169);
             this.TC_Input.TabIndex = 0;
             // 
             // TabPage_LatLon
@@ -593,7 +624,7 @@ namespace CoordinateConverter
             this.TabPage_LatLon.Location = new System.Drawing.Point(4, 22);
             this.TabPage_LatLon.Name = "TabPage_LatLon";
             this.TabPage_LatLon.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_LatLon.Size = new System.Drawing.Size(473, 144);
+            this.TabPage_LatLon.Size = new System.Drawing.Size(473, 143);
             this.TabPage_LatLon.TabIndex = 0;
             this.TabPage_LatLon.Text = "L/L Decimal Seconds";
             this.TabPage_LatLon.UseVisualStyleBackColor = true;
@@ -607,7 +638,7 @@ namespace CoordinateConverter
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(454, 53);
+            this.textBox1.Size = new System.Drawing.Size(454, 52);
             this.textBox1.TabIndex = 3;
             this.textBox1.TabStop = false;
             this.textBox1.Text = "Symbols and spaces may be omitted.\r\nDecimal point is required if a decimal value " +
@@ -735,7 +766,7 @@ namespace CoordinateConverter
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(473, 144);
+            this.tabPage1.Size = new System.Drawing.Size(473, 143);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "L/L Decimal Minutes";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -876,7 +907,7 @@ namespace CoordinateConverter
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(473, 144);
+            this.tabPage2.Size = new System.Drawing.Size(473, 143);
             this.tabPage2.TabIndex = 6;
             this.tabPage2.Text = "MGRS";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -972,7 +1003,7 @@ namespace CoordinateConverter
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(473, 144);
+            this.tabPage3.Size = new System.Drawing.Size(473, 143);
             this.tabPage3.TabIndex = 4;
             this.tabPage3.Text = "UTM";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1091,7 +1122,7 @@ namespace CoordinateConverter
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(473, 144);
+            this.tabPage4.Size = new System.Drawing.Size(473, 143);
             this.tabPage4.TabIndex = 5;
             this.tabPage4.Text = "Bullseye";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1200,7 +1231,7 @@ namespace CoordinateConverter
             this.pb_Transfer,
             this.lbl_DCS_Status,
             this.lbl_Error});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 503);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 474);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1189, 22);
             this.statusStrip1.TabIndex = 3;
@@ -1252,7 +1283,7 @@ namespace CoordinateConverter
             this.dgv_CoordinateList.Location = new System.Drawing.Point(505, 66);
             this.dgv_CoordinateList.Name = "dgv_CoordinateList";
             this.dgv_CoordinateList.ReadOnly = true;
-            this.dgv_CoordinateList.Size = new System.Drawing.Size(672, 395);
+            this.dgv_CoordinateList.Size = new System.Drawing.Size(672, 376);
             this.dgv_CoordinateList.TabIndex = 30;
             this.dgv_CoordinateList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_CoordinateList_CellContentClick);
             this.dgv_CoordinateList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_CoordinateList_CellDoubleClick);
@@ -1716,6 +1747,13 @@ namespace CoordinateConverter
             this.tsmi_Opacity25.Text = "75%";
             this.tsmi_Opacity25.Click += new System.EventHandler(this.Tsmi_Opacity25_Click);
             // 
+            // tsmi_CheckForUpdates
+            // 
+            this.tsmi_CheckForUpdates.Name = "tsmi_CheckForUpdates";
+            this.tsmi_CheckForUpdates.Size = new System.Drawing.Size(215, 22);
+            this.tsmi_CheckForUpdates.Text = "Check for Updates";
+            this.tsmi_CheckForUpdates.Click += new System.EventHandler(this.Tsmi_CheckForUpdates_Click);
+            // 
             // tmr250ms
             // 
             this.tmr250ms.Interval = 250;
@@ -1869,24 +1907,17 @@ namespace CoordinateConverter
             // 
             this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(505, 467);
+            this.label19.Location = new System.Drawing.Point(505, 445);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(616, 26);
             this.label19.TabIndex = 33;
             this.label19.Text = resources.GetString("label19.Text");
             // 
-            // tsmi_CheckForUpdates
-            // 
-            this.tsmi_CheckForUpdates.Name = "tsmi_CheckForUpdates";
-            this.tsmi_CheckForUpdates.Size = new System.Drawing.Size(215, 22);
-            this.tsmi_CheckForUpdates.Text = "Check for Updates";
-            this.tsmi_CheckForUpdates.Click += new System.EventHandler(this.Tsmi_CheckForUpdates_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1189, 525);
+            this.ClientSize = new System.Drawing.Size(1189, 496);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.dgv_CoordinateList);
@@ -1900,6 +1931,8 @@ namespace CoordinateConverter
             this.Text = "Coordinate Converter";
             this.GrpBox_Output.ResumeLayout(false);
             this.GrpBox_Output.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalMinutes_Precision)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalSeconds_Precision)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_MGRS_Precision)).EndInit();
             this.GrpBox_Input.ResumeLayout(false);
             this.GrpBox_Input.PerformLayout();
@@ -2013,7 +2046,6 @@ namespace CoordinateConverter
         private RadioButton rb_Format_UTM;
         private RadioButton rb_Format_MGRS;
         private RadioButton rb_Format_LL_DecimalMinutes;
-        private Label label14;
         private NumericUpDown nud_MGRS_Precision;
         private Label label15;
         private ComboBox cb_AltitudeUnit;
@@ -2100,6 +2132,8 @@ namespace CoordinateConverter
         private DataGridViewCheckBoxColumn colXFer;
         private DataGridViewButtonColumn colDelete;
         private ToolStripMenuItem tsmi_CheckForUpdates;
+        private NumericUpDown nud_LL_DecimalMinutes_Precision;
+        private NumericUpDown nud_LL_DecimalSeconds_Precision;
     }
 }
 
