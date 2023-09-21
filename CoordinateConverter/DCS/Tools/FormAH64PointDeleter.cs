@@ -39,21 +39,24 @@ namespace CoordinateConverter.DCS.Tools
         {
             ComboBox sender = objSender as ComboBox;
             AH64.EPointType pointType = ComboItem<AH64.EPointType>.GetSelectedValue(sender);
-            // Update Minima
+            // Update Minima and Maxima
             if (pointType == AH64.EPointType.ControlMeasure)
             {
                 nud_FirstPointIdx.Minimum = 51;
                 nud_LastPointIdx.Minimum = 51;
+
+                nud_FirstPointIdx.Maximum = 99;
+                nud_LastPointIdx.Maximum = 99;
             }
             else
             {
                 nud_FirstPointIdx.Minimum = 1;
                 nud_LastPointIdx.Minimum = 1;
+                
+                nud_FirstPointIdx.Maximum = 50;
+                nud_LastPointIdx.Maximum = 50;
             }
-            // Update Maxima
-            nud_FirstPointIdx.Maximum = nud_FirstPointIdx.Minimum + 49;
-            nud_LastPointIdx.Maximum = nud_LastPointIdx.Minimum + 49;
-            
+
             // Set Values
             nud_FirstPointIdx.Value = nud_FirstPointIdx.Minimum;
             nud_LastPointIdx.Value = nud_LastPointIdx.Maximum;

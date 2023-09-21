@@ -188,7 +188,7 @@ namespace CoordinateConverter.DCS.Aircraft
             // type the text
             foreach (char ch in text.ToUpper())
             {
-                EKeyCode keyCode;
+                EKeyCode? keyCode = null;
                 // handle special cases
                 switch (ch)
                 {
@@ -214,10 +214,20 @@ namespace CoordinateConverter.DCS.Aircraft
                         keyCode = EKeyCode.KU_ADD;
                         break;
                     default:
-                        keyCode = (EKeyCode)Enum.Parse(typeof(EKeyCode), "KU_" + ch, true);
-                        break;
+                        if ((ch >= 'A' && ch <= 'Z') || (ch <= '9' && ch >= '0'))
+                        {
+                            keyCode = (EKeyCode)Enum.Parse(typeof(EKeyCode), "KU_" + ch, true);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
                 }
-            commands.Add(new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_KU : EDeviceCode.CPG_KU), (int)keyCode));
+                if (keyCode != null)
+                {
+                    commands.Add(new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_KU : EDeviceCode.CPG_KU), (int)keyCode.Value));
+                }
             }
             return commands;
         }
