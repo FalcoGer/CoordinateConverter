@@ -882,8 +882,8 @@ namespace CoordinateConverter
             }
 
             List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() { input };
-            entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]));
-            entries = entries.Where(x => x != null).ToList();
+            entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]).Where(x => x != null));
+            ResetIDs();
 
             foreach (CoordinateDataEntry entry in entries)
             {
@@ -1373,6 +1373,7 @@ namespace CoordinateConverter
                 {
                     dataEntries.RemoveAt(rowIdx);
                 }
+                ResetIDs();
                 // Update the grid
                 RefreshDataGrid(EDataGridUpdateType.UpdateGrid);
             }
@@ -1409,7 +1410,6 @@ namespace CoordinateConverter
                 }
 
                 // Update the grid
-                ResetIDs();
                 RefreshDataGrid(EDataGridUpdateType.UpdateCells);
 
                 // Reselect all the rows
@@ -1567,6 +1567,7 @@ namespace CoordinateConverter
                 lbl_Error.Text = "Input invalid";
                 return;
             }
+            ResetIDs();
             dataEntries.Add(input.Clone(dataEntries.Count));
             RefreshDataGrid(EDataGridUpdateType.UpdateGrid);
         }
@@ -1764,8 +1765,7 @@ namespace CoordinateConverter
             CheckBox sender = objSender as CheckBox;
 
             List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() { input };
-            entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]));
-            entries = entries.Where(x => x != null).ToList();
+            entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]).Where(x => x != null));
             
             foreach (CoordinateDataEntry entry in entries)
             {
@@ -2141,8 +2141,7 @@ namespace CoordinateConverter
             }
 
             List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() { input };
-            entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]));
-            entries = entries.Where(x => x != null).ToList();
+            entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]).Where(x => x != null));
 
             if (selectedAircraft.GetType() == typeof(AH64))
             {
@@ -2241,8 +2240,7 @@ namespace CoordinateConverter
             }
 
             List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() { input };
-            entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]));
-            entries = entries.Where(x => x != null).ToList();
+            entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]).Where(x => x != null));
 
             foreach (CoordinateDataEntry entry in entries)
             {
@@ -2366,6 +2364,7 @@ namespace CoordinateConverter
         {
             input = dcsCoordinate;
             int newIdx = dataEntries.Count;
+            ResetIDs();
             dataEntries.Add(input.Clone(newIdx));
             RefreshDataGrid(EDataGridUpdateType.UpdateGrid);
             StartEdit(new List<int>() { newIdx });
@@ -2379,6 +2378,7 @@ namespace CoordinateConverter
                 tmr250ms.Stop();
 
                 // Open the form and get the data
+                ResetIDs();
                 FormUnitImporter fui = new FormUnitImporter(dataEntries)
                 {
                     TopMost = TopMost
