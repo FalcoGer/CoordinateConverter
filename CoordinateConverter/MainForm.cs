@@ -19,7 +19,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 6);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 7);
 
         private readonly Color ERROR_COLOR = Color.Pink;
         private readonly Color DCS_ERROR_COLOR = Color.Yellow;
@@ -881,7 +881,11 @@ namespace CoordinateConverter
                 altitude = 0;
             }
 
-            List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() { input };
+            List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() {};
+            if (input != null)
+            {
+                entries.Add(input);
+            }
             entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]).Where(x => x != null));
             ResetIDs();
 
@@ -985,9 +989,12 @@ namespace CoordinateConverter
 
         private void Tb_Label_TextChanged(object sender, EventArgs e)
         {
-            List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() { input };
-            entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]));
-            entries = entries.Where(x => x != null).ToList();
+            List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() { };
+            if (input != null)
+            {
+                entries.Add(input);
+            }
+            entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]).Where(x => x != null));
 
             foreach (CoordinateDataEntry entry in entries)
             {
@@ -1764,7 +1771,11 @@ namespace CoordinateConverter
         {
             CheckBox sender = objSender as CheckBox;
 
-            List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() { input };
+            List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() { };
+            if (input != null)
+            {
+                entries.Add(input);
+            }
             entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]).Where(x => x != null));
             
             foreach (CoordinateDataEntry entry in entries)
@@ -2140,7 +2151,11 @@ namespace CoordinateConverter
                 return;
             }
 
-            List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() { input };
+            List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() {};
+            if (input != null)
+            {
+                entries.Add(input);
+            }
             entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]).Where(x => x != null));
 
             if (selectedAircraft.GetType() == typeof(AH64))
@@ -2239,7 +2254,11 @@ namespace CoordinateConverter
                 return;
             }
 
-            List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() { input };
+            List<CoordinateDataEntry> entries = new List<CoordinateDataEntry>() {};
+            if (input != null)
+            {
+                entries.Add(input);
+            }
             entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]).Where(x => x != null));
 
             foreach (CoordinateDataEntry entry in entries)
