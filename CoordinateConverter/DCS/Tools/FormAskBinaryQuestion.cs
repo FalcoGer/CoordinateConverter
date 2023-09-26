@@ -28,6 +28,7 @@ namespace CoordinateConverter.DCS.Tools
         /// <summary>
         /// Initializes a new instance of the <see cref="FormAskBinaryQuestion"/> class.
         /// </summary>
+        /// <param name="parent">The parent form</param>
         /// <param name="question">The question to be asked, will be the title of the form.</param>
         /// <param name="yesButtonText">The yes button text.</param>
         /// <param name="noButtonText">The no button text.</param>
@@ -35,7 +36,7 @@ namespace CoordinateConverter.DCS.Tools
         /// <exception cref="System.ArgumentNullException">
         /// If <paramref name="question"/>, <paramref name="yesButtonText"/> or <paramref name="noButtonText"/> is null
         /// </exception>
-        public FormAskBinaryQuestion(string question, string yesButtonText = "Yes", string noButtonText = "No", string questionText = null)
+        public FormAskBinaryQuestion(Form parent, string question, string yesButtonText = "Yes", string noButtonText = "No", string questionText = null)
         {
             // Check arguments
             if (string.IsNullOrEmpty(question))
@@ -80,6 +81,8 @@ namespace CoordinateConverter.DCS.Tools
             btn_Deny.Location = new Point(MARGIN, lbl_QuestionText.Location.Y + lbl_QuestionText.Height + MARGIN);
             // Right button
             btn_Affirm.Location = new Point(btn_Deny.Location.X + btn_Deny.Width + MARGIN, btn_Deny.Location.Y);
+
+            ShowDialog(parent);
         }
 
         private void Btn_Deny_Click(object sender, EventArgs e)

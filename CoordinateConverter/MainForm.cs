@@ -1324,17 +1324,34 @@ namespace CoordinateConverter
             if (updateType == EDataGridUpdateType.UpdateGrid)
             {
                 dgv_CoordinateList.Rows.Clear();
+
+                // AddRange is faster than adding rows individually
+                List<DataGridViewRow> rows = new List<DataGridViewRow>();
                 foreach (CoordinateDataEntry entry in dataEntries.OrderBy(x => x.Id))
                 {
                     DataGridViewRow row = new DataGridViewRow();
-                    row.Cells.Add(new DataGridViewTextBoxCell() { Value = entry.Id, ValueType = typeof(int) });
-                    row.Cells.Add(new DataGridViewTextBoxCell() { Value = entry.GetUserFriendlyString(selectedAircraft?.GetType()), ValueType = typeof(string) });
-                    row.Cells.Add(new DataGridViewTextBoxCell() { Value = GetEntryCoordinateStr(entry), ValueType = typeof(string) });
-                    row.Cells.Add(new DataGridViewTextBoxCell() { Value = entry.GetAltitudeString(cb_AltitudeUnit.Text == "ft"), ValueType = typeof(string) });
-                    row.Cells.Add(new DataGridViewCheckBoxCell() { Value = entry.XFer, ValueType = typeof(bool) });
+                    row.CreateCells(dgv_CoordinateList);
+
+                    row.Cells[0].Value = entry.Id;
+                    row.Cells[0].ValueType = typeof(int);
+
+                    row.Cells[1].Value = entry.GetUserFriendlyString(selectedAircraft?.GetType());
+                    row.Cells[1].ValueType = typeof(string);
+
+
+                    row.Cells[2].Value = GetEntryCoordinateStr(entry);
+                    row.Cells[2].ValueType = typeof(string);
+
+                    row.Cells[3].Value = entry.GetAltitudeString(cb_AltitudeUnit.Text == "ft");
+                    row.Cells[3].ValueType = typeof(string);
+
+                    row.Cells[4].Value = entry.XFer;
+                    row.Cells[4].ValueType = typeof(bool);
+
                     // button cell gets added automatically
-                    dgv_CoordinateList.Rows.Add(row);
+                    rows.Add(row);
                 }
+                dgv_CoordinateList.Rows.AddRange(rows.ToArray());
             }
             else if (updateType == EDataGridUpdateType.UpdateCells)
             {
@@ -1860,8 +1877,7 @@ namespace CoordinateConverter
                         {
                             break;
                         }
-                        FormAskBinaryQuestion isPltForm = new FormAskBinaryQuestion("Which station are you in?", "Pilot", "CPG");
-                        isPltForm.ShowDialog();
+                        FormAskBinaryQuestion isPltForm = new FormAskBinaryQuestion(this, "Which station are you in?", "Pilot", "CPG");
                         Tsmi_AircraftSelection_Click(isPltForm.Result ? tsmi_AH64_PLT : tsmi_AH64_CPG, null);
                         break;
                     case "FA-18C_hornet":
@@ -1957,8 +1973,7 @@ namespace CoordinateConverter
                 // Ask if user wants to use MGRS or LL
                 string questionText = "Do you wish to use MGRS/UTM or L/L?\n" +
                     "The correct setting must be set in the CDU before points are entered.";
-                FormAskBinaryQuestion mgrsQuestion = new FormAskBinaryQuestion("Use MGRS or L/L?", "Use L/L", "Use MGRS/UTM", questionText);
-                mgrsQuestion.ShowDialog();
+                FormAskBinaryQuestion mgrsQuestion = new FormAskBinaryQuestion(this, "Use MGRS or L/L?", "Use L/L", "Use MGRS/UTM", questionText);
                 bool useLL = mgrsQuestion.Result;
 
                 // Set checkmark
@@ -2733,8 +2748,7 @@ namespace CoordinateConverter
             if (latest.CompareTo(VERSION) > 0)
             {
                 string question = string.Format("A new version is available.\nYour version: {0}\nNew version: {1}\nDo you want to get it now?", VERSION.ToString(), latest.ToString());
-                FormAskBinaryQuestion fetchLatestQuestion = new FormAskBinaryQuestion("Get latest?", "Yes", "Maybe later", question);
-                fetchLatestQuestion.ShowDialog();
+                FormAskBinaryQuestion fetchLatestQuestion = new FormAskBinaryQuestion(this, "Get latest?", "Yes", "Maybe later", question);
                 if (fetchLatestQuestion.Result)
                 {
                     System.Diagnostics.Process.Start(GitHub.Version.RELEASES_URL);

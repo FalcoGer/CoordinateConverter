@@ -106,7 +106,7 @@
             this.cb_RadiusCenter.FormattingEnabled = true;
             this.cb_RadiusCenter.Location = new System.Drawing.Point(245, 39);
             this.cb_RadiusCenter.Name = "cb_RadiusCenter";
-            this.cb_RadiusCenter.Size = new System.Drawing.Size(773, 21);
+            this.cb_RadiusCenter.Size = new System.Drawing.Size(864, 21);
             this.cb_RadiusCenter.TabIndex = 6;
             // 
             // label6
@@ -134,7 +134,6 @@
             // dgv_Units
             // 
             this.dgv_Units.AllowUserToAddRows = false;
-            this.dgv_Units.AllowUserToDeleteRows = false;
             this.dgv_Units.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -152,9 +151,11 @@
             this.dgv_Units.Location = new System.Drawing.Point(12, 66);
             this.dgv_Units.Name = "dgv_Units";
             this.dgv_Units.ReadOnly = true;
-            this.dgv_Units.Size = new System.Drawing.Size(1087, 354);
+            this.dgv_Units.Size = new System.Drawing.Size(1178, 354);
             this.dgv_Units.TabIndex = 8;
             this.dgv_Units.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Units_CellContentClick);
+            this.dgv_Units.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.Dgv_Units_CellFormatting);
+            this.dgv_Units.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Units_ColumnHeaderMouseClick);
             this.dgv_Units.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Dgv_Units_KeyPress);
             // 
             // btn_Refresh
@@ -172,7 +173,7 @@
             // 
             this.btn_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btn_Cancel.Location = new System.Drawing.Point(943, 426);
+            this.btn_Cancel.Location = new System.Drawing.Point(1034, 426);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(75, 23);
             this.btn_Cancel.TabIndex = 10;
@@ -183,7 +184,7 @@
             // btn_Import
             // 
             this.btn_Import.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Import.Location = new System.Drawing.Point(1024, 426);
+            this.btn_Import.Location = new System.Drawing.Point(1115, 426);
             this.btn_Import.Name = "btn_Import";
             this.btn_Import.Size = new System.Drawing.Size(75, 23);
             this.btn_Import.TabIndex = 11;
@@ -216,7 +217,7 @@
             // btn_ApplyFilter
             // 
             this.btn_ApplyFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_ApplyFilter.Location = new System.Drawing.Point(1024, 37);
+            this.btn_ApplyFilter.Location = new System.Drawing.Point(1115, 37);
             this.btn_ApplyFilter.Name = "btn_ApplyFilter";
             this.btn_ApplyFilter.Size = new System.Drawing.Size(75, 23);
             this.btn_ApplyFilter.TabIndex = 7;
@@ -264,10 +265,12 @@
             // 
             // dgvColClass
             // 
+            this.dgvColClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dgvColClass.FillWeight = 30F;
             this.dgvColClass.HeaderText = "Class";
             this.dgvColClass.Name = "dgvColClass";
             this.dgvColClass.ReadOnly = true;
+            this.dgvColClass.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
             // dgvColUnitName
             // 
@@ -286,18 +289,21 @@
             this.dgvColPosition.MinimumWidth = 170;
             this.dgvColPosition.Name = "dgvColPosition";
             this.dgvColPosition.ReadOnly = true;
+            this.dgvColPosition.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // dgvColBearing
             // 
             this.dgvColBearing.HeaderText = "REF BRG";
             this.dgvColBearing.Name = "dgvColBearing";
             this.dgvColBearing.ReadOnly = true;
+            this.dgvColBearing.Width = 73;
             // 
             // dgvColRange
             // 
             this.dgvColRange.HeaderText = "REF RNG";
             this.dgvColRange.Name = "dgvColRange";
             this.dgvColRange.ReadOnly = true;
+            this.dgvColRange.Width = 74;
             // 
             // dgvColImport
             // 
@@ -305,7 +311,7 @@
             this.dgvColImport.MinimumWidth = 40;
             this.dgvColImport.Name = "dgvColImport";
             this.dgvColImport.ReadOnly = true;
-            this.dgvColImport.Width = 40;
+            this.dgvColImport.Width = 42;
             // 
             // FormUnitImporter
             // 
@@ -313,7 +319,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btn_Cancel;
-            this.ClientSize = new System.Drawing.Size(1111, 461);
+            this.ClientSize = new System.Drawing.Size(1202, 461);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_ApplyFilter);
             this.Controls.Add(this.nud_RadiusValue);
@@ -333,6 +339,7 @@
             this.Name = "FormUnitImporter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Unit Import";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormUnitImporter_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Units)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_RadiusValue)).EndInit();
             this.ResumeLayout(false);

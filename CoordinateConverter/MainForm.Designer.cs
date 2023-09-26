@@ -118,12 +118,6 @@ namespace CoordinateConverter
             this.lbl_DCS_Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_Error = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgv_CoordinateList = new System.Windows.Forms.DataGridView();
-            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCoordinates = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAltitude = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colXFer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsmi_FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Load = new System.Windows.Forms.ToolStripMenuItem();
@@ -189,6 +183,12 @@ namespace CoordinateConverter
             this.btn_MoveDown = new System.Windows.Forms.ToolStripButton();
             this.btn_MoveUp = new System.Windows.Forms.ToolStripButton();
             this.label19 = new System.Windows.Forms.Label();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCoordinates = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAltitude = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colXFer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalMinutes_Precision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalSeconds_Precision)).BeginInit();
@@ -1289,83 +1289,6 @@ namespace CoordinateConverter
             this.dgv_CoordinateList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_CoordinateList_CellDoubleClick);
             this.dgv_CoordinateList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Dgv_CoordinateList_KeyDown);
             // 
-            // colId
-            // 
-            this.colId.DataPropertyName = "ID";
-            this.colId.Frozen = true;
-            this.colId.HeaderText = "#";
-            this.colId.MinimumWidth = 35;
-            this.colId.Name = "colId";
-            this.colId.ReadOnly = true;
-            this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colId.ToolTipText = "ID of the point.";
-            this.colId.Width = 35;
-            // 
-            // colLabel
-            // 
-            this.colLabel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colLabel.DataPropertyName = "Name";
-            this.colLabel.FillWeight = 40F;
-            this.colLabel.HeaderText = "Label";
-            this.colLabel.MaxInputLength = 12;
-            this.colLabel.MinimumWidth = 30;
-            this.colLabel.Name = "colLabel";
-            this.colLabel.ReadOnly = true;
-            this.colLabel.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colLabel.ToolTipText = "User defined label for the point";
-            // 
-            // colCoordinates
-            // 
-            this.colCoordinates.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colCoordinates.DataPropertyName = "CoordinateStr";
-            this.colCoordinates.FillWeight = 40F;
-            this.colCoordinates.HeaderText = "Coordinates";
-            this.colCoordinates.MinimumWidth = 180;
-            this.colCoordinates.Name = "colCoordinates";
-            this.colCoordinates.ReadOnly = true;
-            this.colCoordinates.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colCoordinates.ToolTipText = "Coordinate of the point.";
-            // 
-            // colAltitude
-            // 
-            this.colAltitude.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colAltitude.DataPropertyName = "Altitude";
-            this.colAltitude.FillWeight = 20F;
-            this.colAltitude.HeaderText = "Altitude";
-            this.colAltitude.MaxInputLength = 5;
-            this.colAltitude.MinimumWidth = 100;
-            this.colAltitude.Name = "colAltitude";
-            this.colAltitude.ReadOnly = true;
-            this.colAltitude.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colAltitude.ToolTipText = "Altitude of the point.";
-            // 
-            // colXFer
-            // 
-            this.colXFer.DataPropertyName = "XFER";
-            this.colXFer.FalseValue = "";
-            this.colXFer.HeaderText = "XFER";
-            this.colXFer.IndeterminateValue = "";
-            this.colXFer.MinimumWidth = 40;
-            this.colXFer.Name = "colXFer";
-            this.colXFer.ReadOnly = true;
-            this.colXFer.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colXFer.ToolTipText = "Check to enable transfer to DCS.";
-            this.colXFer.TrueValue = "";
-            this.colXFer.Width = 40;
-            // 
-            // colDelete
-            // 
-            this.colDelete.HeaderText = "Del";
-            this.colDelete.MinimumWidth = 30;
-            this.colDelete.Name = "colDelete";
-            this.colDelete.ReadOnly = true;
-            this.colDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colDelete.Text = "-";
-            this.colDelete.ToolTipText = "Remove a point from the list.";
-            this.colDelete.UseColumnTextForButtonValue = true;
-            this.colDelete.Width = 30;
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1913,6 +1836,86 @@ namespace CoordinateConverter
             this.label19.TabIndex = 33;
             this.label19.Text = resources.GetString("label19.Text");
             // 
+            // colId
+            // 
+            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colId.DataPropertyName = "ID";
+            this.colId.Frozen = true;
+            this.colId.HeaderText = "#";
+            this.colId.MinimumWidth = 35;
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colId.ToolTipText = "ID of the point.";
+            this.colId.Width = 35;
+            // 
+            // colLabel
+            // 
+            this.colLabel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colLabel.DataPropertyName = "Name";
+            this.colLabel.FillWeight = 40F;
+            this.colLabel.HeaderText = "Label";
+            this.colLabel.MaxInputLength = 12;
+            this.colLabel.MinimumWidth = 30;
+            this.colLabel.Name = "colLabel";
+            this.colLabel.ReadOnly = true;
+            this.colLabel.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colLabel.ToolTipText = "User defined label for the point";
+            // 
+            // colCoordinates
+            // 
+            this.colCoordinates.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colCoordinates.DataPropertyName = "CoordinateStr";
+            this.colCoordinates.FillWeight = 40F;
+            this.colCoordinates.HeaderText = "Coordinates";
+            this.colCoordinates.MinimumWidth = 180;
+            this.colCoordinates.Name = "colCoordinates";
+            this.colCoordinates.ReadOnly = true;
+            this.colCoordinates.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colCoordinates.ToolTipText = "Coordinate of the point.";
+            // 
+            // colAltitude
+            // 
+            this.colAltitude.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colAltitude.DataPropertyName = "Altitude";
+            this.colAltitude.FillWeight = 20F;
+            this.colAltitude.HeaderText = "Altitude";
+            this.colAltitude.MaxInputLength = 5;
+            this.colAltitude.MinimumWidth = 100;
+            this.colAltitude.Name = "colAltitude";
+            this.colAltitude.ReadOnly = true;
+            this.colAltitude.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colAltitude.ToolTipText = "Altitude of the point.";
+            // 
+            // colXFer
+            // 
+            this.colXFer.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colXFer.DataPropertyName = "XFER";
+            this.colXFer.FalseValue = "";
+            this.colXFer.HeaderText = "XFER";
+            this.colXFer.IndeterminateValue = "";
+            this.colXFer.MinimumWidth = 40;
+            this.colXFer.Name = "colXFer";
+            this.colXFer.ReadOnly = true;
+            this.colXFer.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colXFer.ToolTipText = "Check to enable transfer to DCS.";
+            this.colXFer.TrueValue = "";
+            this.colXFer.Width = 41;
+            // 
+            // colDelete
+            // 
+            this.colDelete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colDelete.HeaderText = "Del";
+            this.colDelete.MinimumWidth = 30;
+            this.colDelete.Name = "colDelete";
+            this.colDelete.ReadOnly = true;
+            this.colDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colDelete.Text = "-";
+            this.colDelete.ToolTipText = "Remove a point from the list.";
+            this.colDelete.UseColumnTextForButtonValue = true;
+            this.colDelete.Width = 30;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2125,15 +2128,15 @@ namespace CoordinateConverter
         private ToolStripButton btn_Add;
         private ToolStripButton btn_Edit;
         private ToolStripButton btn_SetBE;
+        private ToolStripMenuItem tsmi_CheckForUpdates;
+        private NumericUpDown nud_LL_DecimalMinutes_Precision;
+        private NumericUpDown nud_LL_DecimalSeconds_Precision;
         private DataGridViewTextBoxColumn colId;
         private DataGridViewTextBoxColumn colLabel;
         private DataGridViewTextBoxColumn colCoordinates;
         private DataGridViewTextBoxColumn colAltitude;
         private DataGridViewCheckBoxColumn colXFer;
         private DataGridViewButtonColumn colDelete;
-        private ToolStripMenuItem tsmi_CheckForUpdates;
-        private NumericUpDown nud_LL_DecimalMinutes_Precision;
-        private NumericUpDown nud_LL_DecimalSeconds_Precision;
     }
 }
 

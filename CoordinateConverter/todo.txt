@@ -1,7 +1,10 @@
 Add support for remote (DCS) hosts
     - auto switch reticle to never if ip is not localhost, because that makes no sense.
-Connection to DCS asyncronous to prevent ui freezes.
+Make DataGridView faster
+    - switch main form data grid to use a datatable (copy from unit importer)
+prevent ui freezes from connection to dcs
     - have the lua script connect to this tool?
+    - Async connections?
 When saving/loading, update the default location and file name
      - add a save option that just overwrites the last file loaded/saved
 Add support for selection instead of camera position when something is selected

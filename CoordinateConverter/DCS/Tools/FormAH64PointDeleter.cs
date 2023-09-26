@@ -27,9 +27,9 @@ namespace CoordinateConverter.DCS.Tools
             cb_PointType.Items.Clear();
             cb_PointType.DisplayMember = "Text";
             cb_PointType.ValueMember = "Value";
+            cb_PointType.Items.Add(new ComboItem<AH64.EPointType>("TG", AH64.EPointType.Target));
             cb_PointType.Items.Add(new ComboItem<AH64.EPointType>("WP/HZ", AH64.EPointType.Waypoint));
             cb_PointType.Items.Add(new ComboItem<AH64.EPointType>("CM", AH64.EPointType.ControlMeasure));
-            cb_PointType.Items.Add(new ComboItem<AH64.EPointType>("TG", AH64.EPointType.Target));
             cb_PointType.SelectedIndex = 0;
 
             this.selectedAircraft = selectedAircraft;

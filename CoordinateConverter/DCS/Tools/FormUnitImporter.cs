@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -26,6 +27,46 @@ namespace CoordinateConverter.DCS.Tools
         public List<CoordinateDataEntry> Coordinates { get; private set; } = null;
         private readonly Dictionary<int, CoordinateDataEntry> referencePoints = null;
         private const int IMPORT_CHECKBOX_COLUMN_ID = 8;
+        private readonly DataTable currentView = new DataTable();
+
+        private ERangeUnit GetSelectedRangeUnit()
+        {
+            return ComboItem<ERangeUnit>.GetSelectedValue(cb_RadiusUnit);
+        }
+
+        private double GetRangeConversionFactor(ERangeUnit from, ERangeUnit to)
+        {
+            double toMeters = 1.0;
+            switch (from)
+            {
+                case ERangeUnit.Feet:
+                    toMeters = 0.3048;
+                    break;
+                case ERangeUnit.NauticalMile:
+                    toMeters = 1852;
+                    break;
+                case ERangeUnit.Meter:
+                    toMeters = 1.0;
+                    break;
+                case ERangeUnit.KiloMeter:
+                    toMeters = 1000;
+                    break;
+            }
+
+            switch (to)
+            {
+                case ERangeUnit.Feet:
+                    return toMeters * 3.28084;
+                case ERangeUnit.NauticalMile:
+                    return toMeters / 1852;
+                case ERangeUnit.Meter:
+                    return toMeters;
+                case ERangeUnit.KiloMeter:
+                    return toMeters * 1000;
+                default:
+                    throw new ArgumentException("Bad enum value");
+            }
+        }
 
         private void UpdateAllUnitsFromDCS()
         {
@@ -53,7 +94,7 @@ namespace CoordinateConverter.DCS.Tools
             {
                 if ((bool)(row.Cells[IMPORT_CHECKBOX_COLUMN_ID] as DataGridViewCheckBoxCell).Value)
                 {
-                    int unitId = int.Parse(row.Cells[0].Value as string);
+                    int unitId = (int)row.Cells[0].Value;
                     DCSUnit unit = allDCSUnits.First(x => x.ObjectId == unitId);
                     DCSCoordinate dcsCoord = unit.Coordinate;
                     CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(dcsCoord.Lat, dcsCoord.Lon);
@@ -78,20 +119,10 @@ namespace CoordinateConverter.DCS.Tools
             Close();
         }
 
-        private void Filter()
+        private Bullseye GetRefpointBullseye()
         {
-            dgv_Units.Rows.Clear();
-
-            if (allDCSUnits == null)
-            {
-                return;
-            }
-
-            List<DCSUnit> units = allDCSUnits.Select(x => new DCSUnit(x)).ToList();
-            // Filter units by user selection
-            // Range
             int refPointId = ComboItem<int>.GetSelectedValue(cb_RadiusCenter);
-            CoordinateDataEntry refPoint = null;
+            CoordinateDataEntry refPoint;
             if (refPointId == -1)
             {
                 DCSMessage message = new DCSMessage() { FetchCameraPosition = true };
@@ -103,34 +134,25 @@ namespace CoordinateConverter.DCS.Tools
             {
                 refPoint = referencePoints[refPointId];
             }
-            Bullseye be = new Bullseye(refPoint.Coordinate);
+            return new Bullseye(refPoint.Coordinate);
+        }
 
-            ERangeUnit rangeUnit = ComboItem<ERangeUnit>.GetSelectedValue(cb_RadiusUnit);
+        private void Filter()
+        {
+            PopulateCurrentView();
+
+            if (allDCSUnits == null)
+            {
+                return;
+            }
+            (dgv_Units.DataSource as DataView).RowFilter = "1 = 1";
+
+            // Range
+            // Filter units by range
             if (cb_WithRadiusFilter.Checked)
             {
                 double rawRangeValue = (double)nud_RadiusValue.Value;
-                double rangeInM = 0;
-                switch (rangeUnit)
-                {
-                    case ERangeUnit.Feet:
-                        rangeInM = rawRangeValue / 0.3048;
-                        break;
-                    case ERangeUnit.NauticalMile:
-                        rangeInM = rawRangeValue * 1852;
-                        break;
-                    case ERangeUnit.Meter:
-                        rangeInM = rawRangeValue;
-                        break;
-                    case ERangeUnit.KiloMeter:
-                        rangeInM = rawRangeValue * 1000;
-                        break;
-                }
-                units = units.Where(x =>
-                {
-                    CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(x.Coordinate.Lat, x.Coordinate.Lon);
-                    BRA bra = be.GetBRA(coordinate);
-                    return bra.Range < (rangeInM / 1852); // bra range is in nmi
-                }).ToList();
+                (dgv_Units.DataSource as DataView).RowFilter += $" And {EDGVColumnHeaders.RNG} < {rawRangeValue.ToString(CultureInfo.InvariantCulture)}";
             }
 
             // Coalition
@@ -140,13 +162,9 @@ namespace CoordinateConverter.DCS.Tools
                 case ECoalition.Any:
                     break;
                 case ECoalition.Red:
-                    units = units.Where(x => x.Coalition == DCSUnit.ECoalition.Red).ToList();
-                    break;
                 case ECoalition.Blue:
-                    units = units.Where(x => x.Coalition == DCSUnit.ECoalition.Blue).ToList();
-                    break;
                 case ECoalition.Neutral:
-                    units = units.Where(x => x.Coalition == DCSUnit.ECoalition.Neutral).ToList();
+                    (dgv_Units.DataSource as DataView).RowFilter += $" And {EDGVColumnHeaders.Coalition} = '{selectedCoalition}'";
                     break;
             }
 
@@ -157,64 +175,17 @@ namespace CoordinateConverter.DCS.Tools
                 case EUnitCategory.Any:
                     break;
                 case EUnitCategory.Ground:
-                    units = units.Where(x => x.Type.Level1 == DCSUnitTypeInformation.ELevel1Type.Ground || x.Type.Level1 == DCSUnitTypeInformation.ELevel1Type.Static).ToList();
+                    (dgv_Units.DataSource as DataView).RowFilter +=
+                        " And" +
+                        $" ({EDGVColumnHeaders.TypeL1} = {(int)DCSUnitTypeInformation.ELevel1Type.Ground}" +
+                        $" Or {EDGVColumnHeaders.TypeL1} = {(int)DCSUnitTypeInformation.ELevel1Type.Static})";
                     break;
                 case EUnitCategory.Naval:
-                    units = units.Where(x => x.Type.Level1 == DCSUnitTypeInformation.ELevel1Type.Navy).ToList();
+                    (dgv_Units.DataSource as DataView).RowFilter += $" And {EDGVColumnHeaders.TypeL1} = {(int)DCSUnitTypeInformation.ELevel1Type.Navy}";
                     break;
                 case EUnitCategory.Air:
-                    units = units.Where(x => x.Type.Level1 == DCSUnitTypeInformation.ELevel1Type.Air).ToList();
+                    (dgv_Units.DataSource as DataView).RowFilter += $" And {EDGVColumnHeaders.TypeL1} = {(int)DCSUnitTypeInformation.ELevel1Type.Air}";
                     break;
-            }
-
-            // Add to the data grid
-            foreach (DCSUnit unit in units)
-            {
-                CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(unit.Coordinate.Lat, unit.Coordinate.Lon);
-                CoordinateSharp.CoordinateFormatOptions options = new CoordinateSharp.CoordinateFormatOptions()
-                {
-                    Display_Symbols = true,
-                    Display_Leading_Zeros = true,
-                    Display_Trailing_Zeros = true,
-                    Display_Hyphens = false,
-                    Round = 2,
-                    Format = CoordinateSharp.CoordinateFormatType.Degree_Minutes_Seconds
-                };
-
-                string rangeStr = string.Empty;
-                if (cb_WithRadiusFilter.Checked)
-                {
-                    double rangeInNmi = be.GetBRA(coordinate).Range;
-                    switch (rangeUnit)
-                    {
-                        case ERangeUnit.Feet:
-                            rangeStr = Math.Round(rangeInNmi * 6076.12, 1).ToString() + " ft";
-                            break;
-                        case ERangeUnit.NauticalMile:
-                            rangeStr = Math.Round(rangeInNmi * 1, 1).ToString() + " nmi";
-                            break;
-                        case ERangeUnit.Meter:
-                            rangeStr = Math.Round(rangeInNmi * 1852, 1).ToString() + " m";
-                            break;
-                        case ERangeUnit.KiloMeter:
-                            rangeStr = Math.Round(rangeInNmi * 1.852, 1).ToString() + " km";
-                            break;
-                    }
-                }
-
-                int rowIdx = dgv_Units.Rows.Add(
-                    (unit.ObjectId).ToString(),
-                    unit.Coalition.ToString(),
-                    unit.TypeName,
-                    unit.Type.Level2.ToString() + " / " + unit.Type.Level3.ToString(),
-                    (unit.UnitName ?? string.Empty) + " / " + (unit.GroupName ?? string.Empty),
-                    coordinate.ToString(),
-                    be != null ? Math.Round(be.GetBRA(coordinate).Bearing, 1).ToString() : String.Empty,
-                    rangeStr,
-                    true
-                );
-
-                dgv_Units.Rows[rowIdx].Cells[0].ToolTipText = JsonConvert.SerializeObject(unit, Formatting.Indented);
             }
         }
 
@@ -252,12 +223,107 @@ namespace CoordinateConverter.DCS.Tools
             KiloMeter
         }
 
+        private enum EDGVColumnHeaders
+        {
+            ID,
+            Coalition,
+            Type,
+            TypeL1,
+            TypeL2,
+            TypeL3,
+            TypeL4,
+            Class,
+            Name,
+            Position,
+            BRG,
+            RNG,
+            Import
+        }
+
+        private void InitCurrentView()
+        {
+            currentView.Clear();
+            currentView.Columns.Clear();
+
+            currentView.Columns.Add(EDGVColumnHeaders.ID.ToString(), typeof(int));
+            currentView.Columns.Add(EDGVColumnHeaders.Coalition.ToString(), typeof(string));
+            currentView.Columns.Add(EDGVColumnHeaders.Type.ToString(), typeof(string));
+            currentView.Columns.Add(EDGVColumnHeaders.Class.ToString(), typeof(string));
+            currentView.Columns.Add(EDGVColumnHeaders.TypeL1.ToString(), typeof(int));
+            currentView.Columns.Add(EDGVColumnHeaders.TypeL2.ToString(), typeof(int));
+            currentView.Columns.Add(EDGVColumnHeaders.TypeL3.ToString(), typeof(int));
+            currentView.Columns.Add(EDGVColumnHeaders.TypeL4.ToString(), typeof(int));
+            currentView.Columns.Add(EDGVColumnHeaders.Name.ToString(), typeof(string));
+            currentView.Columns.Add(EDGVColumnHeaders.Position.ToString(), typeof(string));
+            currentView.Columns.Add(EDGVColumnHeaders.BRG.ToString(), typeof(double));
+            currentView.Columns.Add(EDGVColumnHeaders.RNG.ToString(), typeof(double));
+            currentView.Columns.Add(EDGVColumnHeaders.Import.ToString(), typeof(bool));
+        }
+
+        private void PopulateCurrentView()
+        {
+            CoordinateSharp.CoordinateFormatOptions options = new CoordinateSharp.CoordinateFormatOptions()
+            {
+                Display_Symbols = true,
+                Display_Leading_Zeros = true,
+                Display_Trailing_Zeros = true,
+                Display_Hyphens = false,
+                Round = 2,
+                Format = CoordinateSharp.CoordinateFormatType.Degree_Minutes_Seconds
+            };
+
+            currentView.Rows.Clear(); // Delete all data
+
+            Bullseye be = GetRefpointBullseye();
+            foreach (DCSUnit unit in allDCSUnits)
+            {
+                CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(unit.Coordinate.Lat, unit.Coordinate.Lon);
+                double conversionFactor = GetRangeConversionFactor(ERangeUnit.NauticalMile, GetSelectedRangeUnit());
+
+                currentView.Rows.Add(
+                    unit.ObjectId,
+                    unit.Coalition.ToString(),
+                    unit.TypeName,
+                    unit.Type.Level2 + " / " + unit.Type.Level3,
+                    (int)unit.Type.Level1,
+                    (int)unit.Type.Level2,
+                    (int)unit.Type.Level3,
+                    unit.Type.Level4,
+                    unit.UnitName + " / " + unit.GroupName,
+                    coordinate.ToString(options),
+                    be.GetBRA(coordinate).Bearing,
+                    be.GetBRA(coordinate).Range * conversionFactor,
+                    true
+                );
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FormUnitImporter"/> class.
         /// </summary>
         public FormUnitImporter(List<CoordinateDataEntry> referencePoints)
         {
             InitializeComponent();
+
+            // Don't auto generate columns
+            // This prevents the generation of columns when assigning the data source
+            // Instead we set each column's DataPropertyName individually
+            dgv_Units.AutoGenerateColumns = false;
+
+            InitCurrentView();
+
+            // This binds the existing columns to the data properties in the data view
+            dgv_Units.Columns["dgvColId"].DataPropertyName = EDGVColumnHeaders.ID.ToString();
+            dgv_Units.Columns["dgvColCoalition"].DataPropertyName = EDGVColumnHeaders.Coalition.ToString();
+            dgv_Units.Columns["dgvColTypeName"].DataPropertyName = EDGVColumnHeaders.Type.ToString();
+            dgv_Units.Columns["dgvColClass"].DataPropertyName = EDGVColumnHeaders.Class.ToString();
+            dgv_Units.Columns["dgvColUnitName"].DataPropertyName = EDGVColumnHeaders.Name.ToString();
+            dgv_Units.Columns["dgvColPosition"].DataPropertyName = EDGVColumnHeaders.Position.ToString();
+            dgv_Units.Columns["dgvColBearing"].DataPropertyName = EDGVColumnHeaders.BRG.ToString();
+            dgv_Units.Columns["dgvColRange"].DataPropertyName = EDGVColumnHeaders.RNG.ToString();
+            dgv_Units.Columns["dgvColImport"].DataPropertyName = EDGVColumnHeaders.Import.ToString();
+
+            dgv_Units.DataSource = currentView.AsDataView();
 
             // Setup coalition filter
             cb_CoalitionFilter.DisplayMember = "Text";
@@ -319,35 +385,77 @@ namespace CoordinateConverter.DCS.Tools
         private void Dgv_Units_CellContentClick(object objSender, DataGridViewCellEventArgs e)
         {
             DataGridView sender = objSender as DataGridView;
-            if (sender.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
+            switch (sender.Columns[e.ColumnIndex].Name)
             {
-                // a checkbox was clicked
-                if (e.RowIndex >= 0)
-                {
-                    DataGridViewCheckBoxCell cell = sender.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewCheckBoxCell;
-                    cell.Value = !(cell.Value as bool? ?? false); // invert current selection
-                    return;
-                }
-                // a checkbox header was clicked
-                else
-                {
-                    bool allAreOn = true;
-                    foreach (DataGridViewRow row in sender.Rows)
+                case "dgvColImport":
+                    // a checkbox was clicked
+                    if (e.RowIndex >= 0)
                     {
-                        DataGridViewCheckBoxCell cell = (row.Cells[IMPORT_CHECKBOX_COLUMN_ID] as DataGridViewCheckBoxCell);
-                        if (!(cell.Value as bool? ?? false))
+                        DataGridViewCheckBoxCell cell = sender.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewCheckBoxCell;
+                        cell.Value = !(cell.Value as bool? ?? false); // invert current selection
+                        break;
+                    }
+                    // a checkbox header was clicked
+                    else
+                    {
+                        bool allAreOn = true;
+                        foreach (DataGridViewRow row in sender.Rows)
                         {
-                            allAreOn = false;
-                            break;
+                            DataGridViewCheckBoxCell cell = (row.Cells[IMPORT_CHECKBOX_COLUMN_ID] as DataGridViewCheckBoxCell);
+                            if (!(cell.Value as bool? ?? false))
+                            {
+                                allAreOn = false;
+                                break;
+                            }
                         }
+
+                        foreach (DataGridViewRow row in sender.Rows)
+                        {
+                            (row.Cells[IMPORT_CHECKBOX_COLUMN_ID] as DataGridViewCheckBoxCell).Value = !allAreOn;
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
+        private void Dgv_Units_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            switch (dgv_Units.Columns[e.ColumnIndex].Name)
+            {
+                case "dgvColClass":
+                    if (dgv_Units.SortedColumn != null && dgv_Units.SortedColumn.Index != e.ColumnIndex)
+                    {
+                        // Set the old sorted column glyph to empty
+                        dgv_Units.SortedColumn.HeaderCell.SortGlyphDirection = SortOrder.None;
                     }
 
-                    foreach (DataGridViewRow row in sender.Rows)
+                    var direction = System.ComponentModel.ListSortDirection.Descending;
+                    if (dgv_Units.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection == SortOrder.Ascending)
                     {
-                        (row.Cells[IMPORT_CHECKBOX_COLUMN_ID] as DataGridViewCheckBoxCell).Value = !allAreOn;
+                        direction = System.ComponentModel.ListSortDirection.Descending;
+                        dgv_Units.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = SortOrder.Descending;
+                        (dgv_Units.DataSource as DataView).Sort =
+                            $"{EDGVColumnHeaders.TypeL1} DESC," +
+                            $"{EDGVColumnHeaders.TypeL2} DESC," +
+                            $"{EDGVColumnHeaders.TypeL3} DESC," +
+                            $"{EDGVColumnHeaders.TypeL4} DESC";
                     }
-                    return;
-                }
+                    else
+                    {
+                        direction = System.ComponentModel.ListSortDirection.Ascending;
+                        dgv_Units.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
+                        (dgv_Units.DataSource as DataView).Sort =
+                            $"{EDGVColumnHeaders.TypeL1} ASC," +
+                            $"{EDGVColumnHeaders.TypeL2} ASC," +
+                            $"{EDGVColumnHeaders.TypeL3} ASC," +
+                            $"{EDGVColumnHeaders.TypeL4} ASC";
+                    }
+                    dgv_Units.Sort(dgv_Units.Columns[e.ColumnIndex], direction);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -390,6 +498,32 @@ namespace CoordinateConverter.DCS.Tools
                     DataGridViewCheckBoxCell cell = row.Cells[IMPORT_CHECKBOX_COLUMN_ID] as DataGridViewCheckBoxCell;
                     cell.Value = !allAreOn;
                 }
+            }
+        }
+
+        private void FormUnitImporter_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            dgv_Units.DataSource = null;
+            dgv_Units.Rows.Clear();
+            currentView.Dispose();
+        }
+
+        private void Dgv_Units_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            switch (dgv_Units.Columns[e.ColumnIndex].Name)
+            {
+                case "dgvColBearing":
+                    e.Value = Math.Round((double)e.Value, 1).ToString("N1", CultureInfo.InvariantCulture) + " °";
+                    break;
+                case "dgvColRange":
+                    e.Value = Math.Round((double)e.Value, 1).ToString("N1", CultureInfo.InvariantCulture) + " " + ComboItem<ERangeUnit>.GetSelectedText(cb_RadiusUnit);
+                    break;
+                case "dgvColPosition":
+                    e.Value = (e.Value as string).Replace("º", "°").Replace(",", ".");
+                    break;
+                default:
+                    e.FormattingApplied = false;
+                    break;
             }
         }
     }
