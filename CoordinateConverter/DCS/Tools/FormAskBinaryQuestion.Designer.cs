@@ -79,6 +79,7 @@
             this.Name = "FormAskBinaryQuestion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AskBinaryQuestion";
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 
