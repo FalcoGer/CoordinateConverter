@@ -143,7 +143,7 @@ namespace CoordinateConverter
             this.tsmi_F15E_WSO = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_F16Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_F16 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmi_F16_SetStartFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_F16_SetFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_F18 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_JF17Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_JF17 = new System.Windows.Forms.ToolStripMenuItem();
@@ -1484,7 +1484,7 @@ namespace CoordinateConverter
             // 
             this.tsmi_F16Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmi_F16,
-            this.tsmi_F16_SetStartFirstPoint});
+            this.tsmi_F16_SetFirstPoint});
             this.tsmi_F16Menu.Name = "tsmi_F16Menu";
             this.tsmi_F16Menu.Size = new System.Drawing.Size(116, 22);
             this.tsmi_F16Menu.Text = "F16";
@@ -1498,10 +1498,10 @@ namespace CoordinateConverter
             // 
             // tsmi_F16_SetStartFirstPoint
             // 
-            this.tsmi_F16_SetStartFirstPoint.Name = "tsmi_F16_SetStartFirstPoint";
-            this.tsmi_F16_SetStartFirstPoint.Size = new System.Drawing.Size(171, 22);
-            this.tsmi_F16_SetStartFirstPoint.Text = "Set first point...";
-            this.tsmi_F16_SetStartFirstPoint.Click += new System.EventHandler(this.Tsmi_F16_SetFirstPoint_Click);
+            this.tsmi_F16_SetFirstPoint.Name = "tsmi_F16_SetStartFirstPoint";
+            this.tsmi_F16_SetFirstPoint.Size = new System.Drawing.Size(171, 22);
+            this.tsmi_F16_SetFirstPoint.Text = "Set first point...";
+            this.tsmi_F16_SetFirstPoint.Click += new System.EventHandler(this.Tsmi_F16_SetFirstPoint_Click);
             // 
             // tsmi_F18
             // 
@@ -2106,7 +2106,7 @@ namespace CoordinateConverter
         private ToolStripMenuItem tsmi_F15E_WSO;
         private ToolStripMenuItem tsmi_StopTransfer;
         private ToolStripMenuItem tsmi_F16;
-        private ToolStripMenuItem tsmi_F16_SetStartFirstPoint;
+        private ToolStripMenuItem tsmi_F16_SetFirstPoint;
         private ToolStripMenuItem tsmi_JF17Menu;
         private ToolStripMenuItem tsmi_JF17;
         private ToolStripMenuItem tsmi_JF17_SetFirstPoint;

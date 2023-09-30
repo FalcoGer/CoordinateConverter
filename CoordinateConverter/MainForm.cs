@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -1819,6 +1820,23 @@ namespace CoordinateConverter
             };
         }
 
+        private Dictionary<Type, List<ToolStripMenuItem>> AircraftMenuStripItemsForAircraftType
+        {
+            get => new Dictionary<Type, List<ToolStripMenuItem>>()
+            {
+                { typeof(A10C), new List<ToolStripMenuItem>() { tsmi_A10C, tsmi_A10C_UseMGRS } },
+                { typeof(AH64), new List<ToolStripMenuItem>() { tsmi_AH64_CPG, tsmi_AH64_PLT, tsmi_AH64_ClearPoints } },
+                { typeof(AV8B), new List<ToolStripMenuItem>() { tsmi_AV8B } },
+                { typeof(F15E), new List<ToolStripMenuItem>() { tsmi_F15E_Pilot, tsmi_F15E_WSO } },
+                { typeof(F16C), new List<ToolStripMenuItem>() { tsmi_F16, tsmi_F16_SetFirstPoint } },
+                { typeof(JF17), new List<ToolStripMenuItem>() { tsmi_JF17, tsmi_JF17_SetFirstPoint } },
+                { typeof(F18C), new List<ToolStripMenuItem>() { tsmi_F18 } },
+                { typeof(KA50), new List<ToolStripMenuItem>() { tsmi_KA50 } },
+                { typeof(M2000), new List<ToolStripMenuItem>() { tsmi_M2000 } },
+                
+            };
+        }
+
         private void Tsmi_Aircraft_Auto_Click(object objSender, EventArgs e)
         {
             ToolStripMenuItem sender = objSender as ToolStripMenuItem;
@@ -1828,13 +1846,16 @@ namespace CoordinateConverter
 
         private void UpdateAircraftSelectionItemsBasedOnAutoSetting()
         {
-            if (tsmi_Auto.Checked)
+            foreach (var menuItemList in AircraftMenuStripItemsForAircraftType.Values)
             {
-                foreach (ToolStripMenuItem menuItem in AircraftSelectionMenuStripItems)
+                foreach (var menuItem in menuItemList)
                 {
                     menuItem.Enabled = false;
                     menuItem.Checked = false;
                 }
+            }
+            if (tsmi_Auto.Checked)
+            {
                 selectedAircraft = null;
             }
             else
@@ -1844,93 +1865,69 @@ namespace CoordinateConverter
                 {
                     menuItem.Enabled = true;
                 }
-                tsmi_AH64_ClearPoints.Enabled = true;
-                tsmi_F16_SetStartFirstPoint.Enabled = true;
-                tsmi_JF17_SetFirstPoint.Enabled = true;
             }
         }
 
         private void AutoSelectAircraft(string model)
         {
-            foreach (ToolStripMenuItem mi in AircraftSelectionMenuStripItems)
-            {
-                mi.Enabled = false;
-            }
-            tsmi_AH64_ClearPoints.Enabled = false;
-            tsmi_F16_SetStartFirstPoint.Enabled = false;
-            tsmi_JF17_SetFirstPoint.Enabled = false;
-            tsmi_A10C_UseMGRS.Enabled = false;
-
             if (string.IsNullOrEmpty(model) || model == "null")
             {
                 selectedAircraft = null;
+                return;
             }
-            else
+            
+            // Switch aircraft. Ask user here which version of the cockpit they are in. (AH64, F15E)
+            switch (model)
             {
-                // Switch aircraft. Ask user here which version of the cockpit they are in. (AH64, F15E)
-                switch (model)
-                {
-                    case "AH-64D_BLK_II":
-                        tsmi_AH64_PLT.Enabled = true;
-                        tsmi_AH64_CPG.Enabled = true;
-                        tsmi_AH64_ClearPoints.Enabled = true;
-                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(AH64))
-                        {
-                            break;
-                        }
-                        FormAskBinaryQuestion isPltForm = new FormAskBinaryQuestion(this, "Which station are you in?", "Pilot", "CPG");
-                        Tsmi_AircraftSelection_Click(isPltForm.Result ? tsmi_AH64_PLT : tsmi_AH64_CPG, null);
+                case "AH-64D_BLK_II":
+                    if (selectedAircraft != null && selectedAircraft.GetType() == typeof(AH64))
+                    {
                         break;
-                    case "FA-18C_hornet":
-                        tsmi_F18.Enabled = true;
-                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F18C))
-                        {
-                            break;
-                        }
-                        Tsmi_AircraftSelection_Click(tsmi_F18, null);
+                    }
+                    FormAskBinaryQuestion isPltForm = new FormAskBinaryQuestion(this, "Which station are you in?", "Pilot", "CPG");
+                    Tsmi_AircraftSelection_Click(isPltForm.Result ? tsmi_AH64_PLT : tsmi_AH64_CPG, null);
+                    break;
+                case "FA-18C_hornet":
+                    if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F18C))
+                    {
                         break;
-                    case "F-16C_50":
-                        tsmi_F16.Enabled = true;
-                        tsmi_F16_SetStartFirstPoint.Enabled = true;
-                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F16C))
-                        {
-                            break;
-                        }
-                        Tsmi_AircraftSelection_Click(tsmi_F16, null);
+                    }
+                    Tsmi_AircraftSelection_Click(tsmi_F18, null);
+                    break;
+                case "F-16C_50":
+                    if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F16C))
+                    {
                         break;
-                    case "Ka-50":
-                    case "Ka-50_3":
-                        tsmi_KA50.Enabled = true;
-                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(KA50))
-                        {
-                            break;
-                        }
-                        Tsmi_AircraftSelection_Click(tsmi_KA50, null);
+                    }
+                    Tsmi_AircraftSelection_Click(tsmi_F16, null);
+                    break;
+                case "Ka-50":
+                case "Ka-50_3":
+                    if (selectedAircraft != null && selectedAircraft.GetType() == typeof(KA50))
+                    {
                         break;
-                    case "A-10C":
-                    case "A-10C_2":
-                        tsmi_A10C_UseMGRS.Enabled = true;
-                        tsmi_A10C.Enabled = true;
-                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(A10C))
-                        {
-                            break;
-                        }
-                        Tsmi_AircraftSelection_Click(tsmi_A10C, null);
+                    }
+                    Tsmi_AircraftSelection_Click(tsmi_KA50, null);
+                    break;
+                case "A-10C":
+                case "A-10C_2":
+                    if (selectedAircraft != null && selectedAircraft.GetType() == typeof(A10C))
+                    {
                         break;
-                    case "JF-17":
-                        tsmi_JF17.Enabled = true;
-                        tsmi_JF17_SetFirstPoint.Enabled = true;
-                        if (selectedAircraft != null && selectedAircraft.GetType() == typeof(JF17))
-                        {
-                            break;
-                        }
-                        Tsmi_AircraftSelection_Click(tsmi_JF17, null);
+                    }
+                    Tsmi_AircraftSelection_Click(tsmi_A10C, null);
+                    break;
+                case "JF-17":
+                    if (selectedAircraft != null && selectedAircraft.GetType() == typeof(JF17))
+                    {
                         break;
-                    default:
-                        lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";
-                        lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
-                        break;
-                }
+                    }
+                    Tsmi_AircraftSelection_Click(tsmi_JF17, null);
+                    break;
+                default:
+                    lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";
+                    lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
+                    break;
             }
         }
 
@@ -1946,57 +1943,22 @@ namespace CoordinateConverter
                 mi.Checked = mi.Name == sender.Name;
             }
 
-            // Remind user here: "Transfer uses MGRS instead of L/L if MGRS selected, cockpit must match"
-            if (sender.Name == tsmi_AH64_PLT.Name)
+            // turn off the aircraft specific menu items for all aircraft (we enable the correct ones later)
+            foreach (var menuItemList in AircraftMenuStripItemsForAircraftType.Values)
             {
-                selectedAircraft = new AH64(true);
+                foreach (var menuItem in menuItemList)
+                {
+                    if (AircraftSelectionMenuStripItems.Contains(menuItem))
+                    {
+                        // ignore the aircraft item directly, only disable the extra menu items
+                        // the aircraft selection menu items are handled by the auto menu item and aircraft auto select
+                        continue;
+                    }
+                    menuItem.Enabled = false;
+                }
             }
-            else if (sender.Name == tsmi_AH64_CPG.Name)
-            {
-                selectedAircraft = new AH64(false);
-            }
-            else if (sender.Name == tsmi_F18.Name)
-            {
-                selectedAircraft = new F18C();
-                string message = "Make sure PRECISE mode is selected in HSI->Data.\n" +
-                    "Make sure waypoint sequence is not selected before putting in waypoints.\n" +
-                    "The next waypoint number and up from the currently selected one will be overwritten\n" +
-                    "Make sure aircraft is in L/L Decimal mode (default). Check in HSI -> Data -> Aircraft -> Bottom right\n" +
-                    "Make sure no weapon is selected prior to entering weapon data\n" +
-                    "Maximum number SLAM-ER of steer points is 5.";
-                FormMessage reminder = new FormMessage(this, "Reminder", "OK", message);
-            }
-            else if (sender.Name == tsmi_F16.Name)
-            {
-                Tsmi_F16_SetFirstPoint_Click(tsmi_F16_SetStartFirstPoint, null);
-            }
-            else if (sender.Name == tsmi_A10C.Name)
-            {
-                // Ask if user wants to use MGRS or LL
-                string questionText = "Do you wish to use MGRS/UTM or L/L?\n" +
-                    "The correct setting must be set in the CDU before points are entered.";
-                FormAskBinaryQuestion mgrsQuestion = new FormAskBinaryQuestion(this, "Use MGRS or L/L?", "Use L/L", "Use MGRS/UTM", questionText);
-                bool useLL = mgrsQuestion.Result;
 
-                // Set checkmark
-                tsmi_A10C_UseMGRS.Checked = !useLL;
-
-                // Select aircraft
-                selectedAircraft = new A10C(!useLL);
-            }
-            else if (sender.Name == tsmi_JF17.Name)
-            {
-                Tsmi_JF17_SetFirstPoint_Click(tsmi_JF17_SetFirstPoint, null);
-            }
-            else if (sender.Name == tsmi_KA50.Name)
-            {
-                selectedAircraft = new KA50();
-            }
-            else if (sender.Name == tsmi_A10C.Name)
-            {
-                Tsmi_A10C_UseMGRS_Click(tsmi_A10C_UseMGRS, null);
-            }
-            else
+            if (!SetSelectedAircraft(sender.Name))
             {
                 // Unsupported aircraft
                 selectedAircraft = null;
@@ -2011,7 +1973,81 @@ namespace CoordinateConverter
                 return;
             }
 
-            // Update point types for aircraft that have them
+            if (selectedAircraft != null)
+            {
+                foreach (var menuItem in AircraftMenuStripItemsForAircraftType[selectedAircraft.GetType()])
+                {
+                    menuItem.Enabled = true;
+                }
+            }
+
+            UpdatePointTypesForSelectedAircraft();
+            UpdateOrAddAircraftSpecificDataForInput();
+
+            RefreshDataGrid(EDataGridUpdateType.UpdateCells);
+        }
+
+        private bool SetSelectedAircraft(string ControlName)
+        {
+            // Remind user here: "Transfer uses MGRS instead of L/L if MGRS selected, cockpit must match"
+            if (ControlName == tsmi_AH64_PLT.Name)
+            {
+                selectedAircraft = new AH64(true);
+            }
+            else if (ControlName == tsmi_AH64_CPG.Name)
+            {
+                selectedAircraft = new AH64(false);
+            }
+            else if (ControlName == tsmi_F18.Name)
+            {
+                selectedAircraft = new F18C();
+                string message = "Make sure PRECISE mode is selected in HSI->Data.\n" +
+                    "Make sure waypoint sequence is not selected before putting in waypoints.\n" +
+                    "The next waypoint number and up from the currently selected one will be overwritten\n" +
+                    "Make sure aircraft is in L/L Decimal mode (default). Check in HSI -> Data -> Aircraft -> Bottom right\n" +
+                    "Make sure no weapon is selected prior to entering weapon data\n" +
+                    "Maximum number SLAM-ER of steer points is 5.";
+                new FormMessage(this, "Reminder", "OK", message).Dispose();
+            }
+            else if (ControlName == tsmi_F16.Name)
+            {
+                Tsmi_F16_SetFirstPoint_Click(tsmi_F16_SetFirstPoint, null);
+            }
+            else if (ControlName == tsmi_A10C.Name)
+            {
+                // Ask if user wants to use MGRS or LL
+                string questionText = "Do you wish to use MGRS/UTM or L/L?\n" +
+                    "The correct setting must be set in the CDU before points are entered.";
+                FormAskBinaryQuestion mgrsQuestion = new FormAskBinaryQuestion(this, "Use MGRS or L/L?", "Use L/L", "Use MGRS/UTM", questionText);
+                bool useLL = mgrsQuestion.Result;
+
+                // Set checkmark
+                tsmi_A10C_UseMGRS.Checked = !useLL;
+
+                // Select aircraft
+                selectedAircraft = new A10C(!useLL);
+            }
+            else if (ControlName == tsmi_JF17.Name)
+            {
+                Tsmi_JF17_SetFirstPoint_Click(tsmi_JF17_SetFirstPoint, null);
+            }
+            else if (ControlName == tsmi_KA50.Name)
+            {
+                selectedAircraft = new KA50();
+            }
+            else if (ControlName == tsmi_A10C.Name)
+            {
+                Tsmi_A10C_UseMGRS_Click(tsmi_A10C_UseMGRS, null);
+            }
+            else
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void UpdatePointTypesForSelectedAircraft()
+        {
             cb_PointType.Items.Clear();
             if (selectedAircraft.GetType() == typeof(AH64))
             {
@@ -2048,9 +2084,10 @@ namespace CoordinateConverter
                 cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(x => new ComboItem<string>(x, x)).ToArray());
             }
             cb_PointType.Enabled = cb_PointType.Items.Count > 1;
-            
+        }
 
-            // Add aircraft specific data to the input if input is valid (exists)
+        private void UpdateOrAddAircraftSpecificDataForInput()
+        {
             if (selectedAircraft.GetType() == typeof(AH64))
             {
                 // if the point has AH64 data, we load it.
@@ -2151,8 +2188,6 @@ namespace CoordinateConverter
             {
                 cb_PointType.SelectedIndex = 0;
             }
-
-            RefreshDataGrid(EDataGridUpdateType.UpdateCells);
         }
 
         private void Cb_pointType_SelectedIndexChanged(object objSender, EventArgs e)

@@ -65,6 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DCS\Aircraft\A10C.cs" />
+    <Compile Include="DCS\Aircraft\AV8B.cs" />
+    <Compile Include="DCS\Aircraft\F15E.cs" />
+    <Compile Include="DCS\Aircraft\M2000.cs" />
     <Compile Include="DCS\Tools\FormAH64PointDeleter.cs">
       <SubType>Form</SubType>
     </Compile>
