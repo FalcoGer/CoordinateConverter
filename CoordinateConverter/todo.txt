@@ -58,8 +58,7 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
         - SLAM-ER
             - STP for each station?
         - hornet, autoswitch all to PP2 after dropping from BRU?
-        - autoswitch to A/G or NAV mode before anything else because A/A mode will break things.
-        - switch back to PP1 after entering any pre plan other than 1
+        - remember which weapon station was selected last and only switch when it's different for the next point
     - A10C
         - remind user that selection MGRS will use MGRS input into CDU
             -fetch if UTM or L/L is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)
