@@ -1,12 +1,30 @@
 Add support for remote (DCS) hosts
     - auto switch reticle to never if ip is not localhost, because that makes no sense.
+
+
 Make DataGridView faster
     - switch main form data grid to use a datatable (copy from unit importer)
-prevent ui freezes from connection to dcs
-    - have the lua script connect to this tool?
-    - Async connections?
+
+
+rewrite networking
+    - one stable connection, not constant connecting and disconnecting
+    - lua should connect to the tool, not the tool to lua
+        - prevents tool to hang without connections
+        - binary property to check if connected before sending a message
+    - lua creates socket in init
+    - lua checks for connection every tick before trying to send/receive
+    - lua autosends coordinates (?)
+        - callback/delegate on data received?
+        - async receiver
+    - lua makes connection every x (3?) seconds using the timed export function if connection is not already established
+        - dcs lag?
+            - if so, how to make async?
+
+
 When saving/loading, update the default location and file name
      - add a save option that just overwrites the last file loaded/saved
+
+
 Add support for selection instead of camera position when something is selected
     - add option for auto listing any new unit that was clicked
         - alternatively use LoGetWorldObjects("units") (Exports.lua:L426)
@@ -17,6 +35,8 @@ Add support for selection instead of camera position when something is selected
         - check in DCS World install dir in `\Scripts\Export.lua` for clues
         - LoGetObjectById()
             - how to get ID?
+
+
 Add support for importing airfields
     - LoGetWorldObjects("airdromes") (Exports.lua:L426)
     - create coordinate data entries for each unit to import.
@@ -24,6 +44,8 @@ Add support for importing airfields
         - use the dcs encyclopedia data to figure out categories for unknown types
         - load type database from external file?
             - tool to create/edit that file?
+
+
 Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/moduleCommands)
     - general
         - determine keycodes with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\clickabledata.lua`
@@ -51,6 +73,8 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
         - Ask user for seat
     - JF17
         - Check of N/S and E/W is automatically set and what the source of that information is
+
+
 Allow users to do tedious setups, perhaps save a sequence of commands to be played back later (low priority)
     - Include DTC features, separate from points entirely
         - saving/loading for each aircraft type
@@ -66,4 +90,6 @@ Allow users to do tedious setups, perhaps save a sequence of commands to be play
         - D/L
         - TACAN
         - ILS
+
+
 next waypoint bearing/range/deltaAltitude column

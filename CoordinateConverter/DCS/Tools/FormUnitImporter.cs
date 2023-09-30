@@ -127,7 +127,10 @@ namespace CoordinateConverter.DCS.Tools
             {
                 DCSMessage message = new DCSMessage() { FetchCameraPosition = true };
                 message = DCSConnection.SendRequest(message);
-
+                if (message == null)
+                {
+                    return null;
+                }
                 refPoint = new CoordinateDataEntry(-1, message.CameraPosition.GetCoordinate());
             }
             else
@@ -275,6 +278,10 @@ namespace CoordinateConverter.DCS.Tools
             currentView.Rows.Clear(); // Delete all data
 
             Bullseye be = GetRefPointBullseye();
+            if (allDCSUnits == null)
+            {
+                return;
+            }
             foreach (DCSUnit unit in allDCSUnits)
             {
                 CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(unit.Coordinate.Lat, unit.Coordinate.Lon);
@@ -291,8 +298,8 @@ namespace CoordinateConverter.DCS.Tools
                     unit.Type.Level4,
                     unit.UnitName + " / " + unit.GroupName,
                     coordinate.ToString(options),
-                    be.GetBRA(coordinate).Bearing,
-                    be.GetBRA(coordinate).Range * conversionFactor,
+                    (be == null) ? (double?)null : be.GetBRA(coordinate).Bearing,
+                    (be == null) ? (double?)null : be.GetBRA(coordinate).Range * conversionFactor,
                     true
                 );
             }

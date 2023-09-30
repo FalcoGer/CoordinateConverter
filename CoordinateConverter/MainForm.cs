@@ -19,7 +19,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 10);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 11);
 
         private readonly Color ERROR_COLOR = Color.Pink;
         private readonly Color DCS_ERROR_COLOR = Color.Yellow;
@@ -1821,13 +1821,14 @@ namespace CoordinateConverter
 
         private void Tsmi_Aircraft_Auto_Click(object objSender, EventArgs e)
         {
-            lbl_Error.Visible = false;
-
             ToolStripMenuItem sender = objSender as ToolStripMenuItem;
-
             sender.Checked = !sender.Checked;
+            UpdateAircraftSelectionItemsBasedOnAutoSetting();
+        }
 
-            if (sender.Checked)
+        private void UpdateAircraftSelectionItemsBasedOnAutoSetting()
+        {
+            if (tsmi_Auto.Checked)
             {
                 foreach (ToolStripMenuItem menuItem in AircraftSelectionMenuStripItems)
                 {
@@ -1838,7 +1839,7 @@ namespace CoordinateConverter
             }
             else
             {
-                // auto was deactivated
+                // auto is deactivated
                 foreach (ToolStripMenuItem menuItem in AircraftSelectionMenuStripItems)
                 {
                     menuItem.Enabled = true;
@@ -2736,6 +2737,9 @@ namespace CoordinateConverter
                 }
                 idx++;
             }
+
+            // Based on the auto setting, make aircraft selection available or unavailable
+            UpdateAircraftSelectionItemsBasedOnAutoSetting();
 
             // Start the timer last
             tmr250ms.Start();
