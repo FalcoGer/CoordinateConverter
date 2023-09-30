@@ -27,6 +27,12 @@ namespace CoordinateConverter.DCS.Aircraft
             };
 
             message = DCSConnection.SendRequest(message);
+
+            if (message == null)
+            {
+                return 0;
+            }
+
             if (message.ServerErrors != null && message.ServerErrors.Count > 0)
             {
                 string errorMessage = string.Join("\n", message.ServerErrors);
