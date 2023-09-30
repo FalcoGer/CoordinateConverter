@@ -19,7 +19,7 @@ namespace CoordinateConverter.DCS.Tools
         /// <summary>
         /// Initializes a new instance of the <see cref="FormStartingWaypoint"/> class.
         /// </summary>
-        public FormStartingWaypoint(int minSteerPoint, int maxSteerPoint, int defaultValue)
+        public FormStartingWaypoint(Form parent, int minSteerPoint, int maxSteerPoint, int defaultValue)
         {
             InitializeComponent();
             if (minSteerPoint > defaultValue || minSteerPoint > maxSteerPoint || maxSteerPoint < defaultValue)
@@ -30,6 +30,8 @@ namespace CoordinateConverter.DCS.Tools
             nud_PointNumber.Minimum = minSteerPoint;
             nud_PointNumber.Maximum = maxSteerPoint;
             nud_PointNumber.Value = defaultValue;
+
+            ShowDialog(parent);
         }
 
         private void Btn_OK_Click(object sender, EventArgs e)

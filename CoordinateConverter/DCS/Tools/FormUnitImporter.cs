@@ -119,7 +119,7 @@ namespace CoordinateConverter.DCS.Tools
             Close();
         }
 
-        private Bullseye GetRefpointBullseye()
+        private Bullseye GetRefPointBullseye()
         {
             int refPointId = ComboItem<int>.GetSelectedValue(cb_RadiusCenter);
             CoordinateDataEntry refPoint;
@@ -274,7 +274,7 @@ namespace CoordinateConverter.DCS.Tools
 
             currentView.Rows.Clear(); // Delete all data
 
-            Bullseye be = GetRefpointBullseye();
+            Bullseye be = GetRefPointBullseye();
             foreach (DCSUnit unit in allDCSUnits)
             {
                 CoordinateSharp.Coordinate coordinate = new CoordinateSharp.Coordinate(unit.Coordinate.Lat, unit.Coordinate.Lon);
@@ -301,6 +301,7 @@ namespace CoordinateConverter.DCS.Tools
         /// <summary>
         /// Initializes a new instance of the <see cref="FormUnitImporter"/> class.
         /// </summary>
+        /// <param name="referencePoints">The reference points.</param>
         public FormUnitImporter(List<CoordinateDataEntry> referencePoints)
         {
             InitializeComponent();
@@ -431,7 +432,7 @@ namespace CoordinateConverter.DCS.Tools
                         dgv_Units.SortedColumn.HeaderCell.SortGlyphDirection = SortOrder.None;
                     }
 
-                    var direction = System.ComponentModel.ListSortDirection.Descending;
+                    System.ComponentModel.ListSortDirection direction;
                     if (dgv_Units.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection == SortOrder.Ascending)
                     {
                         direction = System.ComponentModel.ListSortDirection.Descending;

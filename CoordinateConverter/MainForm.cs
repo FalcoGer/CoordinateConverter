@@ -19,7 +19,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 9);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 10);
 
         private readonly Color ERROR_COLOR = Color.Pink;
         private readonly Color DCS_ERROR_COLOR = Color.Yellow;
@@ -1474,8 +1474,8 @@ namespace CoordinateConverter
             if (sender.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex < 0)
             {
                 // a button column header was clicked, the only button in the grid is the delete button
-                DialogResult answer = MessageBox.Show("Delete all points?", "Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (answer != DialogResult.Yes)
+                FormAskBinaryQuestion deletePoints = new FormAskBinaryQuestion(this, "Delete?", "Delete", "Keep", "Delete all points?");
+                if (!deletePoints.Result)
                 {
                     return;
                 }
@@ -1716,8 +1716,8 @@ namespace CoordinateConverter
             FileInfo fi = new FileInfo(filePath);
             if (fi.Exists)
             {
-                result = MessageBox.Show("You are about to overwrite this file.", "Overwrite file?", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                if (result != DialogResult.OK)
+                FormAskBinaryQuestion overwriteFile = new FormAskBinaryQuestion(this, "Overwrite file?", "Overwrite", "Preserve file", "You are about to overwrite this file.");
+                if (!overwriteFile.Result)
                 {
                     return;
                 }
@@ -1957,12 +1957,13 @@ namespace CoordinateConverter
             else if (sender.Name == tsmi_F18.Name)
             {
                 selectedAircraft = new F18C();
-                MessageBox.Show("Make sure PRECISE mode is selected in HSI->Data.\n" +
+                string message = "Make sure PRECISE mode is selected in HSI->Data.\n" +
                     "Make sure waypoint sequence is not selected before putting in waypoints.\n" +
                     "The next waypoint number and up from the currently selected one will be overwritten\n" +
                     "Make sure aircraft is in L/L Decimal mode (default). Check in HSI -> Data -> Aircraft -> Bottom right\n" +
                     "Make sure no weapon is selected prior to entering weapon data\n" +
-                    "Maximum number SLAM-ER of steer points is 5.", "Reminder", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    "Maximum number SLAM-ER of steer points is 5.";
+                FormMessage reminder = new FormMessage(this, "Reminder", "OK", message);
             }
             else if (sender.Name == tsmi_F16.Name)
             {
@@ -2355,8 +2356,7 @@ namespace CoordinateConverter
 
         private void Tsmi_AH64_ClearPoints_Click(object sender, EventArgs e)
         {
-            FormAH64PointDeleter pointDeleter = new FormAH64PointDeleter(selectedAircraft as AH64);
-            pointDeleter.ShowDialog(this);
+            FormAH64PointDeleter pointDeleter = new FormAH64PointDeleter(this, selectedAircraft as AH64);
             if (pointDeleter.NumberOfCommands > 0)
             {
                 lock (lockObjProgressBar)
@@ -2369,16 +2369,14 @@ namespace CoordinateConverter
 
         private void Tsmi_F16_SetFirstPoint_Click(object sender, EventArgs e)
         {
-            FormStartingWaypoint startingWaypointForm = new FormStartingWaypoint(1, 699, 200);
-            startingWaypointForm.ShowDialog();
+            FormStartingWaypoint startingWaypointForm = new FormStartingWaypoint(this, 1, 699, 200);
             int startingWaypoint = startingWaypointForm.StartingWaypoint;
             selectedAircraft = new F16C(startingWaypoint);
         }
 
         private void Tsmi_JF17_SetFirstPoint_Click(object sender, EventArgs e)
         {
-            FormStartingWaypoint startingWaypointForm = new FormStartingWaypoint(1, 29, 10);
-            startingWaypointForm.ShowDialog();
+            FormStartingWaypoint startingWaypointForm = new FormStartingWaypoint(this, 1, 29, 10);
             int startingWaypoint = startingWaypointForm.StartingWaypoint;
             selectedAircraft = new JF17(startingWaypoint);
         }
@@ -2758,7 +2756,7 @@ namespace CoordinateConverter
             else
             {
                 string message = string.Format("You are using the latest version.\nYour version: {0}\nLatest version: {1}", VERSION.ToString(), latest.ToString());
-                MessageBox.Show(message, "Up to date!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                new FormMessage(this, "Up to date!", "OK", message).Dispose();
             }
         }
     }

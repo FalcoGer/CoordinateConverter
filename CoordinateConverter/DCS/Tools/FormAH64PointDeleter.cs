@@ -21,7 +21,7 @@ namespace CoordinateConverter.DCS.Tools
         /// <summary>
         /// Initializes a new instance of the <see cref="FormAH64PointDeleter"/> class.
         /// </summary>
-        public FormAH64PointDeleter(AH64 selectedAircraft)
+        public FormAH64PointDeleter(Form parent, AH64 selectedAircraft)
         {
             InitializeComponent();
             cb_PointType.Items.Clear();
@@ -33,6 +33,8 @@ namespace CoordinateConverter.DCS.Tools
             cb_PointType.SelectedIndex = 0;
 
             this.selectedAircraft = selectedAircraft;
+
+            ShowDialog(parent);
         }
 
         private void Cb_PointType_SelectedIndexChanged(object objSender, EventArgs e)
