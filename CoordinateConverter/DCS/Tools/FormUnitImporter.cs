@@ -110,9 +110,11 @@ namespace CoordinateConverter.DCS.Tools
                         GroundElevationInM = dcsCoord.Elevation
                     };
 
-                    // Add the AH64 data
+                    // Add aircraft specific data data
                     entry.AircraftSpecificData.Add(typeof(AH64), new AH64SpecificData(unit));
                     entry.AircraftSpecificData.Add(typeof(KA50), new KA50SpecificData(KA50.EPointType.TargetPoint));
+                    entry.AircraftSpecificData.Add(typeof(JF17), new JF17SpecificData(JF17.EPointType.Waypoint));
+                    entry.AircraftSpecificData.Add(typeof(F18C), new F18CSpecificData());
                     Coordinates.Add(entry);
                 }
             }

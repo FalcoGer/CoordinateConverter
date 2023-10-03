@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,7 +19,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 11);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 12);
 
         private readonly Color ERROR_COLOR = Color.Pink;
         private readonly Color DCS_ERROR_COLOR = Color.Yellow;
@@ -1454,7 +1453,6 @@ namespace CoordinateConverter
             if (e.RowIndex >= 0)
             {
                 input = dataEntries.ElementAt(e.RowIndex).Clone(dataEntries.Count);
-                RefreshCoordinates(EUpdateType.Everything);
                 StartEdit(new List<int>() { e.RowIndex });
             }
         }
