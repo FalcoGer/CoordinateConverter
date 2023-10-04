@@ -1,0 +1,12 @@
+﻿<!--
+This file contains the declaration of all the localizable strings.
+-->
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="en-US">
+
+  <String Id="DowngradeError" Value="A newer version of [ProductName] is already installed." />
+  <String Id="NetRequired" Value="This application requires .NET Framework 4.7.2 or later."/>
+  <String Id="FeatureCopyLuaTitle" Value="Copy DCS Communication Scripts"/>
+  <String Id="FeatureCopyLuaDescription" Value="Will install CoordinateConverter.lua into your DCS Save Games Directory"/>
+  <String Id="FeatureModifyDCSExportLuaTitle" Value="Modify DCS Export Lua"/>
+  <String Id="FeatureModifyDCSExportLuaDescription" Value="Will modify Exports.lua to include CoordinateCoverter.lua in your DCS Save Games Directory"/>
+</WixLocalization>

@@ -1,0 +1,33 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="CoordinateConverterComponent" Directory="INSTALLFOLDER">
+      <Component>
+        <File Id="MainExec" Source="CoordinateConverter.exe" />
+      </Component>
+      <Component>
+        <File Id="MainExecConfig" Source="CoordinateConverter.exe.config" />
+      </Component>
+      <Component>
+        <File Id="MainExecSymbols" Source="CoordinateConverter.xml" />
+      </Component>
+      <Component>
+        <File Id="MainDLL" Source="CoordinateSharp.dll" />
+      </Component>
+      <Component>
+        <File Id="MainDLLSymbols" Source="CoordinateSharp.xml" />
+      </Component>
+      <Component>
+        <File Id="NewtonsoftJsonDLL" Source="Newtonsoft.Json.dll" />
+      </Component>
+      <Component>
+        <File Id="CrosshairImage" Source="Resources/Crosshair.png" />
+      </Component>
+      <Component>
+        <File Id="ManualInstallationInstructions" Source="Resources/Installation.txt" />
+      </Component>
+      <Component>
+        <File Id="CommunicationLuaForManualInstall" Source="DCS/Communication/CoordinateConverter.lua" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

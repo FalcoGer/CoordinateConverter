@@ -1,0 +1,20 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <Directory Id="INSTALLFOLDER" Name="!(bind.Property.ProductName)" />
+    </StandardDirectory>
+    
+    <Property Id="USER_FOLDER" >
+      <DirectorySearch Id="userProfileSearch" Depth="0" Path="[%USERPROFILE]" />
+    </Property>
+
+    <Directory Id="USER_FOLDER">
+      <Directory Id="SavedGames" Name="Saved Games">
+        <Directory Id="DCSFOLDER" Name="DCS" >
+          <Directory Id="Scripts" Name="Scripts">
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+</Wix>
