@@ -1,0 +1,66 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package Name="Coordinate Converter" Manufacturer="FalcoGer" Version="$(Version)" UpgradeCode="342894a7-1466-436c-a2ff-0ee29c3a13fd" Compressed="true" InstallerVersion="200" Scope="perMachine">
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+    <ui:WixUI
+        Id="WixUI_FeatureTree"
+        InstallDirectory="DCSFOLDER"
+        />
+    <WixVariable Id="WixUILicenseRtf" Value="eula.rtf" />
+    <PropertyRef Id="WIX_IS_NETFRAMEWORK_472_OR_LATER_INSTALLED" />
+
+    <Launch
+          Message="!(loc.NetRequired)"
+          Condition="Installed OR WIX_IS_NETFRAMEWORK_472_OR_LATER_INSTALLED"
+    />
+    
+    <Feature Id="Main" 
+             Level="1"
+             Title="Coordinate Converter"
+             Description="Will install coordinate converter binaries"
+             ConfigurableDirectory="INSTALLFOLDER"
+             AllowAdvertise="true"
+             InstallDefault="local"
+      >
+        <ComponentGroupRef Id="CoordinateConverterComponent" />
+      
+        <Feature Id="CopyLua"
+                 Title="!(loc.FeatureCopyLuaTitle)"
+                 Description="!(loc.FeatureCopyLuaDescription)"
+                 ConfigurableDirectory="DCSFOLDER"
+                 Level="1"
+                 InstallDefault="local"
+                 AllowAdvertise="true"
+                 AllowAbsent="true"
+        >
+          <ComponentGroupRef Id="SavedGamesComponent" />
+        </Feature>
+        <Feature Id="ModifyDCSExportLua"
+                 Title="!(loc.FeatureModifyDCSExportLuaTitle)"
+                 Description="!(loc.FeatureModifyDCSExportLuaDescription)"
+                 ConfigurableDirectory="DCSFOLDER"
+                 Level="1"
+                 InstallDefault="local"
+                 AllowAdvertise="true"
+                 AllowAbsent="true"
+          />
+    </Feature>
+    
+    <Binary Id="DCSExportsLuaCA" SourceFile="CustomActions.CA.dll"></Binary>
+    <CustomAction 
+      Id='AddExportsLuaEntry'
+      BinaryRef='DCSExportsLuaCA'
+      DllEntry='AddDCSExportsLuaEntry'
+      Return="check"
+      />
+    <CustomAction
+      Id='RemoveExportsLuaEntry'
+      BinaryRef='DCSExportsLuaCA'
+      DllEntry='RemoveDCSExportsLuaEntry'
+      Return="check"
+      />
+    <InstallExecuteSequence>
+      <Custom Action="AddExportsLuaEntry" Before="InstallFinalize" Condition="&amp;ModifyDCSExportLua=3" />
+      <Custom Action="RemoveExportsLuaEntry" Before="InstallFinalize" Condition="&amp;ModifyDCSExportLua=2 OR ((NOT UPGRADINGPRODUCTCODE) AND (REMOVE=&quot;ALL&quot;))" />
+    </InstallExecuteSequence>
+  </Package>
+</Wix>
