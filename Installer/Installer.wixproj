@@ -1,6 +1,6 @@
-﻿<Project Sdk="WixToolset.Sdk/4.0.0">
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DefineConstants>Version=0.5.12</DefineConstants>
+﻿<Project Sdk="WixToolset.Sdk/4.0.2">
+  <PropertyGroup>
+    <DefineConstants>Version=0.5.13</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WixToolset.Netfx.wixext" Version="4.0.2" />

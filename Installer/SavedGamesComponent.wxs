@@ -4,9 +4,7 @@
       <Component Id="CommunicationLua" Guid="1C893E5A-B735-4A43-98F6-F85DB6CD2079">
         <RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\ACME\CoordinateConverter" Name="DCS_Lua_Installed" Type="integer" Value="1" Action="write" />
         <File Id="CommunicationLuaFile" Source="DCS/Communication/CoordinateConverter.lua" />
-        <RemoveFolder Id="RemoveAppData" On="uninstall" />
         <RemoveFolder Id="RemoveDCSFolder" Directory="DCSFOLDER" On="uninstall" />
-        <RemoveFolder Id="RemoveSavedGames" Directory="SavedGames" On="uninstall" />
       </Component>
     </ComponentGroup>
   </Fragment>
