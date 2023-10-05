@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoordinateConverter.DCS.Communication;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -515,7 +516,7 @@ namespace CoordinateConverter.DCS.Aircraft
             // JDAMs are PB11, everything else (JSOW, SLAM, SLAMER) on PB12 for DSPLY page
             int keyCodeWpnDisplayPage = (int)EKeyCodes.MDI_PB11 + (isBomb ? 0 : 1);
 
-            List<DCSCommand> commands = new List<DCSCommand>();
+            var commands = new List<DCSCommand>();
             // var commands = new DebugCommandList();
             int keyCodePPIdx = (int)EKeyCodes.MDI_PB06 + extraData.PreplanPointIdx.Value - 1;
 

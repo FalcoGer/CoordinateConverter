@@ -887,7 +887,6 @@ namespace CoordinateConverter
                 entries.Add(input);
             }
             entries.AddRange(currentlyEditingIndices.Select(x => dataEntries[x]).Where(x => x != null));
-            ResetIDs();
 
             foreach (CoordinateDataEntry entry in entries)
             {
