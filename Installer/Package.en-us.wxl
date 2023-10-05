@@ -2,7 +2,7 @@
 This file contains the declaration of all the localizable strings.
 -->
 <WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="en-US">
-
+  <String Id="ShortcutName" Value="Coordinate Converter"/>
   <String Id="DowngradeError" Value="A newer version of [ProductName] is already installed." />
   <String Id="NetRequired" Value="This application requires .NET Framework 4.7.2 or later."/>
   <String Id="FeatureCopyLuaTitle" Value="Copy DCS Communication Scripts"/>

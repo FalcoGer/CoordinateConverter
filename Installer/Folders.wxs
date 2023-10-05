@@ -3,17 +3,32 @@
     <StandardDirectory Id="ProgramFiles6432Folder">
       <Directory Id="INSTALLFOLDER" Name="!(bind.Property.ProductName)" />
     </StandardDirectory>
+
+    <StandardDirectory Id="DesktopFolder">
+    </StandardDirectory>
     
-    <Property Id="USER_FOLDER" >
-      <DirectorySearch Id="userProfileSearch" Depth="0" Path="[%USERPROFILE]" />
+    <Property Id="DCS_FOUND_FOLDER" >
+      <!-- If both are present, it will prefer steam over open beta -->
+      <!-- Search for Open Beta -->
+      <DirectorySearch Id="dcsOpenBeta" Depth="0" Path="[%USERPROFILE]">
+        <DirectorySearch Id="dcsOpenBetaSavedGames" Depth="1" Path="Saved Games">
+          <DirectorySearch Id="dcsOpenBetaFolder" Depth="4" Path="DCS.openbeta" AssignToProperty="true">
+          </DirectorySearch>
+        </DirectorySearch>
+      </DirectorySearch>
+      <!-- Search for Steam -->
+      <DirectorySearch Id="dcsSteam" Depth="0" Path="[%USERPROFILE]">
+        <DirectorySearch Id="dcsSteamSavedGames" Depth="1" Path="Saved Games">
+          <DirectorySearch Id="dcsSteamFolder" Depth="4" Path="DCS" AssignToProperty="true">
+          </DirectorySearch>
+        </DirectorySearch>
+      </DirectorySearch>
     </Property>
 
-    <Directory Id="USER_FOLDER">
-      <Directory Id="SavedGames" Name="Saved Games">
-        <Directory Id="DCSFOLDER" Name="DCS" >
-          <Directory Id="Scripts" Name="Scripts">
-          </Directory>
-        </Directory>
+    <SetDirectory Id="DCSFOLDER" Value="[DCS_FOUND_FOLDER]" Sequence="ui"/>
+    
+    <Directory Id="DCSFOLDER">
+      <Directory Id="Scripts" Name="Scripts">
       </Directory>
     </Directory>
   </Fragment>

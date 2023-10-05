@@ -1,5 +1,5 @@
-﻿<Project Sdk="WixToolset.Sdk/4.0.0">
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+﻿<Project Sdk="WixToolset.Sdk/4.0.2">
+  <PropertyGroup>
     <DefineConstants>Version=0.5.13</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
