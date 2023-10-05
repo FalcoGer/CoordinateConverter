@@ -3,6 +3,9 @@
     <StandardDirectory Id="ProgramFiles6432Folder">
       <Directory Id="INSTALLFOLDER" Name="!(bind.Property.ProductName)" />
     </StandardDirectory>
+
+    <StandardDirectory Id="DesktopFolder">
+    </StandardDirectory>
     
     <Property Id="DCS_FOUND_FOLDER" >
       <!-- If both are present, it will prefer steam over open beta -->

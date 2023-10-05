@@ -2,7 +2,20 @@
   <Fragment>
     <ComponentGroup Id="CoordinateConverterComponent" Directory="INSTALLFOLDER">
       <Component>
-        <File Id="MainExec" Source="CoordinateConverter.exe" />
+        <File Id="MainExec" Source="CoordinateConverter.exe" KeyPath="true">
+          <Shortcut
+            Id="DesktopShortcut"
+            Directory="DesktopFolder"
+            Name="!(loc.ShortcutName)"
+            Icon="CoordinateConverter.exe"
+            IconIndex="0"
+            WorkingDirectory="INSTALLFOLDER"
+            Show="normal"
+            Advertise="true"
+            >
+            <Icon Id="CoordinateConverter.exe" SourceFile="CoordinateConverter.exe"/>
+          </Shortcut>
+      </File>
       </Component>
       <Component>
         <File Id="MainExecConfig" Source="CoordinateConverter.exe.config" />
