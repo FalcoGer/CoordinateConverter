@@ -95,7 +95,7 @@ jobs:
     - name: Zip Release
       uses: TheDoctor0/zip-release@0.7.1
       with:
-        filename: CoordinateConverter-$env:Major.$env:Minor.$env:Patch.zip
+        filename: CoordinateConverter.zip
         path: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US
         exclusions: "*.wixpdb"
     
