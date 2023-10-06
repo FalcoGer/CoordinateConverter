@@ -89,3 +89,28 @@ jobs:
       with:
         name: MSI
         path: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US
+
+    # ZIP the directory
+    # TheDoctor0/zip-release
+    - name: Zip Release
+      uses: TheDoctor0/zip-release@0.7.1
+      with:
+        filename: CoordinateConverter.zip
+        path: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US
+        exclusions: "*.wixpdb"
+    
+    # create/update release with the artifact
+    # https://github.com/ncipollo/release-action/blob/main/README.md
+    - uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        artifactErrorsFailBuild: true
+        artifacts: CoordinateConverter.zip
+        name: "$env:Major.$env:Minor.$env:Patch"
+        body: "Automatically generated"
+        omitBodyDuringUpdate: true
+        omitDraftDuringUpdate: true
+        omitNameDuringUpdate: true
+        omitPrereleaseDuringUpdate: true
+        makeLatest: true
+        replacesArtifacts: true
