@@ -89,3 +89,19 @@ jobs:
       with:
         name: MSI
         path: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US
+    
+    # create/update release with the artifact
+    # https://github.com/ncipollo/release-action/blob/main/README.md
+    - uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        artifactErrorsFailBuild: true
+        artifacts: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US
+        name: "$env:Major.$env:Minor.$env:Patch"
+        body: "Automatically generated"
+        omitBodyDuringUpdate: true
+        omitDraftDuringUpdate: true
+        omitNameDuringUpdate: true
+        omitPrereleaseDuringUpdate: true
+        makeLatest: true
+        replacesArtifacts: true
