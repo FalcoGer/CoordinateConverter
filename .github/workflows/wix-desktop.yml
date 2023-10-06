@@ -105,7 +105,7 @@ jobs:
       with:
         allowUpdates: true
         artifactErrorsFailBuild: true
-        artifacts: CoordinateConverter-$env:Major.$env:Minor.$env:Patch.zip
+        artifacts: CoordinateConverter.zip
         name: "$env:Major.$env:Minor.$env:Patch"
         body: "Automatically generated"
         omitBodyDuringUpdate: true
