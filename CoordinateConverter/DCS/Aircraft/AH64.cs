@@ -344,6 +344,8 @@ namespace CoordinateConverter.DCS.Aircraft
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             WP_WP, WP_LZ, WP_SP, WP_CC, WP_PP, WP_RP,
             HZ_TO,HZ_TU,HZ_WL,HZ_WS,
+            CM_AP, CM_AG, CM_AI, CM_AL, CM_F1, CM_F2, CM_AA, CM_BN, CM_BP, CM_BR, CM_BD, CM_CP, CM_CO, CM_CR, CM_DI, CM_FF, CM_FM, CM_FC, CM_FA,
+            CM_GL, CM_HA, CM_ID, CM_NB, CM_BE, CM_RH, CM_GP, CM_US,
             CM_AD, CM_AS, CM_AV, CM_AB, CM_AM, CM_CA, CM_MA, CM_CF, CM_DF, CM_EN, CM_FW, CM_WF, CM_FL, CM_AH, CM_FG, CM_HO, CM_FI, CM_MI, CM_MD, CM_TF, CM_FU,
             CM_ES, CM_EV, CM_ED, CM_EB, CM_EC, CM_AE, CM_ME, CM_CE, CM_DE, CM_EE, CM_WR, CM_EF, CM_WE, CM_EK, CM_HG, CM_EH, CM_EI, CM_EM, CM_EX, CM_ET, CM_EU,
             TG_AX, TG_AS, TG_AD, TG_GP, TG_G1, TG_G2, TG_G3, TG_G4, TG_SD, TG_83, TG_U, TG_S6, TG_AA, TG_GU, TG_MK, TG_SB, TG_GS, TG_GT, TG_ZU, TG_NV, TG_SR,
@@ -381,6 +383,34 @@ namespace CoordinateConverter.DCS.Aircraft
         /// </summary>
         public static readonly Dictionary<EPointIdent, string> ECMOptionDescriptions = new Dictionary<EPointIdent, string>()
         {
+            // General (Green)
+            { EPointIdent.CM_AP, "Air Control Point" },
+            { EPointIdent.CM_AG, "Airfield (General)" },
+            { EPointIdent.CM_AI, "Airfield (Instrument)" },
+            { EPointIdent.CM_AL, "Airfield (Lighted)" },
+            { EPointIdent.CM_F1, "Artillery Fire Point 1" },
+            { EPointIdent.CM_F2, "Artillery Fire Point 2" },
+            { EPointIdent.CM_AA, "Assembly Area" },
+            { EPointIdent.CM_BN, "Battalion" },
+            { EPointIdent.CM_BP, "Battle Position" },
+            { EPointIdent.CM_BR, "Bridge or Gap" },
+            { EPointIdent.CM_BD, "Brigade" },
+            { EPointIdent.CM_CP, "Check Point" },
+            { EPointIdent.CM_CO, "Company" },
+            { EPointIdent.CM_CR, "Corps" },
+            { EPointIdent.CM_DI, "Division" },
+            { EPointIdent.CM_FF, "FARP (Fuel)" },
+            { EPointIdent.CM_FM, "FARP (Munitions)" },
+            { EPointIdent.CM_FC, "FARP (F & M)" },
+            { EPointIdent.CM_FA, "Forward Assembly Area" },
+            { EPointIdent.CM_HA, "Holding Area" },
+            { EPointIdent.CM_ID, "IDM Subscriber" },
+            { EPointIdent.CM_NB, "NBC Area" },
+            { EPointIdent.CM_BE, "NDB Symbol" },
+            { EPointIdent.CM_RH, "Rail Head" },
+            { EPointIdent.CM_GP, "Regiment/Group" },
+            { EPointIdent.CM_US, "US Army" },
+            // Friendly (Blue)
             { EPointIdent.CM_AD, "FND ADU" },
             { EPointIdent.CM_AS, "FND Air Assault" },
             { EPointIdent.CM_AV, "FND Airborne Cav" },
@@ -402,6 +432,7 @@ namespace CoordinateConverter.DCS.Aircraft
             { EPointIdent.CM_MD, "FND Medical" },
             { EPointIdent.CM_TF, "FND TOC" },
             { EPointIdent.CM_FU, "FND Generic Unit" },
+            // Hostile (Red)
             { EPointIdent.CM_ES, "EMY Air Assault" },
             { EPointIdent.CM_EV, "EMY Airborne Cav" },
             { EPointIdent.CM_ED, "EMY ADU" },
