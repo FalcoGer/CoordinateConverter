@@ -95,7 +95,7 @@ jobs:
     - name: Zip Release
       uses: TheDoctor0/zip-release@0.7.1
       with:
-        filename: CoordinateConverter.zip
+        filename: CoordinateConverter-Installer.zip
         directory: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US
         path: .
         exclusions: "*.wixpdb"
@@ -106,7 +106,7 @@ jobs:
       with:
         allowUpdates: true
         artifactErrorsFailBuild: true
-        artifacts: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\CoordinateConverter.zip
+        artifacts: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\CoordinateConverter-Installer.zip
         name: "$env:Major.$env:Minor.$env:Patch"
         body: "Automatically generated"
         omitBodyDuringUpdate: true
