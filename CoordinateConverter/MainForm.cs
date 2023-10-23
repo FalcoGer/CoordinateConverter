@@ -19,7 +19,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 15);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 5, 16);
 
         private readonly Color ERROR_COLOR = Color.Pink;
         private readonly Color DCS_ERROR_COLOR = Color.Yellow;
@@ -1628,7 +1628,7 @@ namespace CoordinateConverter
             Down
         }
 
-        private void MoveEntries(EDirection direction, ICollection<int> entries)
+        private bool MoveEntries(EDirection direction, ICollection<int> entries)
         {
             StartEdit(null);
             List<int> entriesToMark = new List<int>();
@@ -1636,6 +1636,10 @@ namespace CoordinateConverter
             {
                 CoordinateDataEntry entry = dataEntries[rowId];
                 int tgtRowId = rowId + (direction == EDirection.Up ? -1 : 1);
+                if (tgtRowId < 0 || tgtRowId >= dataEntries.Count)
+                {
+                    return false;
+                }
                 CoordinateDataEntry other = dataEntries[tgtRowId];
 
                 entry.SwapIds(other);
@@ -1644,9 +1648,15 @@ namespace CoordinateConverter
                 entriesToMark.Add(entry.Id);
             }
             RefreshDataGrid(EDataGridUpdateType.UpdateCells);
+            MarkRows(entriesToMark);
+            return true;
+        }
+
+        private void MarkRows(List<int> rowIds)
+        {
             foreach (DataGridViewRow row in dgv_CoordinateList.Rows)
             {
-                row.Selected = entriesToMark.Contains(row.Index);
+                row.Selected = rowIds.Contains((int)row.Cells[0].Value);
             }
         }
 
@@ -1654,24 +1664,24 @@ namespace CoordinateConverter
         {
             lbl_Error.Visible = false;
             var rowIds = GetSelectedRowIndices();
-            if (rowIds.Contains(0))
+            if (!MoveEntries(EDirection.Up, rowIds))
             {
                 lbl_Error.Visible = true;
-                lbl_Error.Text = "Already at the Top.";
+                lbl_Error.Text = "Can't move past limit.";
+                MarkRows(rowIds);
             }
-            MoveEntries(EDirection.Up, rowIds);
         }
 
         private void Btn_MoveDown_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
             var rowIds = GetSelectedRowIndices();
-            if (rowIds.Contains(dataEntries.Count - 1))
+            if(!MoveEntries(EDirection.Down, rowIds))
             {
                 lbl_Error.Visible = true;
-                lbl_Error.Text = "Already at the bottom.";
+                lbl_Error.Text = "Can't move past limit.";
+                MarkRows(rowIds);
             }
-            MoveEntries(EDirection.Down, rowIds);
         }
 
         private void Rb_Format_CheckedChanged(object sender, EventArgs e)

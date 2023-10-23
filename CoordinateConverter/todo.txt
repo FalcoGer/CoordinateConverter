@@ -1,6 +1,7 @@
 Add support for remote (DCS) hosts
     - auto switch reticle to never if ip is not localhost, because that makes no sense.
 
+Fix SLAM and SLAM-ER multi (implement with weapon type remember logic, see hornet below)
 
 Make DataGridView faster
     - switch main form data grid to use a datatable (copy from unit importer)
