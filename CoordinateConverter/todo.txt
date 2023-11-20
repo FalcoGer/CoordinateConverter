@@ -1,3 +1,10 @@
+Unit list:
+    - Fix unit sorting
+    - Filter by unit type/name
+
+FIXME:
+    - Fix AH64 point deleter with CM starting with 1 instead of 51?
+
 Add support for remote (DCS) hosts
     - auto switch reticle to never if ip is not localhost, because that makes no sense.
 
@@ -80,6 +87,7 @@ Allow users to do tedious setups, perhaps save a sequence of commands to be play
         - saving/loading for each aircraft type
         - comms plan
             - check on how srs determines currently selected channel id/frequency/guard receiver status
+            - AH64 setup, incl DL
         - iff plan
             - check on how SRS/LotATC determine transponder status and codes
         - countermeasure settings
