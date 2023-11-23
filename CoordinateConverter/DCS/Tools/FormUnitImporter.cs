@@ -232,7 +232,7 @@ namespace CoordinateConverter.DCS.Tools
         {
             ID,
             Coalition,
-            Type,
+            TypeName,
             TypeL1,
             TypeL2,
             TypeL3,
@@ -252,7 +252,7 @@ namespace CoordinateConverter.DCS.Tools
 
             currentView.Columns.Add(EDGVColumnHeaders.ID.ToString(), typeof(int));
             currentView.Columns.Add(EDGVColumnHeaders.Coalition.ToString(), typeof(string));
-            currentView.Columns.Add(EDGVColumnHeaders.Type.ToString(), typeof(string));
+            currentView.Columns.Add(EDGVColumnHeaders.TypeName.ToString(), typeof(string));
             currentView.Columns.Add(EDGVColumnHeaders.Class.ToString(), typeof(string));
             currentView.Columns.Add(EDGVColumnHeaders.TypeL1.ToString(), typeof(int));
             currentView.Columns.Add(EDGVColumnHeaders.TypeL2.ToString(), typeof(int));
@@ -325,7 +325,7 @@ namespace CoordinateConverter.DCS.Tools
             // This binds the existing columns to the data properties in the data view
             dgv_Units.Columns["dgvColId"].DataPropertyName = EDGVColumnHeaders.ID.ToString();
             dgv_Units.Columns["dgvColCoalition"].DataPropertyName = EDGVColumnHeaders.Coalition.ToString();
-            dgv_Units.Columns["dgvColTypeName"].DataPropertyName = EDGVColumnHeaders.Type.ToString();
+            dgv_Units.Columns["dgvColTypeName"].DataPropertyName = EDGVColumnHeaders.TypeName.ToString();
             dgv_Units.Columns["dgvColClass"].DataPropertyName = EDGVColumnHeaders.Class.ToString();
             dgv_Units.Columns["dgvColUnitName"].DataPropertyName = EDGVColumnHeaders.Name.ToString();
             dgv_Units.Columns["dgvColPosition"].DataPropertyName = EDGVColumnHeaders.Position.ToString();
@@ -444,25 +444,26 @@ namespace CoordinateConverter.DCS.Tools
                     System.ComponentModel.ListSortDirection direction;
                     if (dgv_Units.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection == SortOrder.Ascending)
                     {
-                        direction = System.ComponentModel.ListSortDirection.Descending;
-                        dgv_Units.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = SortOrder.Descending;
                         (dgv_Units.DataSource as DataView).Sort =
                             $"{EDGVColumnHeaders.TypeL1} DESC," +
                             $"{EDGVColumnHeaders.TypeL2} DESC," +
                             $"{EDGVColumnHeaders.TypeL3} DESC," +
-                            $"{EDGVColumnHeaders.TypeL4} DESC";
+                            $"{EDGVColumnHeaders.TypeL4} DESC," +
+                            $"{EDGVColumnHeaders.TypeName} DESC," +
+                            $"{EDGVColumnHeaders.RNG} ASC";
+                        dgv_Units.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = SortOrder.Descending;
                     }
                     else
                     {
-                        direction = System.ComponentModel.ListSortDirection.Ascending;
-                        dgv_Units.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
                         (dgv_Units.DataSource as DataView).Sort =
                             $"{EDGVColumnHeaders.TypeL1} ASC," +
                             $"{EDGVColumnHeaders.TypeL2} ASC," +
                             $"{EDGVColumnHeaders.TypeL3} ASC," +
-                            $"{EDGVColumnHeaders.TypeL4} ASC";
+                            $"{EDGVColumnHeaders.TypeL4} ASC," +
+                            $"{EDGVColumnHeaders.TypeName} ASC," +
+                            $"{EDGVColumnHeaders.RNG} ASC";
+                        dgv_Units.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
                     }
-                    dgv_Units.Sort(dgv_Units.Columns[e.ColumnIndex], direction);
                     break;
                 default:
                     break;

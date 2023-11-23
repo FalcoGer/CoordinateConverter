@@ -1,5 +1,4 @@
 Unit list:
-    - Fix unit sorting
     - Filter by unit type/name
 
 FIXME:
