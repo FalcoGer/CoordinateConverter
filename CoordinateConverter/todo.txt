@@ -1,9 +1,6 @@
 Unit list:
     - Filter by unit type/name
 
-FIXME:
-    - Fix AH64 point deleter with CM starting with 1 instead of 51?
-
 Add support for remote (DCS) hosts
     - auto switch reticle to never if ip is not localhost, because that makes no sense.
 
@@ -32,7 +29,7 @@ When saving/loading, update the default location and file name
      - add a save option that just overwrites the last file loaded/saved
 
 
-Add support for selection instead of camera position when something is selected
+Add support for F10 map selection selection instead of camera position when something is selected
     - add option for auto listing any new unit that was clicked
         - alternatively use LoGetWorldObjects("units") (Exports.lua:L426)
             - calculate every unit's distance from the camera ground position, if within a margin, add that unit if it isn't already in the list
@@ -57,6 +54,39 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
     - general
         - determine keycodes with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\clickabledata.lua`
         - determine device ids with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\devices.lua`
+    - AH64
+        - DTC
+            - When tuning intervals fixed, Set FM Radio Interval to 0.025 instead of 0.005
+            - Load, Save
+            - Send
+                - Turn off ASE autopage temporarily for working on RMFD?
+                - Use left MFD and hope pilot doesn't cause engine autopage?
+            - Radio Presets
+                - All settings default to not overwrite with checkbox
+                - Name
+                    - Make sure they are valid
+                - Frequencies
+                    - Crypto settings?
+                    - Make sure they're valid
+                - Primary setting (radio select)
+                    - Cryptop options?
+                - Net
+                    - Each slot enable/disable xfer
+                    - Delete/clear option
+                    - C/S validity check
+                    - ID validity check
+                    - Enable DL protocol in MODEM settings (L1-L8 only)
+                - Tune (using com page)
+                - IFF/XPNDR
+                    - Mode 3 (Validity check)
+                    - Mode 1, 2, etc
+            - Datalink Own Info
+                - ID (Validity check)
+                - C/S (Validity check)
+            - ASE
+                - Chaff program
+                - Autopage setting
+
     - F18
         - fetch if precise is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)
             - might be impossible, this is 9 years old

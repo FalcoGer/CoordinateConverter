@@ -137,6 +137,7 @@ namespace CoordinateConverter.DCS.Aircraft
                 }
             }
 
+            // DebugCommandList commands = new DebugCommandList
             List<DCSCommand> commands = new List<DCSCommand>
             {
                 // press ADD
@@ -176,6 +177,7 @@ namespace CoordinateConverter.DCS.Aircraft
         private List<DCSCommand> GetCommandsForKUText(string text, bool clearFirst)
         {
             List<DCSCommand> commands = new List<DCSCommand>();
+            // DebugCommandList commands = new DebugCommandList();
             if (text == null)
             {
                 return commands;
@@ -186,6 +188,7 @@ namespace CoordinateConverter.DCS.Aircraft
                 commands.Add(new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_KU : EDeviceCode.CPG_KU), (int)EKeyCode.KU_CLR));
             }
             // type the text
+            EKeyCode? prevKeyCode = null;
             foreach (char ch in text.ToUpper())
             {
                 EKeyCode? keyCode = null;
@@ -226,7 +229,13 @@ namespace CoordinateConverter.DCS.Aircraft
                 }
                 if (keyCode != null)
                 {
+                    // Double presses of the same button need to have the be slower, otherwise they don't register.
+                    if (prevKeyCode == keyCode && prevKeyCode != null && commands.Count > 0)
+                    {
+                        commands.Last().Delay = 250;
+                    }
                     commands.Add(new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_KU : EDeviceCode.CPG_KU), (int)keyCode.Value));
+                    prevKeyCode = keyCode;
                 }
             }
             return commands;
@@ -311,7 +320,7 @@ namespace CoordinateConverter.DCS.Aircraft
             List<DCSCommand> commands = new List<DCSCommand>();
             int deviceId = IsPilot ? (int)EDeviceCode.PLT_RMFD : (int)EDeviceCode.CPG_RMFD;
 
-            for (int pointIdx = startIdx - ((pointType == EPointType.ControlMeasure) ? 50 : 0); pointIdx <= endIdx - ((pointType == EPointType.ControlMeasure) ? 50 : 0); pointIdx++)
+            for (int pointIdx = startIdx; pointIdx <= endIdx ; pointIdx++)
             {
                 commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_TSD)); // Reset to TSD after every point, to avoid weirdness.
                 commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_B6)); // Point

@@ -51,15 +51,42 @@ namespace CoordinateConverter.DCS.Aircraft
 
             switch (unit.TypeName)
             {
+                case "Grad_FDDM": // BMP-2, Fire Director for artillery
+                case "MLRS FDDM": // HUMVEE w/ MG, Fire Director for artillery
+                    Ident = AH64.EPointIdent.TG_GU;
+                    return;
+                case "M-109":
+                case "SAU 2-C9":        // 2S9
+                case "SAU Akatsia":     // 2S3
+                case "SAU Gvozdika":    // 2S1
+                case "SAU Msta":        // 2S19
+                case "SpGH_Dana":
+                case "PLZ05":
+                case "T155_Firtina":
+                    // Self propelled gun
+                    Ident = AH64.EPointIdent.TG_GS;
+                    return;
+                case "Grad-URAL":       // BM-21
+                case "HL_B8M1":         // Rocket pod strapped to car
+                case "MLRS":            // M270
+                case "Smerch":
+                case "Smerch_HE":
+                case "tt_B8M1":         // Rocket pod strapped to car
+                case "Uragan_BM-27":    // BM-27 (Like Smerch, diffrent vehicle)
+                    // MLRS
+                    // has no separate ident
+                    Ident = AH64.EPointIdent.TG_GS;
+                    return;
+                case "2B11 mortar":
+                    // Towed Gun
+                    Ident = AH64.EPointIdent.TG_GT;
+                    return;
                 case "rapier_fsa_launcher":
                     Ident = AH64.EPointIdent.TG_RA;
                     return;
-                case "2B11 mortar":
-                    Ident = AH64.EPointIdent.TG_TG;
-                    return;
                 case "NASAMS_LN_B":
                 case "NASAMS_LN_C":
-                    Ident = AH64.EPointIdent.TG_G1;
+                    Ident = AH64.EPointIdent.TG_G1;  // There isn't anything better...
                     return;
                 case "Fire Can radar":
                 case "SON_9":
@@ -157,15 +184,24 @@ namespace CoordinateConverter.DCS.Aircraft
                     return;
                 case "flak18":
                 case "bofors40":
-                case "Vulcan":
                 case "S-60_Type59_Artillery":
-                case "Gepard":
                 case "KS-19":
                 case "M6 Linebacker":
                 case "PGL_625":
                 case "2S38":
                 case "ZSU_57_2":
+                case "tt_ZU-23":
+                case "HL_ZU-23":
                     Ident = AH64.EPointIdent.TG_AA;
+                    return;
+                case "Gepard":
+                    Ident = AH64.EPointIdent.TG_GP;
+                    return;
+                case "Vulcan":
+                    Ident = AH64.EPointIdent.TG_VU;
+                    return;
+                case "HEMTT_C-RAM_Phalanx":
+                    Ident = AH64.EPointIdent.TG_G2; // There isn't anything better...
                     return;
                 case "M1097 Avenger":
                 case "Stinger comm dsr":

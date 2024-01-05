@@ -369,7 +369,9 @@ function LuaExportAfterNextFrame()
                         else
                             unitDataStr = unitDataStr .. "]}"
                         end
-                        log.write(LOG_MODNAME, log.INFO, "sending unitDataStr: \n" ..unitDataStr .. "\n")
+                        if DEBUGGING then
+                            log.write(LOG_MODNAME, log.INFO, "sending unitDataStr: \n" ..unitDataStr .. "\n")
+                        end
                         client:send(unitDataStr)
                     end
                 end
