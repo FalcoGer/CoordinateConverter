@@ -190,8 +190,6 @@ namespace CoordinateConverter.DCS.Aircraft
                 case "PGL_625":
                 case "2S38":
                 case "ZSU_57_2":
-                case "tt_ZU-23":
-                case "HL_ZU-23":
                     Ident = AH64.EPointIdent.TG_AA;
                     return;
                 case "Gepard":
