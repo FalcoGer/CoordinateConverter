@@ -86,6 +86,7 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
             - ASE
                 - Chaff program
                 - Autopage setting
+            - Fix tab indexes
 
     - F18
         - fetch if precise is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)

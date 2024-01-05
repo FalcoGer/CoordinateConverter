@@ -13,13 +13,14 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <summary>
         /// Gets the actions to be added for each point.
         /// </summary>
-        /// <param name="coordinate">The coordinate for that point.</param>
+        /// <param name="item">The coordinate for that point.</param>
         /// <returns>
         /// The list of actions.
         /// </returns>
         /// <exception cref="System.ArgumentException">Unknown point type</exception>
-        public override List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate)
+        protected override List<DCSCommand> GetActions(object item)
         {
+            CoordinateDataEntry coordinate = item as CoordinateDataEntry;
             if (!coordinate.AircraftSpecificData.ContainsKey(typeof(KA50)))
             {
                 coordinate.AircraftSpecificData.Add(typeof(KA50), new KA50SpecificData(EPointType.Waypoint));
@@ -167,7 +168,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        public override List<DCSCommand> GetPostPointActions()
+        protected override List<DCSCommand> GetPostActions()
         {
             nextPointIdForType = null;
             // Switch PVI mode to OPER
@@ -183,7 +184,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        public override List<DCSCommand> GetPrePointActions()
+        protected override List<DCSCommand> GetPreActions()
         {
             nextPointIdForType = new Dictionary<EPointType, int>();
             foreach (EPointType pt in Enum.GetValues(typeof(EPointType)))

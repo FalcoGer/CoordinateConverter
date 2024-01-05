@@ -71,12 +71,13 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <summary>
         /// Gets the actions to be added for each point.
         /// </summary>
-        /// <param name="coordinate">The coordinate for that point.</param>
+        /// <param name="item">The coordinate for that point.</param>
         /// <returns>
         /// The list of actions.
         /// </returns>
-        public override List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate)
+        protected override List<DCSCommand> GetActions(object item)
         {
+            CoordinateDataEntry coordinate = item as CoordinateDataEntry;
             var commands = new List<DCSCommand>();
             // var commands = new DebugCommandList();
 
@@ -226,7 +227,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        public override List<DCSCommand> GetPostPointActions()
+        protected override List<DCSCommand> GetPostActions()
         {
             nextPointForType = null;
             List<DCSCommand> commands = new List<DCSCommand>();
@@ -250,7 +251,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        public override List<DCSCommand> GetPrePointActions()
+        protected override List<DCSCommand> GetPreActions()
         {
             hasEnteredWaypoint = false; // we have not entered any waypoints yet
             // Setup the point IDs

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace CoordinateConverter.DCS.Aircraft
+namespace CoordinateConverter.DCS.Aircraft.AH64
 {
     /// <summary>
     /// Data for a point, specific to the AH64

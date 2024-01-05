@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CoordinateConverter.DCS.Aircraft
+namespace CoordinateConverter.DCS.Aircraft.AH64
 {
     /// <summary>
     /// This class represents the AH64 aircraft
@@ -101,15 +101,16 @@ namespace CoordinateConverter.DCS.Aircraft
 
 
         /// <summary>
-        /// Gets the actions to be added for each point.
+        /// Gets the actions to be added for each item.
         /// </summary>
-        /// <param name="coordinate">The coordinate for that point.</param>
+        /// <param name="item">The item for which the commands are generated.</param>
         /// <returns>
         /// The list of actions.
         /// </returns>
         /// <exception cref="System.ArgumentException">Bad Point Type</exception>
-        public override List<DCSCommand> GetPointActions(CoordinateDataEntry coordinate)
+        protected override List<DCSCommand> GetActions(object item)
         {
+            CoordinateDataEntry coordinate = item as CoordinateDataEntry;
             AH64SpecificData extraData = null;
             EKeyCode keyMFDPointType = EKeyCode.RMFD_L3; // assume waypoint
             string ident = "\n"; // assume default ident
@@ -166,6 +167,43 @@ namespace CoordinateConverter.DCS.Aircraft
                 commands.AddRange(GetCommandsForKUText(((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString() + "\n", true));
             }
             return commands;
+        }
+
+        /// <summary>
+        /// Checks if the text is valid for entry into the keyboard unit.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="minLength">The minimum length.</param>
+        /// <param name="maxLength">The maximum length.</param>
+        /// <param name="validChars">The valid chars.</param>
+        /// <returns>Whether the text is valid.</returns>
+        public static bool GetIsValidTextForKU(string text, uint minLength = 1, uint maxLength = 32, List<char> validChars = null)
+        {
+            if (validChars is null)
+            {
+                validChars = new List<char>();
+                for (char ch = '0'; ch <= '9'; ch++)
+                {
+                    validChars.Add(ch);
+                }
+                for (char ch = 'A'; ch <= 'Z'; ch++)
+                {
+                    validChars.Add(ch);
+                }
+                validChars.AddRange(new List<char>() { '\n', '+', '-', '*', '/', ' ', '.', ',' });
+            }
+
+            if (string.IsNullOrEmpty(text)) { return false; }
+            if (text.Length < minLength) { return false; }
+            if (text.Length > maxLength) { return false; }
+            foreach (char textCh in text)
+            {
+                if (!validChars.Contains(textCh))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -247,7 +285,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// A list of actions that result in TSD being pressed.
         /// </returns>
-        public override List<DCSCommand> GetPostPointActions()
+        protected override List<DCSCommand> GetPostActions()
         {
             return new List<DCSCommand>()
             {
@@ -262,7 +300,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>
         /// The list of actions.
         /// </returns>
-        public override List<DCSCommand> GetPrePointActions()
+        protected override List<DCSCommand> GetPreActions()
         {
             return new List<DCSCommand>
             {

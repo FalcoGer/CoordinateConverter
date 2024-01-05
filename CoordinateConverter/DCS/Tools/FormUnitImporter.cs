@@ -1,4 +1,5 @@
 ﻿using CoordinateConverter.DCS.Aircraft;
+using CoordinateConverter.DCS.Aircraft.AH64;
 using CoordinateConverter.DCS.Communication;
 using Newtonsoft.Json;
 using System;
@@ -441,7 +442,6 @@ namespace CoordinateConverter.DCS.Tools
                         dgv_Units.SortedColumn.HeaderCell.SortGlyphDirection = SortOrder.None;
                     }
 
-                    System.ComponentModel.ListSortDirection direction;
                     if (dgv_Units.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection == SortOrder.Ascending)
                     {
                         (dgv_Units.DataSource as DataView).Sort =

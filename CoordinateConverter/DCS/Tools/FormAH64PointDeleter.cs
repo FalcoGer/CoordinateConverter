@@ -1,4 +1,4 @@
-﻿using CoordinateConverter.DCS.Aircraft;
+﻿using CoordinateConverter.DCS.Aircraft.AH64;
 using System;
 using System.Windows.Forms;
 

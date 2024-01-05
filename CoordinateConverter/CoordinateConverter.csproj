@@ -65,23 +65,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DCS\Aircraft\A10C.cs" />
+    <Compile Include="DCS\Aircraft\AH64\AH64DataLinkMember.cs" />
+    <Compile Include="DCS\Aircraft\AH64\AH64DTCData.cs" />
+    <Compile Include="DCS\Aircraft\AH64\AH64RadioCNVSetting.cs" />
+    <Compile Include="DCS\Aircraft\AH64\AH64RadioPresetData.cs" />
     <Compile Include="DCS\Aircraft\AV8B.cs" />
+    <Compile Include="DCS\Aircraft\DCSAircraft.cs" />
+    <Compile Include="DCS\Aircraft\DCSCommandsPackage.cs" />
     <Compile Include="DCS\Aircraft\F15E.cs" />
     <Compile Include="DCS\Aircraft\M2000.cs" />
+    <Compile Include="DCS\Aircraft\RadioFrequency.cs" />
+    <Compile Include="DCS\Tools\FormAH64DTC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DCS\Tools\FormAH64DTC.Designer.cs">
+      <DependentUpon>FormAH64DTC.cs</DependentUpon>
+    </Compile>
     <Compile Include="DCS\Tools\FormAH64PointDeleter.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DCS\Tools\FormAH64PointDeleter.Designer.cs">
       <DependentUpon>FormAH64PointDeleter.cs</DependentUpon>
     </Compile>
-    <Compile Include="DCS\Aircraft\AH64.cs" />
-    <Compile Include="DCS\Aircraft\AH64SpecificData.cs" />
+    <Compile Include="DCS\Aircraft\AH64\AH64.cs" />
+    <Compile Include="DCS\Aircraft\AH64\AH64SpecificData.cs" />
     <Compile Include="DCS\Aircraft\AircraftSpecificData.cs" />
     <Compile Include="BRAA.cs" />
     <Compile Include="Bullseye.cs" />
     <Compile Include="ComboItem.cs" />
     <Compile Include="CoordinateDataEntry.cs" />
-    <Compile Include="DCS\Aircraft\DCSAircraft.cs" />
     <Compile Include="DCS\Aircraft\F16C.cs" />
     <Compile Include="DCS\Aircraft\F18C.cs" />
     <Compile Include="DCS\Aircraft\F18CSpecificData.cs" />
@@ -136,6 +148,9 @@
       <DependentUpon>FormReticle.cs</DependentUpon>
     </Compile>
     <Compile Include="GitHub\Version.cs" />
+    <EmbeddedResource Include="DCS\Tools\FormAH64DTC.resx">
+      <DependentUpon>FormAH64DTC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DCS\Tools\FormAH64PointDeleter.resx">
       <DependentUpon>FormAH64PointDeleter.cs</DependentUpon>
     </EmbeddedResource>
