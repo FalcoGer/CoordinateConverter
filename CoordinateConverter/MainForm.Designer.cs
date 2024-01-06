@@ -118,6 +118,12 @@ namespace CoordinateConverter
             this.lbl_DCS_Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_Error = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgv_CoordinateList = new System.Windows.Forms.DataGridView();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCoordinates = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAltitude = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colXFer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsmi_FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Load = new System.Windows.Forms.ToolStripMenuItem();
@@ -137,6 +143,7 @@ namespace CoordinateConverter
             this.tsmi_AH64_PLT = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AH64_CPG = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AH64_ClearPoints = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_AH64_DTC = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AV8B = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_F15EMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_F15E_Pilot = new System.Windows.Forms.ToolStripMenuItem();
@@ -183,12 +190,6 @@ namespace CoordinateConverter
             this.btn_MoveDown = new System.Windows.Forms.ToolStripButton();
             this.btn_MoveUp = new System.Windows.Forms.ToolStripButton();
             this.label19 = new System.Windows.Forms.Label();
-            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCoordinates = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAltitude = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colXFer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalMinutes_Precision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalSeconds_Precision)).BeginInit();
@@ -1289,6 +1290,86 @@ namespace CoordinateConverter
             this.dgv_CoordinateList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_CoordinateList_CellDoubleClick);
             this.dgv_CoordinateList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Dgv_CoordinateList_KeyDown);
             // 
+            // colId
+            // 
+            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colId.DataPropertyName = "ID";
+            this.colId.Frozen = true;
+            this.colId.HeaderText = "#";
+            this.colId.MinimumWidth = 35;
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colId.ToolTipText = "ID of the point.";
+            this.colId.Width = 35;
+            // 
+            // colLabel
+            // 
+            this.colLabel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colLabel.DataPropertyName = "Name";
+            this.colLabel.FillWeight = 40F;
+            this.colLabel.HeaderText = "Label";
+            this.colLabel.MaxInputLength = 12;
+            this.colLabel.MinimumWidth = 30;
+            this.colLabel.Name = "colLabel";
+            this.colLabel.ReadOnly = true;
+            this.colLabel.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colLabel.ToolTipText = "User defined label for the point";
+            // 
+            // colCoordinates
+            // 
+            this.colCoordinates.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colCoordinates.DataPropertyName = "CoordinateStr";
+            this.colCoordinates.FillWeight = 40F;
+            this.colCoordinates.HeaderText = "Coordinates";
+            this.colCoordinates.MinimumWidth = 180;
+            this.colCoordinates.Name = "colCoordinates";
+            this.colCoordinates.ReadOnly = true;
+            this.colCoordinates.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colCoordinates.ToolTipText = "Coordinate of the point.";
+            // 
+            // colAltitude
+            // 
+            this.colAltitude.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colAltitude.DataPropertyName = "Altitude";
+            this.colAltitude.FillWeight = 20F;
+            this.colAltitude.HeaderText = "Altitude";
+            this.colAltitude.MaxInputLength = 5;
+            this.colAltitude.MinimumWidth = 100;
+            this.colAltitude.Name = "colAltitude";
+            this.colAltitude.ReadOnly = true;
+            this.colAltitude.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colAltitude.ToolTipText = "Altitude of the point.";
+            // 
+            // colXFer
+            // 
+            this.colXFer.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colXFer.DataPropertyName = "XFER";
+            this.colXFer.FalseValue = "";
+            this.colXFer.HeaderText = "XFER";
+            this.colXFer.IndeterminateValue = "";
+            this.colXFer.MinimumWidth = 40;
+            this.colXFer.Name = "colXFer";
+            this.colXFer.ReadOnly = true;
+            this.colXFer.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colXFer.ToolTipText = "Check to enable transfer to DCS.";
+            this.colXFer.TrueValue = "";
+            this.colXFer.Width = 41;
+            // 
+            // colDelete
+            // 
+            this.colDelete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colDelete.HeaderText = "Del";
+            this.colDelete.MinimumWidth = 30;
+            this.colDelete.Name = "colDelete";
+            this.colDelete.ReadOnly = true;
+            this.colDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colDelete.Text = "-";
+            this.colDelete.ToolTipText = "Remove a point from the list.";
+            this.colDelete.UseColumnTextForButtonValue = true;
+            this.colDelete.Width = 30;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1387,14 +1468,14 @@ namespace CoordinateConverter
             this.tsmi_Auto.Checked = true;
             this.tsmi_Auto.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmi_Auto.Name = "tsmi_Auto";
-            this.tsmi_Auto.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_Auto.Size = new System.Drawing.Size(180, 22);
             this.tsmi_Auto.Text = "Auto";
             this.tsmi_Auto.Click += new System.EventHandler(this.Tsmi_Aircraft_Auto_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmi_A10CMenu
             // 
@@ -1402,7 +1483,7 @@ namespace CoordinateConverter
             this.tsmi_A10C,
             this.tsmi_A10C_UseMGRS});
             this.tsmi_A10CMenu.Name = "tsmi_A10CMenu";
-            this.tsmi_A10CMenu.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_A10CMenu.Size = new System.Drawing.Size(180, 22);
             this.tsmi_A10CMenu.Text = "A10C";
             // 
             // tsmi_A10C
@@ -1424,36 +1505,44 @@ namespace CoordinateConverter
             this.tsmi_AH64Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmi_AH64_PLT,
             this.tsmi_AH64_CPG,
-            this.tsmi_AH64_ClearPoints});
+            this.tsmi_AH64_ClearPoints,
+            this.tsmi_AH64_DTC});
             this.tsmi_AH64Menu.Name = "tsmi_AH64Menu";
-            this.tsmi_AH64Menu.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_AH64Menu.Size = new System.Drawing.Size(180, 22);
             this.tsmi_AH64Menu.Text = "AH64";
             // 
             // tsmi_AH64_PLT
             // 
             this.tsmi_AH64_PLT.Name = "tsmi_AH64_PLT";
-            this.tsmi_AH64_PLT.Size = new System.Drawing.Size(162, 22);
+            this.tsmi_AH64_PLT.Size = new System.Drawing.Size(180, 22);
             this.tsmi_AH64_PLT.Text = "AH64-PLT";
             this.tsmi_AH64_PLT.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_AH64_CPG
             // 
             this.tsmi_AH64_CPG.Name = "tsmi_AH64_CPG";
-            this.tsmi_AH64_CPG.Size = new System.Drawing.Size(162, 22);
+            this.tsmi_AH64_CPG.Size = new System.Drawing.Size(180, 22);
             this.tsmi_AH64_CPG.Text = "AH-64-CPG";
             this.tsmi_AH64_CPG.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_AH64_ClearPoints
             // 
             this.tsmi_AH64_ClearPoints.Name = "tsmi_AH64_ClearPoints";
-            this.tsmi_AH64_ClearPoints.Size = new System.Drawing.Size(162, 22);
+            this.tsmi_AH64_ClearPoints.Size = new System.Drawing.Size(180, 22);
             this.tsmi_AH64_ClearPoints.Text = "Clear Points...";
             this.tsmi_AH64_ClearPoints.Click += new System.EventHandler(this.Tsmi_AH64_ClearPoints_Click);
+            // 
+            // tsmi_AH64_DTC
+            // 
+            this.tsmi_AH64_DTC.Name = "tsmi_AH64_DTC";
+            this.tsmi_AH64_DTC.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AH64_DTC.Text = "DTC...";
+            this.tsmi_AH64_DTC.Click += new System.EventHandler(this.Tsmi_AH64_DTC_Click);
             // 
             // tsmi_AV8B
             // 
             this.tsmi_AV8B.Name = "tsmi_AV8B";
-            this.tsmi_AV8B.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_AV8B.Size = new System.Drawing.Size(180, 22);
             this.tsmi_AV8B.Text = "AV8B";
             this.tsmi_AV8B.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
@@ -1463,7 +1552,7 @@ namespace CoordinateConverter
             this.tsmi_F15E_Pilot,
             this.tsmi_F15E_WSO});
             this.tsmi_F15EMenu.Name = "tsmi_F15EMenu";
-            this.tsmi_F15EMenu.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_F15EMenu.Size = new System.Drawing.Size(180, 22);
             this.tsmi_F15EMenu.Text = "F15E";
             // 
             // tsmi_F15E_Pilot
@@ -1486,7 +1575,7 @@ namespace CoordinateConverter
             this.tsmi_F16,
             this.tsmi_F16_SetFirstPoint});
             this.tsmi_F16Menu.Name = "tsmi_F16Menu";
-            this.tsmi_F16Menu.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_F16Menu.Size = new System.Drawing.Size(180, 22);
             this.tsmi_F16Menu.Text = "F16";
             // 
             // tsmi_F16
@@ -1496,9 +1585,9 @@ namespace CoordinateConverter
             this.tsmi_F16.Text = "F16";
             this.tsmi_F16.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
-            // tsmi_F16_SetStartFirstPoint
+            // tsmi_F16_SetFirstPoint
             // 
-            this.tsmi_F16_SetFirstPoint.Name = "tsmi_F16_SetStartFirstPoint";
+            this.tsmi_F16_SetFirstPoint.Name = "tsmi_F16_SetFirstPoint";
             this.tsmi_F16_SetFirstPoint.Size = new System.Drawing.Size(171, 22);
             this.tsmi_F16_SetFirstPoint.Text = "Set first point...";
             this.tsmi_F16_SetFirstPoint.Click += new System.EventHandler(this.Tsmi_F16_SetFirstPoint_Click);
@@ -1506,7 +1595,7 @@ namespace CoordinateConverter
             // tsmi_F18
             // 
             this.tsmi_F18.Name = "tsmi_F18";
-            this.tsmi_F18.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_F18.Size = new System.Drawing.Size(180, 22);
             this.tsmi_F18.Text = "F18";
             this.tsmi_F18.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
@@ -1516,7 +1605,7 @@ namespace CoordinateConverter
             this.tsmi_JF17,
             this.tsmi_JF17_SetFirstPoint});
             this.tsmi_JF17Menu.Name = "tsmi_JF17Menu";
-            this.tsmi_JF17Menu.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_JF17Menu.Size = new System.Drawing.Size(180, 22);
             this.tsmi_JF17Menu.Text = "JF17";
             // 
             // tsmi_JF17
@@ -1536,14 +1625,14 @@ namespace CoordinateConverter
             // tsmi_KA50
             // 
             this.tsmi_KA50.Name = "tsmi_KA50";
-            this.tsmi_KA50.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_KA50.Size = new System.Drawing.Size(180, 22);
             this.tsmi_KA50.Text = "KA50";
             this.tsmi_KA50.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_M2000
             // 
             this.tsmi_M2000.Name = "tsmi_M2000";
-            this.tsmi_M2000.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_M2000.Size = new System.Drawing.Size(180, 22);
             this.tsmi_M2000.Text = "M2000";
             this.tsmi_M2000.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
@@ -1836,86 +1925,6 @@ namespace CoordinateConverter
             this.label19.TabIndex = 33;
             this.label19.Text = resources.GetString("label19.Text");
             // 
-            // colId
-            // 
-            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.colId.DataPropertyName = "ID";
-            this.colId.Frozen = true;
-            this.colId.HeaderText = "#";
-            this.colId.MinimumWidth = 35;
-            this.colId.Name = "colId";
-            this.colId.ReadOnly = true;
-            this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colId.ToolTipText = "ID of the point.";
-            this.colId.Width = 35;
-            // 
-            // colLabel
-            // 
-            this.colLabel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colLabel.DataPropertyName = "Name";
-            this.colLabel.FillWeight = 40F;
-            this.colLabel.HeaderText = "Label";
-            this.colLabel.MaxInputLength = 12;
-            this.colLabel.MinimumWidth = 30;
-            this.colLabel.Name = "colLabel";
-            this.colLabel.ReadOnly = true;
-            this.colLabel.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colLabel.ToolTipText = "User defined label for the point";
-            // 
-            // colCoordinates
-            // 
-            this.colCoordinates.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colCoordinates.DataPropertyName = "CoordinateStr";
-            this.colCoordinates.FillWeight = 40F;
-            this.colCoordinates.HeaderText = "Coordinates";
-            this.colCoordinates.MinimumWidth = 180;
-            this.colCoordinates.Name = "colCoordinates";
-            this.colCoordinates.ReadOnly = true;
-            this.colCoordinates.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colCoordinates.ToolTipText = "Coordinate of the point.";
-            // 
-            // colAltitude
-            // 
-            this.colAltitude.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colAltitude.DataPropertyName = "Altitude";
-            this.colAltitude.FillWeight = 20F;
-            this.colAltitude.HeaderText = "Altitude";
-            this.colAltitude.MaxInputLength = 5;
-            this.colAltitude.MinimumWidth = 100;
-            this.colAltitude.Name = "colAltitude";
-            this.colAltitude.ReadOnly = true;
-            this.colAltitude.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colAltitude.ToolTipText = "Altitude of the point.";
-            // 
-            // colXFer
-            // 
-            this.colXFer.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.colXFer.DataPropertyName = "XFER";
-            this.colXFer.FalseValue = "";
-            this.colXFer.HeaderText = "XFER";
-            this.colXFer.IndeterminateValue = "";
-            this.colXFer.MinimumWidth = 40;
-            this.colXFer.Name = "colXFer";
-            this.colXFer.ReadOnly = true;
-            this.colXFer.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colXFer.ToolTipText = "Check to enable transfer to DCS.";
-            this.colXFer.TrueValue = "";
-            this.colXFer.Width = 41;
-            // 
-            // colDelete
-            // 
-            this.colDelete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.colDelete.HeaderText = "Del";
-            this.colDelete.MinimumWidth = 30;
-            this.colDelete.Name = "colDelete";
-            this.colDelete.ReadOnly = true;
-            this.colDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colDelete.Text = "-";
-            this.colDelete.ToolTipText = "Remove a point from the list.";
-            this.colDelete.UseColumnTextForButtonValue = true;
-            this.colDelete.Width = 30;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2137,6 +2146,7 @@ namespace CoordinateConverter
         private DataGridViewTextBoxColumn colAltitude;
         private DataGridViewCheckBoxColumn colXFer;
         private DataGridViewButtonColumn colDelete;
+        private ToolStripMenuItem tsmi_AH64_DTC;
     }
 }
 

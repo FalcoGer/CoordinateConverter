@@ -22,10 +22,12 @@ namespace CoordinateConverter
     {
         private readonly GitHub.Version VERSION = new GitHub.Version(0, 6, 0);
 
-        private readonly Color ERROR_COLOR = Color.Pink;
-        private readonly Color DCS_ERROR_COLOR = Color.Yellow;
-        private readonly Color DCS_OK_COLOR = Color.Green;
-        private readonly Color EDITING_COLOR = Color.Tomato;
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        public static readonly Color ERROR_COLOR = Color.Pink;
+        public static readonly Color DCS_ERROR_COLOR = Color.Yellow;
+        public static readonly Color DCS_OK_COLOR = Color.Green;
+        public static readonly Color EDITING_COLOR = Color.Tomato;
+        #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         private CoordinateDataEntry input = null;
         private readonly List<int> currentlyEditingIndices = new List<int>();
@@ -1833,7 +1835,7 @@ namespace CoordinateConverter
             get => new Dictionary<Type, List<ToolStripMenuItem>>()
             {
                 { typeof(A10C), new List<ToolStripMenuItem>() { tsmi_A10C, tsmi_A10C_UseMGRS } },
-                { typeof(AH64), new List<ToolStripMenuItem>() { tsmi_AH64_CPG, tsmi_AH64_PLT, tsmi_AH64_ClearPoints } },
+                { typeof(AH64), new List<ToolStripMenuItem>() { tsmi_AH64_CPG, tsmi_AH64_PLT, tsmi_AH64_ClearPoints, tsmi_AH64_DTC } },
                 { typeof(AV8B), new List<ToolStripMenuItem>() { tsmi_AV8B } },
                 { typeof(F15E), new List<ToolStripMenuItem>() { tsmi_F15E_Pilot, tsmi_F15E_WSO } },
                 { typeof(F16C), new List<ToolStripMenuItem>() { tsmi_F16, tsmi_F16_SetFirstPoint } },
@@ -2805,6 +2807,11 @@ namespace CoordinateConverter
                 string message = string.Format("You are using the latest version.\nYour version: {0}\nLatest version: {1}", VERSION.ToString(), latest.ToString());
                 new FormMessage(this, "Up to date!", "OK", message).Dispose();
             }
+        }
+
+        private void Tsmi_AH64_DTC_Click(object sender, EventArgs e)
+        {
+            new FormAH64DTC().ShowDialog();
         }
     }
 }

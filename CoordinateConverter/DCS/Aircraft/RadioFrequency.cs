@@ -41,11 +41,11 @@ namespace CoordinateConverter.DCS.Aircraft
             get { return frequency; }
             set
             {
-                if (frequency < minimum)
+                if (value < minimum)
                 {
                     throw new ArgumentOutOfRangeException("value was too small " + value.ToString() + " < " + minimum.ToString() + "!");
                 }
-                if (frequency > maximum)
+                if (value > maximum)
                 {
                     throw new ArgumentOutOfRangeException("value was too large " + value.ToString() + " > " + maximum.ToString() + "!");
                 }
@@ -69,7 +69,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <value>
         /// The minimum.
         /// </value>
-        public decimal Minimum { get { return maximum; } }
+        public decimal Minimum { get { return minimum; } }
         private decimal maximum;
         /// <summary>
         /// Gets the maximum frequency allowed.
@@ -77,7 +77,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <value>
         /// The maximum.
         /// </value>
-        public decimal Maximum { get { return minimum; } }
+        public decimal Maximum { get { return maximum; } }
         private decimal stepSize;
         /// <summary>
         /// Gets the size of the steps between valid frequencies.
@@ -85,6 +85,6 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <value>
         /// The size of the step.
         /// </value>
-        public decimal StepSize { get { return stepSize; } }
+        public decimal Increment { get { return stepSize; } }
     }
 }

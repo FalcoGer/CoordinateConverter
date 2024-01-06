@@ -133,6 +133,7 @@
       <DependentUpon>FormMessage.cs</DependentUpon>
     </Compile>
     <Compile Include="GitHub\GitHubRelease.cs" />
+    <Compile Include="ListboxItem.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

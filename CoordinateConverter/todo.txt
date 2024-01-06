@@ -62,30 +62,27 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
                 - Turn off ASE autopage temporarily for working on RMFD?
                 - Use left MFD and hope pilot doesn't cause engine autopage?
             - Radio Presets
+                - FIXME: After ED fixes radio step size, adjust them in code at AH64RadioPresetData
+                    - Real step sizes according to ED manual (source: raptor9 SME)
+					VHF radio: 108.000 - 151.975 MHz, in 0.025 increments
+                    UHF radio: 225.000 - 399.975 MHz, in 0.025 increments
+                    FM1/FM2 radios: 30.000 - 87.975 MHz, in 0.025 increments 
+                    HF 2.0000 - 29.9999 MHz, in 0.0001 increments
                 - All settings default to not overwrite with checkbox
-                - Name
-                    - Make sure they are valid
-                - Frequencies
-                    - Crypto settings?
-                    - Make sure they're valid
-                - Primary setting (radio select)
-                    - Cryptop options?
-                - Net
-                    - Each slot enable/disable xfer
-                    - Delete/clear option
-                    - C/S validity check
-                    - ID validity check
-                    - Enable DL protocol in MODEM settings (L1-L8 only)
                 - Tune (using com page)
-                - IFF/XPNDR
-                    - Mode 3 (Validity check)
-                    - Mode 1, 2, etc
             - Datalink Own Info
                 - ID (Validity check)
                 - C/S (Validity check)
             - ASE
                 - Chaff program
+                    - Burst count 1, 2, 3, 4, 6, 8
+                    - Burst interval 0.1, 0.2, 0.3, 0.4
+                    - Salvo count 1, 2, 4, 8, continuous
+                    - salvo interval 1, 2, 3, 4, 5, 8, random
                 - Autopage setting
+            - ADF Presets
+                - Valid range 100 - 2199.5 kHz
+                - Valid ID 1-3 alpha characters (no numbers, no other stuff)
             - Fix tab indexes
 
     - F18
