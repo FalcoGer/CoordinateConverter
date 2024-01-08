@@ -68,18 +68,7 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
                     UHF radio: 225.000 - 399.975 MHz, in 0.025 increments
                     FM1/FM2 radios: 30.000 - 87.975 MHz, in 0.025 increments 
                     HF 2.0000 - 29.9999 MHz, in 0.0001 increments
-                - All settings default to not overwrite with checkbox
                 - Tune (using com page)
-            - Datalink Own Info
-                - ID (Validity check)
-                - C/S (Validity check)
-            - ASE
-                - Chaff program
-                    - Burst count 1, 2, 3, 4, 6, 8
-                    - Burst interval 0.1, 0.2, 0.3, 0.4
-                    - Salvo count 1, 2, 4, 8, continuous
-                    - salvo interval 1, 2, 3, 4, 5, 8, random
-                - Autopage setting
             - ADF Presets
                 - Valid range 100 - 2199.5 kHz
                 - Valid ID 1-3 alpha characters (no numbers, no other stuff)

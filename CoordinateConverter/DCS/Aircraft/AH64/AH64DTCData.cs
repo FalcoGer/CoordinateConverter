@@ -10,11 +10,13 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
     /// <seealso cref="CoordinateConverter.DCS.Aircraft.DCSCommandsPackage" />
     public class AH64DTCData : DCSCommandsPackage
     {
+        public bool IsPilot { get; private set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="AH64DTCData"/> class.
         /// </summary>
-        public AH64DTCData()
+        public AH64DTCData(bool isPilot)
         {
+            IsPilot = isPilot;
             // Fill preset data
             presetDataDictionary = new Dictionary<EPreset, AH64RadioPresetData>();
             foreach (EPreset preset in Enum.GetValues(typeof(EPreset)))
@@ -479,6 +481,78 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         {
             throw new NotImplementedException();
         }
+        #endregion
+
+        #region ADF
+        #endregion
+
+        #region OwnshipDL        
+        /// <summary>
+        /// Gets or sets the ownship datalink information.
+        /// </summary>
+        /// <value>
+        /// The ownship datalink information.
+        /// </value>
+        public AH64DataLinkMember OwnshipDL { get; set; } = null;
+        #endregion
+
+        #region ASE
+        public enum EASEAutopage
+        {
+            No_Change,
+            Search,
+            Acquisition,
+            Track,
+            Off
+        }
+        public EASEAutopage ASEAutopage { get; set; } = EASEAutopage.No_Change;
+
+        public enum EASEBurstCount
+        {
+            No_Change,
+            One,
+            Two,
+            Three,
+            Four,
+            Six,
+            Eight
+        }
+        public EASEBurstCount ASEBurstCount { get; set; } = EASEBurstCount.No_Change;
+
+        public enum EASEBurstInterval
+        {
+            No_Change,
+            One_Hundred_Milliseconds,
+            Two_Hundred_Milliseconds,
+            Three_Hundred_Milliseconds,
+            Four_Hundred_Milliseconds
+        }
+        public EASEBurstInterval ASEBurstInterval { get; set; } = EASEBurstInterval.No_Change;
+
+        public enum EASESalvoCount
+        {
+            No_Change,
+            One,
+            Two,
+            Four,
+            Eight,
+            Continuous
+        }
+        public EASESalvoCount ASESalvoCount { get; set; } = EASESalvoCount.No_Change;
+
+        public enum EASESalvoInterval
+        {
+            No_Change,
+            One,
+            Two,
+            Three,
+            Four,
+            Five,
+            Eight,
+            Random
+        }
+        public EASESalvoInterval ASESalvoInterval { get; set; } = EASESalvoInterval.No_Change;
+        #endregion
     }
-    #endregion
+
 }

@@ -123,6 +123,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ddlRadioPresetSelection = new System.Windows.Forms.ComboBox();
             this.tabDL = new System.Windows.Forms.TabPage();
+            this.tbOwnshipSubscriberID = new System.Windows.Forms.TextBox();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
+            this.tbOwnshipCallsign = new System.Windows.Forms.TextBox();
             this.tabIFF = new System.Windows.Forms.TabPage();
             this.ddlXPNDRReply = new System.Windows.Forms.ComboBox();
             this.tbXPNDRModeSAddr = new System.Windows.Forms.TextBox();
@@ -140,16 +144,17 @@
             this.label25 = new System.Windows.Forms.Label();
             this.tabASE = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.ddlASESalvoInterval = new System.Windows.Forms.ComboBox();
+            this.ddlASESalvoCount = new System.Windows.Forms.ComboBox();
+            this.ddlASEBurstInterval = new System.Windows.Forms.ComboBox();
+            this.ddlASEBurstCount = new System.Windows.Forms.ComboBox();
             this.label42 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.ddlASEAutopage = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.tabADF = new System.Windows.Forms.TabPage();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnXfer = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -157,7 +162,6 @@
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnReset = new System.Windows.Forms.ToolStripButton();
-            this.tabADF = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabRadio.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -190,6 +194,7 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.tabDL.SuspendLayout();
             this.tabIFF.SuspendLayout();
             this.tabASE.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1411,6 +1416,10 @@
             // 
             // tabDL
             // 
+            this.tabDL.Controls.Add(this.tbOwnshipSubscriberID);
+            this.tabDL.Controls.Add(this.label43);
+            this.tabDL.Controls.Add(this.label44);
+            this.tabDL.Controls.Add(this.tbOwnshipCallsign);
             this.tabDL.Location = new System.Drawing.Point(4, 22);
             this.tabDL.Name = "tabDL";
             this.tabDL.Padding = new System.Windows.Forms.Padding(3);
@@ -1418,6 +1427,44 @@
             this.tabDL.TabIndex = 1;
             this.tabDL.Text = "Ownship DL";
             this.tabDL.UseVisualStyleBackColor = true;
+            // 
+            // tbOwnshipSubscriberID
+            // 
+            this.tbOwnshipSubscriberID.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbOwnshipSubscriberID.Location = new System.Drawing.Point(35, 32);
+            this.tbOwnshipSubscriberID.MaxLength = 2;
+            this.tbOwnshipSubscriberID.Name = "tbOwnshipSubscriberID";
+            this.tbOwnshipSubscriberID.Size = new System.Drawing.Size(25, 20);
+            this.tbOwnshipSubscriberID.TabIndex = 8;
+            this.tbOwnshipSubscriberID.TextChanged += new System.EventHandler(this.tbOwnshipDL_TextChanged);
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(11, 35);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(18, 13);
+            this.label43.TabIndex = 7;
+            this.label43.Text = "ID";
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(3, 9);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(26, 13);
+            this.label44.TabIndex = 6;
+            this.label44.Text = "C/S";
+            // 
+            // tbOwnshipCallsign
+            // 
+            this.tbOwnshipCallsign.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbOwnshipCallsign.Location = new System.Drawing.Point(35, 6);
+            this.tbOwnshipCallsign.MaxLength = 5;
+            this.tbOwnshipCallsign.Name = "tbOwnshipCallsign";
+            this.tbOwnshipCallsign.Size = new System.Drawing.Size(55, 20);
+            this.tbOwnshipCallsign.TabIndex = 5;
+            this.tbOwnshipCallsign.TextChanged += new System.EventHandler(this.tbOwnshipDL_TextChanged);
             // 
             // tabIFF
             // 
@@ -1589,10 +1636,10 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.comboBox4);
-            this.groupBox1.Controls.Add(this.comboBox3);
-            this.groupBox1.Controls.Add(this.comboBox2);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.ddlASESalvoInterval);
+            this.groupBox1.Controls.Add(this.ddlASESalvoCount);
+            this.groupBox1.Controls.Add(this.ddlASEBurstInterval);
+            this.groupBox1.Controls.Add(this.ddlASEBurstCount);
             this.groupBox1.Controls.Add(this.label42);
             this.groupBox1.Controls.Add(this.label33);
             this.groupBox1.Controls.Add(this.label20);
@@ -1604,37 +1651,41 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chaff Program";
             // 
-            // comboBox4
+            // ddlASESalvoInterval
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(81, 100);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(121, 21);
-            this.comboBox4.TabIndex = 7;
+            this.ddlASESalvoInterval.FormattingEnabled = true;
+            this.ddlASESalvoInterval.Location = new System.Drawing.Point(81, 100);
+            this.ddlASESalvoInterval.Name = "ddlASESalvoInterval";
+            this.ddlASESalvoInterval.Size = new System.Drawing.Size(121, 21);
+            this.ddlASESalvoInterval.TabIndex = 7;
+            this.ddlASESalvoInterval.SelectedIndexChanged += new System.EventHandler(this.ddlASESalvoInterval_SelectedIndexChanged);
             // 
-            // comboBox3
+            // ddlASESalvoCount
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(81, 73);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(121, 21);
-            this.comboBox3.TabIndex = 6;
+            this.ddlASESalvoCount.FormattingEnabled = true;
+            this.ddlASESalvoCount.Location = new System.Drawing.Point(81, 73);
+            this.ddlASESalvoCount.Name = "ddlASESalvoCount";
+            this.ddlASESalvoCount.Size = new System.Drawing.Size(121, 21);
+            this.ddlASESalvoCount.TabIndex = 6;
+            this.ddlASESalvoCount.SelectedIndexChanged += new System.EventHandler(this.ddlASESalvoCount_SelectedIndexChanged);
             // 
-            // comboBox2
+            // ddlASEBurstInterval
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(81, 46);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 5;
+            this.ddlASEBurstInterval.FormattingEnabled = true;
+            this.ddlASEBurstInterval.Location = new System.Drawing.Point(81, 46);
+            this.ddlASEBurstInterval.Name = "ddlASEBurstInterval";
+            this.ddlASEBurstInterval.Size = new System.Drawing.Size(121, 21);
+            this.ddlASEBurstInterval.TabIndex = 5;
+            this.ddlASEBurstInterval.SelectedIndexChanged += new System.EventHandler(this.ddlASEBurstInterval_SelectedIndexChanged);
             // 
-            // comboBox1
+            // ddlASEBurstCount
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(81, 19);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 3;
+            this.ddlASEBurstCount.FormattingEnabled = true;
+            this.ddlASEBurstCount.Location = new System.Drawing.Point(81, 19);
+            this.ddlASEBurstCount.Name = "ddlASEBurstCount";
+            this.ddlASEBurstCount.Size = new System.Drawing.Size(121, 21);
+            this.ddlASEBurstCount.TabIndex = 3;
+            this.ddlASEBurstCount.SelectedIndexChanged += new System.EventHandler(this.ddlASEBurstCount_SelectedIndexChanged);
             // 
             // label42
             // 
@@ -1679,6 +1730,7 @@
             this.ddlASEAutopage.Name = "ddlASEAutopage";
             this.ddlASEAutopage.Size = new System.Drawing.Size(121, 21);
             this.ddlASEAutopage.TabIndex = 1;
+            this.ddlASEAutopage.SelectedIndexChanged += new System.EventHandler(this.ddlASEAutopage_SelectedIndexChanged);
             // 
             // label8
             // 
@@ -1688,6 +1740,16 @@
             this.label8.Size = new System.Drawing.Size(53, 13);
             this.label8.TabIndex = 0;
             this.label8.Text = "Autopage";
+            // 
+            // tabADF
+            // 
+            this.tabADF.Location = new System.Drawing.Point(4, 22);
+            this.tabADF.Name = "tabADF";
+            this.tabADF.Padding = new System.Windows.Forms.Padding(3);
+            this.tabADF.Size = new System.Drawing.Size(681, 367);
+            this.tabADF.TabIndex = 4;
+            this.tabADF.Text = "ADF";
+            this.tabADF.UseVisualStyleBackColor = true;
             // 
             // toolStrip1
             // 
@@ -1712,7 +1774,7 @@
             this.btnXfer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnXfer.Name = "btnXfer";
             this.btnXfer.Size = new System.Drawing.Size(36, 36);
-            this.btnXfer.Text = "toolStripButton1";
+            this.btnXfer.Text = "Transfer";
             this.btnXfer.ToolTipText = "Transfer";
             // 
             // toolStripSeparator1
@@ -1727,7 +1789,8 @@
             this.btnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(36, 36);
-            this.btnLoad.Text = "toolStripButton2";
+            this.btnLoad.Text = "Load";
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
             // btnSave
             // 
@@ -1736,7 +1799,8 @@
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(36, 36);
-            this.btnSave.Text = "toolStripButton3";
+            this.btnSave.Text = "Save";
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // toolStripSeparator2
             // 
@@ -1750,18 +1814,8 @@
             this.btnReset.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(36, 36);
-            this.btnReset.Text = "toolStripButton1";
+            this.btnReset.Text = "Reset";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
-            // tabADF
-            // 
-            this.tabADF.Location = new System.Drawing.Point(4, 22);
-            this.tabADF.Name = "tabADF";
-            this.tabADF.Padding = new System.Windows.Forms.Padding(3);
-            this.tabADF.Size = new System.Drawing.Size(681, 367);
-            this.tabADF.TabIndex = 4;
-            this.tabADF.Text = "ADF";
-            this.tabADF.UseVisualStyleBackColor = true;
             // 
             // FormAH64DTC
             // 
@@ -1814,6 +1868,8 @@
             this.splitContainer3.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.tabDL.ResumeLayout(false);
+            this.tabDL.PerformLayout();
             this.tabIFF.ResumeLayout(false);
             this.tabIFF.PerformLayout();
             this.tabASE.ResumeLayout(false);
@@ -1951,11 +2007,15 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox ddlASESalvoInterval;
+        private System.Windows.Forms.ComboBox ddlASESalvoCount;
+        private System.Windows.Forms.ComboBox ddlASEBurstInterval;
+        private System.Windows.Forms.ComboBox ddlASEBurstCount;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.TabPage tabADF;
+        private System.Windows.Forms.TextBox tbOwnshipSubscriberID;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.TextBox tbOwnshipCallsign;
     }
 }

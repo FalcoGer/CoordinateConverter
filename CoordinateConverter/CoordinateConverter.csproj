@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DCS\Aircraft\A10C.cs" />
+    <Compile Include="DCS\Aircraft\AH64\AH64ADFData.cs" />
     <Compile Include="DCS\Aircraft\AH64\AH64DataLinkMember.cs" />
     <Compile Include="DCS\Aircraft\AH64\AH64DTCData.cs" />
     <Compile Include="DCS\Aircraft\AH64\AH64RadioCNVSetting.cs" />

@@ -12,7 +12,7 @@ namespace CoordinateConverter.DCS.Tools
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FormAH64DTC : Form
     {
-        private AH64DTCData data = new AH64DTCData();
+        private AH64DTCData data = null;
         private readonly ToolTip toolTip = new ToolTip()
         {
             IsBalloon = false,
@@ -25,11 +25,14 @@ namespace CoordinateConverter.DCS.Tools
 
         private Dictionary<AH64RadioPresetData.EPrimaryRadioSetting, RadioButton> primaryRadioButtonAssociation = null;
 
+        public bool IsPilot { get; private set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FormAH64DTC"/> class.
         /// </summary>
-        public FormAH64DTC()
+        public FormAH64DTC(bool isPilot)
         {
+            IsPilot = isPilot;
             InitializeComponent();
 
             {
@@ -131,12 +134,46 @@ namespace CoordinateConverter.DCS.Tools
                 ddlXPNDRMode4Key.Items.Add(new ComboItem<AH64DTCData.EMode4Options>(mode4Options.ToString().Replace('_', ' '), mode4Options));
             }
 
-
             ddlXPNDRReply.ValueMember = "Value";
             ddlXPNDRReply.DisplayMember = "Text";
             foreach (AH64DTCData.EIFFReply replyOption in Enum.GetValues(typeof(AH64DTCData.EIFFReply)))
             {
                 ddlXPNDRReply.Items.Add(new ComboItem<AH64DTCData.EIFFReply>(replyOption.ToString().Replace('_', ' '), replyOption));
+            }
+
+            ddlASEAutopage.ValueMember = "Value";
+            ddlASEAutopage.DisplayMember = "Text";
+            foreach (AH64DTCData.EASEAutopage option in Enum.GetValues(typeof(AH64DTCData.EASEAutopage)))
+            {
+                ddlASEAutopage.Items.Add(new ComboItem<AH64DTCData.EASEAutopage>(option.ToString().Replace('_', ' '), option));
+            }
+
+            ddlASEBurstCount.ValueMember = "Value";
+            ddlASEBurstCount.DisplayMember = "Text";
+            foreach (AH64DTCData.EASEBurstCount option in Enum.GetValues(typeof(AH64DTCData.EASEBurstCount)))
+            {
+                ddlASEBurstCount.Items.Add(new ComboItem<AH64DTCData.EASEBurstCount>(option.ToString().Replace('_', ' '), option));
+            }
+
+            ddlASEBurstInterval.ValueMember = "Value";
+            ddlASEBurstInterval.DisplayMember = "Text";
+            foreach (AH64DTCData.EASEBurstInterval option in Enum.GetValues(typeof(AH64DTCData.EASEBurstInterval)))
+            {
+                ddlASEBurstInterval.Items.Add(new ComboItem<AH64DTCData.EASEBurstInterval>(option.ToString().Replace('_', ' '), option));
+            }
+
+            ddlASESalvoCount.ValueMember = "Value";
+            ddlASESalvoCount.DisplayMember = "Text";
+            foreach (AH64DTCData.EASESalvoCount option in Enum.GetValues(typeof(AH64DTCData.EASESalvoCount)))
+            {
+                ddlASESalvoCount.Items.Add(new ComboItem<AH64DTCData.EASESalvoCount>(option.ToString().Replace('_', ' '), option));
+            }
+
+            ddlASESalvoInterval.ValueMember = "Value";
+            ddlASESalvoInterval.DisplayMember = "Text";
+            foreach (AH64DTCData.EASESalvoInterval option in Enum.GetValues(typeof(AH64DTCData.EASESalvoInterval)))
+            {
+                ddlASESalvoInterval.Items.Add(new ComboItem<AH64DTCData.EASESalvoInterval>(option.ToString().Replace('_', ' '), option));
             }
 
             // Call reset
@@ -155,7 +192,7 @@ namespace CoordinateConverter.DCS.Tools
             // objSender and e may be null
 
             // Reset DTC
-            data = new AH64DTCData();
+            data = new AH64DTCData(IsPilot);
             
             // Reset Radio Presets
             ddlRadioPresetSelection.SelectedIndex = 0;
@@ -859,6 +896,55 @@ namespace CoordinateConverter.DCS.Tools
         #endregion
 
         #region OwnshipDL
+        private void tbOwnshipDL_TextChanged(object sender, EventArgs e)
+        {
+            string callsignText = tbOwnshipCallsign.Text.ToUpper();
+            string subscriberIDText = tbOwnshipSubscriberID.Text.ToUpper();
+
+            bool isError = false;
+            toolTip.Hide(this);
+            tbOwnshipCallsign.BackColor = default;
+            tbOwnshipSubscriberID.BackColor = default;
+
+            // Reset ownship DL info when both strings empty
+            if (string.IsNullOrEmpty(callsignText) && string.IsNullOrEmpty(subscriberIDText))
+            {
+                data.OwnshipDL = null;
+                return;
+            }
+
+            // Display errors when either field is invalid
+            string errorStringCS = AH64DTCData.CheckDLCallSign(callsignText);
+
+            if (errorStringCS != null)
+            {
+                isError = true;
+                tbOwnshipCallsign.BackColor = MainForm.ERROR_COLOR;
+                toolTip.Show(errorStringCS, tbOwnshipCallsign, tbOwnshipCallsign.Width, 0, 5000);
+            }
+
+            string errorStringID = AH64DTCData.CheckDLSubscriberID(subscriberIDText);
+            if (errorStringID != null)
+            {
+                isError = true;
+                tbOwnshipSubscriberID.BackColor = MainForm.ERROR_COLOR;
+                if (string.IsNullOrEmpty(errorStringCS))
+                {
+                    // only show tooltip error for ID when CS is valid.
+                    toolTip.Show(errorStringID, tbOwnshipSubscriberID, tbOwnshipSubscriberID.Width, 0, 5000);
+                }
+            }
+
+            // Don't set when either field is invalid
+            if (isError)
+            {
+                return;
+            }
+
+            // Update ownship info.
+            data.OwnshipDL = new AH64DataLinkMember(callsignText, subscriberIDText, true, true);
+        }
+
         #endregion
 
         #region IFF_XPNDR
@@ -911,12 +997,47 @@ namespace CoordinateConverter.DCS.Tools
             data.IFFReply = ComboItem<AH64DTCData.EIFFReply>.GetSelectedValue(sender as ComboBox);
         }
 
+
         #endregion
 
         #region ASE
+        private void ddlASEAutopage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.ASEAutopage = ComboItem<AH64DTCData.EASEAutopage>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddlASEBurstCount_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.ASEBurstCount = ComboItem<AH64DTCData.EASEBurstCount>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddlASEBurstInterval_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.ASEBurstInterval = ComboItem<AH64DTCData.EASEBurstInterval>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddlASESalvoCount_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.ASESalvoCount = ComboItem<AH64DTCData.EASESalvoCount>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddlASESalvoInterval_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.ASESalvoInterval = ComboItem<AH64DTCData.EASESalvoInterval>.GetSelectedValue(sender as ComboBox);
+        }
         #endregion
 
         #region ADF
         #endregion
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
