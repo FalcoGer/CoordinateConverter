@@ -10,6 +10,12 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
     /// <seealso cref="CoordinateConverter.DCS.Aircraft.DCSCommandsPackage" />
     public class AH64DTCData : DCSCommandsPackage
     {
+        /// <summary>
+        /// Gets a value indicating whether this instance is pilot.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is pilot; otherwise, <c>false</c>.
+        /// </value>
         public bool IsPilot { get; private set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="AH64DTCData"/> class.
@@ -33,6 +39,11 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             presetDataDictionary[EPreset.Preset5].PrimaryRadioSetting = AH64RadioPresetData.EPrimaryRadioSetting.HF_Single_Channel;
         }
 
+        /// <summary>
+        /// Checks the dl call sign for validity.
+        /// </summary>
+        /// <param name="callsign">The callsign to check.</param>
+        /// <returns>An error message or null</returns>
         public static string CheckDLCallSign(string callsign)
         {
             if (callsign.Length < 3)
@@ -49,18 +60,23 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             return null;
         }
 
-        public static string CheckDLSubscriberID(string valueToCheck)
+        /// <summary>
+        /// Checks the datalink subscriber identifier.
+        /// </summary>
+        /// <param name="subscriberID">The value to check.</param>
+        /// <returns>An error message or null</returns>
+        public static string CheckDLSubscriberID(string subscriberID)
         {
             // must be 1 or 2 characters
-            if (valueToCheck.Length < 1 || valueToCheck.Length > 2)
+            if (subscriberID.Length < 1 || subscriberID.Length > 2)
             {
                 return "SubscriberID must be 1 or 2 characters";
             }
 
             // Must be 0-39 (no leading zeroes), A-Z, 1A-1Z, 2A-2Z, 3A-3I
             string pattern = "^[1-2]?[A-Z]|3[A-I]|[1-3]?[0-9]$";
-            var match = Regex.Match(valueToCheck, pattern);
-            if (!match.Success || !(match.Length == valueToCheck.Length))
+            var match = Regex.Match(subscriberID, pattern);
+            if (!match.Success || !(match.Length == subscriberID.Length))
             {
                 return "SubscriberID must be 0-39 without leading zeroes, A-Z, 1A-1Z, 2A-2Z or 3A-3I";
             }
@@ -496,19 +512,34 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         public AH64DataLinkMember OwnshipDL { get; set; } = null;
         #endregion
 
-        #region ASE
+        #region ASE        
+        /// <summary>
+        /// An ASE Autopage setting
+        /// </summary>
         public enum EASEAutopage
         {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             No_Change,
             Search,
             Acquisition,
             Track,
             Off
+            #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         }
+        /// <summary>
+        /// Gets or sets the ase autopage.
+        /// </summary>
+        /// <value>
+        /// The ase autopage.
+        /// </value>
         public EASEAutopage ASEAutopage { get; set; } = EASEAutopage.No_Change;
 
+        /// <summary>
+        /// A Burst Count setting
+        /// </summary>
         public enum EASEBurstCount
         {
+            #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             No_Change,
             One,
             Two,
@@ -516,32 +547,65 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             Four,
             Six,
             Eight
+            #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         }
+        /// <summary>
+        /// Gets or sets the ase burst count.
+        /// </summary>
+        /// <value>
+        /// The ase burst count.
+        /// </value>
         public EASEBurstCount ASEBurstCount { get; set; } = EASEBurstCount.No_Change;
 
+        /// <summary>
+        /// A Burst Interval setting
+        /// </summary>
         public enum EASEBurstInterval
         {
+            #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             No_Change,
             One_Hundred_Milliseconds,
             Two_Hundred_Milliseconds,
             Three_Hundred_Milliseconds,
             Four_Hundred_Milliseconds
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         }
+        /// <summary>
+        /// Gets or sets the ase burst interval.
+        /// </summary>
+        /// <value>
+        /// The ase burst interval.
+        /// </value>
         public EASEBurstInterval ASEBurstInterval { get; set; } = EASEBurstInterval.No_Change;
 
+        /// <summary>
+        /// A Salvo Count setting
+        /// </summary>
         public enum EASESalvoCount
         {
+            #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             No_Change,
             One,
             Two,
             Four,
             Eight,
             Continuous
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         }
+        /// <summary>
+        /// Gets or sets the ase salvo count.
+        /// </summary>
+        /// <value>
+        /// The ase salvo count.
+        /// </value>
         public EASESalvoCount ASESalvoCount { get; set; } = EASESalvoCount.No_Change;
 
+        /// <summary>
+        /// A Salvo Interval setting
+        /// </summary>
         public enum EASESalvoInterval
         {
+            #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             No_Change,
             One,
             Two,
@@ -550,7 +614,14 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             Five,
             Eight,
             Random
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         }
+        /// <summary>
+        /// Gets or sets the ase salvo interval.
+        /// </summary>
+        /// <value>
+        /// The ase salvo interval.
+        /// </value>
         public EASESalvoInterval ASESalvoInterval { get; set; } = EASESalvoInterval.No_Change;
         #endregion
     }

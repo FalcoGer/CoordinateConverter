@@ -25,6 +25,12 @@ namespace CoordinateConverter.DCS.Tools
 
         private Dictionary<AH64RadioPresetData.EPrimaryRadioSetting, RadioButton> primaryRadioButtonAssociation = null;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is pilot.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is pilot; otherwise, <c>false</c>.
+        /// </value>
         public bool IsPilot { get; private set; }
 
         /// <summary>
