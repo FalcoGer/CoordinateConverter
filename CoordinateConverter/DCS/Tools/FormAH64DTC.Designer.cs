@@ -1479,7 +1479,7 @@
             this.groupBox1.Location = new System.Drawing.Point(5, 33);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(211, 129);
-            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabIndex = 302;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chaff Program";
             // 
@@ -1489,7 +1489,7 @@
             this.ddlASESalvoInterval.Location = new System.Drawing.Point(81, 100);
             this.ddlASESalvoInterval.Name = "ddlASESalvoInterval";
             this.ddlASESalvoInterval.Size = new System.Drawing.Size(121, 21);
-            this.ddlASESalvoInterval.TabIndex = 305;
+            this.ddlASESalvoInterval.TabIndex = 306;
             this.ddlASESalvoInterval.SelectedIndexChanged += new System.EventHandler(this.ddlASESalvoInterval_SelectedIndexChanged);
             // 
             // ddlASESalvoCount
@@ -1498,7 +1498,7 @@
             this.ddlASESalvoCount.Location = new System.Drawing.Point(81, 73);
             this.ddlASESalvoCount.Name = "ddlASESalvoCount";
             this.ddlASESalvoCount.Size = new System.Drawing.Size(121, 21);
-            this.ddlASESalvoCount.TabIndex = 304;
+            this.ddlASESalvoCount.TabIndex = 305;
             this.ddlASESalvoCount.SelectedIndexChanged += new System.EventHandler(this.ddlASESalvoCount_SelectedIndexChanged);
             // 
             // ddlASEBurstInterval
@@ -1507,7 +1507,7 @@
             this.ddlASEBurstInterval.Location = new System.Drawing.Point(81, 46);
             this.ddlASEBurstInterval.Name = "ddlASEBurstInterval";
             this.ddlASEBurstInterval.Size = new System.Drawing.Size(121, 21);
-            this.ddlASEBurstInterval.TabIndex = 303;
+            this.ddlASEBurstInterval.TabIndex = 304;
             this.ddlASEBurstInterval.SelectedIndexChanged += new System.EventHandler(this.ddlASEBurstInterval_SelectedIndexChanged);
             // 
             // ddlASEBurstCount
@@ -1516,7 +1516,7 @@
             this.ddlASEBurstCount.Location = new System.Drawing.Point(81, 19);
             this.ddlASEBurstCount.Name = "ddlASEBurstCount";
             this.ddlASEBurstCount.Size = new System.Drawing.Size(121, 21);
-            this.ddlASEBurstCount.TabIndex = 302;
+            this.ddlASEBurstCount.TabIndex = 303;
             this.ddlASEBurstCount.SelectedIndexChanged += new System.EventHandler(this.ddlASEBurstCount_SelectedIndexChanged);
             // 
             // label42
