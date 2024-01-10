@@ -186,6 +186,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <value>
         ///   <c>true</c> if [VHF frequency is receive only]; otherwise, <c>false</c>.
         /// </value>
+        [JsonIgnore]
         public bool VHFFrequencyIsReceiveOnly
         {
             get
