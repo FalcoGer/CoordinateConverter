@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -16,13 +17,29 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <value>
         ///   <c>true</c> if this instance is pilot; otherwise, <c>false</c>.
         /// </value>
-        public bool IsPilot { get; private set; }
+        [JsonIgnore]
+        public bool IsPilot { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="AH64DTCData"/> class.
         /// </summary>
+        [JsonConstructor]
+        public AH64DTCData()
+        {
+            Init();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AH64DTCData"/> class.
+        /// </summary>
+        /// <param name="isPilot">if set to <c>true</c> [is pilot].</param>
         public AH64DTCData(bool isPilot)
         {
             IsPilot = isPilot;
+            Init();
+        }
+
+        private void Init()
+        {
             // Fill preset data
             presetDataDictionary = new Dictionary<EPreset, AH64RadioPresetData>();
             foreach (EPreset preset in Enum.GetValues(typeof(EPreset)))
@@ -102,6 +119,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             Preset10
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         }
+
+        [JsonProperty("Presets")]
         private Dictionary<EPreset, AH64RadioPresetData> presetDataDictionary;
         /// <summary>
         /// Gets AH64 radio preset.
@@ -132,6 +151,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <value>
         ///   <c>true</c> if [this DTC contains transponder data]; otherwise, <c>false</c>.
         /// </value>
+        [JsonIgnore]
         public bool ContainsTransponderData
         {
             get
@@ -145,7 +165,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     || IFFReply != EIFFReply.No_Change;
             }
         }
-
+        [JsonIgnore]
         private int? mode1Value = null; // 5 bits (0..31)        
         /// <summary>
         /// Gets or sets the Mode1 transponder code.
@@ -195,7 +215,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             }
         }
 
-        int? mode2Value = null;
+        [JsonIgnore]
+        private int? mode2Value = null;
         /// <summary>
         /// Gets or sets the mode2 transponder code.
         /// </summary>
@@ -248,7 +269,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             }
         }
 
-        int? mode3AValue = null;
+        [JsonIgnore]
+        private int? mode3AValue = null;
         /// <summary>
         /// Gets or sets the mode3a transponder code.
         /// </summary>
@@ -301,7 +323,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             }
         }
 
-        int? modeSFlightAddressValue = null;
+        [JsonIgnore]
+        private int? modeSFlightAddressValue = null;
         /// <summary>
         /// Gets or sets the mode s flight address.
         /// </summary>
@@ -354,7 +377,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             }
         }
 
-        string modeSFlightIDValue = null;
+        [JsonIgnore]
+        private string modeSFlightIDValue = null;
         /// <summary>
         /// Gets or sets the mode s flight identifier.
         /// </summary>
@@ -366,7 +390,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         {
             get
             {
-                return modeSFlightIDValue;
+                return modeSFlightIDValue ?? string.Empty;
             }
             set
             {
@@ -503,13 +527,63 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         #endregion
 
         #region OwnshipDL        
+
+        private string ownshipSubscriberID = null;
         /// <summary>
-        /// Gets or sets the ownship datalink information.
+        /// Gets or sets the ownship subscriber identifier.
         /// </summary>
         /// <value>
-        /// The ownship datalink information.
+        /// The ownship subscriber identifier.
         /// </value>
-        public AH64DataLinkMember OwnshipDL { get; set; } = null;
+        public string OwnshipSubscriberID
+        {
+            get
+            {
+                return ownshipSubscriberID;
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    ownshipSubscriberID = null;
+                }
+                string error = CheckDLSubscriberID(value);
+                if (!string.IsNullOrEmpty(error))
+                {
+                    throw new ArgumentException(error, nameof(OwnshipSubscriberID));
+                }
+                ownshipSubscriberID = value;
+            }
+        }
+
+        private string ownshipCallsign = null;
+        /// <summary>
+        /// Gets or sets the ownship callsign.
+        /// </summary>
+        /// <value>
+        /// The ownship callsign.
+        /// </value>
+        /// <exception cref="ArgumentException">error, nameof(OwnshipCallsign)</exception>
+        public string OwnshipCallsign
+        {
+            get
+            {
+                return ownshipCallsign;
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    ownshipCallsign = null;
+                }
+                string error = CheckDLCallSign(value);
+                if (!string.IsNullOrEmpty(error))
+                {
+                    throw new ArgumentException(error, nameof(OwnshipCallsign));
+                }
+                ownshipCallsign = value;
+            }
+        }
         #endregion
 
         #region ASE        

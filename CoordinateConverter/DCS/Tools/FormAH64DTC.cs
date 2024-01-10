@@ -1,7 +1,9 @@
 ﻿using CoordinateConverter.DCS.Aircraft.AH64;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace CoordinateConverter.DCS.Tools
@@ -41,30 +43,32 @@ namespace CoordinateConverter.DCS.Tools
             IsPilot = isPilot;
             InitializeComponent();
 
+            data = new AH64DTCData(isPilot);
+
             {
                 // Adjust Frequency NumericUpDowns
                 var preset = data.GetAH64RadioPreset(AH64DTCData.EPreset.Preset1);
-                nudFM1Freq.Minimum = preset.FM1Frequency.Minimum;
-                nudFM1Freq.Maximum = preset.FM1Frequency.Maximum;
-                nudFM1Freq.Increment = preset.FM1Frequency.Increment;
-                nudFM2Freq.Minimum = preset.FM2Frequency.Minimum;
-                nudFM2Freq.Maximum = preset.FM2Frequency.Maximum;
-                nudFM2Freq.Increment = preset.FM2Frequency.Increment;
-                nudHFRXFreq.Minimum = preset.HFRXFrequency.Minimum;
-                nudHFRXFreq.Maximum = preset.HFRXFrequency.Maximum;
-                nudHFRXFreq.Increment = preset.HFRXFrequency.Increment;
-                nudHFTXFreq.Minimum = preset.HFTXFrequency.Minimum;
-                nudHFTXFreq.Maximum = preset.HFTXFrequency.Maximum;
-                nudHFTXFreq.Increment = preset.HFTXFrequency.Increment;
-                nudUHFFreq.Minimum = preset.UHFFrequency.Minimum;
-                nudUHFFreq.Maximum = preset.UHFFrequency.Maximum;
-                nudUHFFreq.Increment = preset.UHFFrequency.Increment;
-                nudUHFHQ.Minimum = preset.UHFHaveQuickNet.Minimum;
-                nudUHFHQ.Maximum = preset.UHFHaveQuickNet.Maximum;
-                nudUHFHQ.Increment = preset.UHFHaveQuickNet.Increment;
-                nudVHFFreq.Minimum = preset.VHFFrequency.Minimum;
-                nudVHFFreq.Maximum = preset.VHFFrequency.Maximum;
-                nudVHFFreq.Increment = preset.VHFFrequency.Increment;
+                nudFM1Freq.Minimum = preset.FM1FrequencyMinimum;
+                nudFM1Freq.Maximum = preset.FM1FrequencyMaximum;
+                nudFM1Freq.Increment = preset.FM1FrequencyIncrement;
+                nudFM2Freq.Minimum = preset.FM2FrequencyMinimum;
+                nudFM2Freq.Maximum = preset.FM2FrequencyMaximum;
+                nudFM2Freq.Increment = preset.FM2FrequencyIncrement;
+                nudHFRXFreq.Minimum = preset.HFRXFrequencyMinimum;
+                nudHFRXFreq.Maximum = preset.HFRXFrequencyMaximum;
+                nudHFRXFreq.Increment = preset.HFRXFrequencyIncrement;
+                nudHFTXFreq.Minimum = preset.HFTXFrequencyMinimum;
+                nudHFTXFreq.Maximum = preset.HFTXFrequencyMaximum;
+                nudHFTXFreq.Increment = preset.HFTXFrequencyIncrement;
+                nudUHFFreq.Minimum = preset.UHFFrequencyMinimum;
+                nudUHFFreq.Maximum = preset.UHFFrequencyMaximum;
+                nudUHFFreq.Increment = preset.UHFFrequencyIncrement;
+                nudUHFHQ.Minimum = preset.UHFHaveQuickNetMinimum;
+                nudUHFHQ.Maximum = preset.UHFHaveQuickNetMaximum;
+                nudUHFHQ.Increment = preset.UHFHaveQuickNetIncrement;
+                nudVHFFreq.Minimum = preset.VHFFrequencyMinimum;
+                nudVHFFreq.Maximum = preset.VHFFrequencyMaximum;
+                nudVHFFreq.Increment = preset.VHFFrequencyIncrement;
             }
 
             // create primaryRadioButtonAssociation
@@ -195,24 +199,29 @@ namespace CoordinateConverter.DCS.Tools
 
         private void btnReset_Click(object objSender, EventArgs e)
         {
-            // objSender and e may be null
-
             // Reset DTC
             data = new AH64DTCData(IsPilot);
-            
+
+            // Refresh Controls
+            RefreshControls();
+        }
+
+        private void RefreshControls()
+        {
             // Reset Radio Presets
             ddlRadioPresetSelection.SelectedIndex = 0;
-            // Force refresh
-            ddlRadioPresetSelection_SelectedIndexChanged(ddlRadioPresetSelection, e);
-            cbRadioPresetPrimaryEnable_CheckedChanged(cbRadioPresetPrimaryEnable, e);
-            cbPresetNet_Enable_CheckedChanged(cbPresetNet_Enable, e);
-            cbPresetModem_Enable_CheckedChanged(cbPresetModem_Enable, e);
-            cbPresetVHF_Enable_CheckedChanged(cbPresetVHF_Enable, e);
-            cbPresetUHF_Enable_CheckedChanged(cbPresetUHF_Enable, e);
-            cbPresetFM1_Enable_CheckedChanged(cbPresetFM1_Enable, e);
-            cbPresetFM2_Enable_CheckedChanged(cbPresetFM2_Enable, e);
-            cbPresetHF_Enable_CheckedChanged(cbPresetHF_Enable, e);
-            cbPresetVHFAllowRecvOnlyRange_CheckedChanged(cbPresetVHFAllowRecvOnlyRange, e);
+
+            // Reset preset config to values in data via the callbacks
+            ddlRadioPresetSelection_SelectedIndexChanged(ddlRadioPresetSelection, null);
+            cbRadioPresetPrimaryEnable_CheckedChanged(cbRadioPresetPrimaryEnable, null);
+            cbPresetNet_Enable_CheckedChanged(cbPresetNet_Enable, null);
+            cbPresetModem_Enable_CheckedChanged(cbPresetModem_Enable, null);
+            cbPresetVHF_Enable_CheckedChanged(cbPresetVHF_Enable, null);
+            cbPresetUHF_Enable_CheckedChanged(cbPresetUHF_Enable, null);
+            cbPresetFM1_Enable_CheckedChanged(cbPresetFM1_Enable, null);
+            cbPresetFM2_Enable_CheckedChanged(cbPresetFM2_Enable, null);
+            cbPresetHF_Enable_CheckedChanged(cbPresetHF_Enable, null);
+            cbPresetVHFAllowRecvOnlyRange_CheckedChanged(cbPresetVHFAllowRecvOnlyRange, null);
 
             // Reset DL Entry as that is not part of the preset
             tbPresetNetCS.Text = string.Empty;
@@ -220,10 +229,24 @@ namespace CoordinateConverter.DCS.Tools
             cbPresetNetPrimary.Checked = false;
             cbPresetNetTeam.Checked = false;
 
-            // TODO: Reset Ownship DL to values in data
-            // TODO: Reset IFF/XPNDR to values in data
-            // TODO: Reset ASE to values in data
-            
+            // Reset Ownship DL to values in data
+            tbOwnshipCallsign.Text = data.OwnshipCallsign;
+            tbOwnshipSubscriberID.Text = data.OwnshipSubscriberID;
+            // Reset IFF/XPNDR to values in data
+            tbXPNDRMode1.Text = data.Mode1;
+            tbXPNDRMode2.Text = data.Mode2;
+            tbXPNDRMode3A.Text = data.Mode3A;
+            tbXPNDRModeSAddr.Text = data.ModeSFlightAddress;
+            tbXPNDRModeSID.Text = data.ModeSFlightID;
+            ddlXPNDRMode4Key.SelectedIndex = ComboItem<AH64DTCData.EMode4Options>.FindValue(ddlXPNDRMode4Key, data.Mode4) ?? 0;
+            ddlXPNDRReply.SelectedIndex = ComboItem<AH64DTCData.EIFFReply>.FindValue(ddlXPNDRReply, data.IFFReply) ?? 0;
+            // Reset ASE to values in data
+            ddlASEAutopage.SelectedIndex = ComboItem<AH64DTCData.EASEAutopage>.FindValue(ddlASEAutopage, data.ASEAutopage) ?? 0;
+            ddlASEBurstCount.SelectedIndex = ComboItem<AH64DTCData.EASEBurstCount>.FindValue(ddlASEBurstCount, data.ASEBurstCount) ?? 0;
+            ddlASEBurstInterval.SelectedIndex = ComboItem<AH64DTCData.EASEBurstInterval>.FindValue(ddlASEBurstInterval, data.ASEBurstInterval) ?? 0;
+            ddlASESalvoCount.SelectedIndex = ComboItem<AH64DTCData.EASESalvoCount>.FindValue(ddlASESalvoCount, data.ASESalvoCount) ?? 0;
+            ddlASESalvoInterval.SelectedIndex = ComboItem<AH64DTCData.EASESalvoInterval>.FindValue(ddlASESalvoInterval, data.ASESalvoInterval) ?? 0;
+            // TODO: Reset ADF to values in data
         }
 
         #region PresetGeneral
@@ -233,25 +256,28 @@ namespace CoordinateConverter.DCS.Tools
             AH64DTCData.EPreset selectedPresetIdent = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(sender);
             AH64RadioPresetData selectedPreset = data.GetAH64RadioPreset(selectedPresetIdent);
             // Update all the information
+            // Preset UID & CS
+            tbRadioPresetUnitID.Text = selectedPreset.UnitId;
+            tbRadioPresetCallsign.Text = selectedPreset.Callsign;
             // VHF
             cbPresetVHF_Enable.Checked = selectedPreset.ContainsVHFData;
             cbPresetVHFAllowRecvOnlyRange.Checked = selectedPreset.VHFFrequencyIsReceiveOnly;
-            nudVHFFreq.Value = selectedPreset.VHFFrequency.Frequency;
+            nudVHFFreq.Value = selectedPreset.VHFFrequency;
             // UHF
             cbPresetUHF_Enable.Checked = selectedPreset.ContainsUHFData;
-            nudUHFHQ.Value = selectedPreset.UHFHaveQuickNet.Frequency;
-            nudUHFFreq.Value = selectedPreset.UHFFrequency.Frequency;
+            nudUHFHQ.Value = selectedPreset.UHFHaveQuickNet;
+            nudUHFFreq.Value = selectedPreset.UHFFrequency;
             ddlUHFCNV.SelectedIndex = ComboItem<AH64RadioCNVSetting>.FindValue(ddlUHFCNV, selectedPreset.UHFCNV) ?? 0;
             // FM 1
             cbPresetFM1_Enable.Checked = selectedPreset.ContainsFM1Data;
             ddlFM1CNV.SelectedIndex = ComboItem<AH64RadioCNVSetting>.FindValue(ddlFM1CNV, selectedPreset.FM1CNV) ?? 0;
             nudFM1Hopset.Value = selectedPreset.FM1Hopset;
-            nudFM1Freq.Value = selectedPreset.FM1Frequency.Frequency;
+            nudFM1Freq.Value = selectedPreset.FM1Frequency;
             // FM 2
             cbPresetFM2_Enable.Checked = selectedPreset.ContainsFM2Data;
             ddlFM2CNV.SelectedIndex = ComboItem<AH64RadioCNVSetting>.FindValue(ddlFM2CNV, selectedPreset.FM2CNV) ?? 0;
             nudFM2Hopset.Value = selectedPreset.FM2Hopset;
-            nudFM2Freq.Value = selectedPreset.FM2Frequency.Frequency;
+            nudFM2Freq.Value = selectedPreset.FM2Frequency;
             // HF
             cbPresetHF_Enable.Checked = selectedPreset.ContainsHFData;
             ddlHFCNV.SelectedIndex = ComboItem<AH64RadioCNVSetting>.FindValue(ddlHFCNV, selectedPreset.HFCNV) ?? 0;
@@ -259,8 +285,8 @@ namespace CoordinateConverter.DCS.Tools
             nudHFALENet.Value = selectedPreset.HFALENet;
             nudHFECCMNet.Value = selectedPreset.HFECCMNet;
             cbHFSame.Checked = selectedPreset.TxRxLinked;
-            nudHFRXFreq.Value = selectedPreset.HFRXFrequency.Frequency;
-            nudHFTXFreq.Value = selectedPreset.HFTXFrequency.Frequency;
+            nudHFRXFreq.Value = selectedPreset.HFRXFrequency;
+            nudHFTXFreq.Value = selectedPreset.HFTXFrequency;
             // Net
             cbPresetNet_Enable.Checked = selectedPreset.ContainsNetData;
             cbPresetModem_Enable.Checked = selectedPreset.ContainsModemData;
@@ -285,11 +311,6 @@ namespace CoordinateConverter.DCS.Tools
             // Primary Radio
             cbRadioPresetPrimaryEnable.Checked = selectedPreset.ContainsRadioPrimaryData;
             primaryRadioButtonAssociation[selectedPreset.PrimaryRadioSetting].Checked = true;
-
-            // IFF/XPNDR
-            // Mode4
-            ddlXPNDRMode4Key.SelectedIndex = ComboItem<AH64DTCData.EMode4Options>.FindValue(ddlXPNDRMode4Key, data.Mode4) ?? 0;
-            ddlXPNDRReply.SelectedIndex = ComboItem<AH64DTCData.EIFFReply>.FindValue(ddlXPNDRReply, data.IFFReply) ?? 0;
         }
 
         private void tbRadioPresetUnitID_TextChanged(object objsender, EventArgs e)
@@ -368,6 +389,8 @@ namespace CoordinateConverter.DCS.Tools
         private void cbPresetVHF_Enable_CheckedChanged(object sender, EventArgs e)
         {
             bool status = (sender as CheckBox).Checked;
+            GetSelectedPreset().ContainsVHFData = status;
+
             nudVHFFreq.Enabled = status;
             cbPresetVHFAllowRecvOnlyRange.Enabled = status;
         }
@@ -385,7 +408,7 @@ namespace CoordinateConverter.DCS.Tools
             control.BackColor = default;
             try
             {
-                GetSelectedPreset().VHFFrequency.Frequency = control.Value;
+                GetSelectedPreset().VHFFrequency = control.Value;
             }
             catch (Exception ex)
             {
@@ -399,14 +422,14 @@ namespace CoordinateConverter.DCS.Tools
         private void cbPresetUHF_Enable_CheckedChanged(object sender, EventArgs e)
         {
             bool status = (sender as CheckBox).Checked;
+            GetSelectedPreset().ContainsUHFData = status;
+
             ddlUHFCNV.Enabled = status;
             nudUHFFreq.Enabled = status;
             nudUHFHQ.Enabled = status;
             // Disable N/I controls
             ddlUHFCNV.Enabled = false;
             nudUHFHQ.Enabled = false;
-
-            GetSelectedPreset().ContainsUHFData = status;
         }
 
         private void ddlUHFCNV_SelectedIndexChanged(object sender, EventArgs e)
@@ -421,7 +444,7 @@ namespace CoordinateConverter.DCS.Tools
             control.BackColor = default;
             try
             {
-                GetSelectedPreset().UHFHaveQuickNet.Frequency = control.Value;
+                GetSelectedPreset().UHFHaveQuickNet = control.Value;
             }
             catch (Exception ex)
             {
@@ -437,7 +460,7 @@ namespace CoordinateConverter.DCS.Tools
             control.BackColor = default;
             try
             {
-                GetSelectedPreset().UHFFrequency.Frequency = control.Value;
+                GetSelectedPreset().UHFFrequency = control.Value;
             }
             catch (Exception ex)
             {
@@ -489,7 +512,7 @@ namespace CoordinateConverter.DCS.Tools
             control.BackColor = default;
             try
             {
-                GetSelectedPreset().FM1Frequency.Frequency = control.Value;
+                GetSelectedPreset().FM1Frequency = control.Value;
             }
             catch (Exception ex)
             {
@@ -542,7 +565,7 @@ namespace CoordinateConverter.DCS.Tools
             control.BackColor = default;
             try
             {
-                GetSelectedPreset().FM2Frequency.Frequency = control.Value;
+                GetSelectedPreset().FM2Frequency = control.Value;
             }
             catch (Exception ex)
             {
@@ -644,7 +667,7 @@ namespace CoordinateConverter.DCS.Tools
             control.BackColor = default;
             try
             {
-                GetSelectedPreset().HFRXFrequency.Frequency = (int)control.Value;
+                GetSelectedPreset().HFRXFrequency = (int)control.Value;
                 if (cbHFSame.Checked)
                 {
                     nudHFTXFreq.Value = control.Value;
@@ -664,7 +687,7 @@ namespace CoordinateConverter.DCS.Tools
             control.BackColor = default;
             try
             {
-                GetSelectedPreset().HFTXFrequency.Frequency = (int)control.Value;
+                GetSelectedPreset().HFTXFrequency = (int)control.Value;
             }
             catch (Exception ex)
             {
@@ -718,6 +741,7 @@ namespace CoordinateConverter.DCS.Tools
         {
             bool status = (sender as CheckBox).Checked;
             GetSelectedPreset().ContainsNetData = status;
+
             tbPresetNetCS.Enabled = status;
             tbPresetNetID.Enabled = status;
             cbPresetNetPrimary.Enabled = status;
@@ -902,53 +926,54 @@ namespace CoordinateConverter.DCS.Tools
         #endregion
 
         #region OwnshipDL
-        private void tbOwnshipDL_TextChanged(object sender, EventArgs e)
+        private void tbOwnshipCallsign_TextChanged(object objsender, EventArgs e)
         {
-            string callsignText = tbOwnshipCallsign.Text.ToUpper();
-            string subscriberIDText = tbOwnshipSubscriberID.Text.ToUpper();
-
-            bool isError = false;
+            TextBox sender = objsender as TextBox;
+            string text = sender.Text.ToUpper();
             toolTip.Hide(this);
             tbOwnshipCallsign.BackColor = default;
-            tbOwnshipSubscriberID.BackColor = default;
 
-            // Reset ownship DL info when both strings empty
-            if (string.IsNullOrEmpty(callsignText) && string.IsNullOrEmpty(subscriberIDText))
+            string error = AH64DTCData.CheckDLCallSign(text);
+            if (!string.IsNullOrEmpty(error))
             {
-                data.OwnshipDL = null;
+                sender.BackColor = MainForm.ERROR_COLOR;
+                toolTip.Show(error, sender, sender.Width, 0, 5000);
                 return;
             }
-
-            // Display errors when either field is invalid
-            string errorStringCS = AH64DTCData.CheckDLCallSign(callsignText);
-
-            if (errorStringCS != null)
+            try
             {
-                isError = true;
-                tbOwnshipCallsign.BackColor = MainForm.ERROR_COLOR;
-                toolTip.Show(errorStringCS, tbOwnshipCallsign, tbOwnshipCallsign.Width, 0, 5000);
+                data.OwnshipCallsign = text;
             }
-
-            string errorStringID = AH64DTCData.CheckDLSubscriberID(subscriberIDText);
-            if (errorStringID != null)
+            catch (Exception ex)
             {
-                isError = true;
-                tbOwnshipSubscriberID.BackColor = MainForm.ERROR_COLOR;
-                if (string.IsNullOrEmpty(errorStringCS))
-                {
-                    // only show tooltip error for ID when CS is valid.
-                    toolTip.Show(errorStringID, tbOwnshipSubscriberID, tbOwnshipSubscriberID.Width, 0, 5000);
-                }
+                sender.BackColor = MainForm.ERROR_COLOR;
+                toolTip.Show(ex.Message, sender, sender.Width, 0, 5000);
             }
+        }
 
-            // Don't set when either field is invalid
-            if (isError)
+        private void tbOwnshipSubscriberID_TextChanged(object objsender, EventArgs e)
+        {
+            TextBox sender = objsender as TextBox;
+            string text = sender.Text.ToUpper();
+            toolTip.Hide(this);
+            tbOwnshipCallsign.BackColor = default;
+
+            string error = AH64DTCData.CheckDLSubscriberID(text);
+            if (!string.IsNullOrEmpty(error))
             {
+                sender.BackColor = MainForm.ERROR_COLOR;
+                toolTip.Show(error, sender, sender.Width, 0, 5000);
                 return;
             }
-
-            // Update ownship info.
-            data.OwnshipDL = new AH64DataLinkMember(callsignText, subscriberIDText, true, true);
+            try
+            {
+                data.OwnshipSubscriberID = text;
+            }
+            catch (Exception ex)
+            {
+                sender.BackColor = MainForm.ERROR_COLOR;
+                toolTip.Show(ex.Message, sender, sender.Width, 0, 5000);
+            }
         }
 
         #endregion
@@ -1036,14 +1061,93 @@ namespace CoordinateConverter.DCS.Tools
         #region ADF
         #endregion
 
+        #region File management
+
+        private readonly OpenFileDialog ofd = new OpenFileDialog()
+        {
+            Title = "Open Coordinate List",
+            AddExtension = true,
+            DefaultExt = "json",
+            Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
+            FileName = "coordinates.json",
+            Multiselect = false,
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+            ShowReadOnly = false
+        };
+
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            toolTip.Hide(this);
+
+            ofd.CheckFileExists = true;
+            DialogResult result = ofd.ShowDialog();
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+            string filePath = ofd.FileName;
+            FileInfo fi = new FileInfo(filePath);
+            if (!fi.Exists)
+            {
+                toolTip.Show("File does not exist.", toolStrip1, 0, toolStrip1.Height, 5000);
+                return;
+            }
+
+            try
+            {
+                using (FileStream fileHandle = fi.Open(FileMode.Open, FileAccess.Read))
+                {
+                    using (StreamReader sr = new StreamReader(fileHandle, System.Text.Encoding.UTF8))
+                    {
+                        string data = sr.ReadToEnd();
+                        this.data = Newtonsoft.Json.JsonConvert.DeserializeObject<AH64DTCData>(data, MainForm.JsonSerializerSettings);
+                        this.data.IsPilot = IsPilot;
+                        RefreshControls();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                toolTip.Show(ex.Message, toolStrip1, 0, toolStrip1.Height, 5000);
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            toolTip.Hide(this);
+            ofd.CheckFileExists = false;
+
+            DialogResult result = ofd.ShowDialog();
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+            string filePath = ofd.FileName;
+            FileInfo fi = new FileInfo(filePath);
+            if (fi.Exists)
+            {
+                FormAskBinaryQuestion overwriteFile = new FormAskBinaryQuestion(this, "Overwrite file?", "Overwrite", "Preserve file", "You are about to overwrite this file.");
+                if (!overwriteFile.Result)
+                {
+                    return;
+                }
+            }
+
+            try
+            {
+                using (FileStream fileHandle = fi.Open(FileMode.Create, FileAccess.Write))
+                {
+                    string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(this.data, MainForm.JsonSerializerSettings);
+                    byte[] data = new UTF8Encoding(true).GetBytes(jsonData);
+                    fileHandle.Write(data, 0, data.Length);
+                }
+            }
+            catch (Exception ex)
+            {
+                toolTip.Show(ex.Message, toolStrip1, 0, toolStrip1.Height, 5000);
+            }
         }
+
+        #endregion
     }
 }

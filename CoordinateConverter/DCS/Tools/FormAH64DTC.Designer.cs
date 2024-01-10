@@ -1436,7 +1436,7 @@
             this.tbOwnshipSubscriberID.Name = "tbOwnshipSubscriberID";
             this.tbOwnshipSubscriberID.Size = new System.Drawing.Size(25, 20);
             this.tbOwnshipSubscriberID.TabIndex = 8;
-            this.tbOwnshipSubscriberID.TextChanged += new System.EventHandler(this.tbOwnshipDL_TextChanged);
+            this.tbOwnshipSubscriberID.TextChanged += new System.EventHandler(this.tbOwnshipSubscriberID_TextChanged);
             // 
             // label43
             // 
@@ -1464,7 +1464,7 @@
             this.tbOwnshipCallsign.Name = "tbOwnshipCallsign";
             this.tbOwnshipCallsign.Size = new System.Drawing.Size(55, 20);
             this.tbOwnshipCallsign.TabIndex = 5;
-            this.tbOwnshipCallsign.TextChanged += new System.EventHandler(this.tbOwnshipDL_TextChanged);
+            this.tbOwnshipCallsign.TextChanged += new System.EventHandler(this.tbOwnshipCallsign_TextChanged);
             // 
             // tabIFF
             // 

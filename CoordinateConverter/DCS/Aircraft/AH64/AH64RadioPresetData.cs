@@ -1,4 +1,5 @@
 ﻿using CoordinateConverter.DCS.Tools;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -38,6 +39,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <value>
         ///   <c>true</c> if [needs editing]; otherwise, <c>false</c>.
         /// </value>
+        [JsonIgnore]
         public bool NeedsEditing
         {
             get
@@ -55,9 +57,10 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             }
         }
 
-        private string unitId = String.Empty;
         #endregion
         #region GeneralPresetSettings
+        [JsonIgnore]
+        private string unitId = null;
         /// <summary>
         /// Gets or sets the unit identifier.
         /// </summary>
@@ -75,7 +78,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    unitId = string.Empty;
+                    unitId = null;
                     return;
                 }
                 value = value.ToUpper();
@@ -87,7 +90,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             }
         }
 
-        private string callsign = string.Empty;
+        [JsonIgnore]
+        private string callsign = null;
         /// <summary>
         /// Gets or sets the callsign.
         /// </summary>
@@ -105,7 +109,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    callsign = string.Empty;
+                    callsign = null;
                     return;
                 }
                 value = value.ToUpper();
@@ -138,13 +142,50 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         ///   <c>true</c> if [contains VHF data]; otherwise, <c>false</c>.
         /// </value>
         public bool ContainsVHFData { get; set; } = false;
+
+        [JsonIgnore]
+        private RadioFrequency vhfFrequency = new RadioFrequency(127.5m, 108.0m, 155.995m, 0.005m);
+        /// <summary>
+        /// Gets the minimum VHF frequency.
+        /// </summary>
+        /// <value>
+        /// The minimum VHF frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal VHFFrequencyMinimum { get { return vhfFrequency.Minimum; } }
+        /// <summary>
+        /// Gets the maximum VHF frequency.
+        /// </summary>
+        /// <value>
+        /// The maximum VHF frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal VHFFrequencyMaximum { get { return vhfFrequency.Maximum; } }
+        /// <summary>
+        /// Gets the VHF frequency increment.
+        /// </summary>
+        /// <value>
+        /// The VHF frequency increment.
+        /// </value>
+        [JsonIgnore]
+        public decimal VHFFrequencyIncrement { get { return vhfFrequency.Increment; } }
         /// <summary>
         /// Gets or sets the VHF frequency.
         /// </summary>
         /// <value>
         /// The VHF frequency.
         /// </value>
-        public RadioFrequency VHFFrequency { get; set; } = new RadioFrequency(127.5m, 108.0m, 155.995m, 0.005m);
+        public decimal VHFFrequency
+        {
+            get
+            {
+                return vhfFrequency.Frequency;
+            }
+            set
+            {
+                vhfFrequency.Frequency = value;
+            }
+        }
         /// <summary>
         /// Gets a value indicating whether [VHF frequency is receive only].
         /// </summary>
@@ -155,7 +196,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         {
             get
             {
-                return VHFFrequency.Frequency < 116.0m;
+                return VHFFrequency < 116.0m;
             }
         }
         #endregion
@@ -174,20 +215,93 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// The uhf cnv.
         /// </value>
         public AH64RadioCNVSetting UHFCNV { get; set; } = new AH64RadioCNVSetting(1);
+
+        [JsonIgnore]
+        private RadioFrequency uhfHaveQuickNet = new RadioFrequency(0.0m, 0.0m, 99.975m, 0.005m);
+        /// <summary>
+        /// Gets the minimum uhf have quick net frequency.
+        /// </summary>
+        /// <value>
+        /// The minimum uhf have quick net frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal UHFHaveQuickNetMinimum { get { return uhfHaveQuickNet.Minimum; } }
+        /// <summary>
+        /// Gets the maximum uhf have quick net frequency.
+        /// </summary>
+        /// <value>
+        /// The maximum uhf have quick net frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal UHFHaveQuickNetMaximum { get { return uhfHaveQuickNet.Maximum; } }
+        /// <summary>
+        /// Gets the uhf have quick net frequency increment.
+        /// </summary>
+        /// <value>
+        /// The uhf have quick net frequency increment.
+        /// </value>
+        [JsonIgnore]
+        public decimal UHFHaveQuickNetIncrement { get { return uhfHaveQuickNet.Increment; } }
         /// <summary>
         /// Gets or sets the uhf havequick net.
         /// </summary>
         /// <value>
         /// The uhf havequick net.
         /// </value>
-        public RadioFrequency UHFHaveQuickNet { get; set; } = new RadioFrequency(0.0m, 0.0m, 99.975m, 0.005m);
+        public decimal UHFHaveQuickNet
+        {
+            get
+            {
+                return uhfHaveQuickNet.Frequency;
+            }
+            set
+            {
+                uhfHaveQuickNet.Frequency = value;
+            }
+        }
+
+        [JsonIgnore]
+        private RadioFrequency uhfFrequency = new RadioFrequency(225.0m, 225.0m, 399.985m, 0.005m);
+        /// <summary>
+        /// Gets the minimum uhf frequency.
+        /// </summary>
+        /// <value>
+        /// The minimum uhf frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal UHFFrequencyMinimum { get { return uhfFrequency.Minimum; } }
+        /// <summary>
+        /// Gets the maximum uhf frequency.
+        /// </summary>
+        /// <value>
+        /// The maximum uhf frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal UHFFrequencyMaximum { get { return uhfFrequency.Maximum; } }
+        /// <summary>
+        /// Gets the uhf frequency increment.
+        /// </summary>
+        /// <value>
+        /// The uhf frequency increment.
+        /// </value>
+        [JsonIgnore]
+        public decimal UHFFrequencyIncrement { get { return uhfFrequency.Increment; } }
         /// <summary>
         /// Gets or sets the uhf frequency.
         /// </summary>
         /// <value>
         /// The uhf frequency.
         /// </value>
-        public RadioFrequency UHFFrequency { get; set; } = new RadioFrequency(225.0m, 225.0m, 399.985m, 0.005m);
+        public decimal UHFFrequency {
+            get
+            {
+                return uhfFrequency.Frequency;
+            }
+            set
+            {
+                uhfFrequency.Frequency = value;
+            }
+        }
         #endregion
         #region FM1        
         /// <summary>
@@ -204,6 +318,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// The FM1 CNV.
         /// </value>
         public AH64RadioCNVSetting FM1CNV { get; set; } = new AH64RadioCNVSetting(1);
+
+        [JsonIgnore]
         private int fm1Hopset = 1;
         /// <summary>
         /// Gets or sets the FM1 hopset.
@@ -223,14 +339,51 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 if (value < 1 || value > 6) { throw new ArgumentOutOfRangeException("value needs to be >= 1 and <= 6."); }
                 fm1Hopset = value;
             }
-        }    
+        }
+
+        [JsonIgnore]
+        private RadioFrequency fm1Frequency = new RadioFrequency(30.0m, 30.0m, 87.995m, 0.005m);
+        /// <summary>
+        /// Gets the minimum fm1 frequency.
+        /// </summary>
+        /// <value>
+        /// The minimum fm1 frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal FM1FrequencyMinimum { get { return fm1Frequency.Minimum; } }
+        /// <summary>
+        /// Gets the maximum fm1 frequency.
+        /// </summary>
+        /// <value>
+        /// The maximum fm1 frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal FM1FrequencyMaximum { get { return fm1Frequency.Maximum; } }
+        /// <summary>
+        /// Gets the fm1 frequency increment.
+        /// </summary>
+        /// <value>
+        /// The fm1 frequency increment.
+        /// </value>
+        [JsonIgnore]
+        public decimal FM1FrequencyIncrement { get { return fm1Frequency.Increment; } }
         /// <summary>
         /// Gets or sets the FM1 frequency.
         /// </summary>
         /// <value>
         /// The FM1 frequency.
         /// </value>
-        public RadioFrequency FM1Frequency { get; set; } = new RadioFrequency(30.0m, 30.0m, 87.995m, 0.005m);
+        public decimal FM1Frequency
+        {
+            get
+            {
+                return fm1Frequency.Frequency;
+            }
+            set
+            {
+                fm1Frequency.Frequency = value;
+            }
+        }
         #endregion
         #region FM2        
         /// <summary>
@@ -247,6 +400,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// The FM2 CNV.
         /// </value>
         public AH64RadioCNVSetting FM2CNV { get; set; } = new AH64RadioCNVSetting(1);
+
+        [JsonIgnore]
         private int fm2Hopset = 1;
         /// <summary>
         /// Gets or sets the FM2 hopset.
@@ -266,14 +421,51 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 if (value < 1 || value > 6) { throw new ArgumentOutOfRangeException("value needs to be >= 1 and <= 6."); }
                 fm2Hopset = value;
             }
-        }       
+        }
+
+        [JsonIgnore]
+        private RadioFrequency fm2Frequency = new RadioFrequency(30.0m, 30.0m, 87.995m, 0.005m);
+        /// <summary>
+        /// Gets the minimum fm2 frequency.
+        /// </summary>
+        /// <value>
+        /// The minimum fm2 frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal FM2FrequencyMinimum { get { return fm2Frequency.Minimum; } }
+        /// <summary>
+        /// Gets the maximum fm2 frequency.
+        /// </summary>
+        /// <value>
+        /// The maximum fm2 frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal FM2FrequencyMaximum { get { return fm2Frequency.Maximum; } }
+        /// <summary>
+        /// Gets the fm2 frequency increment.
+        /// </summary>
+        /// <value>
+        /// The fm2 frequency increment.
+        /// </value>
+        [JsonIgnore]
+        public decimal FM2FrequencyIncrement { get { return fm2Frequency.Increment; } }
         /// <summary>
         /// Gets or sets the FM2 frequency.
         /// </summary>
         /// <value>
         /// The FM2 frequency.
         /// </value>
-        public RadioFrequency FM2Frequency { get; set; } = new RadioFrequency(30.0m, 30.0m, 87.995m, 0.005m);
+        public decimal FM2Frequency
+        {
+            get
+            {
+                return fm2Frequency.Frequency;
+            }
+            set
+            {
+                fm2Frequency.Frequency = value;
+            }
+        }
         #endregion
         #region HF        
         /// <summary>
@@ -291,6 +483,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// </value>
         public AH64RadioCNVSetting HFCNV { get; set; } = new AH64RadioCNVSetting(1);
         
+        [JsonIgnore]
         private int hfPresetChannel = 1;
         /// <summary>
         /// Gets or sets the hf preset channel.
@@ -315,6 +508,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             }
         }
         
+        [JsonIgnore]
         private int hfAleNet = 1;
         /// <summary>
         /// Gets or sets the HF ALE net.
@@ -338,6 +532,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 hfAleNet = value;
             }
         }
+
+        [JsonIgnore]
         private int hfEccmNet = 1;
         /// <summary>
         /// Gets or sets the HF ECCM net.
@@ -362,46 +558,105 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             }
         }
 
+        [JsonIgnore]
         private RadioFrequency hfRxFrequency = new RadioFrequency(2.0m, 2.0m, 29.9999m, 0.0001m);
+
         /// <summary>
-        /// Gets or sets the HFRX frequency. Also Sets HFTX frequency when link is enabled.
+        /// Gets the minimum HF receive frequency.
         /// </summary>
         /// <value>
-        /// The HFRX frequency.
+        /// The minimum HF receive frequency.
         /// </value>
-        public RadioFrequency HFRXFrequency
+        [JsonIgnore]
+        public decimal HFRXFrequencyMinimum { get { return hfRxFrequency.Minimum; } }
+        /// <summary>
+        /// Gets the maximum HF receive frequency.
+        /// </summary>
+        /// <value>
+        /// The maximum HF receive frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal HFRXFrequencyMaximum { get { return hfRxFrequency.Maximum; } }
+        /// <summary>
+        /// Gets the HF receive frequency increment.
+        /// </summary>
+        /// <value>
+        /// The HF receive frequency increment.
+        /// </value>
+        [JsonIgnore]
+        public decimal HFRXFrequencyIncrement { get { return hfRxFrequency.Increment; } }
+        /// <summary>
+        /// Gets or sets the HF receive frequency. Also sets <seealso cref="HFTXFrequency"/> frequency when link is enabled.
+        /// </summary>
+        /// <value>
+        /// The HF receive frequency.
+        /// </value>
+        public decimal HFRXFrequency
         {
             get
             {
-                return hfRxFrequency;
+                return hfRxFrequency.Frequency;
             }
             set
             {
-                hfRxFrequency = value;
+                hfRxFrequency.Frequency = value;
                 if (TxRxLinked)
                 {
-                    hfTxFrequency = value;
+                    hfTxFrequency.Frequency = value;
                 }
             }
         }
+
+        [JsonIgnore]
         private RadioFrequency hfTxFrequency = new RadioFrequency(2.0m, 2.0m, 29.9999m, 0.0001m);
+
         /// <summary>
-        /// Gets or sets the HFTX frequency.
+        /// Gets the minimum HF transmit frequency.
+        /// </summary>
+        /// <value>
+        /// The minimum HF transmit frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal HFTXFrequencyMinimum { get { return hfTxFrequency.Minimum; } }
+        /// <summary>
+        /// Gets the maximum HF transmit frequency.
+        /// </summary>
+        /// <value>
+        /// The maximum HF transmit frequency.
+        /// </value>
+        [JsonIgnore]
+        public decimal HFTXFrequencyMaximum { get { return hfTxFrequency.Maximum; } }
+        /// <summary>
+        /// Gets the HF transmit frequency increment.
+        /// </summary>
+        /// <value>
+        /// The HF transmit frequency increment.
+        /// </value>
+        [JsonIgnore]
+        public decimal HFTXFrequencyIncrement { get { return hfTxFrequency.Increment; } }
+        /// <summary>
+        /// Gets or sets the HF transmit frequency.
         /// </summary>
         /// <value>
         /// The HFTX frequency.
         /// </value>
         /// <exception cref="System.Exception">Can't set HFTXFrequency when linked.</exception>
-        public RadioFrequency HFTXFrequency
+        public decimal HFTXFrequency
         {
             get
             {
-                return TxRxLinked ? HFRXFrequency : hfTxFrequency;
+                return TxRxLinked ? HFRXFrequency : hfTxFrequency.Frequency;
             }
             set
             {
-                if (TxRxLinked) { throw new Exception("Can't set HFTXFrequency when linked."); }
-                hfTxFrequency = value;
+                if (TxRxLinked)
+                {
+                    hfTxFrequency.Frequency = HFRXFrequency;
+                }
+                else
+                {
+                    hfTxFrequency.Frequency = value;
+                }
             }
         }
         /// <summary>
@@ -421,6 +676,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// </value>
         public bool ContainsNetData { get; set; } = false;
 
+        [JsonProperty("LinkMembers")]
         private List<AH64DataLinkMember> linkMembers = new List<AH64DataLinkMember>();
         /// <summary>
         /// Gets the link member in the slot slot.

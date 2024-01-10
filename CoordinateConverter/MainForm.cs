@@ -34,7 +34,10 @@ namespace CoordinateConverter
         private Bullseye bulls = null;
         private List<CoordinateDataEntry> dataEntries = new List<CoordinateDataEntry>();
         private static readonly System.Globalization.CultureInfo CI = System.Globalization.CultureInfo.InvariantCulture;
-        private static readonly Newtonsoft.Json.JsonSerializerSettings jsonSerializerSettings = new Newtonsoft.Json.JsonSerializerSettings()
+        /// <summary>
+        /// The json serializer settings
+        /// </summary>
+        public static readonly Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings = new Newtonsoft.Json.JsonSerializerSettings()
         {
             Culture = CI,
             Formatting = Newtonsoft.Json.Formatting.Indented,
@@ -1738,7 +1741,7 @@ namespace CoordinateConverter
             {
                 using (FileStream fileHandle = fi.Open(FileMode.Create, FileAccess.Write))
                 {
-                    string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dataEntries, jsonSerializerSettings);
+                    string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dataEntries, JsonSerializerSettings);
                     byte[] data = new UTF8Encoding(true).GetBytes(jsonData);
                     fileHandle.Write(data, 0, data.Length);
                 }
@@ -1776,7 +1779,7 @@ namespace CoordinateConverter
                     using (StreamReader sr = new StreamReader(fileHandle, System.Text.Encoding.UTF8))
                     {
                         string data = sr.ReadToEnd();
-                        dataEntries = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CoordinateDataEntry>>(data, jsonSerializerSettings);
+                        dataEntries = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CoordinateDataEntry>>(data, JsonSerializerSettings);
                         StartEdit(null);
                         ResetIDs();
                         RefreshDataGrid(EDataGridUpdateType.UpdateGrid);
@@ -1789,7 +1792,6 @@ namespace CoordinateConverter
                 lbl_Error.Text = ex.Message;
             }
         }
-
 
         #endregion
 
