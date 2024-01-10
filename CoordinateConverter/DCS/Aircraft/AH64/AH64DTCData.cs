@@ -546,6 +546,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 if (string.IsNullOrEmpty(value))
                 {
                     ownshipSubscriberID = null;
+                    return;
                 }
                 string error = CheckDLSubscriberID(value);
                 if (!string.IsNullOrEmpty(error))
@@ -575,6 +576,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 if (string.IsNullOrEmpty(value))
                 {
                     ownshipCallsign = null;
+                    return;
                 }
                 string error = CheckDLCallSign(value);
                 if (!string.IsNullOrEmpty(error))

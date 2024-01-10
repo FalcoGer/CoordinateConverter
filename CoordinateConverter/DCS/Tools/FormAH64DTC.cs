@@ -25,8 +25,6 @@ namespace CoordinateConverter.DCS.Tools
             ShowAlways = true
         };
 
-        private Dictionary<AH64RadioPresetData.EPrimaryRadioSetting, RadioButton> primaryRadioButtonAssociation = null;
-
         /// <summary>
         /// Gets a value indicating whether this instance is pilot.
         /// </summary>
@@ -71,29 +69,35 @@ namespace CoordinateConverter.DCS.Tools
                 nudVHFFreq.Increment = preset.VHFFrequencyIncrement;
             }
 
-            // create primaryRadioButtonAssociation
-            primaryRadioButtonAssociation = new Dictionary<AH64RadioPresetData.EPrimaryRadioSetting, RadioButton>()
-            {
-                { AH64RadioPresetData.EPrimaryRadioSetting.None, rbRadioPrimaryNone },
-                { AH64RadioPresetData.EPrimaryRadioSetting.VHF_Single_Channel, rbRadioPrimaryVHF_SC },
-                { AH64RadioPresetData.EPrimaryRadioSetting.UHF_Single_Channel, rbRadioPrimaryUHF_SC },
-                { AH64RadioPresetData.EPrimaryRadioSetting.UHF_HaveQuick, rbRadioPrimaryUHF_HQ },
-                { AH64RadioPresetData.EPrimaryRadioSetting.FM1_Single_Channel, rbRadioPrimaryFM1_SC },
-                { AH64RadioPresetData.EPrimaryRadioSetting.FM1_SINCGARS, rbRadioPrimaryFM1_SINC },
-                { AH64RadioPresetData.EPrimaryRadioSetting.FM2_Single_Channel, rbRadioPrimaryFM2_SC },
-                { AH64RadioPresetData.EPrimaryRadioSetting.FM2_SINCGARS, rbRadioPrimaryFM2_SINC },
-                { AH64RadioPresetData.EPrimaryRadioSetting.HF_Single_Channel, rbRadioPrimaryHF_SC },
-                { AH64RadioPresetData.EPrimaryRadioSetting.HF_ALE, rbRadioPrimaryHF_ALE },
-                { AH64RadioPresetData.EPrimaryRadioSetting.HF_Preset, rbRadioPrimaryHF_PRE },
-                { AH64RadioPresetData.EPrimaryRadioSetting.HF_ECCM, rbRadioPrimaryHF_ECCM }
-            };
-
             // Set up ComboBoxes
+            ddlPresetPrimaryRadio.ValueMember = "Value";
+            ddlPresetPrimaryRadio.DisplayMember = "Text";
+            // List of radio settings that DCS doesn't implement yet.
+            List<AH64RadioPresetData.EPrimaryRadioSetting> notImplemented = new List<AH64RadioPresetData.EPrimaryRadioSetting>()
+            {
+                AH64RadioPresetData.EPrimaryRadioSetting.FM1_SINCGARS,
+                AH64RadioPresetData.EPrimaryRadioSetting.FM2_SINCGARS,
+                AH64RadioPresetData.EPrimaryRadioSetting.HF_ALE,
+                AH64RadioPresetData.EPrimaryRadioSetting.HF_ECCM,
+                AH64RadioPresetData.EPrimaryRadioSetting.HF_Preset,
+                AH64RadioPresetData.EPrimaryRadioSetting.HF_Single_Channel,
+                AH64RadioPresetData.EPrimaryRadioSetting.UHF_HaveQuick
+            };
+            foreach (AH64RadioPresetData.EPrimaryRadioSetting primary in Enum.GetValues(typeof(AH64RadioPresetData.EPrimaryRadioSetting)))
+            {
+                if (notImplemented.Contains(primary))
+                {
+                    continue;
+                }
+                var item = new ComboItem<AH64RadioPresetData.EPrimaryRadioSetting>(primary.ToString().Replace('_', ' '), primary);
+                ddlPresetPrimaryRadio.Items.Add(item);
+            }
+
             ddlRadioPresetSelection.ValueMember = "Value";
             ddlRadioPresetSelection.DisplayMember = "Text";
             foreach (AH64DTCData.EPreset preset in Enum.GetValues(typeof(AH64DTCData.EPreset)))
             {
-                string text = Enum.GetName(typeof(AH64DTCData.EPreset), preset).Insert("Preset".Length, " ");
+                string text = GetPresetName(preset);
                 ComboItem<AH64DTCData.EPreset> item = new ComboItem<AH64DTCData.EPreset>(text, preset);
                 ddlRadioPresetSelection.Items.Add(item);
             }
@@ -190,9 +194,14 @@ namespace CoordinateConverter.DCS.Tools
             btnReset_Click(null, null);
         }
 
+        private AH64DTCData.EPreset GetSelectedPresetIdent()
+        {
+            return ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlRadioPresetSelection);
+        }
+
         private AH64RadioPresetData GetSelectedPreset()
         {
-            AH64DTCData.EPreset selectedPresetIdent = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlRadioPresetSelection);
+            AH64DTCData.EPreset selectedPresetIdent = GetSelectedPresetIdent();
             AH64RadioPresetData selectedPreset = data.GetAH64RadioPreset(selectedPresetIdent);
             return selectedPreset;
         }
@@ -211,9 +220,13 @@ namespace CoordinateConverter.DCS.Tools
             // Reset Radio Presets
             ddlRadioPresetSelection.SelectedIndex = 0;
 
+            foreach (AH64DTCData.EPreset preset in Enum.GetValues(typeof(AH64DTCData.EPreset)))
+            {
+                UpdatePresetNameInDDL(preset);
+            }
+
             // Reset preset config to values in data via the callbacks
             ddlRadioPresetSelection_SelectedIndexChanged(ddlRadioPresetSelection, null);
-            cbRadioPresetPrimaryEnable_CheckedChanged(cbRadioPresetPrimaryEnable, null);
             cbPresetNet_Enable_CheckedChanged(cbPresetNet_Enable, null);
             cbPresetModem_Enable_CheckedChanged(cbPresetModem_Enable, null);
             cbPresetVHF_Enable_CheckedChanged(cbPresetVHF_Enable, null);
@@ -253,9 +266,11 @@ namespace CoordinateConverter.DCS.Tools
         private void ddlRadioPresetSelection_SelectedIndexChanged(object objSender, EventArgs e)
         {
             ComboBox sender = objSender as ComboBox;
-            AH64DTCData.EPreset selectedPresetIdent = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(sender);
+            AH64DTCData.EPreset selectedPresetIdent = GetSelectedPresetIdent();
             AH64RadioPresetData selectedPreset = data.GetAH64RadioPreset(selectedPresetIdent);
             // Update all the information
+            // Primary Radio
+            ddlPresetPrimaryRadio.SelectedIndex = ComboItem<AH64RadioPresetData.EPrimaryRadioSetting>.FindValue(ddlPresetPrimaryRadio, selectedPreset.PrimaryRadioSetting) ?? 0;
             // Preset UID & CS
             tbRadioPresetUnitID.Text = selectedPreset.UnitId;
             tbRadioPresetCallsign.Text = selectedPreset.Callsign;
@@ -308,9 +323,27 @@ namespace CoordinateConverter.DCS.Tools
                 ?? 0;
             ddlPresetModemRetriesCount.SelectedIndex = ComboItem<AH64RadioPresetData.ERetries>.FindValue(ddlPresetModemRetriesCount, selectedPreset.Retries) ?? 0;
             ddlPresetModemBaudRate.SelectedIndex = ComboItem<AH64RadioPresetData.EBaudRate>.FindValue(ddlPresetModemBaudRate, selectedPreset.BaudRate) ?? 0;
-            // Primary Radio
-            cbRadioPresetPrimaryEnable.Checked = selectedPreset.ContainsRadioPrimaryData;
-            primaryRadioButtonAssociation[selectedPreset.PrimaryRadioSetting].Checked = true;
+        }
+
+        /// <summary>
+        /// Updates the preset name in the combo box.
+        /// </summary>
+        private void UpdatePresetNameInDDL(AH64DTCData.EPreset preset)
+        {
+            int presetIdx = ComboItem<AH64DTCData.EPreset>.FindValue(ddlRadioPresetSelection, preset) ?? 0;
+            string newName = GetPresetName(preset);
+            (ddlRadioPresetSelection.Items[presetIdx] as ComboItem<AH64DTCData.EPreset>).Text = newName;
+            // Force refresh.
+            ddlRadioPresetSelection.DisplayMember = "Value";
+            ddlRadioPresetSelection.DisplayMember = "Text";
+        }
+
+        private string GetPresetName(AH64DTCData.EPreset preset)
+        {
+            string presetBaseName = Enum.GetName(typeof(AH64DTCData.EPreset), preset).Insert("Preset".Length, " ");
+            string unitId = data.GetAH64RadioPreset(preset).UnitId;
+            string callsign = data.GetAH64RadioPreset(preset).Callsign;
+            return presetBaseName + " / " + (string.IsNullOrEmpty(unitId) ? "NoChg UID" : unitId) + " (" + (string.IsNullOrEmpty(callsign) ? "NoChg C/S" : (callsign)) + ")";
         }
 
         private void tbRadioPresetUnitID_TextChanged(object objsender, EventArgs e)
@@ -324,6 +357,7 @@ namespace CoordinateConverter.DCS.Tools
             try
             {
                 GetSelectedPreset().UnitId = text;
+                UpdatePresetNameInDDL(GetSelectedPresetIdent());
             }
             catch (Exception ex)
             {
@@ -339,6 +373,7 @@ namespace CoordinateConverter.DCS.Tools
             toolTip.Hide(this);
             sender.BackColor = default;
 
+            // SIC, same check as for DL C/S
             string error = AH64DTCData.CheckDLCallSign(text);
             if (error != null && !string.IsNullOrEmpty(text))
             {
@@ -350,6 +385,7 @@ namespace CoordinateConverter.DCS.Tools
             try
             {
                 GetSelectedPreset().Callsign = text;
+                UpdatePresetNameInDDL(GetSelectedPresetIdent());
             }
             catch (Exception ex)
             {
@@ -360,28 +396,9 @@ namespace CoordinateConverter.DCS.Tools
         #endregion
 
         #region PrimaryRadio
-        private void cbRadioPresetPrimaryEnable_CheckedChanged(object sender, EventArgs e)
+        private void ddlPresetPrimaryRadio_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bool status = (sender as CheckBox).Checked;
-            foreach (RadioButton rb in primaryRadioButtonAssociation.Values)
-            {
-                rb.Enabled = status;
-            }
-            GetSelectedPreset().ContainsRadioPrimaryData = status;
-            // Disable N/I controls
-            rbRadioPrimaryUHF_HQ.Enabled = false;
-            rbRadioPrimaryFM1_SINC.Enabled = false;
-            rbRadioPrimaryFM2_SINC.Enabled = false;
-            rbRadioPrimaryHF_ALE.Enabled = false;
-            rbRadioPrimaryHF_ECCM.Enabled = false;
-            rbRadioPrimaryHF_PRE.Enabled = false;
-        }
-
-        private void rbRadioPrimary_CheckedChanged(object objsender, EventArgs e)
-        {
-            RadioButton sender = objsender as RadioButton;
-            AH64RadioPresetData.EPrimaryRadioSetting primary = primaryRadioButtonAssociation.ToList().Find(x => x.Value.Name == sender.Name).Key;
-            GetSelectedPreset().PrimaryRadioSetting = primary;
+            GetSelectedPreset().PrimaryRadioSetting = ComboItem<AH64RadioPresetData.EPrimaryRadioSetting>.GetSelectedValue(ddlPresetPrimaryRadio);
         }
         #endregion
 
@@ -857,8 +874,7 @@ namespace CoordinateConverter.DCS.Tools
 
         private void btnPresetNetAdd_Click(object sender, EventArgs e)
         {
-            AH64DTCData.EPreset selectedPresetIdent = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlRadioPresetSelection);
-            AddMemberToPreset(selectedPresetIdent);
+            AddMemberToPreset(GetSelectedPresetIdent());
         }
 
 
@@ -1065,11 +1081,11 @@ namespace CoordinateConverter.DCS.Tools
 
         private readonly OpenFileDialog ofd = new OpenFileDialog()
         {
-            Title = "Open Coordinate List",
+            Title = "Open AH64 DTC Data File",
             AddExtension = true,
             DefaultExt = "json",
             Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
-            FileName = "coordinates.json",
+            FileName = "AH64_DTC.json",
             Multiselect = false,
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
             ShowReadOnly = false

@@ -18,6 +18,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         {
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+            No_Change,
             VHF_Single_Channel,
             UHF_Single_Channel,
             UHF_HaveQuick,
@@ -51,7 +52,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     ContainsHFData ||
                     ContainsFM1Data ||
                     ContainsFM2Data ||
-                    ContainsRadioPrimaryData ||
+                    PrimaryRadioSetting != EPrimaryRadioSetting.No_Change ||
                     ContainsNetData;
 
             }
@@ -123,16 +124,9 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         #endregion
 
         /// <summary>
-        /// Gets or sets a value indicating whether [contains radio primary data].
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [contains radio primary data]; otherwise, <c>false</c>.
-        /// </value>
-        public bool ContainsRadioPrimaryData { get; set; } = false;
-        /// <summary>
         /// The primary radio setting, null for no change.
         /// </summary>
-        public EPrimaryRadioSetting PrimaryRadioSetting = EPrimaryRadioSetting.None;
+        public EPrimaryRadioSetting PrimaryRadioSetting = EPrimaryRadioSetting.No_Change;
 
         #region VHF        
         /// <summary>

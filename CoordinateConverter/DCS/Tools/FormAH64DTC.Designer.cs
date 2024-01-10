@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAH64DTC));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabRadio = new System.Windows.Forms.TabPage();
+            this.ddlPresetPrimaryRadio = new System.Windows.Forms.ComboBox();
+            this.label45 = new System.Windows.Forms.Label();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -106,20 +108,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbRadioPresetUnitID = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.rbRadioPrimaryHF_ECCM = new System.Windows.Forms.RadioButton();
-            this.rbRadioPrimaryHF_ALE = new System.Windows.Forms.RadioButton();
-            this.rbRadioPrimaryHF_PRE = new System.Windows.Forms.RadioButton();
-            this.rbRadioPrimaryFM2_SINC = new System.Windows.Forms.RadioButton();
-            this.rbRadioPrimaryFM1_SINC = new System.Windows.Forms.RadioButton();
-            this.rbRadioPrimaryUHF_HQ = new System.Windows.Forms.RadioButton();
-            this.rbRadioPrimaryNone = new System.Windows.Forms.RadioButton();
-            this.rbRadioPrimaryHF_SC = new System.Windows.Forms.RadioButton();
-            this.rbRadioPrimaryFM2_SC = new System.Windows.Forms.RadioButton();
-            this.rbRadioPrimaryFM1_SC = new System.Windows.Forms.RadioButton();
-            this.rbRadioPrimaryUHF_SC = new System.Windows.Forms.RadioButton();
-            this.cbRadioPresetPrimaryEnable = new System.Windows.Forms.CheckBox();
-            this.rbRadioPrimaryVHF_SC = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.ddlRadioPresetSelection = new System.Windows.Forms.ComboBox();
             this.tabDL = new System.Windows.Forms.TabPage();
@@ -193,7 +181,6 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.tabDL.SuspendLayout();
             this.tabIFF.SuspendLayout();
             this.tabASE.SuspendLayout();
@@ -219,12 +206,13 @@
             // 
             // tabRadio
             // 
+            this.tabRadio.Controls.Add(this.ddlPresetPrimaryRadio);
+            this.tabRadio.Controls.Add(this.label45);
             this.tabRadio.Controls.Add(this.tabControl2);
             this.tabRadio.Controls.Add(this.tbRadioPresetCallsign);
             this.tabRadio.Controls.Add(this.label5);
             this.tabRadio.Controls.Add(this.tbRadioPresetUnitID);
             this.tabRadio.Controls.Add(this.label4);
-            this.tabRadio.Controls.Add(this.panel2);
             this.tabRadio.Controls.Add(this.label1);
             this.tabRadio.Controls.Add(this.ddlRadioPresetSelection);
             this.tabRadio.Location = new System.Drawing.Point(4, 22);
@@ -234,6 +222,24 @@
             this.tabRadio.TabIndex = 0;
             this.tabRadio.Text = "Radio Presets";
             this.tabRadio.UseVisualStyleBackColor = true;
+            // 
+            // ddlPresetPrimaryRadio
+            // 
+            this.ddlPresetPrimaryRadio.FormattingEnabled = true;
+            this.ddlPresetPrimaryRadio.Location = new System.Drawing.Point(97, 56);
+            this.ddlPresetPrimaryRadio.Name = "ddlPresetPrimaryRadio";
+            this.ddlPresetPrimaryRadio.Size = new System.Drawing.Size(121, 21);
+            this.ddlPresetPrimaryRadio.TabIndex = 6;
+            this.ddlPresetPrimaryRadio.SelectedIndexChanged += new System.EventHandler(this.ddlPresetPrimaryRadio_SelectedIndexChanged);
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(50, 59);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(41, 13);
+            this.label45.TabIndex = 9;
+            this.label45.Text = "Primary";
             // 
             // tabControl2
             // 
@@ -248,7 +254,7 @@
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(679, 283);
-            this.tabControl2.TabIndex = 8;
+            this.tabControl2.TabIndex = 7;
             // 
             // tabPage1
             // 
@@ -296,7 +302,7 @@
             this.cbPresetVHFAllowRecvOnlyRange.Location = new System.Drawing.Point(27, 52);
             this.cbPresetVHFAllowRecvOnlyRange.Name = "cbPresetVHFAllowRecvOnlyRange";
             this.cbPresetVHFAllowRecvOnlyRange.Size = new System.Drawing.Size(298, 17);
-            this.cbPresetVHFAllowRecvOnlyRange.TabIndex = 4;
+            this.cbPresetVHFAllowRecvOnlyRange.TabIndex = 10;
             this.cbPresetVHFAllowRecvOnlyRange.Text = "Allow Receive Only Frequencies 108.0 MHz to 116.0MHz";
             this.cbPresetVHFAllowRecvOnlyRange.UseVisualStyleBackColor = true;
             this.cbPresetVHFAllowRecvOnlyRange.CheckedChanged += new System.EventHandler(this.cbPresetVHFAllowRecvOnlyRange_CheckedChanged);
@@ -326,7 +332,7 @@
             65536});
             this.nudVHFFreq.Name = "nudVHFFreq";
             this.nudVHFFreq.Size = new System.Drawing.Size(121, 20);
-            this.nudVHFFreq.TabIndex = 2;
+            this.nudVHFFreq.TabIndex = 9;
             this.nudVHFFreq.Value = new decimal(new int[] {
             1275,
             0,
@@ -349,7 +355,7 @@
             this.cbPresetVHF_Enable.Location = new System.Drawing.Point(4, 4);
             this.cbPresetVHF_Enable.Name = "cbPresetVHF_Enable";
             this.cbPresetVHF_Enable.Size = new System.Drawing.Size(47, 17);
-            this.cbPresetVHF_Enable.TabIndex = 0;
+            this.cbPresetVHF_Enable.TabIndex = 8;
             this.cbPresetVHF_Enable.Text = "VHF";
             this.cbPresetVHF_Enable.UseVisualStyleBackColor = true;
             this.cbPresetVHF_Enable.CheckedChanged += new System.EventHandler(this.cbPresetVHF_Enable_CheckedChanged);
@@ -361,7 +367,7 @@
             this.ddlUHFCNV.Location = new System.Drawing.Point(90, 23);
             this.ddlUHFCNV.Name = "ddlUHFCNV";
             this.ddlUHFCNV.Size = new System.Drawing.Size(121, 21);
-            this.ddlUHFCNV.TabIndex = 22;
+            this.ddlUHFCNV.TabIndex = 12;
             this.ddlUHFCNV.SelectedIndexChanged += new System.EventHandler(this.ddlUHFCNV_SelectedIndexChanged);
             // 
             // nudUHFHQ
@@ -422,7 +428,7 @@
             0});
             this.nudUHFFreq.Name = "nudUHFFreq";
             this.nudUHFFreq.Size = new System.Drawing.Size(121, 20);
-            this.nudUHFFreq.TabIndex = 5;
+            this.nudUHFFreq.TabIndex = 14;
             this.nudUHFFreq.Value = new decimal(new int[] {
             225,
             0,
@@ -445,7 +451,7 @@
             this.cbPresetUHF_Enable.Location = new System.Drawing.Point(6, 4);
             this.cbPresetUHF_Enable.Name = "cbPresetUHF_Enable";
             this.cbPresetUHF_Enable.Size = new System.Drawing.Size(48, 17);
-            this.cbPresetUHF_Enable.TabIndex = 1;
+            this.cbPresetUHF_Enable.TabIndex = 11;
             this.cbPresetUHF_Enable.Text = "UHF";
             this.cbPresetUHF_Enable.UseVisualStyleBackColor = true;
             this.cbPresetUHF_Enable.CheckedChanged += new System.EventHandler(this.cbPresetUHF_Enable_CheckedChanged);
@@ -501,7 +507,7 @@
             this.ddlFM1CNV.Location = new System.Drawing.Point(66, 28);
             this.ddlFM1CNV.Name = "ddlFM1CNV";
             this.ddlFM1CNV.Size = new System.Drawing.Size(121, 21);
-            this.ddlFM1CNV.TabIndex = 21;
+            this.ddlFM1CNV.TabIndex = 16;
             this.ddlFM1CNV.SelectedIndexChanged += new System.EventHandler(this.ddlFM1CNV_SelectedIndexChanged);
             // 
             // nudFM1Hopset
@@ -520,7 +526,7 @@
             0});
             this.nudFM1Hopset.Name = "nudFM1Hopset";
             this.nudFM1Hopset.Size = new System.Drawing.Size(121, 20);
-            this.nudFM1Hopset.TabIndex = 20;
+            this.nudFM1Hopset.TabIndex = 17;
             this.nudFM1Hopset.Value = new decimal(new int[] {
             1,
             0,
@@ -571,7 +577,7 @@
             0});
             this.nudFM1Freq.Name = "nudFM1Freq";
             this.nudFM1Freq.Size = new System.Drawing.Size(121, 20);
-            this.nudFM1Freq.TabIndex = 15;
+            this.nudFM1Freq.TabIndex = 18;
             this.nudFM1Freq.Value = new decimal(new int[] {
             30,
             0,
@@ -594,7 +600,7 @@
             this.cbPresetFM1_Enable.Location = new System.Drawing.Point(4, 4);
             this.cbPresetFM1_Enable.Name = "cbPresetFM1_Enable";
             this.cbPresetFM1_Enable.Size = new System.Drawing.Size(50, 17);
-            this.cbPresetFM1_Enable.TabIndex = 1;
+            this.cbPresetFM1_Enable.TabIndex = 15;
             this.cbPresetFM1_Enable.Text = "FM 1";
             this.cbPresetFM1_Enable.UseVisualStyleBackColor = true;
             this.cbPresetFM1_Enable.CheckedChanged += new System.EventHandler(this.cbPresetFM1_Enable_CheckedChanged);
@@ -606,7 +612,7 @@
             this.ddlFM2CNV.Location = new System.Drawing.Point(66, 27);
             this.ddlFM2CNV.Name = "ddlFM2CNV";
             this.ddlFM2CNV.Size = new System.Drawing.Size(121, 21);
-            this.ddlFM2CNV.TabIndex = 22;
+            this.ddlFM2CNV.TabIndex = 20;
             this.ddlFM2CNV.SelectedIndexChanged += new System.EventHandler(this.ddlFM2CNV_SelectedIndexChanged);
             // 
             // nudFM2Hopset
@@ -625,7 +631,7 @@
             0});
             this.nudFM2Hopset.Name = "nudFM2Hopset";
             this.nudFM2Hopset.Size = new System.Drawing.Size(121, 20);
-            this.nudFM2Hopset.TabIndex = 30;
+            this.nudFM2Hopset.TabIndex = 21;
             this.nudFM2Hopset.Value = new decimal(new int[] {
             1,
             0,
@@ -676,7 +682,7 @@
             0});
             this.nudFM2Freq.Name = "nudFM2Freq";
             this.nudFM2Freq.Size = new System.Drawing.Size(121, 20);
-            this.nudFM2Freq.TabIndex = 25;
+            this.nudFM2Freq.TabIndex = 22;
             this.nudFM2Freq.Value = new decimal(new int[] {
             30,
             0,
@@ -699,7 +705,7 @@
             this.cbPresetFM2_Enable.Location = new System.Drawing.Point(6, 4);
             this.cbPresetFM2_Enable.Name = "cbPresetFM2_Enable";
             this.cbPresetFM2_Enable.Size = new System.Drawing.Size(50, 17);
-            this.cbPresetFM2_Enable.TabIndex = 0;
+            this.cbPresetFM2_Enable.TabIndex = 19;
             this.cbPresetFM2_Enable.Text = "FM 2";
             this.cbPresetFM2_Enable.UseVisualStyleBackColor = true;
             this.cbPresetFM2_Enable.CheckedChanged += new System.EventHandler(this.cbPresetFM2_Enable_CheckedChanged);
@@ -754,7 +760,7 @@
             this.cbHFSame.Location = new System.Drawing.Point(513, 16);
             this.cbHFSame.Name = "cbHFSame";
             this.cbHFSame.Size = new System.Drawing.Size(67, 17);
-            this.cbHFSame.TabIndex = 40;
+            this.cbHFSame.TabIndex = 29;
             this.cbHFSame.Text = "TX = RX";
             this.cbHFSame.UseVisualStyleBackColor = true;
             this.cbHFSame.CheckedChanged += new System.EventHandler(this.cbHFSame_CheckedChanged);
@@ -775,7 +781,7 @@
             0});
             this.nudHFTXFreq.Name = "nudHFTXFreq";
             this.nudHFTXFreq.Size = new System.Drawing.Size(121, 20);
-            this.nudHFTXFreq.TabIndex = 39;
+            this.nudHFTXFreq.TabIndex = 30;
             this.nudHFTXFreq.Value = new decimal(new int[] {
             2,
             0,
@@ -808,7 +814,7 @@
             0});
             this.nudHFRXFreq.Name = "nudHFRXFreq";
             this.nudHFRXFreq.Size = new System.Drawing.Size(121, 20);
-            this.nudHFRXFreq.TabIndex = 37;
+            this.nudHFRXFreq.TabIndex = 28;
             this.nudHFRXFreq.Value = new decimal(new int[] {
             2,
             0,
@@ -841,7 +847,7 @@
             0});
             this.nudHFECCMNet.Name = "nudHFECCMNet";
             this.nudHFECCMNet.Size = new System.Drawing.Size(121, 20);
-            this.nudHFECCMNet.TabIndex = 35;
+            this.nudHFECCMNet.TabIndex = 27;
             this.nudHFECCMNet.Value = new decimal(new int[] {
             1,
             0,
@@ -874,7 +880,7 @@
             0});
             this.nudHFALENet.Name = "nudHFALENet";
             this.nudHFALENet.Size = new System.Drawing.Size(121, 20);
-            this.nudHFALENet.TabIndex = 33;
+            this.nudHFALENet.TabIndex = 26;
             this.nudHFALENet.Value = new decimal(new int[] {
             1,
             0,
@@ -907,7 +913,7 @@
             0});
             this.nudHFPresetCH.Name = "nudHFPresetCH";
             this.nudHFPresetCH.Size = new System.Drawing.Size(121, 20);
-            this.nudHFPresetCH.TabIndex = 31;
+            this.nudHFPresetCH.TabIndex = 25;
             this.nudHFPresetCH.Value = new decimal(new int[] {
             1,
             0,
@@ -931,7 +937,7 @@
             this.ddlHFCNV.Location = new System.Drawing.Point(91, 17);
             this.ddlHFCNV.Name = "ddlHFCNV";
             this.ddlHFCNV.Size = new System.Drawing.Size(121, 21);
-            this.ddlHFCNV.TabIndex = 28;
+            this.ddlHFCNV.TabIndex = 24;
             this.ddlHFCNV.SelectedIndexChanged += new System.EventHandler(this.ddlHFCNV_SelectedIndexChanged);
             // 
             // label34
@@ -949,7 +955,7 @@
             this.cbPresetHF_Enable.Location = new System.Drawing.Point(7, 7);
             this.cbPresetHF_Enable.Name = "cbPresetHF_Enable";
             this.cbPresetHF_Enable.Size = new System.Drawing.Size(40, 17);
-            this.cbPresetHF_Enable.TabIndex = 1;
+            this.cbPresetHF_Enable.TabIndex = 23;
             this.cbPresetHF_Enable.Text = "HF";
             this.cbPresetHF_Enable.UseVisualStyleBackColor = true;
             this.cbPresetHF_Enable.CheckedChanged += new System.EventHandler(this.cbPresetHF_Enable_CheckedChanged);
@@ -1006,7 +1012,7 @@
             this.btnPresetNetAddToAll.Location = new System.Drawing.Point(249, 24);
             this.btnPresetNetAddToAll.Name = "btnPresetNetAddToAll";
             this.btnPresetNetAddToAll.Size = new System.Drawing.Size(47, 23);
-            this.btnPresetNetAddToAll.TabIndex = 10;
+            this.btnPresetNetAddToAll.TabIndex = 37;
             this.btnPresetNetAddToAll.Text = "All PS";
             this.btnPresetNetAddToAll.UseVisualStyleBackColor = true;
             this.btnPresetNetAddToAll.Click += new System.EventHandler(this.btnPresetNetAddToAll_Click);
@@ -1031,7 +1037,7 @@
             this.btnPresetNetRemove.Location = new System.Drawing.Point(297, 24);
             this.btnPresetNetRemove.Name = "btnPresetNetRemove";
             this.btnPresetNetRemove.Size = new System.Drawing.Size(32, 23);
-            this.btnPresetNetRemove.TabIndex = 8;
+            this.btnPresetNetRemove.TabIndex = 38;
             this.btnPresetNetRemove.Text = "Del";
             this.btnPresetNetRemove.UseVisualStyleBackColor = true;
             this.btnPresetNetRemove.Click += new System.EventHandler(this.btnPresetNetRemove_Click);
@@ -1042,7 +1048,7 @@
             this.btnPresetNetAdd.Location = new System.Drawing.Point(213, 24);
             this.btnPresetNetAdd.Name = "btnPresetNetAdd";
             this.btnPresetNetAdd.Size = new System.Drawing.Size(35, 23);
-            this.btnPresetNetAdd.TabIndex = 7;
+            this.btnPresetNetAdd.TabIndex = 36;
             this.btnPresetNetAdd.Text = "Set";
             this.btnPresetNetAdd.UseVisualStyleBackColor = true;
             this.btnPresetNetAdd.Click += new System.EventHandler(this.btnPresetNetAdd_Click);
@@ -1053,7 +1059,7 @@
             this.cbPresetNetTeam.Location = new System.Drawing.Point(151, 35);
             this.cbPresetNetTeam.Name = "cbPresetNetTeam";
             this.cbPresetNetTeam.Size = new System.Drawing.Size(53, 17);
-            this.cbPresetNetTeam.TabIndex = 6;
+            this.cbPresetNetTeam.TabIndex = 35;
             this.cbPresetNetTeam.Text = "Team";
             this.cbPresetNetTeam.UseVisualStyleBackColor = true;
             // 
@@ -1063,7 +1069,7 @@
             this.cbPresetNetPrimary.Location = new System.Drawing.Point(151, 12);
             this.cbPresetNetPrimary.Name = "cbPresetNetPrimary";
             this.cbPresetNetPrimary.Size = new System.Drawing.Size(60, 17);
-            this.cbPresetNetPrimary.TabIndex = 5;
+            this.cbPresetNetPrimary.TabIndex = 34;
             this.cbPresetNetPrimary.Text = "Primary";
             this.cbPresetNetPrimary.UseVisualStyleBackColor = true;
             // 
@@ -1074,7 +1080,7 @@
             this.tbPresetNetID.MaxLength = 2;
             this.tbPresetNetID.Name = "tbPresetNetID";
             this.tbPresetNetID.Size = new System.Drawing.Size(25, 20);
-            this.tbPresetNetID.TabIndex = 4;
+            this.tbPresetNetID.TabIndex = 33;
             this.tbPresetNetID.TextChanged += new System.EventHandler(this.tbPresetNetID_TextChanged);
             // 
             // cbPresetNet_Enable
@@ -1083,7 +1089,7 @@
             this.cbPresetNet_Enable.Location = new System.Drawing.Point(4, 4);
             this.cbPresetNet_Enable.Name = "cbPresetNet_Enable";
             this.cbPresetNet_Enable.Size = new System.Drawing.Size(43, 17);
-            this.cbPresetNet_Enable.TabIndex = 3;
+            this.cbPresetNet_Enable.TabIndex = 31;
             this.cbPresetNet_Enable.Text = "Net";
             this.cbPresetNet_Enable.UseVisualStyleBackColor = true;
             this.cbPresetNet_Enable.CheckedChanged += new System.EventHandler(this.cbPresetNet_Enable_CheckedChanged);
@@ -1113,7 +1119,7 @@
             this.tbPresetNetCS.MaxLength = 5;
             this.tbPresetNetCS.Name = "tbPresetNetCS";
             this.tbPresetNetCS.Size = new System.Drawing.Size(55, 20);
-            this.tbPresetNetCS.TabIndex = 0;
+            this.tbPresetNetCS.TabIndex = 32;
             this.tbPresetNetCS.TextChanged += new System.EventHandler(this.tbPresetNetCS_TextChanged);
             // 
             // ddlRadioPresetModemProtocol
@@ -1122,8 +1128,8 @@
             this.ddlRadioPresetModemProtocol.FormattingEnabled = true;
             this.ddlRadioPresetModemProtocol.Location = new System.Drawing.Point(71, 21);
             this.ddlRadioPresetModemProtocol.Name = "ddlRadioPresetModemProtocol";
-            this.ddlRadioPresetModemProtocol.Size = new System.Drawing.Size(119, 21);
-            this.ddlRadioPresetModemProtocol.TabIndex = 18;
+            this.ddlRadioPresetModemProtocol.Size = new System.Drawing.Size(121, 21);
+            this.ddlRadioPresetModemProtocol.TabIndex = 40;
             this.ddlRadioPresetModemProtocol.SelectedIndexChanged += new System.EventHandler(this.ddlRadioPresetModemProtocol_SelectedIndexChanged);
             // 
             // label32
@@ -1141,8 +1147,8 @@
             this.ddlPresetModemRetriesCount.FormattingEnabled = true;
             this.ddlPresetModemRetriesCount.Location = new System.Drawing.Point(71, 48);
             this.ddlPresetModemRetriesCount.Name = "ddlPresetModemRetriesCount";
-            this.ddlPresetModemRetriesCount.Size = new System.Drawing.Size(119, 21);
-            this.ddlPresetModemRetriesCount.TabIndex = 16;
+            this.ddlPresetModemRetriesCount.Size = new System.Drawing.Size(121, 21);
+            this.ddlPresetModemRetriesCount.TabIndex = 41;
             this.ddlPresetModemRetriesCount.SelectedIndexChanged += new System.EventHandler(this.ddlPresetModemRetriesCount_SelectedIndexChanged);
             // 
             // label24
@@ -1160,8 +1166,8 @@
             this.ddlPresetModemBaudRate.FormattingEnabled = true;
             this.ddlPresetModemBaudRate.Location = new System.Drawing.Point(71, 75);
             this.ddlPresetModemBaudRate.Name = "ddlPresetModemBaudRate";
-            this.ddlPresetModemBaudRate.Size = new System.Drawing.Size(119, 21);
-            this.ddlPresetModemBaudRate.TabIndex = 13;
+            this.ddlPresetModemBaudRate.Size = new System.Drawing.Size(121, 21);
+            this.ddlPresetModemBaudRate.TabIndex = 42;
             this.ddlPresetModemBaudRate.SelectedIndexChanged += new System.EventHandler(this.ddlPresetModemBaudRate_SelectedIndexChanged);
             // 
             // label23
@@ -1179,7 +1185,7 @@
             this.cbPresetModem_Enable.Location = new System.Drawing.Point(6, 4);
             this.cbPresetModem_Enable.Name = "cbPresetModem_Enable";
             this.cbPresetModem_Enable.Size = new System.Drawing.Size(61, 17);
-            this.cbPresetModem_Enable.TabIndex = 11;
+            this.cbPresetModem_Enable.TabIndex = 39;
             this.cbPresetModem_Enable.Text = "Modem";
             this.cbPresetModem_Enable.UseVisualStyleBackColor = true;
             this.cbPresetModem_Enable.CheckedChanged += new System.EventHandler(this.cbPresetModem_Enable_CheckedChanged);
@@ -1187,17 +1193,17 @@
             // tbRadioPresetCallsign
             // 
             this.tbRadioPresetCallsign.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.tbRadioPresetCallsign.Location = new System.Drawing.Point(97, 55);
+            this.tbRadioPresetCallsign.Location = new System.Drawing.Point(273, 30);
             this.tbRadioPresetCallsign.MaxLength = 5;
             this.tbRadioPresetCallsign.Name = "tbRadioPresetCallsign";
             this.tbRadioPresetCallsign.Size = new System.Drawing.Size(121, 20);
-            this.tbRadioPresetCallsign.TabIndex = 7;
+            this.tbRadioPresetCallsign.TabIndex = 5;
             this.tbRadioPresetCallsign.TextChanged += new System.EventHandler(this.tbRadioPresetCallsign_TextChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(48, 58);
+            this.label5.Location = new System.Drawing.Point(224, 33);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(43, 13);
             this.label5.TabIndex = 6;
@@ -1210,7 +1216,7 @@
             this.tbRadioPresetUnitID.MaxLength = 8;
             this.tbRadioPresetUnitID.Name = "tbRadioPresetUnitID";
             this.tbRadioPresetUnitID.Size = new System.Drawing.Size(121, 20);
-            this.tbRadioPresetUnitID.TabIndex = 5;
+            this.tbRadioPresetUnitID.TabIndex = 4;
             this.tbRadioPresetUnitID.TextChanged += new System.EventHandler(this.tbRadioPresetUnitID_TextChanged);
             // 
             // label4
@@ -1221,180 +1227,6 @@
             this.label4.Size = new System.Drawing.Size(40, 13);
             this.label4.TabIndex = 4;
             this.label4.Text = "Unit ID";
-            // 
-            // panel2
-            // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.rbRadioPrimaryHF_ECCM);
-            this.panel2.Controls.Add(this.rbRadioPrimaryHF_ALE);
-            this.panel2.Controls.Add(this.rbRadioPrimaryHF_PRE);
-            this.panel2.Controls.Add(this.rbRadioPrimaryFM2_SINC);
-            this.panel2.Controls.Add(this.rbRadioPrimaryFM1_SINC);
-            this.panel2.Controls.Add(this.rbRadioPrimaryUHF_HQ);
-            this.panel2.Controls.Add(this.rbRadioPrimaryNone);
-            this.panel2.Controls.Add(this.rbRadioPrimaryHF_SC);
-            this.panel2.Controls.Add(this.rbRadioPrimaryFM2_SC);
-            this.panel2.Controls.Add(this.rbRadioPrimaryFM1_SC);
-            this.panel2.Controls.Add(this.rbRadioPrimaryUHF_SC);
-            this.panel2.Controls.Add(this.cbRadioPresetPrimaryEnable);
-            this.panel2.Controls.Add(this.rbRadioPrimaryVHF_SC);
-            this.panel2.Location = new System.Drawing.Point(224, 6);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(451, 69);
-            this.panel2.TabIndex = 3;
-            // 
-            // rbRadioPrimaryHF_ECCM
-            // 
-            this.rbRadioPrimaryHF_ECCM.AutoSize = true;
-            this.rbRadioPrimaryHF_ECCM.Enabled = false;
-            this.rbRadioPrimaryHF_ECCM.Location = new System.Drawing.Point(226, 48);
-            this.rbRadioPrimaryHF_ECCM.Name = "rbRadioPrimaryHF_ECCM";
-            this.rbRadioPrimaryHF_ECCM.Size = new System.Drawing.Size(72, 17);
-            this.rbRadioPrimaryHF_ECCM.TabIndex = 14;
-            this.rbRadioPrimaryHF_ECCM.Text = "HF ECCM";
-            this.rbRadioPrimaryHF_ECCM.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryHF_ECCM.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
-            // 
-            // rbRadioPrimaryHF_ALE
-            // 
-            this.rbRadioPrimaryHF_ALE.AutoSize = true;
-            this.rbRadioPrimaryHF_ALE.Enabled = false;
-            this.rbRadioPrimaryHF_ALE.Location = new System.Drawing.Point(163, 48);
-            this.rbRadioPrimaryHF_ALE.Name = "rbRadioPrimaryHF_ALE";
-            this.rbRadioPrimaryHF_ALE.Size = new System.Drawing.Size(62, 17);
-            this.rbRadioPrimaryHF_ALE.TabIndex = 13;
-            this.rbRadioPrimaryHF_ALE.Text = "HF ALE";
-            this.rbRadioPrimaryHF_ALE.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryHF_ALE.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
-            // 
-            // rbRadioPrimaryHF_PRE
-            // 
-            this.rbRadioPrimaryHF_PRE.AutoSize = true;
-            this.rbRadioPrimaryHF_PRE.Enabled = false;
-            this.rbRadioPrimaryHF_PRE.Location = new System.Drawing.Point(72, 48);
-            this.rbRadioPrimaryHF_PRE.Name = "rbRadioPrimaryHF_PRE";
-            this.rbRadioPrimaryHF_PRE.Size = new System.Drawing.Size(85, 17);
-            this.rbRadioPrimaryHF_PRE.TabIndex = 12;
-            this.rbRadioPrimaryHF_PRE.Text = "HF PRESET";
-            this.rbRadioPrimaryHF_PRE.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryHF_PRE.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
-            // 
-            // rbRadioPrimaryFM2_SINC
-            // 
-            this.rbRadioPrimaryFM2_SINC.AutoSize = true;
-            this.rbRadioPrimaryFM2_SINC.Enabled = false;
-            this.rbRadioPrimaryFM2_SINC.Location = new System.Drawing.Point(302, 26);
-            this.rbRadioPrimaryFM2_SINC.Name = "rbRadioPrimaryFM2_SINC";
-            this.rbRadioPrimaryFM2_SINC.Size = new System.Drawing.Size(77, 17);
-            this.rbRadioPrimaryFM2_SINC.TabIndex = 11;
-            this.rbRadioPrimaryFM2_SINC.Text = "FM 2 SINC";
-            this.rbRadioPrimaryFM2_SINC.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryFM2_SINC.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
-            // 
-            // rbRadioPrimaryFM1_SINC
-            // 
-            this.rbRadioPrimaryFM1_SINC.AutoSize = true;
-            this.rbRadioPrimaryFM1_SINC.Enabled = false;
-            this.rbRadioPrimaryFM1_SINC.Location = new System.Drawing.Point(72, 26);
-            this.rbRadioPrimaryFM1_SINC.Name = "rbRadioPrimaryFM1_SINC";
-            this.rbRadioPrimaryFM1_SINC.Size = new System.Drawing.Size(77, 17);
-            this.rbRadioPrimaryFM1_SINC.TabIndex = 10;
-            this.rbRadioPrimaryFM1_SINC.Text = "FM 1 SINC";
-            this.rbRadioPrimaryFM1_SINC.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryFM1_SINC.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
-            // 
-            // rbRadioPrimaryUHF_HQ
-            // 
-            this.rbRadioPrimaryUHF_HQ.AutoSize = true;
-            this.rbRadioPrimaryUHF_HQ.Enabled = false;
-            this.rbRadioPrimaryUHF_HQ.Location = new System.Drawing.Point(302, 3);
-            this.rbRadioPrimaryUHF_HQ.Name = "rbRadioPrimaryUHF_HQ";
-            this.rbRadioPrimaryUHF_HQ.Size = new System.Drawing.Size(66, 17);
-            this.rbRadioPrimaryUHF_HQ.TabIndex = 9;
-            this.rbRadioPrimaryUHF_HQ.Text = "UHF HQ";
-            this.rbRadioPrimaryUHF_HQ.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryUHF_HQ.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
-            // 
-            // rbRadioPrimaryNone
-            // 
-            this.rbRadioPrimaryNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rbRadioPrimaryNone.AutoSize = true;
-            this.rbRadioPrimaryNone.Location = new System.Drawing.Point(397, 48);
-            this.rbRadioPrimaryNone.Name = "rbRadioPrimaryNone";
-            this.rbRadioPrimaryNone.Size = new System.Drawing.Size(51, 17);
-            this.rbRadioPrimaryNone.TabIndex = 8;
-            this.rbRadioPrimaryNone.Text = "None";
-            this.rbRadioPrimaryNone.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryNone.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
-            // 
-            // rbRadioPrimaryHF_SC
-            // 
-            this.rbRadioPrimaryHF_SC.AutoSize = true;
-            this.rbRadioPrimaryHF_SC.Location = new System.Drawing.Point(3, 48);
-            this.rbRadioPrimaryHF_SC.Name = "rbRadioPrimaryHF_SC";
-            this.rbRadioPrimaryHF_SC.Size = new System.Drawing.Size(56, 17);
-            this.rbRadioPrimaryHF_SC.TabIndex = 7;
-            this.rbRadioPrimaryHF_SC.Text = "HF SC";
-            this.rbRadioPrimaryHF_SC.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryHF_SC.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
-            // 
-            // rbRadioPrimaryFM2_SC
-            // 
-            this.rbRadioPrimaryFM2_SC.AutoSize = true;
-            this.rbRadioPrimaryFM2_SC.Location = new System.Drawing.Point(226, 26);
-            this.rbRadioPrimaryFM2_SC.Name = "rbRadioPrimaryFM2_SC";
-            this.rbRadioPrimaryFM2_SC.Size = new System.Drawing.Size(63, 17);
-            this.rbRadioPrimaryFM2_SC.TabIndex = 6;
-            this.rbRadioPrimaryFM2_SC.Text = "FM2 SC";
-            this.rbRadioPrimaryFM2_SC.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryFM2_SC.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
-            // 
-            // rbRadioPrimaryFM1_SC
-            // 
-            this.rbRadioPrimaryFM1_SC.AutoSize = true;
-            this.rbRadioPrimaryFM1_SC.Location = new System.Drawing.Point(3, 26);
-            this.rbRadioPrimaryFM1_SC.Name = "rbRadioPrimaryFM1_SC";
-            this.rbRadioPrimaryFM1_SC.Size = new System.Drawing.Size(63, 17);
-            this.rbRadioPrimaryFM1_SC.TabIndex = 5;
-            this.rbRadioPrimaryFM1_SC.Text = "FM1 SC";
-            this.rbRadioPrimaryFM1_SC.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryFM1_SC.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
-            // 
-            // rbRadioPrimaryUHF_SC
-            // 
-            this.rbRadioPrimaryUHF_SC.AutoSize = true;
-            this.rbRadioPrimaryUHF_SC.Location = new System.Drawing.Point(226, 3);
-            this.rbRadioPrimaryUHF_SC.Name = "rbRadioPrimaryUHF_SC";
-            this.rbRadioPrimaryUHF_SC.Size = new System.Drawing.Size(64, 17);
-            this.rbRadioPrimaryUHF_SC.TabIndex = 4;
-            this.rbRadioPrimaryUHF_SC.Text = "UHF SC";
-            this.rbRadioPrimaryUHF_SC.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryUHF_SC.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
-            // 
-            // cbRadioPresetPrimaryEnable
-            // 
-            this.cbRadioPresetPrimaryEnable.AutoSize = true;
-            this.cbRadioPresetPrimaryEnable.Location = new System.Drawing.Point(3, 4);
-            this.cbRadioPresetPrimaryEnable.Name = "cbRadioPresetPrimaryEnable";
-            this.cbRadioPresetPrimaryEnable.Size = new System.Drawing.Size(60, 17);
-            this.cbRadioPresetPrimaryEnable.TabIndex = 1;
-            this.cbRadioPresetPrimaryEnable.Text = "Primary";
-            this.cbRadioPresetPrimaryEnable.UseVisualStyleBackColor = true;
-            this.cbRadioPresetPrimaryEnable.CheckedChanged += new System.EventHandler(this.cbRadioPresetPrimaryEnable_CheckedChanged);
-            // 
-            // rbRadioPrimaryVHF_SC
-            // 
-            this.rbRadioPrimaryVHF_SC.AutoSize = true;
-            this.rbRadioPrimaryVHF_SC.Checked = true;
-            this.rbRadioPrimaryVHF_SC.Location = new System.Drawing.Point(72, 3);
-            this.rbRadioPrimaryVHF_SC.Name = "rbRadioPrimaryVHF_SC";
-            this.rbRadioPrimaryVHF_SC.Size = new System.Drawing.Size(63, 17);
-            this.rbRadioPrimaryVHF_SC.TabIndex = 3;
-            this.rbRadioPrimaryVHF_SC.TabStop = true;
-            this.rbRadioPrimaryVHF_SC.Text = "VHF SC";
-            this.rbRadioPrimaryVHF_SC.UseVisualStyleBackColor = true;
-            this.rbRadioPrimaryVHF_SC.CheckedChanged += new System.EventHandler(this.rbRadioPrimary_CheckedChanged);
             // 
             // label1
             // 
@@ -1410,8 +1242,8 @@
             this.ddlRadioPresetSelection.FormattingEnabled = true;
             this.ddlRadioPresetSelection.Location = new System.Drawing.Point(97, 3);
             this.ddlRadioPresetSelection.Name = "ddlRadioPresetSelection";
-            this.ddlRadioPresetSelection.Size = new System.Drawing.Size(121, 21);
-            this.ddlRadioPresetSelection.TabIndex = 0;
+            this.ddlRadioPresetSelection.Size = new System.Drawing.Size(578, 21);
+            this.ddlRadioPresetSelection.TabIndex = 3;
             this.ddlRadioPresetSelection.SelectedIndexChanged += new System.EventHandler(this.ddlRadioPresetSelection_SelectedIndexChanged);
             // 
             // tabDL
@@ -1435,7 +1267,7 @@
             this.tbOwnshipSubscriberID.MaxLength = 2;
             this.tbOwnshipSubscriberID.Name = "tbOwnshipSubscriberID";
             this.tbOwnshipSubscriberID.Size = new System.Drawing.Size(25, 20);
-            this.tbOwnshipSubscriberID.TabIndex = 8;
+            this.tbOwnshipSubscriberID.TabIndex = 102;
             this.tbOwnshipSubscriberID.TextChanged += new System.EventHandler(this.tbOwnshipSubscriberID_TextChanged);
             // 
             // label43
@@ -1463,7 +1295,7 @@
             this.tbOwnshipCallsign.MaxLength = 5;
             this.tbOwnshipCallsign.Name = "tbOwnshipCallsign";
             this.tbOwnshipCallsign.Size = new System.Drawing.Size(55, 20);
-            this.tbOwnshipCallsign.TabIndex = 5;
+            this.tbOwnshipCallsign.TabIndex = 101;
             this.tbOwnshipCallsign.TextChanged += new System.EventHandler(this.tbOwnshipCallsign_TextChanged);
             // 
             // tabIFF
@@ -1496,7 +1328,7 @@
             this.ddlXPNDRReply.Location = new System.Drawing.Point(119, 163);
             this.ddlXPNDRReply.Name = "ddlXPNDRReply";
             this.ddlXPNDRReply.Size = new System.Drawing.Size(121, 21);
-            this.ddlXPNDRReply.TabIndex = 15;
+            this.ddlXPNDRReply.TabIndex = 207;
             this.ddlXPNDRReply.SelectedIndexChanged += new System.EventHandler(this.ddlXPNDRReply_SelectedIndexChanged);
             // 
             // tbXPNDRModeSAddr
@@ -1506,7 +1338,7 @@
             this.tbXPNDRModeSAddr.MaxLength = 8;
             this.tbXPNDRModeSAddr.Name = "tbXPNDRModeSAddr";
             this.tbXPNDRModeSAddr.Size = new System.Drawing.Size(121, 20);
-            this.tbXPNDRModeSAddr.TabIndex = 14;
+            this.tbXPNDRModeSAddr.TabIndex = 205;
             this.tbXPNDRModeSAddr.TextChanged += new System.EventHandler(this.tbXpndrTextBox_TextChanged);
             // 
             // ddlXPNDRMode4Key
@@ -1515,7 +1347,7 @@
             this.ddlXPNDRMode4Key.Location = new System.Drawing.Point(119, 136);
             this.ddlXPNDRMode4Key.Name = "ddlXPNDRMode4Key";
             this.ddlXPNDRMode4Key.Size = new System.Drawing.Size(121, 21);
-            this.ddlXPNDRMode4Key.TabIndex = 13;
+            this.ddlXPNDRMode4Key.TabIndex = 206;
             this.ddlXPNDRMode4Key.SelectedIndexChanged += new System.EventHandler(this.ddlXPNDRMode4Key_SelectedIndexChanged);
             // 
             // tbXPNDRMode2
@@ -1525,7 +1357,7 @@
             this.tbXPNDRMode2.MaxLength = 4;
             this.tbXPNDRMode2.Name = "tbXPNDRMode2";
             this.tbXPNDRMode2.Size = new System.Drawing.Size(121, 20);
-            this.tbXPNDRMode2.TabIndex = 12;
+            this.tbXPNDRMode2.TabIndex = 202;
             this.tbXPNDRMode2.TextChanged += new System.EventHandler(this.tbXpndrTextBox_TextChanged);
             // 
             // tbXPNDRModeSID
@@ -1535,7 +1367,7 @@
             this.tbXPNDRModeSID.MaxLength = 8;
             this.tbXPNDRModeSID.Name = "tbXPNDRModeSID";
             this.tbXPNDRModeSID.Size = new System.Drawing.Size(121, 20);
-            this.tbXPNDRModeSID.TabIndex = 11;
+            this.tbXPNDRModeSID.TabIndex = 204;
             this.tbXPNDRModeSID.TextChanged += new System.EventHandler(this.tbXpndrTextBox_TextChanged);
             // 
             // tbXPNDRMode3A
@@ -1545,7 +1377,7 @@
             this.tbXPNDRMode3A.MaxLength = 4;
             this.tbXPNDRMode3A.Name = "tbXPNDRMode3A";
             this.tbXPNDRMode3A.Size = new System.Drawing.Size(121, 20);
-            this.tbXPNDRMode3A.TabIndex = 10;
+            this.tbXPNDRMode3A.TabIndex = 203;
             this.tbXPNDRMode3A.TextChanged += new System.EventHandler(this.tbXpndrTextBox_TextChanged);
             // 
             // tbXPNDRMode1
@@ -1555,7 +1387,7 @@
             this.tbXPNDRMode1.MaxLength = 2;
             this.tbXPNDRMode1.Name = "tbXPNDRMode1";
             this.tbXPNDRMode1.Size = new System.Drawing.Size(121, 20);
-            this.tbXPNDRMode1.TabIndex = 9;
+            this.tbXPNDRMode1.TabIndex = 201;
             this.tbXPNDRMode1.TextChanged += new System.EventHandler(this.tbXpndrTextBox_TextChanged);
             // 
             // label31
@@ -1657,7 +1489,7 @@
             this.ddlASESalvoInterval.Location = new System.Drawing.Point(81, 100);
             this.ddlASESalvoInterval.Name = "ddlASESalvoInterval";
             this.ddlASESalvoInterval.Size = new System.Drawing.Size(121, 21);
-            this.ddlASESalvoInterval.TabIndex = 7;
+            this.ddlASESalvoInterval.TabIndex = 305;
             this.ddlASESalvoInterval.SelectedIndexChanged += new System.EventHandler(this.ddlASESalvoInterval_SelectedIndexChanged);
             // 
             // ddlASESalvoCount
@@ -1666,7 +1498,7 @@
             this.ddlASESalvoCount.Location = new System.Drawing.Point(81, 73);
             this.ddlASESalvoCount.Name = "ddlASESalvoCount";
             this.ddlASESalvoCount.Size = new System.Drawing.Size(121, 21);
-            this.ddlASESalvoCount.TabIndex = 6;
+            this.ddlASESalvoCount.TabIndex = 304;
             this.ddlASESalvoCount.SelectedIndexChanged += new System.EventHandler(this.ddlASESalvoCount_SelectedIndexChanged);
             // 
             // ddlASEBurstInterval
@@ -1675,7 +1507,7 @@
             this.ddlASEBurstInterval.Location = new System.Drawing.Point(81, 46);
             this.ddlASEBurstInterval.Name = "ddlASEBurstInterval";
             this.ddlASEBurstInterval.Size = new System.Drawing.Size(121, 21);
-            this.ddlASEBurstInterval.TabIndex = 5;
+            this.ddlASEBurstInterval.TabIndex = 303;
             this.ddlASEBurstInterval.SelectedIndexChanged += new System.EventHandler(this.ddlASEBurstInterval_SelectedIndexChanged);
             // 
             // ddlASEBurstCount
@@ -1684,7 +1516,7 @@
             this.ddlASEBurstCount.Location = new System.Drawing.Point(81, 19);
             this.ddlASEBurstCount.Name = "ddlASEBurstCount";
             this.ddlASEBurstCount.Size = new System.Drawing.Size(121, 21);
-            this.ddlASEBurstCount.TabIndex = 3;
+            this.ddlASEBurstCount.TabIndex = 302;
             this.ddlASEBurstCount.SelectedIndexChanged += new System.EventHandler(this.ddlASEBurstCount_SelectedIndexChanged);
             // 
             // label42
@@ -1729,7 +1561,7 @@
             this.ddlASEAutopage.Location = new System.Drawing.Point(86, 6);
             this.ddlASEAutopage.Name = "ddlASEAutopage";
             this.ddlASEAutopage.Size = new System.Drawing.Size(121, 21);
-            this.ddlASEAutopage.TabIndex = 1;
+            this.ddlASEAutopage.TabIndex = 301;
             this.ddlASEAutopage.SelectedIndexChanged += new System.EventHandler(this.ddlASEAutopage_SelectedIndexChanged);
             // 
             // label8
@@ -1866,8 +1698,6 @@
             this.splitContainer3.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.tabDL.ResumeLayout(false);
             this.tabDL.PerformLayout();
             this.tabIFF.ResumeLayout(false);
@@ -1893,14 +1723,6 @@
         private System.Windows.Forms.ToolStripButton btnSave;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox ddlRadioPresetSelection;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.CheckBox cbRadioPresetPrimaryEnable;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryVHF_SC;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryNone;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryHF_SC;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryFM2_SC;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryFM1_SC;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryUHF_SC;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TabControl tabControl2;
@@ -1968,7 +1790,6 @@
         private System.Windows.Forms.ComboBox ddlRadioPresetModemProtocol;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.CheckBox cbPresetHF_Enable;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryUHF_HQ;
         private System.Windows.Forms.ComboBox ddlHFCNV;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label35;
@@ -1984,11 +1805,6 @@
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.CheckBox cbHFSame;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryFM2_SINC;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryFM1_SINC;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryHF_ECCM;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryHF_ALE;
-        private System.Windows.Forms.RadioButton rbRadioPrimaryHF_PRE;
         private System.Windows.Forms.ComboBox ddlXPNDRReply;
         private System.Windows.Forms.TextBox tbXPNDRModeSAddr;
         private System.Windows.Forms.ComboBox ddlXPNDRMode4Key;
@@ -2017,5 +1833,7 @@
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.TextBox tbOwnshipCallsign;
+        private System.Windows.Forms.ComboBox ddlPresetPrimaryRadio;
+        private System.Windows.Forms.Label label45;
     }
 }
