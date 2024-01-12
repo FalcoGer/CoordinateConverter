@@ -1061,6 +1061,12 @@ namespace CoordinateConverter.DCS.Tools
             toolTip.Hide(this);
             tbOwnshipCallsign.BackColor = default;
 
+            if (string.IsNullOrEmpty(text))
+            {
+                data.OwnshipCallsign = null;
+                return;
+            }
+
             string error = AH64DTCData.CheckDLCallSign(text);
             if (!string.IsNullOrEmpty(error))
             {
@@ -1068,6 +1074,7 @@ namespace CoordinateConverter.DCS.Tools
                 toolTip.Show(error, sender, sender.Width, 0, 5000);
                 return;
             }
+            
             try
             {
                 data.OwnshipCallsign = text;
@@ -1085,6 +1092,12 @@ namespace CoordinateConverter.DCS.Tools
             string text = sender.Text.ToUpper();
             toolTip.Hide(this);
             tbOwnshipCallsign.BackColor = default;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                data.OwnshipSubscriberID = null;
+                return;
+            }
 
             string error = AH64DTCData.CheckDLSubscriberID(text);
             if (!string.IsNullOrEmpty(error))
