@@ -155,6 +155,13 @@ namespace CoordinateConverter.DCS.Tools
                 ddlXPNDRReply.Items.Add(new ComboItem<AH64DTCData.EIFFReply>(replyOption.ToString().Replace('_', ' '), replyOption));
             }
 
+            ddlXPNDRAntenna.ValueMember = "Value";
+            ddlXPNDRAntenna.DisplayMember = "Text";
+            foreach (AH64DTCData.EIFFAntenna antennaOption in Enum.GetValues(typeof(AH64DTCData.EIFFAntenna)))
+            {
+                ddlXPNDRAntenna.Items.Add(new ComboItem<AH64DTCData.EIFFAntenna>(antennaOption.ToString().Replace('_', ' '), antennaOption));
+            }
+
             ddlASEAutopage.ValueMember = "Value";
             ddlASEAutopage.DisplayMember = "Text";
             foreach (AH64DTCData.EASEAutopage option in Enum.GetValues(typeof(AH64DTCData.EASEAutopage)))
@@ -190,8 +197,59 @@ namespace CoordinateConverter.DCS.Tools
                 ddlASESalvoInterval.Items.Add(new ComboItem<AH64DTCData.EASESalvoInterval>(option.ToString().Replace('_', ' '), option));
             }
 
+            foreach (var ddlLaserChannelSelection in new List<ComboBox>() { ddlLaserLRST, ddlMslChannel1, ddlMslChannel2, ddlMslChannel3, ddlMslChannel4 })
+            {
+                ddlLaserChannelSelection.ValueMember = "Value";
+                ddlLaserChannelSelection.DisplayMember = "Text";
+                foreach (AH64DTCData.ELaserChannel laserChannel in Enum.GetValues(typeof(AH64DTCData.ELaserChannel)))
+                {
+                    ddlLaserChannelSelection.Items.Add(new ComboItem<AH64DTCData.ELaserChannel>(laserChannel.ToString().Replace('_', ' '), laserChannel));
+                }
+            }
+
+            ddlMslChannelPriority.ValueMember = "Value";
+            ddlMslChannelPriority.DisplayMember = "Text";
+            foreach (AH64DTCData.EMissileChannel priorityhannel in Enum.GetValues(typeof(AH64DTCData.EMissileChannel)))
+            {
+                ddlMslChannelPriority.Items.Add(new ComboItem<AH64DTCData.EMissileChannel>(priorityhannel.ToString().Replace('_', ' '), priorityhannel));
+            }
+
+            ddlMslChannelAlternate.ValueMember = "Value";
+            ddlMslChannelAlternate.DisplayMember = "Text";
+            foreach (AH64DTCData.EMissileChannel AlternateChannel in Enum.GetValues(typeof(AH64DTCData.EMissileChannel)))
+            {
+                ddlMslChannelAlternate.Items.Add(new ComboItem<AH64DTCData.EMissileChannel>(AlternateChannel.ToString().Replace('_', ' '), AlternateChannel));
+            }
+
+            ddlGunBurstLength.ValueMember = "Value";
+            ddlGunBurstLength.DisplayMember = "Text";
+            foreach (AH64DTCData.EGunBurstLength burstLength in Enum.GetValues(typeof(AH64DTCData.EGunBurstLength)))
+            {
+                ddlGunBurstLength.Items.Add(new ComboItem<AH64DTCData.EGunBurstLength>(burstLength.ToString().Replace('_', ' '), burstLength));
+            }
+            
+            ddlRktQty.ValueMember = "Value";
+            ddlRktQty.DisplayMember = "Text";
+            foreach (AH64DTCData.ERocketQuantity rocketQuantity in Enum.GetValues(typeof(AH64DTCData.ERocketQuantity)))
+            {
+                ddlRktQty.Items.Add(new ComboItem<AH64DTCData.ERocketQuantity>(rocketQuantity.ToString().Replace('_', ' '), rocketQuantity));
+            }
+
             // Call reset
             btnReset_Click(null, null);
+        }
+
+        /// <summary>
+        /// Gets the number of commands sent.
+        /// </summary>
+        /// <value>
+        /// The number of commands sent.
+        /// </value>
+        public int CommandsSentCount { get; private set; } = 0;
+
+        private void btnXfer_Click(object sender, EventArgs e)
+        {
+            CommandsSentCount = data.SendToDCS(null);
         }
 
         private AH64DTCData.EPreset GetSelectedPresetIdent()
@@ -253,12 +311,66 @@ namespace CoordinateConverter.DCS.Tools
             tbXPNDRModeSID.Text = data.ModeSFlightID;
             ddlXPNDRMode4Key.SelectedIndex = ComboItem<AH64DTCData.EMode4Options>.FindValue(ddlXPNDRMode4Key, data.Mode4) ?? 0;
             ddlXPNDRReply.SelectedIndex = ComboItem<AH64DTCData.EIFFReply>.FindValue(ddlXPNDRReply, data.IFFReply) ?? 0;
+            ddlXPNDRAntenna.SelectedIndex = ComboItem<AH64DTCData.EIFFAntenna>.FindValue(ddlXPNDRAntenna, data.IFFAntenna) ?? 0;
             // Reset ASE to values in data
             ddlASEAutopage.SelectedIndex = ComboItem<AH64DTCData.EASEAutopage>.FindValue(ddlASEAutopage, data.ASEAutopage) ?? 0;
             ddlASEBurstCount.SelectedIndex = ComboItem<AH64DTCData.EASEBurstCount>.FindValue(ddlASEBurstCount, data.ASEBurstCount) ?? 0;
             ddlASEBurstInterval.SelectedIndex = ComboItem<AH64DTCData.EASEBurstInterval>.FindValue(ddlASEBurstInterval, data.ASEBurstInterval) ?? 0;
             ddlASESalvoCount.SelectedIndex = ComboItem<AH64DTCData.EASESalvoCount>.FindValue(ddlASESalvoCount, data.ASESalvoCount) ?? 0;
             ddlASESalvoInterval.SelectedIndex = ComboItem<AH64DTCData.EASESalvoInterval>.FindValue(ddlASESalvoInterval, data.ASESalvoInterval) ?? 0;
+            // Reset WPN to values in data
+            ddlMslChannel1.SelectedIndex = ComboItem<AH64DTCData.ELaserChannel>.FindValue(ddlMslChannel1, data.GetMissileChannel(AH64DTCData.EMissileChannel.CH_1)) ?? 0;
+            ddlMslChannel2.SelectedIndex = ComboItem<AH64DTCData.ELaserChannel>.FindValue(ddlMslChannel2, data.GetMissileChannel(AH64DTCData.EMissileChannel.CH_2)) ?? 0;
+            ddlMslChannel3.SelectedIndex = ComboItem<AH64DTCData.ELaserChannel>.FindValue(ddlMslChannel3, data.GetMissileChannel(AH64DTCData.EMissileChannel.CH_3)) ?? 0;
+            ddlMslChannel4.SelectedIndex = ComboItem<AH64DTCData.ELaserChannel>.FindValue(ddlMslChannel4, data.GetMissileChannel(AH64DTCData.EMissileChannel.CH_4)) ?? 0;
+
+            ddlMslChannelPriority.SelectedIndex = ComboItem<AH64DTCData.EMissileChannel>.FindValue(ddlMslChannelPriority, data.MissilePriorityChannel) ?? 0;
+            ddlMslChannelAlternate.SelectedIndex = ComboItem<AH64DTCData.EMissileChannel>.FindValue(ddlMslChannelAlternate, data.MissileAlternateChannel) ?? 0;
+            ddlMslChannelPriority_SelectedIndexChanged(ddlMslChannelPriority, null);
+
+            ddlGunBurstLength.SelectedIndex = ComboItem<AH64DTCData.EGunBurstLength>.FindValue(ddlGunBurstLength, data.GunBurstLength) ?? 0;
+            ddlRktQty.SelectedIndex = ComboItem<AH64DTCData.ERocketQuantity>.FindValue(ddlRktQty, data.RocketQuantity) ?? 0;
+
+            ddlLaserLRST.SelectedIndex = ComboItem<AH64DTCData.ELaserChannel>.FindValue(ddlLaserLRST, data.LrfdAndLstLaserChannel) ?? 0;
+
+            cbManRange.CheckedChanged -= cbManRange_CheckedChanged;
+            if (data.ManRange.HasValue)
+            {
+                cbManRange.Checked = true;
+                nudManRange.Enabled = true;
+                nudManRange.Value = data.ManRange.Value;
+            }
+            else
+            {
+                cbManRange.Checked = false;
+                nudManRange.Enabled = false;
+            }
+            cbManRange.CheckedChanged += cbManRange_CheckedChanged;
+            
+            foreach (TextBox tb in new List<TextBox>()
+            {
+                tb_laserCodeA,
+                tb_laserCodeB,
+                tb_laserCodeC,
+                tb_laserCodeD,
+                tb_laserCodeE,
+                tb_laserCodeF,
+                tb_laserCodeG,
+                tb_laserCodeH,
+                tb_laserCodeJ,
+                tb_laserCodeK,
+                tb_laserCodeL,
+                tb_laserCodeM,
+                tb_laserCodeN,
+                tb_laserCodeP,
+                tb_laserCodeQ,
+                tb_laserCodeR
+            })
+            {
+                var laserChannel = (AH64DTCData.ELaserChannel)Enum.Parse(typeof(AH64DTCData.ELaserChannel), tb.Name.Last().ToString());
+                AH64LaserCode laserCode = data.GetLaserCodeFrequency(laserChannel);
+                tb.Text = (laserCode != null) ? laserCode.LaserCode.ToString() : string.Empty;
+            }
             // TODO: Reset ADF to values in data
         }
 
@@ -1044,6 +1156,10 @@ namespace CoordinateConverter.DCS.Tools
             data.IFFReply = ComboItem<AH64DTCData.EIFFReply>.GetSelectedValue(sender as ComboBox);
         }
 
+        private void ddlXPNDRAntenna_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.IFFAntenna = ComboItem<AH64DTCData.EIFFAntenna>.GetSelectedValue(sender as ComboBox);
+        }
 
         #endregion
 
@@ -1075,6 +1191,134 @@ namespace CoordinateConverter.DCS.Tools
         #endregion
 
         #region ADF
+        #endregion
+
+        #region WPN
+        private void ddlMslChannel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var ddl = sender as ComboBox;
+            var laserChannel = ComboItem<AH64DTCData.ELaserChannel>.GetSelectedValue(ddl);
+            AH64DTCData.EMissileChannel missileChannel =
+                ddl.Name == ddlMslChannel1.Name ? AH64DTCData.EMissileChannel.CH_1
+                : ddl.Name == ddlMslChannel2.Name ? AH64DTCData.EMissileChannel.CH_2
+                : ddl.Name == ddlMslChannel3.Name ? AH64DTCData.EMissileChannel.CH_3
+                : ddl.Name == ddlMslChannel4.Name ? AH64DTCData.EMissileChannel.CH_4
+                : throw new ArgumentException("Sender must be a missile channel combo box", nameof(sender));
+            data.SetMissileChannel(missileChannel, laserChannel);
+        }
+
+        private void ddlMslChannelPriority_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AH64DTCData.EMissileChannel value = ComboItem<AH64DTCData.EMissileChannel>.GetSelectedValue(sender as ComboBox);
+            data.MissilePriorityChannel = value;
+            if (value == AH64DTCData.EMissileChannel.None)
+            {
+                ddlMslChannelAlternate.SelectedIndex = ComboItem<AH64DTCData.EMissileChannel>.FindValue(ddlMslChannelAlternate, AH64DTCData.EMissileChannel.None) ?? 0;
+                ddlMslChannelAlternate.Enabled = false;
+            }
+            else
+            {
+                ddlMslChannelAlternate.Enabled = true;
+            }
+            
+            
+        }
+
+        private void ddlMslChannelAlternate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.MissileAlternateChannel = ComboItem<AH64DTCData.EMissileChannel>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddlGunBurstLength_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.GunBurstLength = ComboItem<AH64DTCData.EGunBurstLength>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddlRktQty_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.RocketQuantity = ComboItem<AH64DTCData.ERocketQuantity>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddlLaserLRST_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.LrfdAndLstLaserChannel = ComboItem<AH64DTCData.ELaserChannel>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void tb_laserCode_KeyPress(object objsender, KeyPressEventArgs e)
+        {
+            var sender = objsender as TextBox;
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+            {
+                // If the pressed key is not a digit or backspace, suppress it
+                e.Handled = true;
+                return;
+            }
+            if (e.KeyChar == '9' || e.KeyChar == '0') // 0 and 9 are never a valid digit for a laser code
+            {
+                e.Handled = true;
+                return;
+            }
+            if (sender.Text.Length == 0)
+            {
+                if (e.KeyChar >= '6' || e.KeyChar == '3') // first digit must be 1,2,4 or 5
+                {
+                    e.Handled = true;
+                    return;
+                }
+            }
+            if (sender.Text.Length == 1 && sender.Text[0] == 1)
+            {
+                if (e.KeyChar == '8') // 8 is invalid if the first character is a 1
+                {
+                    e.Handled = true;
+                    return;
+                }
+            }
+        }
+
+        private void tb_laserCode_TextChanged(object objsender, EventArgs e)
+        {
+            var sender = objsender as TextBox;
+            toolTip.Hide(this);
+            sender.BackColor = default;
+            int? laserCode = null;
+
+            if (!string.IsNullOrEmpty(sender.Text))
+            {
+                try
+                {
+                    laserCode = int.Parse(sender.Text);
+                }
+                catch (Exception ex)
+                {
+                    sender.BackColor = MainForm.ERROR_COLOR;
+                    toolTip.Show(ex.Message, sender, 0, sender.Width, 5000);
+                }
+
+                if (!AH64LaserCode.IsLaserCodeValid(laserCode.Value))
+                {
+                    sender.BackColor = MainForm.ERROR_COLOR;
+                    toolTip.Show(AH64LaserCode.LaserCodeError, sender, 0, sender.Width, 5000);
+                    return;
+                }
+            }
+            
+            string enumValueAsString = (sender as TextBox).Name.Last().ToString();
+            var laserChannel = (AH64DTCData.ELaserChannel)Enum.Parse(typeof(AH64DTCData.ELaserChannel), enumValueAsString);
+            data.SetLaserCodeFrequency(laserChannel, laserCode.HasValue ? new AH64LaserCode(laserCode.Value) : null);
+        }
+
+        private void cbManRange_CheckedChanged(object objsender, EventArgs e)
+        {
+            var sender = objsender as CheckBox;
+            nudManRange.Enabled = sender.Checked;
+            data.ManRange = sender.Checked ? (int?)nudManRange.Value : null;
+        }
+
+        private void nudManRange_ValueChanged(object sender, EventArgs e)
+        {
+            data.ManRange = cbManRange.Checked ? (int?)(sender as NumericUpDown).Value : null;
+        }
         #endregion
 
         #region File management

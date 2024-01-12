@@ -1,5 +1,4 @@
-﻿using CoordinateConverter.DCS.Tools;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -41,7 +40,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         ///   <c>true</c> if [needs editing]; otherwise, <c>false</c>.
         /// </value>
         [JsonIgnore]
-        public bool NeedsEditing
+        public bool ContainsData
         {
             get
             {
@@ -53,9 +52,322 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     ContainsFM1Data ||
                     ContainsFM2Data ||
                     PrimaryRadioSetting != EPrimaryRadioSetting.No_Change ||
-                    ContainsNetData;
+                    ContainsNetData ||
+                    ContainsModemData;
 
             }
+        }
+
+        /// <summary>
+        /// Generates the commands to be sent to DCS for this preset to be set correctly.
+        /// </summary>
+        /// <param name="preset">The number of this preset</param>
+        /// <param name="IsPilot">if set to <c>true</c> [is pilot], otherwise CPG.</param>
+        /// <returns>A list commands to be sent to DCS</returns>
+        public List<DCSCommand> GenerateCommands(AH64DTCData.EPreset preset, bool IsPilot)
+        {
+            var commands = new List<DCSCommand>();
+            // var commands = new DebugCommandList();
+            if (!ContainsData)
+            {
+                return commands;
+            }
+
+            int mfd = (int)(IsPilot ? AH64.EDeviceCode.PLT_RMFD : AH64.EDeviceCode.CPG_RMFD);
+
+            commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_COM));
+
+            // Select correct preset
+            switch (preset)
+            {
+                case AH64DTCData.EPreset.Preset1:
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L1));
+                    break;
+                case AH64DTCData.EPreset.Preset2:
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L2));
+                    break;
+                case AH64DTCData.EPreset.Preset3:
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L3));
+                    break;
+                case AH64DTCData.EPreset.Preset4:
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L4));
+                    break;
+                case AH64DTCData.EPreset.Preset5:
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L5));
+                    break;
+                case AH64DTCData.EPreset.Preset6:
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R1));
+                    break;
+                case AH64DTCData.EPreset.Preset7:
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R2));
+                    break;
+                case AH64DTCData.EPreset.Preset8:
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R3));
+                    break;
+                case AH64DTCData.EPreset.Preset9:
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R4));
+                    break;
+                case AH64DTCData.EPreset.Preset10:
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R5));
+                    break;
+            }
+
+            // Preset Edit
+            commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B6));
+
+            if (!string.IsNullOrEmpty(UnitId))
+            {
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L1));
+                commands.AddRange(AH64.GetCommandsForKUText(UnitId + '\n', true, IsPilot));
+            }
+            if (!string.IsNullOrEmpty(Callsign))
+            {
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L2));
+                commands.AddRange(AH64.GetCommandsForKUText(Callsign + '\n', true, IsPilot));
+            }
+            if (PrimaryRadioSetting != EPrimaryRadioSetting.No_Change)
+            {
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L4));
+                switch (PrimaryRadioSetting)
+                {
+                    case EPrimaryRadioSetting.No_Change:
+                        throw new Exception("Logic error");
+                    case EPrimaryRadioSetting.VHF_Single_Channel:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L1));
+                        break;
+                    case EPrimaryRadioSetting.UHF_Single_Channel:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L3));
+                        break;
+                    case EPrimaryRadioSetting.UHF_HaveQuick:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L2));
+                        break;
+                    case EPrimaryRadioSetting.FM1_Single_Channel:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L5));
+                        break;
+                    case EPrimaryRadioSetting.FM1_SINCGARS:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L4));
+                        break;
+                    case EPrimaryRadioSetting.FM2_Single_Channel:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R2));
+                        break;
+                    case EPrimaryRadioSetting.FM2_SINCGARS:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R1));
+                        break;
+                    case EPrimaryRadioSetting.HF_Single_Channel:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R6));
+                        break;
+                    case EPrimaryRadioSetting.HF_Preset:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R3));
+                        break;
+                    case EPrimaryRadioSetting.HF_ALE:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R4));
+                        break;
+                    case EPrimaryRadioSetting.HF_ECCM:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R5));
+                        break;
+                    case EPrimaryRadioSetting.None:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L6));
+                        break;
+                }
+            }
+
+            // VHF/UHF Data
+            if (ContainsVHFData || ContainsUHFData)
+            {
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T3));
+                if (ContainsVHFData)
+                {
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L1));
+                    commands.AddRange(AH64.GetCommandsForKUText(VHFFrequency.ToString() + '\n', true, IsPilot));
+                }
+                if (ContainsUHFData)
+                {
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R4));
+                    commands.AddRange(AH64.GetCommandsForKUText(UHFFrequency.ToString() + '\n', true, IsPilot));
+                    // TODO: CNV, HQ
+                }
+            }
+
+            // FM Data
+            if (ContainsFM1Data || ContainsFM2Data)
+            {
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T4));
+                if (ContainsFM1Data)
+                {
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L4));
+                    commands.AddRange(AH64.GetCommandsForKUText(FM1Frequency.ToString() + '\n', true, IsPilot));
+                    // TODO: CNV, HOPSET
+                }
+                if (ContainsFM2Data)
+                {
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R4));
+                    commands.AddRange(AH64.GetCommandsForKUText(FM2Frequency.ToString() + '\n', true, IsPilot));
+                    // TODO: CNV, HOPSET
+                }
+            }
+
+            // HF Data
+            if (ContainsHFData)
+            {
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T5));
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R1));
+                commands.AddRange(AH64.GetCommandsForKUText(HFRXFrequency.ToString() + '\n', true, IsPilot));
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R3));
+                commands.AddRange(AH64.GetCommandsForKUText(HFTXFrequency.ToString() + '\n', true, IsPilot));
+
+                // TODO: CNV, PRE, ALE, ECCM
+            }
+
+            // Net Data
+            if (ContainsNetData)
+            {
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B4));
+                // Delete existing members
+                var memberButtonsLeft = new List<int>()
+                {
+                    (int)AH64.EKeyCode.MFD_L1,
+                    (int)AH64.EKeyCode.MFD_L2,
+                    (int)AH64.EKeyCode.MFD_L3,
+                    (int)AH64.EKeyCode.MFD_L4,
+                    (int)AH64.EKeyCode.MFD_L5
+                };
+                var memberButtonsRight = new List<int>()
+                {
+                    (int)AH64.EKeyCode.MFD_R1,
+                    (int)AH64.EKeyCode.MFD_R2,
+                    (int)AH64.EKeyCode.MFD_R3,
+                    (int)AH64.EKeyCode.MFD_R4,
+                    (int)AH64.EKeyCode.MFD_R5
+                };
+
+                var listOfDeleteCommands = new List<DCSCommand>()
+                {
+                    new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T5), // C/S
+                    // Set C/S to DEL
+                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_CLR),
+                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_D),
+                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_E),
+                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_L),
+                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_ENT),
+                    new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T2), // Delete
+                    new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T1) // Yes
+                };
+
+                foreach (int btn in memberButtonsLeft)
+                {
+                    commands.Add(new DCSCommand(mfd, btn));
+                    commands.AddRange(listOfDeleteCommands);
+                }
+
+                foreach (int btn in memberButtonsRight)
+                {
+                    commands.Add(new DCSCommand(mfd, btn));
+                    commands.AddRange(listOfDeleteCommands);
+                }
+
+                // Next Page
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B3));
+
+                foreach (int btn in memberButtonsLeft)
+                {
+                    commands.Add(new DCSCommand(mfd, btn));
+                    commands.AddRange(listOfDeleteCommands);
+                }
+
+                // First Page
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B2));
+
+                int idx = 0;
+                foreach (var linkMember in linkMembers)
+                {
+                    int selection;
+                    if (idx <= 4)
+                    {
+                        selection = memberButtonsLeft[idx];
+                    }
+                    else if (idx >= 10)
+                    {
+                        if (idx == 10)
+                        {
+                            commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B3)); // Next Page
+                        }
+                        selection = memberButtonsLeft[idx - 10];
+                    }
+                    else
+                    {
+                        selection = memberButtonsRight[idx - 5];
+                    }
+
+                    
+
+                    commands.Add(new DCSCommand(mfd, selection));
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T5)); // C/S
+                    commands.AddRange(AH64.GetCommandsForKUText(linkMember.Callsign + '\n', true, IsPilot));
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T6)); // SUB
+                    commands.AddRange(AH64.GetCommandsForKUText(linkMember.SubscriberID + '\n', true, IsPilot));
+
+                    if (linkMember.Team)
+                    {
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T3));
+                    }
+
+                    if (linkMember.Primary)
+                    {
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T4));
+                    }
+
+                    idx++;
+                }
+            }
+
+            // At this point NET page or Preset Edit page, Modem on R6 is valid for both
+            if (ContainsModemData)
+            {
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R6)); // MODEM
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L1)); // Protocol
+                switch (LinkProtocol)
+                {
+                    case ELinkProtocol.Longbow:
+                        if (preset == AH64DTCData.EPreset.Preset9 || preset == AH64DTCData.EPreset.Preset10)
+                        {
+                            throw new Exception("Preset 9 or 10 can not be Longbow protocol.");
+                        }
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L1));
+                        break;
+                    case ELinkProtocol.Tacfire:
+                        if (preset == AH64DTCData.EPreset.Preset9 || preset == AH64DTCData.EPreset.Preset10)
+                        {
+                            throw new Exception("Preset 9 or 10 can not be Tacfire protocol.");
+                        }
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L2));
+                        break;
+                    case ELinkProtocol.Internet:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L3));
+                        break;
+                    case ELinkProtocol.FireSupport:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L4));
+                        break;
+                    case ELinkProtocol.None:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L5));
+                        break;
+                }
+
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L3)); // Retries
+                switch (Retries)
+                {
+                    case ERetries.Zero:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L3));
+                        break;
+                    case ERetries.One:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L4));
+                        break;
+                    case ERetries.Two:
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L5));
+                        break;
+                }
+            }
+
+            return commands;
         }
 
         #endregion

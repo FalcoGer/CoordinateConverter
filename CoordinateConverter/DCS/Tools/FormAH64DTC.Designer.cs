@@ -116,6 +116,8 @@
             this.label44 = new System.Windows.Forms.Label();
             this.tbOwnshipCallsign = new System.Windows.Forms.TextBox();
             this.tabIFF = new System.Windows.Forms.TabPage();
+            this.label46 = new System.Windows.Forms.Label();
+            this.ddlXPNDRAntenna = new System.Windows.Forms.ComboBox();
             this.ddlXPNDRReply = new System.Windows.Forms.ComboBox();
             this.tbXPNDRModeSAddr = new System.Windows.Forms.TextBox();
             this.ddlXPNDRMode4Key = new System.Windows.Forms.ComboBox();
@@ -143,6 +145,63 @@
             this.ddlASEAutopage = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.tabADF = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.cbManRange = new System.Windows.Forms.CheckBox();
+            this.nudManRange = new System.Windows.Forms.NumericUpDown();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.tb_laserCodeR = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeQ = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeP = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeN = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeM = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeL = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeK = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeJ = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeH = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeG = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeF = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeE = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeD = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeC = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeB = new System.Windows.Forms.TextBox();
+            this.tb_laserCodeA = new System.Windows.Forms.TextBox();
+            this.label71 = new System.Windows.Forms.Label();
+            this.label70 = new System.Windows.Forms.Label();
+            this.label69 = new System.Windows.Forms.Label();
+            this.label68 = new System.Windows.Forms.Label();
+            this.label67 = new System.Windows.Forms.Label();
+            this.label66 = new System.Windows.Forms.Label();
+            this.label65 = new System.Windows.Forms.Label();
+            this.label64 = new System.Windows.Forms.Label();
+            this.label63 = new System.Windows.Forms.Label();
+            this.label62 = new System.Windows.Forms.Label();
+            this.label61 = new System.Windows.Forms.Label();
+            this.label60 = new System.Windows.Forms.Label();
+            this.label59 = new System.Windows.Forms.Label();
+            this.label58 = new System.Windows.Forms.Label();
+            this.label57 = new System.Windows.Forms.Label();
+            this.label56 = new System.Windows.Forms.Label();
+            this.ddlLaserLRST = new System.Windows.Forms.ComboBox();
+            this.label55 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.ddlRktQty = new System.Windows.Forms.ComboBox();
+            this.label53 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.ddlGunBurstLength = new System.Windows.Forms.ComboBox();
+            this.label52 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ddlMslChannelAlternate = new System.Windows.Forms.ComboBox();
+            this.ddlMslChannelPriority = new System.Windows.Forms.ComboBox();
+            this.ddlMslChannel4 = new System.Windows.Forms.ComboBox();
+            this.ddlMslChannel3 = new System.Windows.Forms.ComboBox();
+            this.ddlMslChannel2 = new System.Windows.Forms.ComboBox();
+            this.ddlMslChannel1 = new System.Windows.Forms.ComboBox();
+            this.label54 = new System.Windows.Forms.Label();
+            this.label51 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnXfer = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -185,6 +244,12 @@
             this.tabIFF.SuspendLayout();
             this.tabASE.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudManRange)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -198,6 +263,7 @@
             this.tabControl1.Controls.Add(this.tabIFF);
             this.tabControl1.Controls.Add(this.tabASE);
             this.tabControl1.Controls.Add(this.tabADF);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(12, 42);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -1300,6 +1366,8 @@
             // 
             // tabIFF
             // 
+            this.tabIFF.Controls.Add(this.label46);
+            this.tabIFF.Controls.Add(this.ddlXPNDRAntenna);
             this.tabIFF.Controls.Add(this.ddlXPNDRReply);
             this.tabIFF.Controls.Add(this.tbXPNDRModeSAddr);
             this.tabIFF.Controls.Add(this.ddlXPNDRMode4Key);
@@ -1321,6 +1389,24 @@
             this.tabIFF.TabIndex = 2;
             this.tabIFF.Text = "IFF/XPNDR";
             this.tabIFF.UseVisualStyleBackColor = true;
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(66, 193);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(47, 13);
+            this.label46.TabIndex = 209;
+            this.label46.Text = "Antenna";
+            // 
+            // ddlXPNDRAntenna
+            // 
+            this.ddlXPNDRAntenna.FormattingEnabled = true;
+            this.ddlXPNDRAntenna.Location = new System.Drawing.Point(119, 190);
+            this.ddlXPNDRAntenna.Name = "ddlXPNDRAntenna";
+            this.ddlXPNDRAntenna.Size = new System.Drawing.Size(121, 21);
+            this.ddlXPNDRAntenna.TabIndex = 208;
+            this.ddlXPNDRAntenna.SelectedIndexChanged += new System.EventHandler(this.ddlXPNDRAntenna_SelectedIndexChanged);
             // 
             // ddlXPNDRReply
             // 
@@ -1583,6 +1669,661 @@
             this.tabADF.Text = "ADF";
             this.tabADF.UseVisualStyleBackColor = true;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.cbManRange);
+            this.tabPage2.Controls.Add(this.nudManRange);
+            this.tabPage2.Controls.Add(this.groupBox5);
+            this.tabPage2.Controls.Add(this.groupBox4);
+            this.tabPage2.Controls.Add(this.groupBox3);
+            this.tabPage2.Controls.Add(this.groupBox2);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(681, 367);
+            this.tabPage2.TabIndex = 5;
+            this.tabPage2.Text = "WPN";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // cbManRange
+            // 
+            this.cbManRange.AutoSize = true;
+            this.cbManRange.Location = new System.Drawing.Point(6, 322);
+            this.cbManRange.Name = "cbManRange";
+            this.cbManRange.Size = new System.Drawing.Size(74, 17);
+            this.cbManRange.TabIndex = 514;
+            this.cbManRange.Text = "Man RNG";
+            this.cbManRange.UseVisualStyleBackColor = true;
+            this.cbManRange.CheckedChanged += new System.EventHandler(this.cbManRange_CheckedChanged);
+            // 
+            // nudManRange
+            // 
+            this.nudManRange.Increment = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.nudManRange.Location = new System.Drawing.Point(86, 321);
+            this.nudManRange.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.nudManRange.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.nudManRange.Name = "nudManRange";
+            this.nudManRange.Size = new System.Drawing.Size(75, 20);
+            this.nudManRange.TabIndex = 511;
+            this.nudManRange.Value = new decimal(new int[] {
+            800,
+            0,
+            0,
+            0});
+            this.nudManRange.ValueChanged += new System.EventHandler(this.nudManRange_ValueChanged);
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.tb_laserCodeR);
+            this.groupBox5.Controls.Add(this.tb_laserCodeQ);
+            this.groupBox5.Controls.Add(this.tb_laserCodeP);
+            this.groupBox5.Controls.Add(this.tb_laserCodeN);
+            this.groupBox5.Controls.Add(this.tb_laserCodeM);
+            this.groupBox5.Controls.Add(this.tb_laserCodeL);
+            this.groupBox5.Controls.Add(this.tb_laserCodeK);
+            this.groupBox5.Controls.Add(this.tb_laserCodeJ);
+            this.groupBox5.Controls.Add(this.tb_laserCodeH);
+            this.groupBox5.Controls.Add(this.tb_laserCodeG);
+            this.groupBox5.Controls.Add(this.tb_laserCodeF);
+            this.groupBox5.Controls.Add(this.tb_laserCodeE);
+            this.groupBox5.Controls.Add(this.tb_laserCodeD);
+            this.groupBox5.Controls.Add(this.tb_laserCodeC);
+            this.groupBox5.Controls.Add(this.tb_laserCodeB);
+            this.groupBox5.Controls.Add(this.tb_laserCodeA);
+            this.groupBox5.Controls.Add(this.label71);
+            this.groupBox5.Controls.Add(this.label70);
+            this.groupBox5.Controls.Add(this.label69);
+            this.groupBox5.Controls.Add(this.label68);
+            this.groupBox5.Controls.Add(this.label67);
+            this.groupBox5.Controls.Add(this.label66);
+            this.groupBox5.Controls.Add(this.label65);
+            this.groupBox5.Controls.Add(this.label64);
+            this.groupBox5.Controls.Add(this.label63);
+            this.groupBox5.Controls.Add(this.label62);
+            this.groupBox5.Controls.Add(this.label61);
+            this.groupBox5.Controls.Add(this.label60);
+            this.groupBox5.Controls.Add(this.label59);
+            this.groupBox5.Controls.Add(this.label58);
+            this.groupBox5.Controls.Add(this.label57);
+            this.groupBox5.Controls.Add(this.label56);
+            this.groupBox5.Controls.Add(this.ddlLaserLRST);
+            this.groupBox5.Controls.Add(this.label55);
+            this.groupBox5.Location = new System.Drawing.Point(173, 6);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(502, 355);
+            this.groupBox5.TabIndex = 513;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Laser";
+            // 
+            // tb_laserCodeR
+            // 
+            this.tb_laserCodeR.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeR.Location = new System.Drawing.Point(308, 46);
+            this.tb_laserCodeR.MaxLength = 4;
+            this.tb_laserCodeR.Name = "tb_laserCodeR";
+            this.tb_laserCodeR.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeR.TabIndex = 545;
+            this.tb_laserCodeR.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeR.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeQ
+            // 
+            this.tb_laserCodeQ.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeQ.Location = new System.Drawing.Point(308, 72);
+            this.tb_laserCodeQ.MaxLength = 4;
+            this.tb_laserCodeQ.Name = "tb_laserCodeQ";
+            this.tb_laserCodeQ.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeQ.TabIndex = 544;
+            this.tb_laserCodeQ.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeQ.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeP
+            // 
+            this.tb_laserCodeP.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeP.Location = new System.Drawing.Point(308, 98);
+            this.tb_laserCodeP.MaxLength = 4;
+            this.tb_laserCodeP.Name = "tb_laserCodeP";
+            this.tb_laserCodeP.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeP.TabIndex = 543;
+            this.tb_laserCodeP.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeN
+            // 
+            this.tb_laserCodeN.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeN.Location = new System.Drawing.Point(308, 124);
+            this.tb_laserCodeN.MaxLength = 4;
+            this.tb_laserCodeN.Name = "tb_laserCodeN";
+            this.tb_laserCodeN.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeN.TabIndex = 542;
+            this.tb_laserCodeN.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeM
+            // 
+            this.tb_laserCodeM.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeM.Location = new System.Drawing.Point(308, 149);
+            this.tb_laserCodeM.MaxLength = 4;
+            this.tb_laserCodeM.Name = "tb_laserCodeM";
+            this.tb_laserCodeM.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeM.TabIndex = 541;
+            this.tb_laserCodeM.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeM.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeL
+            // 
+            this.tb_laserCodeL.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeL.Location = new System.Drawing.Point(308, 175);
+            this.tb_laserCodeL.MaxLength = 4;
+            this.tb_laserCodeL.Name = "tb_laserCodeL";
+            this.tb_laserCodeL.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeL.TabIndex = 540;
+            this.tb_laserCodeL.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeK
+            // 
+            this.tb_laserCodeK.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeK.Location = new System.Drawing.Point(350, 225);
+            this.tb_laserCodeK.MaxLength = 4;
+            this.tb_laserCodeK.Name = "tb_laserCodeK";
+            this.tb_laserCodeK.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeK.TabIndex = 539;
+            this.tb_laserCodeK.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeK.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeJ
+            // 
+            this.tb_laserCodeJ.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeJ.Location = new System.Drawing.Point(244, 225);
+            this.tb_laserCodeJ.MaxLength = 4;
+            this.tb_laserCodeJ.Name = "tb_laserCodeJ";
+            this.tb_laserCodeJ.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeJ.TabIndex = 538;
+            this.tb_laserCodeJ.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeJ.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeH
+            // 
+            this.tb_laserCodeH.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeH.Location = new System.Drawing.Point(138, 225);
+            this.tb_laserCodeH.MaxLength = 4;
+            this.tb_laserCodeH.Name = "tb_laserCodeH";
+            this.tb_laserCodeH.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeH.TabIndex = 537;
+            this.tb_laserCodeH.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeH.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeG
+            // 
+            this.tb_laserCodeG.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeG.Location = new System.Drawing.Point(32, 225);
+            this.tb_laserCodeG.MaxLength = 4;
+            this.tb_laserCodeG.Name = "tb_laserCodeG";
+            this.tb_laserCodeG.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeG.TabIndex = 536;
+            this.tb_laserCodeG.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeG.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeF
+            // 
+            this.tb_laserCodeF.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeF.Location = new System.Drawing.Point(72, 179);
+            this.tb_laserCodeF.MaxLength = 4;
+            this.tb_laserCodeF.Name = "tb_laserCodeF";
+            this.tb_laserCodeF.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeF.TabIndex = 535;
+            this.tb_laserCodeF.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeF.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeE
+            // 
+            this.tb_laserCodeE.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeE.Location = new System.Drawing.Point(72, 153);
+            this.tb_laserCodeE.MaxLength = 4;
+            this.tb_laserCodeE.Name = "tb_laserCodeE";
+            this.tb_laserCodeE.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeE.TabIndex = 534;
+            this.tb_laserCodeE.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeE.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeD
+            // 
+            this.tb_laserCodeD.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeD.Location = new System.Drawing.Point(72, 127);
+            this.tb_laserCodeD.MaxLength = 4;
+            this.tb_laserCodeD.Name = "tb_laserCodeD";
+            this.tb_laserCodeD.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeD.TabIndex = 533;
+            this.tb_laserCodeD.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeD.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeC
+            // 
+            this.tb_laserCodeC.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeC.Location = new System.Drawing.Point(72, 101);
+            this.tb_laserCodeC.MaxLength = 4;
+            this.tb_laserCodeC.Name = "tb_laserCodeC";
+            this.tb_laserCodeC.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeC.TabIndex = 532;
+            this.tb_laserCodeC.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeC.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeB
+            // 
+            this.tb_laserCodeB.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeB.Location = new System.Drawing.Point(72, 72);
+            this.tb_laserCodeB.MaxLength = 4;
+            this.tb_laserCodeB.Name = "tb_laserCodeB";
+            this.tb_laserCodeB.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeB.TabIndex = 531;
+            this.tb_laserCodeB.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // tb_laserCodeA
+            // 
+            this.tb_laserCodeA.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeA.Location = new System.Drawing.Point(72, 46);
+            this.tb_laserCodeA.MaxLength = 4;
+            this.tb_laserCodeA.Name = "tb_laserCodeA";
+            this.tb_laserCodeA.Size = new System.Drawing.Size(100, 20);
+            this.tb_laserCodeA.TabIndex = 530;
+            this.tb_laserCodeA.TextChanged += new System.EventHandler(this.tb_laserCode_TextChanged);
+            this.tb_laserCodeA.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_laserCode_KeyPress);
+            // 
+            // label71
+            // 
+            this.label71.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label71.AutoSize = true;
+            this.label71.Location = new System.Drawing.Point(414, 50);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(15, 13);
+            this.label71.TabIndex = 529;
+            this.label71.Text = "R";
+            // 
+            // label70
+            // 
+            this.label70.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label70.AutoSize = true;
+            this.label70.Location = new System.Drawing.Point(415, 75);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(15, 13);
+            this.label70.TabIndex = 528;
+            this.label70.Text = "Q";
+            // 
+            // label69
+            // 
+            this.label69.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label69.AutoSize = true;
+            this.label69.Location = new System.Drawing.Point(415, 101);
+            this.label69.Name = "label69";
+            this.label69.Size = new System.Drawing.Size(14, 13);
+            this.label69.TabIndex = 527;
+            this.label69.Text = "P";
+            // 
+            // label68
+            // 
+            this.label68.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label68.AutoSize = true;
+            this.label68.Location = new System.Drawing.Point(415, 127);
+            this.label68.Name = "label68";
+            this.label68.Size = new System.Drawing.Size(15, 13);
+            this.label68.TabIndex = 526;
+            this.label68.Text = "N";
+            // 
+            // label67
+            // 
+            this.label67.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label67.AutoSize = true;
+            this.label67.Location = new System.Drawing.Point(414, 153);
+            this.label67.Name = "label67";
+            this.label67.Size = new System.Drawing.Size(16, 13);
+            this.label67.TabIndex = 525;
+            this.label67.Text = "M";
+            // 
+            // label66
+            // 
+            this.label66.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label66.AutoSize = true;
+            this.label66.Location = new System.Drawing.Point(414, 178);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(13, 13);
+            this.label66.TabIndex = 524;
+            this.label66.Text = "L";
+            // 
+            // label65
+            // 
+            this.label65.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label65.AutoSize = true;
+            this.label65.Location = new System.Drawing.Point(394, 248);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(14, 13);
+            this.label65.TabIndex = 523;
+            this.label65.Text = "K";
+            // 
+            // label64
+            // 
+            this.label64.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label64.AutoSize = true;
+            this.label64.Location = new System.Drawing.Point(289, 248);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(12, 13);
+            this.label64.TabIndex = 522;
+            this.label64.Text = "J";
+            // 
+            // label63
+            // 
+            this.label63.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label63.AutoSize = true;
+            this.label63.Location = new System.Drawing.Point(181, 248);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(15, 13);
+            this.label63.TabIndex = 521;
+            this.label63.Text = "H";
+            // 
+            // label62
+            // 
+            this.label62.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label62.AutoSize = true;
+            this.label62.Location = new System.Drawing.Point(74, 248);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(15, 13);
+            this.label62.TabIndex = 520;
+            this.label62.Text = "G";
+            // 
+            // label61
+            // 
+            this.label61.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label61.AutoSize = true;
+            this.label61.Location = new System.Drawing.Point(53, 182);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(13, 13);
+            this.label61.TabIndex = 519;
+            this.label61.Text = "F";
+            // 
+            // label60
+            // 
+            this.label60.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label60.AutoSize = true;
+            this.label60.Location = new System.Drawing.Point(52, 156);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(14, 13);
+            this.label60.TabIndex = 518;
+            this.label60.Text = "E";
+            // 
+            // label59
+            // 
+            this.label59.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label59.AutoSize = true;
+            this.label59.Location = new System.Drawing.Point(51, 130);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(15, 13);
+            this.label59.TabIndex = 517;
+            this.label59.Text = "D";
+            // 
+            // label58
+            // 
+            this.label58.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label58.AutoSize = true;
+            this.label58.Location = new System.Drawing.Point(52, 104);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(14, 13);
+            this.label58.TabIndex = 516;
+            this.label58.Text = "C";
+            // 
+            // label57
+            // 
+            this.label57.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(52, 76);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(14, 13);
+            this.label57.TabIndex = 515;
+            this.label57.Text = "B";
+            // 
+            // label56
+            // 
+            this.label56.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(52, 49);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(14, 13);
+            this.label56.TabIndex = 508;
+            this.label56.Text = "A";
+            // 
+            // ddlLaserLRST
+            // 
+            this.ddlLaserLRST.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlLaserLRST.FormattingEnabled = true;
+            this.ddlLaserLRST.Location = new System.Drawing.Point(72, 19);
+            this.ddlLaserLRST.Name = "ddlLaserLRST";
+            this.ddlLaserLRST.Size = new System.Drawing.Size(100, 21);
+            this.ddlLaserLRST.TabIndex = 513;
+            this.ddlLaserLRST.SelectedIndexChanged += new System.EventHandler(this.ddlLaserLRST_SelectedIndexChanged);
+            // 
+            // label55
+            // 
+            this.label55.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(6, 22);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(60, 13);
+            this.label55.TabIndex = 514;
+            this.label55.Text = "LRFD/LST";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.ddlRktQty);
+            this.groupBox4.Controls.Add(this.label53);
+            this.groupBox4.Location = new System.Drawing.Point(6, 257);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(161, 51);
+            this.groupBox4.TabIndex = 510;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Rockets";
+            // 
+            // ddlRktQty
+            // 
+            this.ddlRktQty.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlRktQty.FormattingEnabled = true;
+            this.ddlRktQty.Location = new System.Drawing.Point(61, 19);
+            this.ddlRktQty.Name = "ddlRktQty";
+            this.ddlRktQty.Size = new System.Drawing.Size(94, 21);
+            this.ddlRktQty.TabIndex = 511;
+            this.ddlRktQty.SelectedIndexChanged += new System.EventHandler(this.ddlRktQty_SelectedIndexChanged);
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(9, 22);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(46, 13);
+            this.label53.TabIndex = 505;
+            this.label53.Text = "Quantity";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.ddlGunBurstLength);
+            this.groupBox3.Controls.Add(this.label52);
+            this.groupBox3.Location = new System.Drawing.Point(6, 195);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(161, 56);
+            this.groupBox3.TabIndex = 508;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Gun";
+            // 
+            // ddlGunBurstLength
+            // 
+            this.ddlGunBurstLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlGunBurstLength.FormattingEnabled = true;
+            this.ddlGunBurstLength.Location = new System.Drawing.Point(61, 22);
+            this.ddlGunBurstLength.Name = "ddlGunBurstLength";
+            this.ddlGunBurstLength.Size = new System.Drawing.Size(94, 21);
+            this.ddlGunBurstLength.TabIndex = 509;
+            this.ddlGunBurstLength.SelectedIndexChanged += new System.EventHandler(this.ddlGunBurstLength_SelectedIndexChanged);
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(15, 19);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(40, 26);
+            this.label52.TabIndex = 505;
+            this.label52.Text = "Burst\r\nLength";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.ddlMslChannelAlternate);
+            this.groupBox2.Controls.Add(this.ddlMslChannelPriority);
+            this.groupBox2.Controls.Add(this.ddlMslChannel4);
+            this.groupBox2.Controls.Add(this.ddlMslChannel3);
+            this.groupBox2.Controls.Add(this.ddlMslChannel2);
+            this.groupBox2.Controls.Add(this.ddlMslChannel1);
+            this.groupBox2.Controls.Add(this.label54);
+            this.groupBox2.Controls.Add(this.label51);
+            this.groupBox2.Controls.Add(this.label50);
+            this.groupBox2.Controls.Add(this.label49);
+            this.groupBox2.Controls.Add(this.label48);
+            this.groupBox2.Controls.Add(this.label47);
+            this.groupBox2.Location = new System.Drawing.Point(6, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(161, 183);
+            this.groupBox2.TabIndex = 501;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "MSL Channel";
+            // 
+            // ddlMslChannelAlternate
+            // 
+            this.ddlMslChannelAlternate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannelAlternate.FormattingEnabled = true;
+            this.ddlMslChannelAlternate.Location = new System.Drawing.Point(61, 154);
+            this.ddlMslChannelAlternate.Name = "ddlMslChannelAlternate";
+            this.ddlMslChannelAlternate.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannelAlternate.TabIndex = 507;
+            this.ddlMslChannelAlternate.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannelAlternate_SelectedIndexChanged);
+            // 
+            // ddlMslChannelPriority
+            // 
+            this.ddlMslChannelPriority.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannelPriority.FormattingEnabled = true;
+            this.ddlMslChannelPriority.Location = new System.Drawing.Point(61, 127);
+            this.ddlMslChannelPriority.Name = "ddlMslChannelPriority";
+            this.ddlMslChannelPriority.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannelPriority.TabIndex = 506;
+            this.ddlMslChannelPriority.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannelPriority_SelectedIndexChanged);
+            // 
+            // ddlMslChannel4
+            // 
+            this.ddlMslChannel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannel4.FormattingEnabled = true;
+            this.ddlMslChannel4.Location = new System.Drawing.Point(61, 100);
+            this.ddlMslChannel4.Name = "ddlMslChannel4";
+            this.ddlMslChannel4.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannel4.TabIndex = 505;
+            this.ddlMslChannel4.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannel_SelectedIndexChanged);
+            // 
+            // ddlMslChannel3
+            // 
+            this.ddlMslChannel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannel3.FormattingEnabled = true;
+            this.ddlMslChannel3.Location = new System.Drawing.Point(61, 73);
+            this.ddlMslChannel3.Name = "ddlMslChannel3";
+            this.ddlMslChannel3.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannel3.TabIndex = 504;
+            this.ddlMslChannel3.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannel_SelectedIndexChanged);
+            // 
+            // ddlMslChannel2
+            // 
+            this.ddlMslChannel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannel2.FormattingEnabled = true;
+            this.ddlMslChannel2.Location = new System.Drawing.Point(61, 46);
+            this.ddlMslChannel2.Name = "ddlMslChannel2";
+            this.ddlMslChannel2.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannel2.TabIndex = 503;
+            this.ddlMslChannel2.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannel_SelectedIndexChanged);
+            // 
+            // ddlMslChannel1
+            // 
+            this.ddlMslChannel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannel1.FormattingEnabled = true;
+            this.ddlMslChannel1.Location = new System.Drawing.Point(61, 19);
+            this.ddlMslChannel1.Name = "ddlMslChannel1";
+            this.ddlMslChannel1.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannel1.TabIndex = 502;
+            this.ddlMslChannel1.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannel_SelectedIndexChanged);
+            // 
+            // label54
+            // 
+            this.label54.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(6, 157);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(49, 13);
+            this.label54.TabIndex = 507;
+            this.label54.Text = "Alternate";
+            // 
+            // label51
+            // 
+            this.label51.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(17, 130);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(38, 13);
+            this.label51.TabIndex = 506;
+            this.label51.Text = "Priority";
+            // 
+            // label50
+            // 
+            this.label50.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(42, 103);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(13, 13);
+            this.label50.TabIndex = 505;
+            this.label50.Text = "4";
+            // 
+            // label49
+            // 
+            this.label49.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(42, 76);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(13, 13);
+            this.label49.TabIndex = 504;
+            this.label49.Text = "3";
+            // 
+            // label48
+            // 
+            this.label48.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(42, 49);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(13, 13);
+            this.label48.TabIndex = 503;
+            this.label48.Text = "2";
+            // 
+            // label47
+            // 
+            this.label47.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(42, 22);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(13, 13);
+            this.label47.TabIndex = 502;
+            this.label47.Text = "1";
+            // 
             // toolStrip1
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
@@ -1608,6 +2349,7 @@
             this.btnXfer.Size = new System.Drawing.Size(36, 36);
             this.btnXfer.Text = "Transfer";
             this.btnXfer.ToolTipText = "Transfer";
+            this.btnXfer.Click += new System.EventHandler(this.btnXfer_Click);
             // 
             // toolStripSeparator1
             // 
@@ -1657,7 +2399,11 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormAH64DTC";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AH64D DTC";
             this.tabControl1.ResumeLayout(false);
             this.tabRadio.ResumeLayout(false);
@@ -1706,6 +2452,17 @@
             this.tabASE.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudManRange)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -1835,5 +2592,64 @@
         private System.Windows.Forms.TextBox tbOwnshipCallsign;
         private System.Windows.Forms.ComboBox ddlPresetPrimaryRadio;
         private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.ComboBox ddlXPNDRAntenna;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.ComboBox ddlMslChannel1;
+        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.ComboBox ddlRktQty;
+        private System.Windows.Forms.ComboBox ddlGunBurstLength;
+        private System.Windows.Forms.ComboBox ddlMslChannelAlternate;
+        private System.Windows.Forms.ComboBox ddlMslChannelPriority;
+        private System.Windows.Forms.ComboBox ddlMslChannel4;
+        private System.Windows.Forms.ComboBox ddlMslChannel3;
+        private System.Windows.Forms.ComboBox ddlMslChannel2;
+        private System.Windows.Forms.ComboBox ddlLaserLRST;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.Label label71;
+        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.Label label69;
+        private System.Windows.Forms.Label label68;
+        private System.Windows.Forms.Label label67;
+        private System.Windows.Forms.Label label66;
+        private System.Windows.Forms.Label label65;
+        private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.Label label63;
+        private System.Windows.Forms.Label label62;
+        private System.Windows.Forms.Label label61;
+        private System.Windows.Forms.Label label60;
+        private System.Windows.Forms.Label label59;
+        private System.Windows.Forms.Label label58;
+        private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.TextBox tb_laserCodeA;
+        private System.Windows.Forms.TextBox tb_laserCodeR;
+        private System.Windows.Forms.TextBox tb_laserCodeQ;
+        private System.Windows.Forms.TextBox tb_laserCodeP;
+        private System.Windows.Forms.TextBox tb_laserCodeN;
+        private System.Windows.Forms.TextBox tb_laserCodeM;
+        private System.Windows.Forms.TextBox tb_laserCodeL;
+        private System.Windows.Forms.TextBox tb_laserCodeK;
+        private System.Windows.Forms.TextBox tb_laserCodeJ;
+        private System.Windows.Forms.TextBox tb_laserCodeH;
+        private System.Windows.Forms.TextBox tb_laserCodeG;
+        private System.Windows.Forms.TextBox tb_laserCodeF;
+        private System.Windows.Forms.TextBox tb_laserCodeE;
+        private System.Windows.Forms.TextBox tb_laserCodeD;
+        private System.Windows.Forms.TextBox tb_laserCodeC;
+        private System.Windows.Forms.TextBox tb_laserCodeB;
+        private System.Windows.Forms.NumericUpDown nudManRange;
+        private System.Windows.Forms.CheckBox cbManRange;
     }
 }

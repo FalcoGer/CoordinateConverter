@@ -2813,7 +2813,10 @@ namespace CoordinateConverter
 
         private void Tsmi_AH64_DTC_Click(object sender, EventArgs e)
         {
-            new FormAH64DTC((selectedAircraft as AH64).IsPilot).ShowDialog();
+            var ah64DTCForm = new FormAH64DTC((selectedAircraft as AH64).IsPilot);
+            ah64DTCForm.ShowDialog();
+            pb_Transfer.Value = 0;
+            pb_Transfer.Maximum = ah64DTCForm.CommandsSentCount;
         }
     }
 }

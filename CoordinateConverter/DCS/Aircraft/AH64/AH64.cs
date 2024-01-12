@@ -31,19 +31,61 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <summary>
         /// Device codes
         /// </summary>
-        private enum EDeviceCode
+        public enum EDeviceCode
         {
+            /// <summary>
+            /// The pilot's hotas controls
+            /// </summary>
+            PLT_HOTAS = 23,
+            /// <summary>
+            /// The copilot's hotas controls
+            /// </summary>
+            CPG_HOTAS = 24,
+            /// <summary>
+            /// The pilot's Keyboard Unit
+            /// </summary>
             PLT_KU = 29,
+            /// <summary>
+            /// The copilot's Keyboard Unit
+            /// </summary>
             CPG_KU = 30,
+            /// <summary>
+            /// The pilot's left MFD
+            /// </summary>
+            PLT_LMFD = 42,
+            /// <summary>
+            /// The pilot's right MFD
+            /// </summary>
             PLT_RMFD = 43,
-            CPG_RMFD = 45
+            /// <summary>
+            /// The copilot's left MFD
+            /// </summary>
+            CPG_LMFD = 44,
+            /// <summary>
+            /// The copilot's right MFD
+            /// </summary>
+            CPG_RMFD = 45,
+            /// <summary>
+            /// The pilots up front display
+            /// </summary>
+            PLT_EUFD = 48,
+            /// <summary>
+            /// The copilots up front display
+            /// </summary>
+            CPG_EUFD = 49,
+            /// <summary>
+            /// The tedac
+            /// </summary>
+            TEDAC = 51
+
         }
 
         /// <summary>
         /// Key codes
         /// </summary>
-        private enum EKeyCode : int
+        public enum EKeyCode : int
         {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             KU_ENT = 3006,
             KU_CLR = 3001,
             KU_SPC = 3003,
@@ -88,15 +130,278 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             KU_X = 3030,
             KU_Y = 3031,
             KU_Z = 3032,
-            RMFD_TSD = 3029,
-            RMFD_B6 = 3013, // POINT page
-            RMFD_L1 = 3024, // IDENT
-            RMFD_L2 = 3023, // point ADD
-            RMFD_L3 = 3022, // WP (TODO: TEST)
-            RMFD_L4 = 3021, // HZ (TODO: TEST)
-            RMFD_L5 = 3020, // CM (TODO: TEST)
-            RMFD_L6 = 3019, // TG (TODO: TEST)
 
+            // MFD
+            MFD_T1 = 3001,
+            MFD_T2 = 3002,
+            MFD_T3 = 3003,
+            MFD_T4 = 3004,
+            MFD_T5 = 3005,
+            MFD_T6 = 3006,
+
+            MFD_R1 = 3007,
+            MFD_R2 = 3008,
+            MFD_R3 = 3009,
+            MFD_R4 = 3010,
+            MFD_R5 = 3011,
+            MFD_R6 = 3012,
+
+            MFD_B6 = 3013,
+            MFD_B5 = 3014,
+            MFD_B4 = 3015,
+            MFD_B3 = 3016,
+            MFD_B2 = 3017,
+            MFD_B1_M = 3018,
+
+            MFD_L6 = 3019,
+            MFD_L5 = 3020,
+            MFD_L4 = 3021,
+            MFD_L3 = 3022,
+            MFD_L2 = 3023,
+            MFD_L1 = 3024,
+
+            MFD_ASTERISK = 3025,
+            MFD_VID = 3026,
+            MFD_COM = 3027,
+            MFD_AC = 3028,
+            MFD_TSD = 3029,
+            MFD_WPN = 3030,
+            MFD_FCR = 3031,
+
+            MFD_BRT_KNOB = 3032,
+            MFD_VID_KNOB = 3033,
+            MFD_MODE_KNOB = 3034,
+
+            // Input commands
+            BRT_KNOB_ITER = 3035,
+            BRT_KNOB_AXIS = 3036,
+            VID_KNOB_ITER = 3037,
+            VID_KNOB_AXIS = 3038,
+            MODE_KNOB_ITER = 3039,
+
+            // EUFD
+            EUFD_WCA_UP = 3001,
+            EUFD_WCA_DOWN = 3002,
+            EUFD_IDM_UP = 3003,
+            EUFD_IDM_DOWN = 3004,
+            EUFD_RTS_UP = 3005,
+            EUFD_RTS_DOWN = 3006,
+            EUFD_Preset = 3007,
+            EUFD_Enter = 3008,
+            EUFD_Stopwatch = 3009,
+            EUFD_Swap = 3010,
+            EUFD_Brightness_Knob = 3011,
+
+            // Cyclic
+            CYCLIC_TRIGGER_GUARD = 3001,
+            CYCLIC_TRIGGER_1ST_DETENT,
+            CYCLIC_TRIGGER_2ND_DETENT,
+            CYCLIC_TRIM_HOLD_SW_UP,
+            CYCLIC_TRIM_HOLD_SW_DOWN,
+            CYCLIC_TRIM_HOLD_SW_LEFT,
+            CYCLIC_TRIM_HOLD_SW_RIGHT,
+            CYCLIC_WEAPONS_ACTION_SW_UP,
+            CYCLIC_WEAPONS_ACTION_SW_DOWN,
+            CYCLIC_WEAPONS_ACTION_SW_LEFT,
+            CYCLIC_WEAPONS_ACTION_SW_RIGHT,
+            CYCLIC_SYMBOLOGY_SELECT_SW_UP,
+            CYCLIC_SYMBOLOGY_SELECT_SW_DOWN,
+            CYCLIC_SYMBOLOGY_SELECT_SW_DEPRESS,
+            CYCLIC_CMDS_SW_FWD,
+            CYCLIC_CMDS_SW_AFT,
+            CYCLIC_RTS_SW_LEFT,
+            CYCLIC_RTS_SW_RIGHT,
+            CYCLIC_RTS_SW_DEPRESS,
+            CYCLIC_FMC_RELEASE_SW,
+            CYCLIC_CHAFF_DISPENCE_BTN,
+            CYCLIC_FLARE_DISPENCE_BTN,
+            CYCLIC_ATA_CAGE_UNCAGE_BTN,
+            // Collective mission grip
+            MISSION_FCR_SCAN_SIZE_SW_UP,
+            MISSION_FCR_SCAN_SIZE_SW_DOWN,
+            MISSION_FCR_SCAN_SIZE_SW_LEFT,
+            MISSION_FCR_SCAN_SIZE_SW_RIGHT,
+            MISSION_SIGHT_SELECT_SW_UP,
+            MISSION_SIGHT_SELECT_SW_DOWN,
+            MISSION_SIGHT_SELECT_SW_LEFT,
+            MISSION_SIGHT_SELECT_SW_RIGHT,
+            MISSION_FCR_MODE_SW_UP,
+            MISSION_FCR_MODE_SW_DOWN,
+            MISSION_FCR_MODE_SW_LEFT,
+            MISSION_FCR_MODE_SW_RIGHT,
+            MISSION_CURSOR_UP,
+            MISSION_CURSOR_DOWN,
+            MISSION_CURSOR_LEFT,
+            MISSION_CURSOR_RIGHT,
+            MISSION_CURSOR_ENTER,
+            MISSION_ALTERNATE_CURSOR_ENTER,
+            MISSION_CURSOR_AXIS_X,
+            MISSION_CURSOR_AXIS_Y,
+
+            MISSION_CURSOR_DISPLAY_SELECT_BTN,
+            MISSION_FCR_SCAN_SW_SINGLE,
+            MISSION_FCR_SCAN_SW_CONTINUOUS,
+            MISSION_CUED_SEARCH_SW,
+            MISSION_MISSILE_ADVANCE_SW,
+
+            // Collective Flight Grip
+            FLIGHT_EMERGENCY_JETTISON_SW_GUARD,
+            FLIGHT_EMERGENCY_JETTISON_SW,
+
+            FLIGHT_NVS_SELECT_SW_TADS,
+            FLIGHT_NVS_SELECT_SW_PNVS,
+            FLIGHT_BORESIGHT_POLARITY_SW_BS,
+            FLIGHT_BORESIGHT_POLARITY_SW_PLRT,
+
+            FLIGHT_STABILATOR_CONTROL_SW_NU,	    // NOSE UP
+            FLIGHT_STABILATOR_CONTROL_SW_ND,	    // NOSE DOWN
+            FLIGHT_STABILATOR_CONTROL_SW_DEPRESS,	// STABILATOR AUTO MODE
+
+            FLIGHT_SEARCHLIGHT_SW_UP,	            // ON/OFF
+            FLIGHT_SEARCHLIGHT_SW_DOWN,	        // STOW/OFF
+
+            FLIGHT_SEARCHLIGHT_POSITION_SW_UP,	    // EXT
+            FLIGHT_SEARCHLIGHT_POSITION_SW_DOWN,	// RET
+            FLIGHT_SEARCHLIGHT_POSITION_SW_LEFT,	// L
+            FLIGHT_SEARCHLIGHT_POSITION_SW_RIGHT,	// R
+
+            FLIGHT_CHOP_BTN_GUARD,
+            FLIGHT_CHOP_BTN,
+
+            FLIGHT_TAIL_WHEEL_BTN,	            // LOCK/UNLOCK
+
+            FLIGHT_BUCS_TRIGGER_GUARD,	        // only in CPG
+            FLIGHT_BUCS_TRIGGER,                    // only in CPG
+
+            // TEDAC / TDU
+            // Display Unit
+            TDU_MODE_KNOB = 3001,
+            TDU_GAIN_KNOB,
+            TDU_LEV_KNOB,
+            TDU_ASTERISK_BTN,
+            // Video Select Buttons
+            TDU_VIDEO_SELECT_TAD_BTN,
+            TDU_VIDEO_SELECT_FCR_BTN,
+            TDU_VIDEO_SELECT_PNV_BTN,
+            TDU_VIDEO_SELECT_GS_BTN,
+            // Bezel Controls
+            TDU_SYM_INC,
+            TDU_SYM_DEC,
+            TDU_BRT_INC,
+            TDU_BRT_DEC,
+            TDU_CON_INC,
+            TDU_CON_DEC,
+            TDU_AZ_LEFT,
+            TDU_AZ_RIGHT,
+            TDU_EL_UP,
+            TDU_EL_DOWN,
+            TDU_RF_UP,
+            TDU_RF_DOWN,
+            // Bottom Buttons
+            TDU_B1, // AZ/EL
+            TDU_B2, // ACM
+            TDU_B3, // FREEZE
+            TDU_B4, // FILTER
+
+            // input commands
+            TDU_MODE_KNOB_ITER,
+            TDU_GAIN_KNOB_ITER,
+            TDU_GAIN_KNOB_AXIS,
+            TDU_LEV_KNOB_ITER,
+            TDU_LEV_KNOB_AXIS,
+
+            // Left Hand Grip ---------------------------------
+            LHG_IAT_OFS_SW_IAT, // Image Auto Track / Offset
+            LHG_IAT_OFS_SW_OFS, // Image Auto Track / Offset
+
+            LHG_TADS_FOV_SW_Z,  // Zoom
+            LHG_TADS_FOV_SW_M,  // Medium
+            LHG_TADS_FOV_SW_N,  // Narrow
+            LHG_TADS_FOV_SW_W,  // Wide
+
+            LHG_TADS_SENSOR_SELECT_SW_FLIR,
+            LHG_TADS_SENSOR_SELECT_SW_TV,
+            LHG_TADS_SENSOR_SELECT_SW_DVO,  // ORT only
+
+            LHG_STORE_UPDT_SW_STORE,
+            LHG_STORE_UPDT_SW_UPDT,
+
+            LHG_FCR_SCAN_SW_S,  // single (as in collective mission grip)
+            LHG_FCR_SCAN_SW_C,  // continuous (as in collective mission grip)
+
+            LHG_CUED_SEARCH_BTN,    // (as in collective mission grip)
+            LHG_LMC_BTN,    // Linear Motion Compensation
+
+            LHG_FCR_MODE_SW_UP, // (GTM) Ground Targeting Mode		(as in collective mission grip)
+            LHG_FCR_MODE_SW_DOWN,   // (ATM) Air Targeting Mode			(as in collective mission grip)
+            LHG_FCR_MODE_SW_LEFT,   // (TPM) Terrain Profile Mode		(as in collective mission grip)
+            LHG_FCR_MODE_SW_RIGHT,  // (RMAP) Radar MAP					(as in collective mission grip)
+
+            LHG_WEAPONS_ACTION_SW_UP,   // (G) GUN				(as in collective mission grip)
+            LHG_WEAPONS_ACTION_SW_DOWN, // (A) AIR-TO-AIR		(as in collective mission grip)
+            LHG_WEAPONS_ACTION_SW_LEFT, // (R) ROCKET			(as in collective mission grip)
+            LHG_WEAPONS_ACTION_SW_RIGHT,    // (M) MISSILE			(as in collective mission grip)
+
+            LHG_CURSOR_UP,
+            LHG_CURSOR_DOWN,
+            LHG_CURSOR_LEFT,
+            LHG_CURSOR_RIGHT,
+            LHG_CURSOR_ENTER,
+            LHG_CURSOR_AXIS_X,
+            LHG_CURSOR_AXIS_Y,
+
+            LHG_LR_BTN, // (L/R Switch) Cursor Display Select Btn
+            LHG_WEAPON_TRIGGER_1ST_DETENT,
+            LHG_WEAPON_TRIGGER_2ND_DETENT,
+
+            // Right Hand Grip --------------------------------
+            RHG_SIGHT_SELECT_SW_UP, // (HMD)		(as in collective mission grip)
+            RHG_SIGHT_SELECT_SW_DOWN,   // (LINK)		(as in collective mission grip)
+            RHG_SIGHT_SELECT_SW_LEFT,   // (FCR)		(as in collective mission grip)
+            RHG_SIGHT_SELECT_SW_RIGHT,  // (TADS)		(as in collective mission grip)
+
+            RHG_LT_SW_A,    // Automatic	Laser Tracker Switch
+            RHG_LT_SW_O,    // Off
+            RHG_LT_SW_M,    // Manual
+
+            RHG_FCR_SCAN_SIZE_SW_UP,    // (Z) ZOOM
+            RHG_FCR_SCAN_SIZE_SW_DOWN,  // (M) MEDIUM
+            RHG_FCR_SCAN_SIZE_SW_LEFT,  // (N) NARROW
+            RHG_FCR_SCAN_SIZE_SW_RIGHT, // (W) WIDE
+
+            RHG_C_SCOPE_SW,
+            RHG_FLIR_PLRT_BTN,
+            RHG_SIGHT_SLAVE_BTN,
+            RHG_DISPLAY_ZOOM_BTN,
+            RHG_LRFD_TRIGGER,
+
+            RHG_SPARE_SW_FWD,   // MTADS only, MTT Switch (Multi Target Tracker, 3-pos, rocker)
+            RHG_SPARE_SW_AFT,   // MTADS only, MTT Switch (Multi Target Tracker, 3-pos, rocker)
+
+            RHG_HDD_SW, // HDD/HOD
+            RHG_ENTER_BTN,
+
+            RHG_MAN_TRK_UP, // Sensor (Sight) Manual Tracker
+            RHG_MAN_TRK_DOWN,
+            RHG_MAN_TRK_LEFT,
+            RHG_MAN_TRK_RIGHT,
+            RHG_MAN_TRK_AXIS_X,
+            RHG_MAN_TRK_AXIS_Y,
+
+            RHG_IAT_POLARITY_W, // White
+            RHG_IAT_POLARITY_A, // Auto
+            RHG_IAT_POLARITY_B, // Black
+
+            // additional commands
+            LHG_TADS_SENSOR_SELECT_SW,  // for clickability
+            RHG_LT_SW,  // for clickability
+            RHG_IAT_POLARITY_SW,    // for clickability
+
+            RHG_MAN_TRK_DOWN_LEFT,  // for input
+            RHG_MAN_TRK_DOWN_RIGHT, // for input
+            RHG_MAN_TRK_UP_LEFT,    // for input
+            RHG_MAN_TRK_UP_RIGHT,	// for input
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         }
 
 
@@ -112,7 +417,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         {
             CoordinateDataEntry coordinate = item as CoordinateDataEntry;
             AH64SpecificData extraData = null;
-            EKeyCode keyMFDPointType = EKeyCode.RMFD_L3; // assume waypoint
+            EKeyCode keyMFDPointType = EKeyCode.MFD_L3; // assume waypoint
             string ident = "\n"; // assume default ident
             if (coordinate.AircraftSpecificData.ContainsKey(typeof(AH64)) && coordinate.AircraftSpecificData[typeof(AH64)] != null)
             {
@@ -122,16 +427,16 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 switch (extraData.PointType)
                 {
                     case EPointType.Waypoint:
-                        keyMFDPointType = EKeyCode.RMFD_L3;
+                        keyMFDPointType = EKeyCode.MFD_L3;
                         break;
                     case EPointType.Hazard:
-                        keyMFDPointType = EKeyCode.RMFD_L4;
+                        keyMFDPointType = EKeyCode.MFD_L4;
                         break;
                     case EPointType.ControlMeasure:
-                        keyMFDPointType = EKeyCode.RMFD_L5;
+                        keyMFDPointType = EKeyCode.MFD_L5;
                         break;
                     case EPointType.Target:
-                        keyMFDPointType = EKeyCode.RMFD_L6;
+                        keyMFDPointType = EKeyCode.MFD_L6;
                         break;
                     default:
                         throw new ArgumentException("Bad Point Type");
@@ -142,29 +447,29 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             List<DCSCommand> commands = new List<DCSCommand>
             {
                 // press ADD
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.RMFD_L2),
+                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_L2),
                 // press the waypoint type button
                 extraData == null ? null : new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)keyMFDPointType),
                 // press ident
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.RMFD_L1)
+                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_L1)
             };
             // enter ident
-            commands.AddRange(GetCommandsForKUText(ident, false));
+            commands.AddRange(GetCommandsForKUText(ident, false, IsPilot));
             // enter free text (max 3 chars)
-            commands.AddRange(GetCommandsForKUText((coordinate.Name.Length <= 3 ? coordinate.Name : coordinate.Name.Substring(0, 3)) + '\n', false));
+            commands.AddRange(GetCommandsForKUText((coordinate.Name.Length <= 3 ? coordinate.Name : coordinate.Name.Substring(0, 3)) + '\n', false, IsPilot));
             // enter MGRS coordinates
             // remove spaces and append enter
             string mgrsString = string.Join(string.Empty ,coordinate.GetCoordinateStrMGRS(4).Where(ch => ch != ' ')) + '\n';
-            commands.AddRange(GetCommandsForKUText(mgrsString, true));
+            commands.AddRange(GetCommandsForKUText(mgrsString, true, IsPilot));
 
             // enter altitude
             if (coordinate.AltitudeInFt == 0 && coordinate.AltitudeIsAGL)
             {
-                commands.AddRange(GetCommandsForKUText("\n", false));
+                commands.AddRange(GetCommandsForKUText("\n", false, IsPilot));
             }
             else
             {
-                commands.AddRange(GetCommandsForKUText(((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString() + "\n", true));
+                commands.AddRange(GetCommandsForKUText(((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString() + "\n", true, IsPilot));
             }
             return commands;
         }
@@ -211,8 +516,9 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// </summary>
         /// <param name="text">The text.</param>
         /// <param name="clearFirst">if set to <c>true</c> the KU input is cleared first by use of the CLR button.</param>
+        /// <param name="IsPilot">if set to <c>true</c> will use the pilot's keyboard unit, otherwise the CPGs</param>
         /// <returns>The list of commands that is required to enter the text into the KU</returns>
-        private List<DCSCommand> GetCommandsForKUText(string text, bool clearFirst)
+        public static List<DCSCommand> GetCommandsForKUText(string text, bool clearFirst, bool IsPilot)
         {
             List<DCSCommand> commands = new List<DCSCommand>();
             // DebugCommandList commands = new DebugCommandList();
@@ -290,7 +596,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             return new List<DCSCommand>()
             {
                 // press TSD to reset the screen
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.RMFD_TSD)
+                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_TSD)
             };
         }
 
@@ -305,9 +611,9 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             return new List<DCSCommand>
             {
                 // press TSD
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.RMFD_TSD),
+                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_TSD),
                 // go to point page
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.RMFD_B6),
+                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_B6),
                 // clear KU
                 new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_KU : EDeviceCode.CPG_KU), (int)EKeyCode.KU_CLR),
             };
@@ -360,14 +666,14 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
 
             for (int pointIdx = startIdx; pointIdx <= endIdx ; pointIdx++)
             {
-                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_TSD)); // Reset to TSD after every point, to avoid weirdness.
-                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_B6)); // Point
-                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_L1)); // Point >
-                commands.AddRange(GetCommandsForKUText(pointType.ToString().First() + pointIdx.ToString() + "\n", true)); // Enter point identifier
-                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_L4)); // Del
-                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_L3)); // Yes
+                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_TSD)); // Reset to TSD after every point, to avoid weirdness.
+                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_B6)); // Point
+                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L1)); // Point >
+                commands.AddRange(GetCommandsForKUText(pointType.ToString().First() + pointIdx.ToString() + "\n", true, IsPilot)); // Enter point identifier
+                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L4)); // Del
+                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L3)); // Yes
             }
-            commands.Add(new DCSCommand(deviceId, (int)EKeyCode.RMFD_TSD)); // reset to TSD
+            commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_TSD)); // reset to TSD
             DCSMessage message = new DCSMessage() { Commands = commands };
             _ = DCSConnection.SendRequest(message);
             return commands.Count;

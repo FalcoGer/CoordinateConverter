@@ -68,6 +68,7 @@
     <Compile Include="DCS\Aircraft\AH64\AH64ADFData.cs" />
     <Compile Include="DCS\Aircraft\AH64\AH64DataLinkMember.cs" />
     <Compile Include="DCS\Aircraft\AH64\AH64DTCData.cs" />
+    <Compile Include="DCS\Aircraft\AH64\AH64LaserCode.cs" />
     <Compile Include="DCS\Aircraft\AH64\AH64RadioCNVSetting.cs" />
     <Compile Include="DCS\Aircraft\AH64\AH64RadioPresetData.cs" />
     <Compile Include="DCS\Aircraft\AV8B.cs" />
