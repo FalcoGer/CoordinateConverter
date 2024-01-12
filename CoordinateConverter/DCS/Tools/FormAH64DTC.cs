@@ -1059,7 +1059,7 @@ namespace CoordinateConverter.DCS.Tools
             TextBox sender = objsender as TextBox;
             string text = sender.Text.ToUpper();
             toolTip.Hide(this);
-            tbOwnshipCallsign.BackColor = default;
+            sender.BackColor = default;
 
             if (string.IsNullOrEmpty(text))
             {
@@ -1091,7 +1091,7 @@ namespace CoordinateConverter.DCS.Tools
             TextBox sender = objsender as TextBox;
             string text = sender.Text.ToUpper();
             toolTip.Hide(this);
-            tbOwnshipCallsign.BackColor = default;
+            sender.BackColor = default;
 
             if (string.IsNullOrEmpty(text))
             {
