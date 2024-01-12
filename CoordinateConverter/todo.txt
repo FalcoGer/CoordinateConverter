@@ -91,6 +91,7 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
         - Ask user for seat
     - JF17
         - Check of N/S and E/W is automatically set and what the source of that information is
+    - C-130 Mod Waypoint support
 
 
 Allow users to do tedious setups, perhaps save a sequence of commands to be played back later (low priority)
