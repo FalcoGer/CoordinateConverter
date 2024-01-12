@@ -59,6 +59,40 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         }
 
         /// <summary>
+        /// Gets the mfd key to press for the given preset.
+        /// </summary>
+        /// <param name="preset">The preset.</param>
+        /// <returns>the mfd key to press for the given preset</returns>
+        /// <exception cref="System.Exception">Logic Error</exception>
+        public static int GetKeyForPreset(AH64DTCData.EPreset preset)
+        {
+            switch (preset)
+            {
+                case AH64DTCData.EPreset.Preset1:
+                    return (int)AH64.EKeyCode.MFD_L1;
+                case AH64DTCData.EPreset.Preset2:
+                    return (int)AH64.EKeyCode.MFD_L2;
+                case AH64DTCData.EPreset.Preset3:
+                    return (int)AH64.EKeyCode.MFD_L3;
+                case AH64DTCData.EPreset.Preset4:
+                    return (int)AH64.EKeyCode.MFD_L4;
+                case AH64DTCData.EPreset.Preset5:
+                    return (int)AH64.EKeyCode.MFD_L5;
+                case AH64DTCData.EPreset.Preset6:
+                    return (int)AH64.EKeyCode.MFD_R1;
+                case AH64DTCData.EPreset.Preset7:
+                    return (int)AH64.EKeyCode.MFD_R2;
+                case AH64DTCData.EPreset.Preset8:
+                    return (int)AH64.EKeyCode.MFD_R3;
+                case AH64DTCData.EPreset.Preset9:
+                    return (int)AH64.EKeyCode.MFD_R4;
+                case AH64DTCData.EPreset.Preset10:
+                    return (int)AH64.EKeyCode.MFD_R5;
+            }
+            throw new Exception("Logic Error");
+        }
+
+        /// <summary>
         /// Generates the commands to be sent to DCS for this preset to be set correctly.
         /// </summary>
         /// <param name="preset">The number of this preset</param>
@@ -78,39 +112,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_COM));
 
             // Select correct preset
-            switch (preset)
-            {
-                case AH64DTCData.EPreset.Preset1:
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L1));
-                    break;
-                case AH64DTCData.EPreset.Preset2:
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L2));
-                    break;
-                case AH64DTCData.EPreset.Preset3:
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L3));
-                    break;
-                case AH64DTCData.EPreset.Preset4:
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L4));
-                    break;
-                case AH64DTCData.EPreset.Preset5:
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L5));
-                    break;
-                case AH64DTCData.EPreset.Preset6:
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R1));
-                    break;
-                case AH64DTCData.EPreset.Preset7:
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R2));
-                    break;
-                case AH64DTCData.EPreset.Preset8:
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R3));
-                    break;
-                case AH64DTCData.EPreset.Preset9:
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R4));
-                    break;
-                case AH64DTCData.EPreset.Preset10:
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R5));
-                    break;
-            }
+            commands.Add(new DCSCommand(mfd, GetKeyForPreset(preset)));
 
             // Preset Edit
             commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B6));

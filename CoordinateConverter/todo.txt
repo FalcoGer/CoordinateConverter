@@ -63,7 +63,6 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
                     UHF radio: 225.000 - 399.975 MHz, in 0.025 increments
                     FM1/FM2 radios: 30.000 - 87.975 MHz, in 0.025 increments 
                     HF 2.0000 - 29.9999 MHz, in 0.0001 increments
-                - Tune (using com page)
             - ADF Presets
                 - Valid range 100 - 2199.5 kHz
                 - Valid ID 1-3 alpha characters (no numbers, no other stuff)

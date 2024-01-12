@@ -1,5 +1,4 @@
-﻿using CoordinateConverter.DCS.Communication;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +48,13 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 AH64RadioPresetData presetData = new AH64RadioPresetData();
                 presetDataDictionary.Add(preset, presetData);
             }
+
+            var ps1 = presetDataDictionary[EPreset.Preset1];
+            vhfManualFrequency = new RadioFrequency(ps1.VHFFrequency, ps1.VHFFrequencyMinimum, ps1.VHFFrequencyMaximum, ps1.VHFFrequencyIncrement);
+            uhfManualFrequency = new RadioFrequency(ps1.UHFFrequency, ps1.UHFFrequencyMinimum, ps1.UHFFrequencyMaximum, ps1.UHFFrequencyIncrement);
+            fm1ManualFrequency = new RadioFrequency(ps1.FM1Frequency, ps1.FM1FrequencyMinimum, ps1.FM1FrequencyMaximum, ps1.FM1FrequencyIncrement);
+            fm2ManualFrequency = new RadioFrequency(ps1.FM2Frequency, ps1.FM2FrequencyMinimum, ps1.FM2FrequencyMaximum, ps1.FM2FrequencyIncrement);
+            hfrxManualFrequency = new RadioFrequency(ps1.HFRXFrequency, ps1.HFRXFrequencyMinimum, ps1.HFRXFrequencyMaximum, ps1.HFRXFrequencyIncrement);
         }
 
         /// <summary>
@@ -135,6 +141,241 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         public void SetAH64RadioPresetData(EPreset preset, AH64RadioPresetData presetData)
         {
             presetDataDictionary[preset] = presetData;
+        }
+
+        #endregion
+
+        #region Tune        
+        /// <summary>
+        /// A Radio Tune Setting
+        /// </summary>
+        public enum ETuneSetting
+        {
+            /// <summary>
+            /// Don't tune the radio
+            /// </summary>
+            No_Change,
+            /// <summary>
+            /// Tune a radio to a preset
+            /// </summary>
+            Preset,
+            /// <summary>
+            /// Tune a radio to a manual frequency
+            /// </summary>
+            Manual
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether any radio is to be tuned.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if any radio is to be tuned; otherwise, <c>false</c>.
+        /// </value>
+        [JsonIgnore]
+        public bool ContainsTuningData
+        {
+            get
+            {
+                return VHFTuneSetting != ETuneSetting.No_Change
+                    || UHFTuneSetting != ETuneSetting.No_Change
+                    || FM1TuneSetting != ETuneSetting.No_Change
+                    || FM2TuneSetting != ETuneSetting.No_Change
+                    || HFTuneSetting != ETuneSetting.No_Change;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether any one radio will be tuned manually.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if any one radio will be tuned manually; otherwise, <c>false</c>.
+        /// </value>
+        [JsonIgnore]
+        public bool ContainsManualTune
+        {
+            get
+            {
+                return VHFTuneSetting == ETuneSetting.Manual
+                    || UHFTuneSetting == ETuneSetting.Manual
+                    || FM1TuneSetting == ETuneSetting.Manual
+                    || FM2TuneSetting == ETuneSetting.Manual
+                    || HFTuneSetting == ETuneSetting.Manual;
+            }
+        }
+
+        // VHF
+
+        /// <summary>
+        /// Gets or sets the VHF tune setting.
+        /// </summary>
+        /// <value>
+        /// The VHF tune setting.
+        /// </value>
+        public ETuneSetting VHFTuneSetting { get; set; } = ETuneSetting.No_Change;
+        /// <summary>
+        /// Gets or sets the VHF tune preset.
+        /// </summary>
+        /// <value>
+        /// The VHF tune preset.
+        /// </value>
+        public EPreset VHFTunePreset { get; set; } = EPreset.Preset1;
+        private RadioFrequency vhfManualFrequency = null;
+        /// <summary>
+        /// Gets or sets the VHF manual frequency.
+        /// </summary>
+        /// <value>
+        /// The VHF manual frequency.
+        /// </value>
+        public decimal VHFManualFrequency
+        {
+            get
+            {
+                return vhfManualFrequency.Frequency;
+            }
+            set
+            {
+                vhfManualFrequency.Frequency = value;
+            }
+        }
+
+        // UHF
+
+        /// <summary>
+        /// Gets or sets the uhf tune setting.
+        /// </summary>
+        /// <value>
+        /// The uhf tune setting.
+        /// </value>
+        public ETuneSetting UHFTuneSetting { get; set; } = ETuneSetting.No_Change;
+        /// <summary>
+        /// Gets or sets the uhf tune preset.
+        /// </summary>
+        /// <value>
+        /// The uhf tune preset.
+        /// </value>
+        public EPreset UHFTunePreset { get; set; } = EPreset.Preset2;
+        private RadioFrequency uhfManualFrequency = null;
+        /// <summary>
+        /// Gets or sets the uhf manual frequency.
+        /// </summary>
+        /// <value>
+        /// The uhf manual frequency.
+        /// </value>
+        public decimal UHFManualFrequency
+        {
+            get
+            {
+                return uhfManualFrequency.Frequency;
+            }
+            set
+            {
+                uhfManualFrequency.Frequency = value;
+            }
+        }
+
+        // FM 1
+
+        /// <summary>
+        /// Gets or sets the f m1 tune setting.
+        /// </summary>
+        /// <value>
+        /// The f m1 tune setting.
+        /// </value>
+        public ETuneSetting FM1TuneSetting { get; set; } = ETuneSetting.No_Change;
+        /// <summary>
+        /// Gets or sets the fm 1 tune preset.
+        /// </summary>
+        /// <value>
+        /// The fm 1 tune preset.
+        /// </value>
+        public EPreset FM1TunePreset { get; set; } = EPreset.Preset3;
+        private RadioFrequency fm1ManualFrequency = null;
+        /// <summary>
+        /// Gets or sets the f m1 manual frequency.
+        /// </summary>
+        /// <value>
+        /// The f m1 manual frequency.
+        /// </value>
+        public decimal FM1ManualFrequency
+        {
+            get
+            {
+                return fm1ManualFrequency.Frequency;
+            }
+            set
+            {
+                fm1ManualFrequency.Frequency = value;
+            }
+        }
+
+        // FM 2
+
+        /// <summary>
+        /// Gets or sets the fm 2 tune setting.
+        /// </summary>
+        /// <value>
+        /// The fm 2 tune setting.
+        /// </value>
+        public ETuneSetting FM2TuneSetting { get; set; } = ETuneSetting.No_Change;
+        /// <summary>
+        /// Gets or sets the fm 2 tune preset.
+        /// </summary>
+        /// <value>
+        /// The fm 2 tune preset.
+        /// </value>
+        public EPreset FM2TunePreset { get; set; } = EPreset.Preset4;
+        private RadioFrequency fm2ManualFrequency = null;
+        /// <summary>
+        /// Gets or sets the fm 2 manual frequency.
+        /// </summary>
+        /// <value>
+        /// The fm 2 manual frequency.
+        /// </value>
+        public decimal FM2ManualFrequency
+        {
+            get
+            {
+                return fm2ManualFrequency.Frequency;
+            }
+            set
+            {
+                fm2ManualFrequency.Frequency = value;
+            }
+        }
+
+        // HF
+
+        /// <summary>
+        /// Gets or sets the hf tune setting.
+        /// </summary>
+        /// <value>
+        /// The hf tune setting.
+        /// </value>
+        public ETuneSetting HFTuneSetting { get; set; } = ETuneSetting.No_Change;
+        /// <summary>
+        /// Gets or sets the hf tune preset.
+        /// </summary>
+        /// <value>
+        /// The hf tune preset.
+        /// </value>
+        public EPreset HFTunePreset { get; set; } = EPreset.Preset5;
+        private RadioFrequency hfrxManualFrequency = null;
+        /// <summary>
+        /// Gets or sets the HF RX manual frequency.
+        /// </summary>
+        /// <value>
+        /// The HF RX manual frequency.
+        /// </value>
+        public decimal HFRXManualFrequency
+        {
+            get
+            {
+                return hfrxManualFrequency.Frequency;
+            }
+            set
+            {
+                hfrxManualFrequency.Frequency = value;
+            }
         }
 
         #endregion
@@ -511,7 +752,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         protected override List<DCSCommand> GetActions(object item)
         {
             var commands = new List<DCSCommand>();
-            // var commands = new DebugCommandList();
+            // var commands = new Communication.DebugCommandList();
 
             if (ContainsTransponderData)
             {
@@ -737,6 +978,84 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             foreach (var kvp in presetDataDictionary)
             {
                 commands.AddRange(kvp.Value.GenerateCommands(kvp.Key, IsPilot));
+            }
+
+            // Tune
+            if (ContainsTuningData)
+            {
+                commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_COM));
+                // Presets first
+                int presetKey = -1;
+                if (VHFTuneSetting == ETuneSetting.Preset)
+                {
+                    presetKey = AH64RadioPresetData.GetKeyForPreset(VHFTunePreset);
+                    commands.Add(new DCSCommand(DeviceRMFD, presetKey));
+                    commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_T1));
+                    commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_B6));
+                    commands.Add(new DCSCommand(DeviceRMFD, presetKey));
+                }
+                if (UHFTuneSetting == ETuneSetting.Preset)
+                {
+                    presetKey = AH64RadioPresetData.GetKeyForPreset(UHFTunePreset);
+                    commands.Add(new DCSCommand(DeviceRMFD, presetKey));
+                    commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_T2));
+                    commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_B6));
+                    commands.Add(new DCSCommand(DeviceRMFD, presetKey));
+                }
+                if (FM1TuneSetting == ETuneSetting.Preset)
+                {
+                    presetKey = AH64RadioPresetData.GetKeyForPreset(FM1TunePreset);
+                    commands.Add(new DCSCommand(DeviceRMFD, presetKey));
+                    commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_T3));
+                    commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_B6));
+                    commands.Add(new DCSCommand(DeviceRMFD, presetKey));
+                }
+                if (FM2TuneSetting == ETuneSetting.Preset)
+                {
+                    presetKey = AH64RadioPresetData.GetKeyForPreset(FM2TunePreset);
+                    commands.Add(new DCSCommand(DeviceRMFD, presetKey));
+                    commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_T4));
+                    commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_B6));
+                    commands.Add(new DCSCommand(DeviceRMFD, presetKey));
+                }
+                if (HFTuneSetting == ETuneSetting.Preset)
+                {
+                    presetKey = AH64RadioPresetData.GetKeyForPreset(HFTunePreset);
+                    commands.Add(new DCSCommand(DeviceRMFD, presetKey));
+                    commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_T5));
+                    commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_B6));
+                    commands.Add(new DCSCommand(DeviceRMFD, presetKey));
+                }
+
+                if (ContainsManualTune)
+                {
+                    commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_B2));
+                    if (VHFTuneSetting == ETuneSetting.Manual)
+                    {
+                        commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_L1));
+                        commands.AddRange(AH64.GetCommandsForKUText(VHFManualFrequency.ToString() + '\n', true, IsPilot));
+                    }
+                    if (UHFTuneSetting == ETuneSetting.Manual)
+                    {
+                        commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_L2));
+                        commands.AddRange(AH64.GetCommandsForKUText(UHFManualFrequency.ToString() + '\n', true, IsPilot));
+                    }
+                    if (FM1TuneSetting == ETuneSetting.Manual)
+                    {
+                        commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_L3));
+                        commands.AddRange(AH64.GetCommandsForKUText(FM1ManualFrequency.ToString() + '\n', true, IsPilot));
+                    }
+                    if (FM2TuneSetting == ETuneSetting.Manual)
+                    {
+                        commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_L4));
+                        commands.AddRange(AH64.GetCommandsForKUText(FM2ManualFrequency.ToString() + '\n', true, IsPilot));
+                    }
+                    if (HFTuneSetting == ETuneSetting.Manual)
+                    {
+                        commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_R1));
+                        commands.AddRange(AH64.GetCommandsForKUText(HFRXManualFrequency.ToString() + '\n', true, IsPilot));
+                    }
+                }
             }
 
             // WPN

@@ -110,6 +110,37 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.ddlRadioPresetSelection = new System.Windows.Forms.ComboBox();
+            this.tabTune = new System.Windows.Forms.TabPage();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.nudTuneHFRXManualFreq = new System.Windows.Forms.NumericUpDown();
+            this.ddlTuneHFPreset = new System.Windows.Forms.ComboBox();
+            this.rbTuneHFMan = new System.Windows.Forms.RadioButton();
+            this.rbTuneHFPreset = new System.Windows.Forms.RadioButton();
+            this.rbTuneHFNoChange = new System.Windows.Forms.RadioButton();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.nudTuneFM2ManualFreq = new System.Windows.Forms.NumericUpDown();
+            this.ddlTuneFM2Preset = new System.Windows.Forms.ComboBox();
+            this.rbTuneFM2Man = new System.Windows.Forms.RadioButton();
+            this.rbTuneFM2Preset = new System.Windows.Forms.RadioButton();
+            this.rbTuneFM2NoChange = new System.Windows.Forms.RadioButton();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.nudTuneFM1ManualFreq = new System.Windows.Forms.NumericUpDown();
+            this.ddlTuneFM1Preset = new System.Windows.Forms.ComboBox();
+            this.rbTuneFM1Man = new System.Windows.Forms.RadioButton();
+            this.rbTuneFM1Preset = new System.Windows.Forms.RadioButton();
+            this.rbTuneFM1NoChange = new System.Windows.Forms.RadioButton();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.nudTuneUHFManualFreq = new System.Windows.Forms.NumericUpDown();
+            this.ddlTuneUHFPreset = new System.Windows.Forms.ComboBox();
+            this.rbTuneUHFMan = new System.Windows.Forms.RadioButton();
+            this.rbTuneUHFPreset = new System.Windows.Forms.RadioButton();
+            this.rbTuneUHFNoChange = new System.Windows.Forms.RadioButton();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.ddlTuneVHFPreset = new System.Windows.Forms.ComboBox();
+            this.nudTuneVHFManualFreq = new System.Windows.Forms.NumericUpDown();
+            this.rbTuneVHFMan = new System.Windows.Forms.RadioButton();
+            this.rbTuneVHFPreset = new System.Windows.Forms.RadioButton();
+            this.rbTuneVHFNoChange = new System.Windows.Forms.RadioButton();
             this.tabDL = new System.Windows.Forms.TabPage();
             this.tbOwnshipSubscriberID = new System.Windows.Forms.TextBox();
             this.label43 = new System.Windows.Forms.Label();
@@ -145,7 +176,7 @@
             this.ddlASEAutopage = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.tabADF = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabWPN = new System.Windows.Forms.TabPage();
             this.cbManRange = new System.Windows.Forms.CheckBox();
             this.nudManRange = new System.Windows.Forms.NumericUpDown();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -240,11 +271,22 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            this.tabTune.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTuneHFRXManualFreq)).BeginInit();
+            this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTuneFM2ManualFreq)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTuneFM1ManualFreq)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTuneUHFManualFreq)).BeginInit();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTuneVHFManualFreq)).BeginInit();
             this.tabDL.SuspendLayout();
             this.tabIFF.SuspendLayout();
             this.tabASE.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabWPN.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudManRange)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -259,11 +301,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabRadio);
+            this.tabControl1.Controls.Add(this.tabTune);
             this.tabControl1.Controls.Add(this.tabDL);
             this.tabControl1.Controls.Add(this.tabIFF);
             this.tabControl1.Controls.Add(this.tabASE);
             this.tabControl1.Controls.Add(this.tabADF);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabWPN);
             this.tabControl1.Location = new System.Drawing.Point(12, 42);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -1312,6 +1355,472 @@
             this.ddlRadioPresetSelection.TabIndex = 3;
             this.ddlRadioPresetSelection.SelectedIndexChanged += new System.EventHandler(this.ddlRadioPresetSelection_SelectedIndexChanged);
             // 
+            // tabTune
+            // 
+            this.tabTune.Controls.Add(this.groupBox10);
+            this.tabTune.Controls.Add(this.groupBox9);
+            this.tabTune.Controls.Add(this.groupBox8);
+            this.tabTune.Controls.Add(this.groupBox7);
+            this.tabTune.Controls.Add(this.groupBox6);
+            this.tabTune.Location = new System.Drawing.Point(4, 22);
+            this.tabTune.Name = "tabTune";
+            this.tabTune.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTune.Size = new System.Drawing.Size(681, 367);
+            this.tabTune.TabIndex = 6;
+            this.tabTune.Text = "Tune";
+            this.tabTune.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.nudTuneHFRXManualFreq);
+            this.groupBox10.Controls.Add(this.ddlTuneHFPreset);
+            this.groupBox10.Controls.Add(this.rbTuneHFMan);
+            this.groupBox10.Controls.Add(this.rbTuneHFPreset);
+            this.groupBox10.Controls.Add(this.rbTuneHFNoChange);
+            this.groupBox10.Location = new System.Drawing.Point(6, 230);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(672, 50);
+            this.groupBox10.TabIndex = 15;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "HF";
+            // 
+            // nudTuneHFRXManualFreq
+            // 
+            this.nudTuneHFRXManualFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudTuneHFRXManualFreq.DecimalPlaces = 4;
+            this.nudTuneHFRXManualFreq.Enabled = false;
+            this.nudTuneHFRXManualFreq.Location = new System.Drawing.Point(539, 18);
+            this.nudTuneHFRXManualFreq.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nudTuneHFRXManualFreq.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nudTuneHFRXManualFreq.Name = "nudTuneHFRXManualFreq";
+            this.nudTuneHFRXManualFreq.Size = new System.Drawing.Size(121, 20);
+            this.nudTuneHFRXManualFreq.TabIndex = 4;
+            this.nudTuneHFRXManualFreq.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nudTuneHFRXManualFreq.ValueChanged += new System.EventHandler(this.nudTuneHFRXManualFreq_ValueChanged);
+            // 
+            // ddlTuneHFPreset
+            // 
+            this.ddlTuneHFPreset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlTuneHFPreset.Enabled = false;
+            this.ddlTuneHFPreset.FormattingEnabled = true;
+            this.ddlTuneHFPreset.Location = new System.Drawing.Point(151, 18);
+            this.ddlTuneHFPreset.Name = "ddlTuneHFPreset";
+            this.ddlTuneHFPreset.Size = new System.Drawing.Size(330, 21);
+            this.ddlTuneHFPreset.TabIndex = 3;
+            this.ddlTuneHFPreset.SelectedIndexChanged += new System.EventHandler(this.ddlTuneHFPreset_SelectedIndexChanged);
+            // 
+            // rbTuneHFMan
+            // 
+            this.rbTuneHFMan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rbTuneHFMan.AutoSize = true;
+            this.rbTuneHFMan.Location = new System.Drawing.Point(487, 19);
+            this.rbTuneHFMan.Name = "rbTuneHFMan";
+            this.rbTuneHFMan.Size = new System.Drawing.Size(46, 17);
+            this.rbTuneHFMan.TabIndex = 2;
+            this.rbTuneHFMan.TabStop = true;
+            this.rbTuneHFMan.Text = "Man";
+            this.rbTuneHFMan.UseVisualStyleBackColor = true;
+            this.rbTuneHFMan.CheckedChanged += new System.EventHandler(this.rbTuneHFMan_CheckedChanged);
+            // 
+            // rbTuneHFPreset
+            // 
+            this.rbTuneHFPreset.AutoSize = true;
+            this.rbTuneHFPreset.Enabled = false;
+            this.rbTuneHFPreset.Location = new System.Drawing.Point(90, 19);
+            this.rbTuneHFPreset.Name = "rbTuneHFPreset";
+            this.rbTuneHFPreset.Size = new System.Drawing.Size(55, 17);
+            this.rbTuneHFPreset.TabIndex = 1;
+            this.rbTuneHFPreset.TabStop = true;
+            this.rbTuneHFPreset.Text = "Preset";
+            this.rbTuneHFPreset.UseVisualStyleBackColor = true;
+            this.rbTuneHFPreset.CheckedChanged += new System.EventHandler(this.rbTuneHFPreset_CheckedChanged);
+            // 
+            // rbTuneHFNoChange
+            // 
+            this.rbTuneHFNoChange.AutoSize = true;
+            this.rbTuneHFNoChange.Checked = true;
+            this.rbTuneHFNoChange.Location = new System.Drawing.Point(6, 19);
+            this.rbTuneHFNoChange.Name = "rbTuneHFNoChange";
+            this.rbTuneHFNoChange.Size = new System.Drawing.Size(78, 17);
+            this.rbTuneHFNoChange.TabIndex = 0;
+            this.rbTuneHFNoChange.TabStop = true;
+            this.rbTuneHFNoChange.Text = "Don\'t Tune";
+            this.rbTuneHFNoChange.UseVisualStyleBackColor = true;
+            this.rbTuneHFNoChange.CheckedChanged += new System.EventHandler(this.rbTuneHFNoChange_CheckedChanged);
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.nudTuneFM2ManualFreq);
+            this.groupBox9.Controls.Add(this.ddlTuneFM2Preset);
+            this.groupBox9.Controls.Add(this.rbTuneFM2Man);
+            this.groupBox9.Controls.Add(this.rbTuneFM2Preset);
+            this.groupBox9.Controls.Add(this.rbTuneFM2NoChange);
+            this.groupBox9.Location = new System.Drawing.Point(6, 174);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(672, 50);
+            this.groupBox9.TabIndex = 14;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "FM 2";
+            // 
+            // nudTuneFM2ManualFreq
+            // 
+            this.nudTuneFM2ManualFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudTuneFM2ManualFreq.DecimalPlaces = 3;
+            this.nudTuneFM2ManualFreq.Enabled = false;
+            this.nudTuneFM2ManualFreq.Location = new System.Drawing.Point(539, 18);
+            this.nudTuneFM2ManualFreq.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.nudTuneFM2ManualFreq.Minimum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.nudTuneFM2ManualFreq.Name = "nudTuneFM2ManualFreq";
+            this.nudTuneFM2ManualFreq.Size = new System.Drawing.Size(121, 20);
+            this.nudTuneFM2ManualFreq.TabIndex = 4;
+            this.nudTuneFM2ManualFreq.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.nudTuneFM2ManualFreq.ValueChanged += new System.EventHandler(this.nudTuneFM2ManualFreq_ValueChanged);
+            // 
+            // ddlTuneFM2Preset
+            // 
+            this.ddlTuneFM2Preset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlTuneFM2Preset.Enabled = false;
+            this.ddlTuneFM2Preset.FormattingEnabled = true;
+            this.ddlTuneFM2Preset.Location = new System.Drawing.Point(151, 18);
+            this.ddlTuneFM2Preset.Name = "ddlTuneFM2Preset";
+            this.ddlTuneFM2Preset.Size = new System.Drawing.Size(330, 21);
+            this.ddlTuneFM2Preset.TabIndex = 3;
+            this.ddlTuneFM2Preset.SelectedIndexChanged += new System.EventHandler(this.ddlTuneFM2Preset_SelectedIndexChanged);
+            // 
+            // rbTuneFM2Man
+            // 
+            this.rbTuneFM2Man.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rbTuneFM2Man.AutoSize = true;
+            this.rbTuneFM2Man.Location = new System.Drawing.Point(487, 19);
+            this.rbTuneFM2Man.Name = "rbTuneFM2Man";
+            this.rbTuneFM2Man.Size = new System.Drawing.Size(46, 17);
+            this.rbTuneFM2Man.TabIndex = 2;
+            this.rbTuneFM2Man.TabStop = true;
+            this.rbTuneFM2Man.Text = "Man";
+            this.rbTuneFM2Man.UseVisualStyleBackColor = true;
+            this.rbTuneFM2Man.CheckedChanged += new System.EventHandler(this.rbTuneFM2Man_CheckedChanged);
+            // 
+            // rbTuneFM2Preset
+            // 
+            this.rbTuneFM2Preset.AutoSize = true;
+            this.rbTuneFM2Preset.Location = new System.Drawing.Point(90, 19);
+            this.rbTuneFM2Preset.Name = "rbTuneFM2Preset";
+            this.rbTuneFM2Preset.Size = new System.Drawing.Size(55, 17);
+            this.rbTuneFM2Preset.TabIndex = 1;
+            this.rbTuneFM2Preset.TabStop = true;
+            this.rbTuneFM2Preset.Text = "Preset";
+            this.rbTuneFM2Preset.UseVisualStyleBackColor = true;
+            this.rbTuneFM2Preset.CheckedChanged += new System.EventHandler(this.rbTuneFM2Preset_CheckedChanged);
+            // 
+            // rbTuneFM2NoChange
+            // 
+            this.rbTuneFM2NoChange.AutoSize = true;
+            this.rbTuneFM2NoChange.Checked = true;
+            this.rbTuneFM2NoChange.Location = new System.Drawing.Point(6, 19);
+            this.rbTuneFM2NoChange.Name = "rbTuneFM2NoChange";
+            this.rbTuneFM2NoChange.Size = new System.Drawing.Size(78, 17);
+            this.rbTuneFM2NoChange.TabIndex = 0;
+            this.rbTuneFM2NoChange.TabStop = true;
+            this.rbTuneFM2NoChange.Text = "Don\'t Tune";
+            this.rbTuneFM2NoChange.UseVisualStyleBackColor = true;
+            this.rbTuneFM2NoChange.CheckedChanged += new System.EventHandler(this.rbTuneFM2NoChange_CheckedChanged);
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.nudTuneFM1ManualFreq);
+            this.groupBox8.Controls.Add(this.ddlTuneFM1Preset);
+            this.groupBox8.Controls.Add(this.rbTuneFM1Man);
+            this.groupBox8.Controls.Add(this.rbTuneFM1Preset);
+            this.groupBox8.Controls.Add(this.rbTuneFM1NoChange);
+            this.groupBox8.Location = new System.Drawing.Point(6, 118);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(672, 50);
+            this.groupBox8.TabIndex = 13;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "FM 1";
+            // 
+            // nudTuneFM1ManualFreq
+            // 
+            this.nudTuneFM1ManualFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudTuneFM1ManualFreq.DecimalPlaces = 3;
+            this.nudTuneFM1ManualFreq.Enabled = false;
+            this.nudTuneFM1ManualFreq.Location = new System.Drawing.Point(539, 18);
+            this.nudTuneFM1ManualFreq.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.nudTuneFM1ManualFreq.Minimum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.nudTuneFM1ManualFreq.Name = "nudTuneFM1ManualFreq";
+            this.nudTuneFM1ManualFreq.Size = new System.Drawing.Size(121, 20);
+            this.nudTuneFM1ManualFreq.TabIndex = 4;
+            this.nudTuneFM1ManualFreq.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.nudTuneFM1ManualFreq.ValueChanged += new System.EventHandler(this.nudTuneFM1ManualFreq_ValueChanged);
+            // 
+            // ddlTuneFM1Preset
+            // 
+            this.ddlTuneFM1Preset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlTuneFM1Preset.Enabled = false;
+            this.ddlTuneFM1Preset.FormattingEnabled = true;
+            this.ddlTuneFM1Preset.Location = new System.Drawing.Point(151, 18);
+            this.ddlTuneFM1Preset.Name = "ddlTuneFM1Preset";
+            this.ddlTuneFM1Preset.Size = new System.Drawing.Size(330, 21);
+            this.ddlTuneFM1Preset.TabIndex = 3;
+            this.ddlTuneFM1Preset.SelectedIndexChanged += new System.EventHandler(this.ddlTuneFM1Preset_SelectedIndexChanged);
+            // 
+            // rbTuneFM1Man
+            // 
+            this.rbTuneFM1Man.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rbTuneFM1Man.AutoSize = true;
+            this.rbTuneFM1Man.Location = new System.Drawing.Point(487, 19);
+            this.rbTuneFM1Man.Name = "rbTuneFM1Man";
+            this.rbTuneFM1Man.Size = new System.Drawing.Size(46, 17);
+            this.rbTuneFM1Man.TabIndex = 2;
+            this.rbTuneFM1Man.TabStop = true;
+            this.rbTuneFM1Man.Text = "Man";
+            this.rbTuneFM1Man.UseVisualStyleBackColor = true;
+            this.rbTuneFM1Man.CheckedChanged += new System.EventHandler(this.rbTuneFM1Man_CheckedChanged);
+            // 
+            // rbTuneFM1Preset
+            // 
+            this.rbTuneFM1Preset.AutoSize = true;
+            this.rbTuneFM1Preset.Location = new System.Drawing.Point(90, 19);
+            this.rbTuneFM1Preset.Name = "rbTuneFM1Preset";
+            this.rbTuneFM1Preset.Size = new System.Drawing.Size(55, 17);
+            this.rbTuneFM1Preset.TabIndex = 1;
+            this.rbTuneFM1Preset.TabStop = true;
+            this.rbTuneFM1Preset.Text = "Preset";
+            this.rbTuneFM1Preset.UseVisualStyleBackColor = true;
+            this.rbTuneFM1Preset.CheckedChanged += new System.EventHandler(this.rbTuneFM1Preset_CheckedChanged);
+            // 
+            // rbTuneFM1NoChange
+            // 
+            this.rbTuneFM1NoChange.AutoSize = true;
+            this.rbTuneFM1NoChange.Checked = true;
+            this.rbTuneFM1NoChange.Location = new System.Drawing.Point(6, 19);
+            this.rbTuneFM1NoChange.Name = "rbTuneFM1NoChange";
+            this.rbTuneFM1NoChange.Size = new System.Drawing.Size(78, 17);
+            this.rbTuneFM1NoChange.TabIndex = 0;
+            this.rbTuneFM1NoChange.TabStop = true;
+            this.rbTuneFM1NoChange.Text = "Don\'t Tune";
+            this.rbTuneFM1NoChange.UseVisualStyleBackColor = true;
+            this.rbTuneFM1NoChange.CheckedChanged += new System.EventHandler(this.rbTuneFM1NoChange_CheckedChanged);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.nudTuneUHFManualFreq);
+            this.groupBox7.Controls.Add(this.ddlTuneUHFPreset);
+            this.groupBox7.Controls.Add(this.rbTuneUHFMan);
+            this.groupBox7.Controls.Add(this.rbTuneUHFPreset);
+            this.groupBox7.Controls.Add(this.rbTuneUHFNoChange);
+            this.groupBox7.Location = new System.Drawing.Point(6, 62);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(672, 50);
+            this.groupBox7.TabIndex = 12;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "UHF";
+            // 
+            // nudTuneUHFManualFreq
+            // 
+            this.nudTuneUHFManualFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudTuneUHFManualFreq.DecimalPlaces = 3;
+            this.nudTuneUHFManualFreq.Enabled = false;
+            this.nudTuneUHFManualFreq.Location = new System.Drawing.Point(539, 18);
+            this.nudTuneUHFManualFreq.Maximum = new decimal(new int[] {
+            225,
+            0,
+            0,
+            0});
+            this.nudTuneUHFManualFreq.Minimum = new decimal(new int[] {
+            225,
+            0,
+            0,
+            0});
+            this.nudTuneUHFManualFreq.Name = "nudTuneUHFManualFreq";
+            this.nudTuneUHFManualFreq.Size = new System.Drawing.Size(121, 20);
+            this.nudTuneUHFManualFreq.TabIndex = 4;
+            this.nudTuneUHFManualFreq.Value = new decimal(new int[] {
+            225,
+            0,
+            0,
+            0});
+            this.nudTuneUHFManualFreq.ValueChanged += new System.EventHandler(this.nudTuneUHFManualFreq_ValueChanged);
+            // 
+            // ddlTuneUHFPreset
+            // 
+            this.ddlTuneUHFPreset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlTuneUHFPreset.Enabled = false;
+            this.ddlTuneUHFPreset.FormattingEnabled = true;
+            this.ddlTuneUHFPreset.Location = new System.Drawing.Point(151, 18);
+            this.ddlTuneUHFPreset.Name = "ddlTuneUHFPreset";
+            this.ddlTuneUHFPreset.Size = new System.Drawing.Size(330, 21);
+            this.ddlTuneUHFPreset.TabIndex = 3;
+            this.ddlTuneUHFPreset.SelectedIndexChanged += new System.EventHandler(this.ddlTuneUHFPreset_SelectedIndexChanged);
+            // 
+            // rbTuneUHFMan
+            // 
+            this.rbTuneUHFMan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rbTuneUHFMan.AutoSize = true;
+            this.rbTuneUHFMan.Location = new System.Drawing.Point(487, 19);
+            this.rbTuneUHFMan.Name = "rbTuneUHFMan";
+            this.rbTuneUHFMan.Size = new System.Drawing.Size(46, 17);
+            this.rbTuneUHFMan.TabIndex = 2;
+            this.rbTuneUHFMan.TabStop = true;
+            this.rbTuneUHFMan.Text = "Man";
+            this.rbTuneUHFMan.UseVisualStyleBackColor = true;
+            this.rbTuneUHFMan.CheckedChanged += new System.EventHandler(this.rbTuneUHFMan_CheckedChanged);
+            // 
+            // rbTuneUHFPreset
+            // 
+            this.rbTuneUHFPreset.AutoSize = true;
+            this.rbTuneUHFPreset.Location = new System.Drawing.Point(90, 19);
+            this.rbTuneUHFPreset.Name = "rbTuneUHFPreset";
+            this.rbTuneUHFPreset.Size = new System.Drawing.Size(55, 17);
+            this.rbTuneUHFPreset.TabIndex = 1;
+            this.rbTuneUHFPreset.TabStop = true;
+            this.rbTuneUHFPreset.Text = "Preset";
+            this.rbTuneUHFPreset.UseVisualStyleBackColor = true;
+            this.rbTuneUHFPreset.CheckedChanged += new System.EventHandler(this.rbTuneUHFPreset_CheckedChanged);
+            // 
+            // rbTuneUHFNoChange
+            // 
+            this.rbTuneUHFNoChange.AutoSize = true;
+            this.rbTuneUHFNoChange.Checked = true;
+            this.rbTuneUHFNoChange.Location = new System.Drawing.Point(6, 19);
+            this.rbTuneUHFNoChange.Name = "rbTuneUHFNoChange";
+            this.rbTuneUHFNoChange.Size = new System.Drawing.Size(78, 17);
+            this.rbTuneUHFNoChange.TabIndex = 0;
+            this.rbTuneUHFNoChange.TabStop = true;
+            this.rbTuneUHFNoChange.Text = "Don\'t Tune";
+            this.rbTuneUHFNoChange.UseVisualStyleBackColor = true;
+            this.rbTuneUHFNoChange.CheckedChanged += new System.EventHandler(this.rbTuneUHFNoChange_CheckedChanged);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.ddlTuneVHFPreset);
+            this.groupBox6.Controls.Add(this.nudTuneVHFManualFreq);
+            this.groupBox6.Controls.Add(this.rbTuneVHFMan);
+            this.groupBox6.Controls.Add(this.rbTuneVHFPreset);
+            this.groupBox6.Controls.Add(this.rbTuneVHFNoChange);
+            this.groupBox6.Location = new System.Drawing.Point(6, 6);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(672, 50);
+            this.groupBox6.TabIndex = 0;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "VHF";
+            // 
+            // ddlTuneVHFPreset
+            // 
+            this.ddlTuneVHFPreset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlTuneVHFPreset.Enabled = false;
+            this.ddlTuneVHFPreset.FormattingEnabled = true;
+            this.ddlTuneVHFPreset.Location = new System.Drawing.Point(151, 18);
+            this.ddlTuneVHFPreset.Name = "ddlTuneVHFPreset";
+            this.ddlTuneVHFPreset.Size = new System.Drawing.Size(330, 21);
+            this.ddlTuneVHFPreset.TabIndex = 3;
+            this.ddlTuneVHFPreset.SelectedIndexChanged += new System.EventHandler(this.ddlTuneVHFPreset_SelectedIndexChanged);
+            // 
+            // nudTuneVHFManualFreq
+            // 
+            this.nudTuneVHFManualFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudTuneVHFManualFreq.DecimalPlaces = 3;
+            this.nudTuneVHFManualFreq.Enabled = false;
+            this.nudTuneVHFManualFreq.Location = new System.Drawing.Point(539, 18);
+            this.nudTuneVHFManualFreq.Maximum = new decimal(new int[] {
+            1275,
+            0,
+            0,
+            65536});
+            this.nudTuneVHFManualFreq.Minimum = new decimal(new int[] {
+            1275,
+            0,
+            0,
+            65536});
+            this.nudTuneVHFManualFreq.Name = "nudTuneVHFManualFreq";
+            this.nudTuneVHFManualFreq.Size = new System.Drawing.Size(121, 20);
+            this.nudTuneVHFManualFreq.TabIndex = 4;
+            this.nudTuneVHFManualFreq.Value = new decimal(new int[] {
+            1275,
+            0,
+            0,
+            65536});
+            this.nudTuneVHFManualFreq.ValueChanged += new System.EventHandler(this.nudTuneVHFManualFreq_ValueChanged);
+            // 
+            // rbTuneVHFMan
+            // 
+            this.rbTuneVHFMan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rbTuneVHFMan.AutoSize = true;
+            this.rbTuneVHFMan.Location = new System.Drawing.Point(487, 19);
+            this.rbTuneVHFMan.Name = "rbTuneVHFMan";
+            this.rbTuneVHFMan.Size = new System.Drawing.Size(46, 17);
+            this.rbTuneVHFMan.TabIndex = 2;
+            this.rbTuneVHFMan.TabStop = true;
+            this.rbTuneVHFMan.Text = "Man";
+            this.rbTuneVHFMan.UseVisualStyleBackColor = true;
+            this.rbTuneVHFMan.CheckedChanged += new System.EventHandler(this.rbTuneVHFMan_CheckedChanged);
+            // 
+            // rbTuneVHFPreset
+            // 
+            this.rbTuneVHFPreset.AutoSize = true;
+            this.rbTuneVHFPreset.Location = new System.Drawing.Point(90, 19);
+            this.rbTuneVHFPreset.Name = "rbTuneVHFPreset";
+            this.rbTuneVHFPreset.Size = new System.Drawing.Size(55, 17);
+            this.rbTuneVHFPreset.TabIndex = 1;
+            this.rbTuneVHFPreset.TabStop = true;
+            this.rbTuneVHFPreset.Text = "Preset";
+            this.rbTuneVHFPreset.UseVisualStyleBackColor = true;
+            this.rbTuneVHFPreset.CheckedChanged += new System.EventHandler(this.rbTuneVHFPreset_CheckedChanged);
+            // 
+            // rbTuneVHFNoChange
+            // 
+            this.rbTuneVHFNoChange.AutoSize = true;
+            this.rbTuneVHFNoChange.Checked = true;
+            this.rbTuneVHFNoChange.Location = new System.Drawing.Point(6, 19);
+            this.rbTuneVHFNoChange.Name = "rbTuneVHFNoChange";
+            this.rbTuneVHFNoChange.Size = new System.Drawing.Size(78, 17);
+            this.rbTuneVHFNoChange.TabIndex = 0;
+            this.rbTuneVHFNoChange.TabStop = true;
+            this.rbTuneVHFNoChange.Text = "Don\'t Tune";
+            this.rbTuneVHFNoChange.UseVisualStyleBackColor = true;
+            this.rbTuneVHFNoChange.CheckedChanged += new System.EventHandler(this.rbTuneVHFNoChange_CheckedChanged);
+            // 
             // tabDL
             // 
             this.tabDL.Controls.Add(this.tbOwnshipSubscriberID);
@@ -1669,21 +2178,21 @@
             this.tabADF.Text = "ADF";
             this.tabADF.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // tabWPN
             // 
-            this.tabPage2.Controls.Add(this.cbManRange);
-            this.tabPage2.Controls.Add(this.nudManRange);
-            this.tabPage2.Controls.Add(this.groupBox5);
-            this.tabPage2.Controls.Add(this.groupBox4);
-            this.tabPage2.Controls.Add(this.groupBox3);
-            this.tabPage2.Controls.Add(this.groupBox2);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(681, 367);
-            this.tabPage2.TabIndex = 5;
-            this.tabPage2.Text = "WPN";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabWPN.Controls.Add(this.cbManRange);
+            this.tabWPN.Controls.Add(this.nudManRange);
+            this.tabWPN.Controls.Add(this.groupBox5);
+            this.tabWPN.Controls.Add(this.groupBox4);
+            this.tabWPN.Controls.Add(this.groupBox3);
+            this.tabWPN.Controls.Add(this.groupBox2);
+            this.tabWPN.Location = new System.Drawing.Point(4, 22);
+            this.tabWPN.Name = "tabWPN";
+            this.tabWPN.Padding = new System.Windows.Forms.Padding(3);
+            this.tabWPN.Size = new System.Drawing.Size(681, 367);
+            this.tabWPN.TabIndex = 5;
+            this.tabWPN.Text = "WPN";
+            this.tabWPN.UseVisualStyleBackColor = true;
             // 
             // cbManRange
             // 
@@ -2444,6 +2953,22 @@
             this.splitContainer3.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.tabTune.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTuneHFRXManualFreq)).EndInit();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTuneFM2ManualFreq)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTuneFM1ManualFreq)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTuneUHFManualFreq)).EndInit();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTuneVHFManualFreq)).EndInit();
             this.tabDL.ResumeLayout(false);
             this.tabDL.PerformLayout();
             this.tabIFF.ResumeLayout(false);
@@ -2452,8 +2977,8 @@
             this.tabASE.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tabWPN.ResumeLayout(false);
+            this.tabWPN.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudManRange)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
@@ -2594,7 +3119,7 @@
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.ComboBox ddlXPNDRAntenna;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabWPN;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label50;
         private System.Windows.Forms.Label label49;
@@ -2651,5 +3176,36 @@
         private System.Windows.Forms.TextBox tb_laserCodeB;
         private System.Windows.Forms.NumericUpDown nudManRange;
         private System.Windows.Forms.CheckBox cbManRange;
+        private System.Windows.Forms.TabPage tabTune;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.ComboBox ddlTuneVHFPreset;
+        private System.Windows.Forms.NumericUpDown nudTuneVHFManualFreq;
+        private System.Windows.Forms.RadioButton rbTuneVHFMan;
+        private System.Windows.Forms.RadioButton rbTuneVHFPreset;
+        private System.Windows.Forms.RadioButton rbTuneVHFNoChange;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.ComboBox ddlTuneUHFPreset;
+        private System.Windows.Forms.RadioButton rbTuneUHFMan;
+        private System.Windows.Forms.RadioButton rbTuneUHFPreset;
+        private System.Windows.Forms.RadioButton rbTuneUHFNoChange;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.ComboBox ddlTuneHFPreset;
+        private System.Windows.Forms.RadioButton rbTuneHFMan;
+        private System.Windows.Forms.RadioButton rbTuneHFPreset;
+        private System.Windows.Forms.RadioButton rbTuneHFNoChange;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.ComboBox ddlTuneFM2Preset;
+        private System.Windows.Forms.RadioButton rbTuneFM2Man;
+        private System.Windows.Forms.RadioButton rbTuneFM2Preset;
+        private System.Windows.Forms.RadioButton rbTuneFM2NoChange;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.ComboBox ddlTuneFM1Preset;
+        private System.Windows.Forms.RadioButton rbTuneFM1Man;
+        private System.Windows.Forms.RadioButton rbTuneFM1Preset;
+        private System.Windows.Forms.RadioButton rbTuneFM1NoChange;
+        private System.Windows.Forms.NumericUpDown nudTuneUHFManualFreq;
+        private System.Windows.Forms.NumericUpDown nudTuneFM2ManualFreq;
+        private System.Windows.Forms.NumericUpDown nudTuneFM1ManualFreq;
+        private System.Windows.Forms.NumericUpDown nudTuneHFRXManualFreq;
     }
 }

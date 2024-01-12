@@ -67,6 +67,22 @@ namespace CoordinateConverter.DCS.Tools
                 nudVHFFreq.Minimum = preset.VHFFrequencyMinimum;
                 nudVHFFreq.Maximum = preset.VHFFrequencyMaximum;
                 nudVHFFreq.Increment = preset.VHFFrequencyIncrement;
+
+                nudTuneFM1ManualFreq.Minimum = preset.FM1FrequencyMinimum;
+                nudTuneFM1ManualFreq.Maximum = preset.FM1FrequencyMaximum;
+                nudTuneFM1ManualFreq.Increment = preset.FM1FrequencyIncrement;
+                nudTuneFM2ManualFreq.Minimum = preset.FM2FrequencyMinimum;
+                nudTuneFM2ManualFreq.Maximum = preset.FM2FrequencyMaximum;
+                nudTuneFM2ManualFreq.Increment = preset.FM2FrequencyIncrement;
+                nudTuneHFRXManualFreq.Minimum = preset.HFRXFrequencyMinimum;
+                nudTuneHFRXManualFreq.Maximum = preset.HFRXFrequencyMaximum;
+                nudTuneHFRXManualFreq.Increment = preset.HFRXFrequencyIncrement;
+                nudTuneUHFManualFreq.Minimum = preset.UHFFrequencyMinimum;
+                nudTuneUHFManualFreq.Maximum = preset.UHFFrequencyMaximum;
+                nudTuneUHFManualFreq.Increment = preset.UHFFrequencyIncrement;
+                nudTuneVHFManualFreq.Minimum = preset.VHFFrequencyMinimum;
+                nudTuneVHFManualFreq.Maximum = preset.VHFFrequencyMaximum;
+                nudTuneVHFManualFreq.Increment = preset.VHFFrequencyIncrement;
             }
 
             // Set up ComboBoxes
@@ -140,6 +156,8 @@ namespace CoordinateConverter.DCS.Tools
                 ComboItem<AH64RadioPresetData.EBaudRate> item = new ComboItem<AH64RadioPresetData.EBaudRate>(text, baudRate);
                 ddlPresetModemBaudRate.Items.Add(item);
             }
+
+            // XPNDR
 
             ddlXPNDRMode4Key.ValueMember = "Value";
             ddlXPNDRMode4Key.DisplayMember = "Text";
@@ -233,6 +251,21 @@ namespace CoordinateConverter.DCS.Tools
             foreach (AH64DTCData.ERocketQuantity rocketQuantity in Enum.GetValues(typeof(AH64DTCData.ERocketQuantity)))
             {
                 ddlRktQty.Items.Add(new ComboItem<AH64DTCData.ERocketQuantity>(rocketQuantity.ToString().Replace('_', ' '), rocketQuantity));
+            }
+
+            // Tune
+            foreach (ComboBox ddl in new List<ComboBox>()
+            {
+                ddlTuneFM1Preset, ddlTuneFM2Preset, ddlTuneHFPreset, ddlTuneUHFPreset, ddlTuneVHFPreset
+            })
+            {
+                ddl.ValueMember = "Value";
+                ddl.DisplayMember = "Text";
+                
+                foreach (AH64DTCData.EPreset preset in Enum.GetValues(typeof(AH64DTCData.EPreset)))
+                {
+                    ddl.Items.Add(new ComboItem<AH64DTCData.EPreset>(GetPresetName(preset), preset));
+                }
             }
 
             // Call reset
@@ -372,6 +405,38 @@ namespace CoordinateConverter.DCS.Tools
                 tb.Text = (laserCode != null) ? laserCode.LaserCode.ToString() : string.Empty;
             }
             // TODO: Reset ADF to values in data
+
+            // Radio Tune
+            // VHF
+            nudTuneVHFManualFreq.Value = data.VHFManualFrequency;
+            ddlTuneVHFPreset.SelectedIndex = ComboItem<AH64DTCData.EPreset>.FindValue(ddlTuneVHFPreset, data.VHFTunePreset) ?? 0;
+            rbTuneVHFNoChange.Checked = data.VHFTuneSetting == AH64DTCData.ETuneSetting.No_Change;
+            rbTuneVHFPreset.Checked = data.VHFTuneSetting == AH64DTCData.ETuneSetting.Preset;
+            rbTuneVHFMan.Checked = data.VHFTuneSetting == AH64DTCData.ETuneSetting.Manual;
+            // UHF
+            nudTuneUHFManualFreq.Value = data.UHFManualFrequency;
+            ddlTuneUHFPreset.SelectedIndex = ComboItem<AH64DTCData.EPreset>.FindValue(ddlTuneUHFPreset, data.UHFTunePreset) ?? 0;
+            rbTuneUHFNoChange.Checked = data.UHFTuneSetting == AH64DTCData.ETuneSetting.No_Change;
+            rbTuneUHFPreset.Checked = data.UHFTuneSetting == AH64DTCData.ETuneSetting.Preset;
+            rbTuneUHFMan.Checked = data.UHFTuneSetting == AH64DTCData.ETuneSetting.Manual;
+            // FM1
+            nudTuneFM1ManualFreq.Value = data.FM1ManualFrequency;
+            ddlTuneFM1Preset.SelectedIndex = ComboItem<AH64DTCData.EPreset>.FindValue(ddlTuneFM1Preset, data.FM1TunePreset) ?? 0;
+            rbTuneFM1NoChange.Checked = data.FM1TuneSetting == AH64DTCData.ETuneSetting.No_Change;
+            rbTuneFM1Preset.Checked = data.FM1TuneSetting == AH64DTCData.ETuneSetting.Preset;
+            rbTuneFM1Man.Checked = data.FM1TuneSetting == AH64DTCData.ETuneSetting.Manual;
+            // FM2
+            nudTuneFM2ManualFreq.Value = data.FM2ManualFrequency;
+            ddlTuneFM2Preset.SelectedIndex = ComboItem<AH64DTCData.EPreset>.FindValue(ddlTuneFM2Preset, data.FM2TunePreset) ?? 0;
+            rbTuneFM2NoChange.Checked = data.FM2TuneSetting == AH64DTCData.ETuneSetting.No_Change;
+            rbTuneFM2Preset.Checked = data.FM2TuneSetting == AH64DTCData.ETuneSetting.Preset;
+            rbTuneFM2Man.Checked = data.FM2TuneSetting == AH64DTCData.ETuneSetting.Manual;
+            // HF
+            nudTuneHFRXManualFreq.Value = data.HFRXManualFrequency;
+            ddlTuneHFPreset.SelectedIndex = ComboItem<AH64DTCData.EPreset>.FindValue(ddlTuneHFPreset, data.HFTunePreset) ?? 0;
+            rbTuneHFNoChange.Checked = data.HFTuneSetting == AH64DTCData.ETuneSetting.No_Change;
+            rbTuneHFPreset.Checked = data.HFTuneSetting == AH64DTCData.ETuneSetting.Preset;
+            rbTuneHFMan.Checked = data.HFTuneSetting == AH64DTCData.ETuneSetting.Manual;
         }
 
         #region PresetGeneral
@@ -448,6 +513,8 @@ namespace CoordinateConverter.DCS.Tools
             // Force refresh.
             ddlRadioPresetSelection.DisplayMember = "Value";
             ddlRadioPresetSelection.DisplayMember = "Text";
+
+            UpdateTuneDDLText(preset);
         }
 
         private string GetPresetName(AH64DTCData.EPreset preset)
@@ -514,6 +581,7 @@ namespace CoordinateConverter.DCS.Tools
         }
         #endregion
 
+        #region Preset
         #region PresetVHF
         private void cbPresetVHF_Enable_CheckedChanged(object sender, EventArgs e)
         {
@@ -522,6 +590,8 @@ namespace CoordinateConverter.DCS.Tools
 
             nudVHFFreq.Enabled = status;
             cbPresetVHFAllowRecvOnlyRange.Enabled = status;
+
+            UpdateTuneDDLText(GetSelectedPresetIdent());
         }
 
         private void cbPresetVHFAllowRecvOnlyRange_CheckedChanged(object sender, EventArgs e)
@@ -559,6 +629,8 @@ namespace CoordinateConverter.DCS.Tools
             // Disable N/I controls
             ddlUHFCNV.Enabled = false;
             nudUHFHQ.Enabled = false;
+
+            UpdateTuneDDLText(GetSelectedPresetIdent());
         }
 
         private void ddlUHFCNV_SelectedIndexChanged(object sender, EventArgs e)
@@ -611,6 +683,8 @@ namespace CoordinateConverter.DCS.Tools
             // Disable N/I fields
             ddlFM1CNV.Enabled = false;
             nudFM1Hopset.Enabled = false;
+
+            UpdateTuneDDLText(GetSelectedPresetIdent());
         }
 
         private void ddlFM1CNV_SelectedIndexChanged(object sender, EventArgs e)
@@ -664,6 +738,8 @@ namespace CoordinateConverter.DCS.Tools
             // Disable N/I fields
             ddlFM2CNV.Enabled = false;
             nudFM2Hopset.Enabled = false;
+
+            UpdateTuneDDLText(GetSelectedPresetIdent());
         }
 
         private void ddlFM2CNV_SelectedIndexChanged(object sender, EventArgs e)
@@ -725,6 +801,8 @@ namespace CoordinateConverter.DCS.Tools
             nudHFPresetCH.Enabled = false;
             nudHFRXFreq.Enabled = false;
             nudHFTXFreq.Enabled = false;
+
+            UpdateTuneDDLText(GetSelectedPresetIdent());
         }
 
         private void cbHFSame_CheckedChanged(object sender, EventArgs e)
@@ -1050,6 +1128,274 @@ namespace CoordinateConverter.DCS.Tools
         {
             GetSelectedPreset().BaudRate = ComboItem<AH64RadioPresetData.EBaudRate>.GetSelectedValue(sender as ComboBox);
         }
+
+        #endregion
+        #endregion
+
+        #region Tune
+
+        private void UpdateTuneDDLText(AH64DTCData.EPreset preset)
+        {
+            foreach (var ddl in new List<ComboBox>()
+    {
+        ddlTuneVHFPreset, ddlTuneUHFPreset, ddlTuneFM1Preset, ddlTuneFM2Preset, ddlTuneHFPreset
+    })
+            {
+                int? idx = ComboItem<AH64DTCData.EPreset>.FindValue(ddl, preset);
+                if (!idx.HasValue)
+                {
+                    continue;
+                }
+
+                string newText = GetPresetName(preset) + " - ";
+                AH64RadioPresetData presetData = data.GetAH64RadioPreset(preset);
+
+                if (ddl.Name == ddlTuneVHFPreset.Name)
+                {
+                    newText += presetData.ContainsVHFData ? presetData.VHFFrequency.ToString() : "Current Frequency";
+                }
+                else if (ddl.Name == ddlTuneUHFPreset.Name)
+                {
+                    newText += presetData.ContainsUHFData ? presetData.UHFFrequency.ToString() : "Current Frequency";
+                }
+                else if (ddl.Name == ddlTuneFM1Preset.Name)
+                {
+                    newText += presetData.ContainsFM1Data ? presetData.FM1Frequency.ToString() : "Current Frequency";
+                }
+                else if (ddl.Name == ddlTuneFM2Preset.Name)
+                {
+                    newText += presetData.ContainsFM2Data ? presetData.FM2Frequency.ToString() : "Current Frequency";
+                }
+                else if (ddl.Name == ddlTuneHFPreset.Name)
+                {
+                    newText += presetData.ContainsHFData ? presetData.HFRXFrequency.ToString() : "Current Frequency";
+                }
+
+                (ddl.Items[idx.Value] as ComboItem<AH64DTCData.EPreset>).Text = newText;
+                ddl.DisplayMember = "Value";
+                ddl.DisplayMember = "Text";
+            }
+        }
+
+        #region TuneVHF
+        private void rbTuneVHFNoChange_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.VHFTuneSetting = AH64DTCData.ETuneSetting.No_Change;
+                ddlTuneVHFPreset.Enabled = false;
+                nudTuneVHFManualFreq.Enabled = false;
+            }
+        }
+
+        private void rbTuneVHFPreset_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.VHFTuneSetting = AH64DTCData.ETuneSetting.Preset;
+                ddlTuneVHFPreset.Enabled = true;
+                data.VHFTunePreset = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlTuneVHFPreset);
+                nudTuneVHFManualFreq.Enabled = false;
+            }
+        }
+
+        private void rbTuneVHFMan_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.VHFTuneSetting = AH64DTCData.ETuneSetting.Manual;
+                ddlTuneVHFPreset.Enabled = false;
+                nudTuneVHFManualFreq.Enabled = true;
+                data.VHFManualFrequency = nudTuneVHFManualFreq.Value;
+            }
+        }
+
+        private void ddlTuneVHFPreset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.VHFTunePreset = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlTuneVHFPreset);
+        }
+
+        private void nudTuneVHFManualFreq_ValueChanged(object sender, EventArgs e)
+        {
+            data.VHFManualFrequency = nudTuneVHFManualFreq.Value;
+        }
+        #endregion
+
+        #region TuneUHF
+        private void rbTuneUHFNoChange_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.UHFTuneSetting = AH64DTCData.ETuneSetting.No_Change;
+                ddlTuneUHFPreset.Enabled = false;
+                nudTuneUHFManualFreq.Enabled = false;
+            }
+        }
+
+        private void rbTuneUHFPreset_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.UHFTuneSetting = AH64DTCData.ETuneSetting.Preset;
+                ddlTuneUHFPreset.Enabled = true;
+                data.UHFTunePreset = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlTuneUHFPreset);
+                nudTuneUHFManualFreq.Enabled = false;
+            }
+        }
+
+        private void rbTuneUHFMan_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.UHFTuneSetting = AH64DTCData.ETuneSetting.Manual;
+                ddlTuneUHFPreset.Enabled = false;
+                nudTuneUHFManualFreq.Enabled = true;
+                data.UHFManualFrequency = nudTuneUHFManualFreq.Value;
+            }
+        }
+
+        private void ddlTuneUHFPreset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.UHFTunePreset = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlTuneUHFPreset);
+        }
+
+        private void nudTuneUHFManualFreq_ValueChanged(object sender, EventArgs e)
+        {
+            data.UHFManualFrequency = nudTuneUHFManualFreq.Value;
+        }
+        #endregion
+
+        #region TuneFM1
+        private void rbTuneFM1NoChange_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.FM1TuneSetting = AH64DTCData.ETuneSetting.No_Change;
+                ddlTuneFM1Preset.Enabled = false;
+                nudTuneFM1ManualFreq.Enabled = false;
+            }
+        }
+
+        private void rbTuneFM1Preset_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.FM1TuneSetting = AH64DTCData.ETuneSetting.Preset;
+                ddlTuneFM1Preset.Enabled = true;
+                data.FM1TunePreset = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlTuneFM1Preset);
+                nudTuneFM1ManualFreq.Enabled = false;
+            }
+        }
+
+        private void rbTuneFM1Man_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.FM1TuneSetting = AH64DTCData.ETuneSetting.Manual;
+                ddlTuneFM1Preset.Enabled = false;
+                nudTuneFM1ManualFreq.Enabled = true;
+                data.FM1ManualFrequency = nudTuneFM1ManualFreq.Value;
+            }
+        }
+
+        private void ddlTuneFM1Preset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.FM1TunePreset = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlTuneFM1Preset);
+        }
+
+        private void nudTuneFM1ManualFreq_ValueChanged(object sender, EventArgs e)
+        {
+            data.FM1ManualFrequency = nudTuneFM1ManualFreq.Value;
+        }
+        #endregion
+
+        #region TuneFM2
+        private void rbTuneFM2NoChange_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.FM2TuneSetting = AH64DTCData.ETuneSetting.No_Change;
+                ddlTuneFM2Preset.Enabled = false;
+                nudTuneFM2ManualFreq.Enabled = false;
+            }
+        }
+
+        private void rbTuneFM2Preset_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.FM2TuneSetting = AH64DTCData.ETuneSetting.Preset;
+                ddlTuneFM2Preset.Enabled = true;
+                data.FM2TunePreset = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlTuneFM2Preset);
+                nudTuneFM2ManualFreq.Enabled = false;
+            }
+        }
+
+        private void rbTuneFM2Man_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.FM2TuneSetting = AH64DTCData.ETuneSetting.Manual;
+                ddlTuneFM2Preset.Enabled = false;
+                nudTuneFM2ManualFreq.Enabled = true;
+                data.FM2ManualFrequency = nudTuneFM2ManualFreq.Value;
+            }
+        }
+
+        private void ddlTuneFM2Preset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.FM2TunePreset = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlTuneFM2Preset);
+        }
+
+        private void nudTuneFM2ManualFreq_ValueChanged(object sender, EventArgs e)
+        {
+            data.FM2ManualFrequency = nudTuneFM2ManualFreq.Value;
+        }
+        #endregion
+
+        #region TuneHF
+        private void rbTuneHFNoChange_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.HFTuneSetting = AH64DTCData.ETuneSetting.No_Change;
+                ddlTuneHFPreset.Enabled = false;
+                nudTuneHFRXManualFreq.Enabled = false;
+            }
+        }
+
+        private void rbTuneHFPreset_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.HFTuneSetting = AH64DTCData.ETuneSetting.Preset;
+                ddlTuneHFPreset.Enabled = true;
+                data.HFTunePreset = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlTuneHFPreset);
+                nudTuneHFRXManualFreq.Enabled = false;
+            }
+        }
+
+        private void rbTuneHFMan_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton).Checked)
+            {
+                data.HFTuneSetting = AH64DTCData.ETuneSetting.Manual;
+                ddlTuneHFPreset.Enabled = false;
+                nudTuneHFRXManualFreq.Enabled = true;
+                data.HFRXManualFrequency = nudTuneHFRXManualFreq.Value;
+            }
+        }
+
+        private void ddlTuneHFPreset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.HFTunePreset = ComboItem<AH64DTCData.EPreset>.GetSelectedValue(ddlTuneHFPreset);
+        }
+
+        private void nudTuneHFRXManualFreq_ValueChanged(object sender, EventArgs e)
+        {
+            data.HFRXManualFrequency = nudTuneHFRXManualFreq.Value;
+        }
+        #endregion
 
         #endregion
 
