@@ -56,9 +56,6 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
         - determine device ids with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\devices.lua`
     - AH64
         - DTC
-            - Send
-                - Turn off ASE autopage temporarily for working on RMFD?
-                - Use left MFD and hope pilot doesn't cause engine autopage?
             - Radio Presets
                 - FIXME: After ED fixes radio step size, adjust them in code at AH64RadioPresetData
                     - Real step sizes according to ED manual (source: raptor9 SME)
