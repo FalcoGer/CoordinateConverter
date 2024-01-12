@@ -358,13 +358,13 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 switch (Retries)
                 {
                     case ERetries.Zero:
-                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L3));
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L5));
                         break;
                     case ERetries.One:
                         commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L4));
                         break;
                     case ERetries.Two:
-                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L5));
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L3));
                         break;
                 }
             }
