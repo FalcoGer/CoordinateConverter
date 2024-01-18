@@ -20,7 +20,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 6, 5);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 6, 6);
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static readonly Color ERROR_COLOR = Color.Pink;
@@ -1884,7 +1884,8 @@ namespace CoordinateConverter
         {
             if (string.IsNullOrEmpty(model) || model == "null")
             {
-                selectedAircraft = null;
+                UpdateAircraftSelectionItemsBasedOnAutoSetting();
+                Tsmi_AircraftSelection_Click(null, null);
                 return;
             }
             
@@ -1948,11 +1949,11 @@ namespace CoordinateConverter
             lbl_Error.Visible = false;
 
             // Select the clicked option
-            ToolStripMenuItem sender = objSender as ToolStripMenuItem;
+            ToolStripMenuItem sender = objSender == null ? null : objSender as ToolStripMenuItem;
 
             foreach (ToolStripMenuItem mi in AircraftSelectionMenuStripItems)
             {
-                mi.Checked = mi.Name == sender.Name;
+                mi.Checked = (!(sender is null)) ? (mi.Name == sender.Name) : false;
             }
 
             // turn off the aircraft specific menu items for all aircraft (we enable the correct ones later)
@@ -1970,7 +1971,7 @@ namespace CoordinateConverter
                 }
             }
 
-            if (!SetSelectedAircraft(sender.Name))
+            if (!(sender is null) && !SetSelectedAircraft(sender.Name))
             {
                 // Unsupported aircraft
                 selectedAircraft = null;
@@ -2061,6 +2062,11 @@ namespace CoordinateConverter
         private void UpdatePointTypesForSelectedAircraft()
         {
             cb_PointType.Items.Clear();
+            if (selectedAircraft is null)
+            {
+                cb_PointType.Items.Add("Waypoint");
+                return;
+            }
             if (selectedAircraft.GetType() == typeof(AH64))
             {
                 cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
@@ -2100,6 +2106,11 @@ namespace CoordinateConverter
 
         private void UpdateOrAddAircraftSpecificDataForInput()
         {
+            if (selectedAircraft is null)
+            {
+                cb_PointType.SelectedIndex = 0;
+                return;
+            }
             if (selectedAircraft.GetType() == typeof(AH64))
             {
                 // if the point has AH64 data, we load it.
@@ -2752,6 +2763,8 @@ namespace CoordinateConverter
         public MainForm()
         {
             InitializeComponent();
+
+            Text = Text + " - " + VERSION.ToString();
 
             // Set up the combo boxes
             cb_PointType.ValueMember = "Value";

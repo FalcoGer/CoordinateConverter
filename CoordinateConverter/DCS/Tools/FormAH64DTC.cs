@@ -966,8 +966,8 @@ namespace CoordinateConverter.DCS.Tools
 
             string subscriberID = tbPresetNetID.Text;
             string callsign = tbPresetNetCS.Text;
-            bool primary = cbPresetNetPrimary.Checked;
-            bool team = cbPresetNetTeam.Checked && cbPresetNetTeam.Enabled;
+            bool primary = cbPresetNetPrimary.Checked && cbPresetNetPrimary.Enabled;
+            bool team = cbPresetNetTeam.Checked;
 
             try
             {
@@ -1014,23 +1014,23 @@ namespace CoordinateConverter.DCS.Tools
 
         private void UpdateNetControlsEnableStatus()
         {
-            int teamMemberCount = 0;
+            int primaryMemberCount = 0;
             bool containsCurrentID = false;
-            bool currentIDIsTeamMember = false;
+            bool currentIDIsPrimaryMember = false;
             foreach (ListBoxItem<AH64DataLinkMember> comboItem in lbPresetNetMembers.Items)
             {
-                if (comboItem.Value.Team)
+                if (comboItem.Value.Primary)
                 {
-                    teamMemberCount++;
+                    primaryMemberCount++;
                 }
                 if (comboItem.Value.SubscriberID == tbPresetNetID.Text)
                 {
                     containsCurrentID = true;
-                    currentIDIsTeamMember = comboItem.Value.Team;
+                    currentIDIsPrimaryMember = comboItem.Value.Primary;
                 }
             }
-            cbPresetNetTeam.Enabled = cbPresetNet_Enable.Checked
-                && (teamMemberCount < 7 || currentIDIsTeamMember);
+            cbPresetNetPrimary.Enabled = cbPresetNet_Enable.Checked
+                && (primaryMemberCount < 7 || currentIDIsPrimaryMember);
 
             btnPresetNetAdd.Enabled = cbPresetNet_Enable.Checked
                 && (lbPresetNetMembers.Items.Count < 15 || containsCurrentID)

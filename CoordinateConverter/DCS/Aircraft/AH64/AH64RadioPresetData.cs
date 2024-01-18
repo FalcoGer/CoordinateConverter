@@ -1021,7 +1021,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <returns>An error message or null</returns>
         public string SetOrAddLinkMember(string subscriberID, string callsign, bool primary, bool team)
         {
-            const int MAX_TEAM_MEMBERS = 7;
+            const int MAX_PRIMARY_MEMBERS = 7;
             const int MAX_MEMBERS = 15;
             
             int idx = linkMembers.FindIndex(x => x.SubscriberID == subscriberID);
@@ -1032,9 +1032,9 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 {
                     return "Maximum member capacity (" + MAX_MEMBERS.ToString() + ").";
                 }
-                if (team && linkMembers.FindAll(x => x.Team).Count >= MAX_TEAM_MEMBERS)
+                if (primary && linkMembers.FindAll(x => x.Primary).Count >= MAX_PRIMARY_MEMBERS)
                 {
-                    return "Maximum team member limit (" + MAX_TEAM_MEMBERS.ToString() + ").";
+                    return "Maximum primary member limit (" + MAX_PRIMARY_MEMBERS.ToString() + ").";
                 }
                 linkMembers.Add(new AH64DataLinkMember(callsign, subscriberID, primary, team));
                 return null;
