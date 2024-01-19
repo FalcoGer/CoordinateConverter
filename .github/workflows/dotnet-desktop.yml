@@ -45,7 +45,6 @@ on:
 jobs:
 
   build:
-
     strategy:
       matrix:
         configuration: [Release] # Debug, Release
@@ -82,6 +81,10 @@ jobs:
       run: msbuild Installer /t:Build /p:Configuration=$env:Configuration /p:Platform=AnyCPU /p:Version=$env:Major.$env:Minor.$env:Patch
       env:
         Configuration: ${{ matrix.configuration }}
+
+    # DEBUG
+    - name: Debug output
+      run: ls -Recurse
 
     # Prepare release folder structure
     - name: Move CoordinateConverter.lua
