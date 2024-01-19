@@ -39,10 +39,8 @@
 name: Release
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  push: 
+    tags: ['*']
 
 jobs:
 
