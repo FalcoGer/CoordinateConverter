@@ -36,7 +36,7 @@
 # For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
-name: Release
+name: Upload Release
 
 on:
   push: 
@@ -70,10 +70,6 @@ jobs:
 
     - name: Extract version from tag
       uses: damienaicheh/extract-version-from-tag-action@v1.1.0
-
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the Application
