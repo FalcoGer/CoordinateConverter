@@ -75,20 +75,20 @@ jobs:
     - name: Restore the Installer
       run: msbuild . /t:Restore /p:Configuration=$env:Configuration /p:Platform="Any CPU" /p:RestorePackagesConfig=true
       env:
-        Configuration: ${{ matrix.configuration }}
+        Configuration: ${{matrix.configuration}}
 
     # Create the app package by building wix project
     - name: Build and Package
       run: msbuild Installer /t:Build /p:Configuration=$env:Configuration /p:Platform=AnyCPU /p:Version=$env:Major.$env:Minor.$env:Patch
       env:
-        Configuration: ${{ matrix.configuration }}
+        Configuration: ${{matrix.configuration}}
 
     # Upload the MSI package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: MSI
-        path: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US
+        path: ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US
 
     # ZIP the directory
     # TheDoctor0/zip-release
@@ -96,9 +96,14 @@ jobs:
       uses: TheDoctor0/zip-release@0.7.1
       with:
         filename: CoordinateConverter-Installer.zip
-        directory: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US
+        directory: ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US
         path: .
         exclusions: "*.wixpdb"
+
+    # Rename file
+    - name: Rename Installer Zip
+      run: mv ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\CoordinateConverter-Installer.zip ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\CoordinateConverter-Installer-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
+      
     
     # create/update release with the artifact
     # https://github.com/ncipollo/release-action/blob/main/README.md
@@ -106,7 +111,7 @@ jobs:
       with:
         allowUpdates: true
         artifactErrorsFailBuild: true
-        artifacts: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\CoordinateConverter-Installer.zip
+        artifacts: ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\CoordinateConverter-Installer-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
         name: "$env:Major.$env:Minor.$env:Patch"
         body: "Automatically generated"
         omitBodyDuringUpdate: true
