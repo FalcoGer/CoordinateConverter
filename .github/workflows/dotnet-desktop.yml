@@ -64,12 +64,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
@@ -97,13 +91,20 @@ jobs:
     - name: Rename Release.zip
       run: mv Release.zip Release-$env:Major-$env:Minor-$env:Patch.zip
 
+    # Upload the Artifact: https://github.com/marketplace/actions/upload-a-build-artifact
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifact
+        path: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
+    
     # create/update release with the artifact
     # https://github.com/ncipollo/release-action/blob/main/README.md
     - uses: ncipollo/release-action@v1
       with:
         allowUpdates: true
         artifactErrorsFailBuild: true
-        artifacts: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\Release-$env:Major-$env:Minor-$env:Patch.zip
+        artifacts: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
         name: "$env:Major.$env:Minor.$env:Patch"
         body: "Automatically generated"
         omitBodyDuringUpdate: true
