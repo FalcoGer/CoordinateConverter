@@ -74,46 +74,24 @@ jobs:
     - name: Restore the Application
       run: msbuild . /t:Restore /p:Configuration=$env:Configuration /p:Platform="Any CPU" /p:RestorePackagesConfig=true
       env:
-        Configuration: ${{ matrix.configuration }}
+        Configuration: ${{matrix.configuration}}
 
     # Create the app package by building
     - name: Build
       run: msbuild Installer /t:Build /p:Configuration=$env:Configuration /p:Platform=AnyCPU /p:Version=$env:Major.$env:Minor.$env:Patch
       env:
-        Configuration: ${{ matrix.configuration }}
-
-    # DEBUG
-    - name: Debug output
-      run: ls -Recurse
-
-    # Prepare release folder structure
-    - name: Move CoordinateConverter.lua
-      run: mv ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\DCS\Communication\CoordinateConverter.lua ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\CoordinateConverter.lua
-      
-    - name: Move Resources
-      run: mv ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\Resources\*.* ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\
-
-    # ZIP the directory
-    # TheDoctor0/zip-release
-    - name: Zip Release
-      uses: TheDoctor0/zip-release@0.7.1
-      with:
-        type: zip
-        filename: Release.zip
-        directory: ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US
-        path: .
-        exclusions: "*.pdb *.xml *.exe.config *.zip"
+        Configuration: ${{matrix.configuration}}
 
     # Rename the Artifact
     - name: Rename Release.zip
-      run: mv ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\Release.zip ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
+      run: mv ${{env.Project_Directory}}\bin\${{matrix.configuration}}\Release.zip ${{env.Project_Directory}}\bin\${{matrix.configuration}}\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
 
     # Upload the Artifact: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: artifact
-        path: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
+        name: ZIP
+        path: ${{env.Project_Directory}}\bin\${{matrix.configuration}}\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
     
     # create/update release with the artifact
     # https://github.com/ncipollo/release-action/blob/main/README.md
@@ -121,7 +99,7 @@ jobs:
       with:
         allowUpdates: true
         artifactErrorsFailBuild: true
-        artifacts: ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
+        artifacts: ${{env.Project_Directory}}\bin\${{matrix.configuration}}\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
         name: "$env:Major.$env:Minor.$env:Patch"
         body: "Automatically generated"
         omitBodyDuringUpdate: true
