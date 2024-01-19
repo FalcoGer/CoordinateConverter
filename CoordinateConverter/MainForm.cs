@@ -20,7 +20,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 6, 6);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 6, 7);
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static readonly Color ERROR_COLOR = Color.Pink;
@@ -1868,7 +1868,12 @@ namespace CoordinateConverter
             }
             if (tsmi_Auto.Checked)
             {
-                selectedAircraft = null;
+                if (selectedAircraft != null)
+                {
+                    selectedAircraft = null;
+                    Tsmi_AircraftSelection_Click(null, null);
+                    RefreshDataGrid(EDataGridUpdateType.UpdateCells);
+                }
             }
             else
             {
@@ -1885,7 +1890,6 @@ namespace CoordinateConverter
             if (string.IsNullOrEmpty(model) || model == "null")
             {
                 UpdateAircraftSelectionItemsBasedOnAutoSetting();
-                Tsmi_AircraftSelection_Click(null, null);
                 return;
             }
             

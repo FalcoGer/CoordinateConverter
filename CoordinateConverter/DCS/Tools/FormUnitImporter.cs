@@ -112,10 +112,10 @@ namespace CoordinateConverter.DCS.Tools
                     };
 
                     // Add aircraft specific data data
-                    entry.AircraftSpecificData.Add(typeof(AH64), new AH64SpecificData(unit));
-                    entry.AircraftSpecificData.Add(typeof(KA50), new KA50SpecificData(KA50.EPointType.TargetPoint));
-                    entry.AircraftSpecificData.Add(typeof(JF17), new JF17SpecificData(JF17.EPointType.Waypoint));
-                    entry.AircraftSpecificData.Add(typeof(F18C), new F18CSpecificData());
+                    entry.AircraftSpecificData[typeof(AH64)] = new AH64SpecificData(unit);
+                    entry.AircraftSpecificData[typeof(KA50)] = new KA50SpecificData(KA50.EPointType.TargetPoint);
+                    entry.AircraftSpecificData[typeof(JF17)] = new JF17SpecificData(JF17.EPointType.Waypoint);
+                    entry.AircraftSpecificData[typeof(F18C)] = new F18CSpecificData();
                     Coordinates.Add(entry);
                 }
             }

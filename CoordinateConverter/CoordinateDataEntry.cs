@@ -1,4 +1,5 @@
 ﻿using CoordinateConverter.DCS.Aircraft;
+using CoordinateConverter.DCS.Aircraft.AH64;
 using CoordinateConverter.DCS.Communication;
 using Newtonsoft.Json;
 using System;
@@ -121,6 +122,11 @@ namespace CoordinateConverter
             XFer = xfer;
             AltitudeIsAGL = altitudeIsAGL;
             GroundElevationInM = null;
+
+            AircraftSpecificData.Add(typeof(AH64), new AH64SpecificData());
+            AircraftSpecificData.Add(typeof(F18C), new F18CSpecificData());
+            AircraftSpecificData.Add(typeof(JF17), new JF17SpecificData(JF17.EPointType.Waypoint));
+            AircraftSpecificData.Add(typeof(KA50), new KA50SpecificData(KA50.EPointType.Waypoint));
         }
 
         /// <summary>

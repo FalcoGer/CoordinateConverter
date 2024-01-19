@@ -139,8 +139,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// </returns>
         public override AircraftSpecificData Clone()
         {
-            F18CSpecificData ret = new F18CSpecificData() { preplanPointIdx = this.preplanPointIdx, WeaponType = this.WeaponType, StationSetting = StationSetting };
-            return ret;
+            return new F18CSpecificData(WeaponType, preplanPointIdx, StationSetting);
         }
     }
 }
