@@ -97,7 +97,7 @@ jobs:
 
     # Rename the Artifact
     - name: Rename Release.zip
-      run: rename Release.zip Release-$env:Major-$env:Minor-$env:Patch.zip
+      run: mv Release.zip Release-$env:Major-$env:Minor-$env:Patch.zip
 
     # create/update release with the artifact
     # https://github.com/ncipollo/release-action/blob/main/README.md
