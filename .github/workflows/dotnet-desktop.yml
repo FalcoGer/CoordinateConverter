@@ -83,9 +83,27 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
 
+    # Prepare release folder structure
+    - name: Move CoordinateConverter.lua
+      run: mv ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\DCS\Communication\CoordinateConverter.lua ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\CoordinateConverter.lua
+      
+    - name: Move Resources
+      run: mv ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\Resources\*.* ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\
+
+    # ZIP the directory
+    # TheDoctor0/zip-release
+    - name: Zip Release
+      uses: TheDoctor0/zip-release@0.7.1
+      with:
+        type: zip
+        filename: Release.zip
+        directory: ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US
+        path: .
+        exclusions: "*.pdb *.xml *.exe.config *.zip"
+
     # Rename the Artifact
     - name: Rename Release.zip
-      run: mv ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\Release.zip ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\Release-$env:Major-$env:Minor-$env:Patch.zip
+      run: mv ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\Release.zip ${{env.Project_Directory}}\bin\${{matrix.configuration}}\en-US\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
 
     # Upload the Artifact: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
