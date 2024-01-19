@@ -84,14 +84,14 @@ jobs:
 
     # Rename the Artifact
     - name: Rename Release.zip
-      run: mv ${{env.Project_Directory}}\bin\${{matrix.configuration}}\Release.zip ${{env.Project_Directory}}\bin\${{matrix.configuration}}\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
+      run: mv ${{env.Project_Directory}}\bin\${{matrix.configuration}}\Release.zip ${{env.Project_Directory}}\bin\${{matrix.configuration}}\CoordinateConverter-Manual-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
 
     # Upload the Artifact: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: ZIP
-        path: ${{env.Project_Directory}}\bin\${{matrix.configuration}}\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
+        path: ${{env.Project_Directory}}\bin\${{matrix.configuration}}\CoordinateConverter-Manual-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
     
     # create/update release with the artifact
     # https://github.com/ncipollo/release-action/blob/main/README.md
@@ -99,7 +99,7 @@ jobs:
       with:
         allowUpdates: true
         artifactErrorsFailBuild: true
-        artifacts: ${{env.Project_Directory}}\bin\${{matrix.configuration}}\Release-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
+        artifacts: ${{env.Project_Directory}}\bin\${{matrix.configuration}}\CoordinateConverter-Manual-${{env.Major}}-${{env.Minor}}-${{env.Patch}}.zip
         name: "$env:Major.$env:Minor.$env:Patch"
         body: "Automatically generated"
         omitBodyDuringUpdate: true
