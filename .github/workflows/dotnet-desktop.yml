@@ -85,7 +85,7 @@ jobs:
 
     # Rename the Artifact
     - name: Rename Release.zip
-      run: mv Release.zip Release-$env:Major-$env:Minor-$env:Patch.zip
+      run: mv ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\Release.zip ${{ env.Project_Directory }}\bin\${{matrix.configuration}}\en-US\Release-$env:Major-$env:Minor-$env:Patch.zip
 
     # Upload the Artifact: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
