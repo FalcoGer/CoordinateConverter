@@ -1,6 +1,21 @@
 Unit list:
     - Filter by unit type/name
 
+Data Entry
+    - Fix spurious data entry errors for AH64 KU
+
+Waypoint list:
+    - A point number field, showing where the point is in the aircraft's list
+        - information only for some A/C where it can't be specifically picked (ex. AH64, F18C)
+        - A/C where it can be picked, will enter points from there (JF17, F16C, KA-50)
+        - if blank, auto increment
+            - update when points are moved or removed
+        - if invalid (past the last valid point):
+            - display that and disable xfer checkbox
+            - make sure that when points are removed/unchecked for xfer, that the checkbox gets enabled again
+            - make sure to skip auto increment over non enabled xfer entries
+    - Use data source instead of editing rows (see unit importer) for better performance and less maintenance
+
 Add support for remote (DCS) hosts
     - auto switch reticle to never if ip is not localhost, because that makes no sense.
 
@@ -26,7 +41,8 @@ rewrite networking
 
 
 When saving/loading, update the default location and file name
-     - add a save option that just overwrites the last file loaded/saved
+    - add a save option that just overwrites the last file loaded/saved
+    - get the data the first time from a configuration file (appdata?)
 
 
 Add support for F10 map selection selection instead of camera position when something is selected
@@ -57,16 +73,18 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
     - AH64
         - DTC
             - Radio Presets
+                - FIXME: Net members DEL gets left undeleted
                 - FIXME: After ED fixes radio step size, adjust them in code at AH64RadioPresetData
                     - Real step sizes according to ED manual (source: raptor9 SME)
 					VHF radio: 108.000 - 151.975 MHz, in 0.025 increments
                     UHF radio: 225.000 - 399.975 MHz, in 0.025 increments
                     FM1/FM2 radios: 30.000 - 87.975 MHz, in 0.025 increments 
                     HF 2.0000 - 29.9999 MHz, in 0.0001 increments
-            - ADF Presets
+            - ADF Presets (Needs ADF to be in predetermined state)
                 - Valid range 100 - 2199.5 kHz
                 - Valid ID 1-3 alpha characters (no numbers, no other stuff)
-            - A/C Set stuff (LO/HI Warn)
+            - Map settings (Type, Orientation, any settings that are settable)
+            - A/C Set stuff (LO/HI Warn, Auto QNH)
             - Use OnKeyDown for all text boxes to block invalid inputs
 
     - F18
