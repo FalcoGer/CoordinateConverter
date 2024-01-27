@@ -8,6 +8,8 @@ assignees: FalcoGer
 ---
 
 **Describe the bug**
+- [ ] I am using the latest version of the software, available on the [release page](https://github.com/FalcoGer/CoordinateConverter/releases/latest)
+
 A clear and concise description of what the bug is.
 
 **To Reproduce**
@@ -23,9 +25,9 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Version [e.g. 22]
+**Versions:**
+- Coordinate converter: vX.Y.Z
+- DCS: 2.X.Y
 
 **Additional context**
 Add any other context about the problem here.
