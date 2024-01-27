@@ -730,7 +730,7 @@ namespace CoordinateConverter.DCS.Tools
         private void cbPresetFM2_Enable_CheckedChanged(object sender, EventArgs e)
         {
             bool status = (sender as CheckBox).Checked;
-            GetSelectedPreset().ContainsFM1Data = status;
+            GetSelectedPreset().ContainsFM2Data = status;
 
             nudFM2Freq.Enabled = status;
             ddlFM2CNV.Enabled = status;
