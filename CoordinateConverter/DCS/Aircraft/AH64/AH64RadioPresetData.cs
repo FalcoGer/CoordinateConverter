@@ -246,11 +246,11 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 {
                     new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T5), // C/S
                     // Set C/S to DEL
-                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_CLR),
-                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_D),
-                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_E),
-                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_L),
-                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_ENT),
+                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_CLR, 150),
+                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_D, 150),
+                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_E, 150),
+                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_L, 200),
+                    new DCSCommand((int)(IsPilot ? AH64.EDeviceCode.PLT_KU : AH64.EDeviceCode.CPG_KU), (int)AH64.EKeyCode.KU_ENT, 250),
                     new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T2), // Delete
                     new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T1) // Yes
                 };

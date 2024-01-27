@@ -192,6 +192,9 @@ namespace CoordinateConverter.DCS.Aircraft
                         // Needs to be separate because cdu key 0 is above key 9's value, but ascii '0' is below '1'
                         commands.Add(new DCSCommand(dev, (int)EKeyCodes.CDU_Key_0));
                         break;
+                    case ' ':
+                        commands.Add(new DCSCommand(dev, (int)EKeyCodes.CDU_Key_Space));
+                        break;
                     default:
                         int keyCode;
                         if (ch >= '1' && ch <= '9')
