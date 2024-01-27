@@ -42,6 +42,9 @@
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CoordinateSharp, Version=2.19.1.1, Culture=neutral, PublicKeyToken=f45e02df057b7725, processorArchitecture=MSIL">
       <HintPath>..\packages\CoordinateSharp.2.19.1.1\lib\net40\CoordinateSharp.dll</HintPath>
@@ -204,6 +207,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icon.ico" />
     <Content Include="Resources\Crosshair.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
