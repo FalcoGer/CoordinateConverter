@@ -8,7 +8,7 @@ assignees: FalcoGer
 ---
 
 **Describe the bug**
-[ ] I am using the latest version of the software, available on the [release page](https://github.com/FalcoGer/CoordinateConverter/releases/latest)
+- [ ] I am using the latest version of the software, available on the [release page](https://github.com/FalcoGer/CoordinateConverter/releases/latest)
 
 A clear and concise description of what the bug is.
 
