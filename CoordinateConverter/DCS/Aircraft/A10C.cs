@@ -228,11 +228,13 @@ namespace CoordinateConverter.DCS.Aircraft
             // maximum length is 12, cut it down
             // Needs M in front because if entered as a point label starting with a number, A10 will prepend M anyway and throw away the last character.
             string prefix = "M" + id.ToString().PadLeft(2, '0') + "/";
+            label = label.Trim();
             if (string.IsNullOrEmpty(label))
             {
                 return prefix.Substring(0, prefix.Length - 1);
             }
-            label = prefix + (label.Length <= (12 - prefix.Length) ? label : label.Substring(0, 12 - prefix.Length));
+            label = label.Length <= (12 - prefix.Length) ? label : label.Substring(0, 12 - prefix.Length);
+            label = prefix + label;
             return label;
         }
 
