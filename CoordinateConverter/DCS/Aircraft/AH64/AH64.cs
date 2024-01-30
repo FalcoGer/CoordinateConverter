@@ -712,7 +712,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// </summary>
         public static readonly Dictionary<EPointIdent, string> EWPOptionDescriptions = new Dictionary<EPointIdent, string>()
         {
-            { EPointIdent.WP_WP, "Waypoint" },
+            { EPointIdent.WP_WP, "*Waypoint" },
             { EPointIdent.WP_LZ, "Landing Zone" },
             { EPointIdent.WP_PP, "Passage Point" },
             { EPointIdent.WP_RP, "Release Point" },
@@ -726,7 +726,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         public static readonly Dictionary<EPointIdent, string> EHZOptionDescriptions = new Dictionary<EPointIdent, string>()
         {
             { EPointIdent.HZ_TO, "Tower > 1000" },
-            { EPointIdent.HZ_TU, "Tower < 1000" },
+            { EPointIdent.HZ_TU, "*Tower < 1000" },
             { EPointIdent.HZ_WL, "Wires Power" },
             { EPointIdent.HZ_WS, "Wires Tele/Elec" }
         };
@@ -748,7 +748,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             { EPointIdent.CM_BP, "Battle Position" },
             { EPointIdent.CM_BR, "Bridge or Gap" },
             { EPointIdent.CM_BD, "Brigade" },
-            { EPointIdent.CM_CP, "Check Point" },
+            { EPointIdent.CM_CP, "*Check Point" },
             { EPointIdent.CM_CO, "Company" },
             { EPointIdent.CM_CR, "Corps" },
             { EPointIdent.CM_DI, "Division" },
@@ -756,10 +756,11 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             { EPointIdent.CM_FM, "FARP (Munitions)" },
             { EPointIdent.CM_FC, "FARP (F & M)" },
             { EPointIdent.CM_FA, "Forward Assembly Area" },
+            { EPointIdent.CM_GL, "Ground Lights / Small Town" },
             { EPointIdent.CM_HA, "Holding Area" },
             { EPointIdent.CM_ID, "IDM Subscriber" },
-            { EPointIdent.CM_NB, "NBC Area" },
             { EPointIdent.CM_BE, "NDB Symbol" },
+            { EPointIdent.CM_NB, "NBC Contaminated Area" },
             { EPointIdent.CM_RH, "Rail Head" },
             { EPointIdent.CM_GP, "Regiment/Group" },
             { EPointIdent.CM_US, "US Army" },
@@ -775,8 +776,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             { EPointIdent.CM_DF, "FND Decontamination" },
             { EPointIdent.CM_EN, "FND Engineers" },
             { EPointIdent.CM_FW, "FND EW" },
+            { EPointIdent.CM_FL, "FND Field Artillery" },
             { EPointIdent.CM_WF, "FND Fixed Wing" },
-            { EPointIdent.CM_FL, "FND Fixed Arty" },
             { EPointIdent.CM_AH, "FND Attack Helicopter" },
             { EPointIdent.CM_FG, "FND General Helicopter" },
             { EPointIdent.CM_HO, "FND Hospital" },
@@ -786,19 +787,19 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             { EPointIdent.CM_TF, "FND TOC" },
             { EPointIdent.CM_FU, "FND Generic Unit" },
             // Hostile (Red)
+            { EPointIdent.CM_ED, "EMY ADU" },
             { EPointIdent.CM_ES, "EMY Air Assault" },
             { EPointIdent.CM_EV, "EMY Airborne Cav" },
-            { EPointIdent.CM_ED, "EMY ADU" },
             { EPointIdent.CM_EB, "EMY Airborne" },
-            { EPointIdent.CM_EC, "EMY CAV Armor" },
             { EPointIdent.CM_AE, "EMY Armor" },
+            { EPointIdent.CM_EC, "EMY CAV Armor" },
             { EPointIdent.CM_ME, "EMY AV Maintenance" },
             { EPointIdent.CM_CE, "EMY Chemical" },
             { EPointIdent.CM_DE, "EMY Decontamination" },
             { EPointIdent.CM_EE, "EMY Engineers" },
             { EPointIdent.CM_WR, "EMY EW" },
-            { EPointIdent.CM_EF, "EMY Fixed Wing" },
-            { EPointIdent.CM_WE, "EMY Fixed Arty" },
+            { EPointIdent.CM_EF, "EMY Field Artilery" },
+            { EPointIdent.CM_WE, "EMY Fixed Wing" },
             { EPointIdent.CM_EK, "EMY Attack Helicopter" },
             { EPointIdent.CM_HG, "EMY General Helicopter" },
             { EPointIdent.CM_EH, "EMY Hospital" },
@@ -874,7 +875,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             { EPointIdent.TG_ST, "SAM Stinger" },
             { EPointIdent.TG_SA, "SAM Towed" },
             { EPointIdent.TG_VU, "Gun Vulcan" },
-            { EPointIdent.TG_TG, "Target Reference Point" }
+            { EPointIdent.TG_TG, "*Target Reference Point" }
         };
     }
 }
