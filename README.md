@@ -19,7 +19,7 @@ Invalid inputs will mark the relevant textbox pink to indicate the error.
 - Clicking the up and down buttons will move the selected entries in the list up or down.
 
 ### Use with DCS World
-When properly installed (see installation instructions [here](https://github.com/FalcoGer/CoordinateConverter/blob/master/CoordinateConverter/Installation.txt) or in the release zip archive), then the program will attempt to automatically connect to the socket opened by the lua script. That socket is a TCP socket and listens on localhost on port 42020. Another listening socket on the same port must not be opened. [DCS TheWay](https://github.com/aronCiucu/DCSTheWay) uses a different port, both applications can be used simultaneously.
+When properly installed (see installation instructions [here](https://github.com/FalcoGer/CoordinateConverter/blob/master/CoordinateConverter/Resources/Installation.txt) or in the release zip archive), then the program will attempt to automatically connect to the socket opened by the lua script. That socket is a TCP socket and listens on localhost on port 42020. Another listening socket on the same port must not be opened. [DCS TheWay](https://github.com/aronCiucu/DCSTheWay) uses a different port, both applications can be used simultaneously.
 
 The connection will only occur during the exports setup, that is when a game world is loaded and unpaused.  
 Upon connection the DCS status will turn green and the camera coordinates will be displayed.
