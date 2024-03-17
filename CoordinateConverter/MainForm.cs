@@ -2459,6 +2459,10 @@ namespace CoordinateConverter
         private void FetchCoordinatesControl_Click(object sender, EventArgs e)
         {
             input = dcsCoordinate;
+            if (input is null)
+            {
+                return;
+            }
             int newIdx = dataEntries.Count;
             ResetIDs();
             dataEntries.Add(input.Clone(newIdx));
