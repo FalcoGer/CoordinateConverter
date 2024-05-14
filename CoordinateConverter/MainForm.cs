@@ -20,7 +20,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 6, 11);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 6, 12);
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static readonly Color ERROR_COLOR = Color.Pink;
@@ -2458,11 +2458,11 @@ namespace CoordinateConverter
 
         private void FetchCoordinatesControl_Click(object sender, EventArgs e)
         {
-            input = dcsCoordinate;
-            if (input is null)
+            if (dcsCoordinate is null)
             {
                 return;
             }
+            input = dcsCoordinate;
             int newIdx = dataEntries.Count;
             ResetIDs();
             dataEntries.Add(input.Clone(newIdx));

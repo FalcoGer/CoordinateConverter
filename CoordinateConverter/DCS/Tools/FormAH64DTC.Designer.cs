@@ -334,10 +334,11 @@
             // 
             // ddlPresetPrimaryRadio
             // 
+            this.ddlPresetPrimaryRadio.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlPresetPrimaryRadio.FormattingEnabled = true;
             this.ddlPresetPrimaryRadio.Location = new System.Drawing.Point(97, 56);
             this.ddlPresetPrimaryRadio.Name = "ddlPresetPrimaryRadio";
-            this.ddlPresetPrimaryRadio.Size = new System.Drawing.Size(121, 21);
+            this.ddlPresetPrimaryRadio.Size = new System.Drawing.Size(121, 22);
             this.ddlPresetPrimaryRadio.TabIndex = 6;
             this.ddlPresetPrimaryRadio.SelectedIndexChanged += new System.EventHandler(this.ddlPresetPrimaryRadio_SelectedIndexChanged);
             // 
@@ -428,6 +429,7 @@
             // nudVHFFreq
             // 
             this.nudVHFFreq.DecimalPlaces = 3;
+            this.nudVHFFreq.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudVHFFreq.Location = new System.Drawing.Point(87, 26);
             this.nudVHFFreq.Maximum = new decimal(new int[] {
             1275,
@@ -472,10 +474,11 @@
             // ddlUHFCNV
             // 
             this.ddlUHFCNV.Enabled = false;
+            this.ddlUHFCNV.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlUHFCNV.FormattingEnabled = true;
             this.ddlUHFCNV.Location = new System.Drawing.Point(90, 23);
             this.ddlUHFCNV.Name = "ddlUHFCNV";
-            this.ddlUHFCNV.Size = new System.Drawing.Size(121, 21);
+            this.ddlUHFCNV.Size = new System.Drawing.Size(121, 22);
             this.ddlUHFCNV.TabIndex = 12;
             this.ddlUHFCNV.SelectedIndexChanged += new System.EventHandler(this.ddlUHFCNV_SelectedIndexChanged);
             // 
@@ -483,6 +486,7 @@
             // 
             this.nudUHFHQ.DecimalPlaces = 3;
             this.nudUHFHQ.Enabled = false;
+            this.nudUHFHQ.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudUHFHQ.Location = new System.Drawing.Point(90, 51);
             this.nudUHFHQ.Maximum = new decimal(new int[] {
             0,
@@ -524,6 +528,7 @@
             // nudUHFFreq
             // 
             this.nudUHFFreq.DecimalPlaces = 3;
+            this.nudUHFFreq.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudUHFFreq.Location = new System.Drawing.Point(90, 77);
             this.nudUHFFreq.Maximum = new decimal(new int[] {
             225,
@@ -612,16 +617,18 @@
             // ddlFM1CNV
             // 
             this.ddlFM1CNV.Enabled = false;
+            this.ddlFM1CNV.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlFM1CNV.FormattingEnabled = true;
             this.ddlFM1CNV.Location = new System.Drawing.Point(66, 28);
             this.ddlFM1CNV.Name = "ddlFM1CNV";
-            this.ddlFM1CNV.Size = new System.Drawing.Size(121, 21);
+            this.ddlFM1CNV.Size = new System.Drawing.Size(121, 22);
             this.ddlFM1CNV.TabIndex = 16;
             this.ddlFM1CNV.SelectedIndexChanged += new System.EventHandler(this.ddlFM1CNV_SelectedIndexChanged);
             // 
             // nudFM1Hopset
             // 
             this.nudFM1Hopset.Enabled = false;
+            this.nudFM1Hopset.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudFM1Hopset.Location = new System.Drawing.Point(66, 54);
             this.nudFM1Hopset.Maximum = new decimal(new int[] {
             6,
@@ -673,6 +680,7 @@
             // nudFM1Freq
             // 
             this.nudFM1Freq.DecimalPlaces = 3;
+            this.nudFM1Freq.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudFM1Freq.Location = new System.Drawing.Point(66, 80);
             this.nudFM1Freq.Maximum = new decimal(new int[] {
             30,
@@ -717,16 +725,18 @@
             // ddlFM2CNV
             // 
             this.ddlFM2CNV.Enabled = false;
+            this.ddlFM2CNV.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlFM2CNV.FormattingEnabled = true;
             this.ddlFM2CNV.Location = new System.Drawing.Point(66, 27);
             this.ddlFM2CNV.Name = "ddlFM2CNV";
-            this.ddlFM2CNV.Size = new System.Drawing.Size(121, 21);
+            this.ddlFM2CNV.Size = new System.Drawing.Size(121, 22);
             this.ddlFM2CNV.TabIndex = 20;
             this.ddlFM2CNV.SelectedIndexChanged += new System.EventHandler(this.ddlFM2CNV_SelectedIndexChanged);
             // 
             // nudFM2Hopset
             // 
             this.nudFM2Hopset.Enabled = false;
+            this.nudFM2Hopset.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudFM2Hopset.Location = new System.Drawing.Point(66, 54);
             this.nudFM2Hopset.Maximum = new decimal(new int[] {
             6,
@@ -778,6 +788,7 @@
             // nudFM2Freq
             // 
             this.nudFM2Freq.DecimalPlaces = 3;
+            this.nudFM2Freq.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudFM2Freq.Location = new System.Drawing.Point(66, 80);
             this.nudFM2Freq.Maximum = new decimal(new int[] {
             30,
@@ -877,6 +888,7 @@
             // nudHFTXFreq
             // 
             this.nudHFTXFreq.DecimalPlaces = 4;
+            this.nudHFTXFreq.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudHFTXFreq.Location = new System.Drawing.Point(351, 44);
             this.nudHFTXFreq.Maximum = new decimal(new int[] {
             2,
@@ -910,6 +922,7 @@
             // nudHFRXFreq
             // 
             this.nudHFRXFreq.DecimalPlaces = 4;
+            this.nudHFRXFreq.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudHFRXFreq.Location = new System.Drawing.Point(351, 15);
             this.nudHFRXFreq.Maximum = new decimal(new int[] {
             2,
@@ -943,6 +956,7 @@
             // nudHFECCMNet
             // 
             this.nudHFECCMNet.Enabled = false;
+            this.nudHFECCMNet.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudHFECCMNet.Location = new System.Drawing.Point(91, 96);
             this.nudHFECCMNet.Maximum = new decimal(new int[] {
             12,
@@ -976,6 +990,7 @@
             // nudHFALENet
             // 
             this.nudHFALENet.Enabled = false;
+            this.nudHFALENet.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudHFALENet.Location = new System.Drawing.Point(91, 70);
             this.nudHFALENet.Maximum = new decimal(new int[] {
             20,
@@ -1009,6 +1024,7 @@
             // nudHFPresetCH
             // 
             this.nudHFPresetCH.Enabled = false;
+            this.nudHFPresetCH.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudHFPresetCH.Location = new System.Drawing.Point(91, 44);
             this.nudHFPresetCH.Maximum = new decimal(new int[] {
             20,
@@ -1042,10 +1058,11 @@
             // ddlHFCNV
             // 
             this.ddlHFCNV.Enabled = false;
+            this.ddlHFCNV.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlHFCNV.FormattingEnabled = true;
             this.ddlHFCNV.Location = new System.Drawing.Point(91, 17);
             this.ddlHFCNV.Name = "ddlHFCNV";
-            this.ddlHFCNV.Size = new System.Drawing.Size(121, 21);
+            this.ddlHFCNV.Size = new System.Drawing.Size(121, 22);
             this.ddlHFCNV.TabIndex = 24;
             this.ddlHFCNV.SelectedIndexChanged += new System.EventHandler(this.ddlHFCNV_SelectedIndexChanged);
             // 
@@ -1185,6 +1202,7 @@
             // tbPresetNetID
             // 
             this.tbPresetNetID.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbPresetNetID.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbPresetNetID.Location = new System.Drawing.Point(120, 26);
             this.tbPresetNetID.MaxLength = 2;
             this.tbPresetNetID.Name = "tbPresetNetID";
@@ -1224,6 +1242,7 @@
             // tbPresetNetCS
             // 
             this.tbPresetNetCS.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbPresetNetCS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbPresetNetCS.Location = new System.Drawing.Point(35, 26);
             this.tbPresetNetCS.MaxLength = 5;
             this.tbPresetNetCS.Name = "tbPresetNetCS";
@@ -1234,10 +1253,11 @@
             // ddlRadioPresetModemProtocol
             // 
             this.ddlRadioPresetModemProtocol.Enabled = false;
+            this.ddlRadioPresetModemProtocol.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlRadioPresetModemProtocol.FormattingEnabled = true;
             this.ddlRadioPresetModemProtocol.Location = new System.Drawing.Point(71, 21);
             this.ddlRadioPresetModemProtocol.Name = "ddlRadioPresetModemProtocol";
-            this.ddlRadioPresetModemProtocol.Size = new System.Drawing.Size(121, 21);
+            this.ddlRadioPresetModemProtocol.Size = new System.Drawing.Size(121, 22);
             this.ddlRadioPresetModemProtocol.TabIndex = 40;
             this.ddlRadioPresetModemProtocol.SelectedIndexChanged += new System.EventHandler(this.ddlRadioPresetModemProtocol_SelectedIndexChanged);
             // 
@@ -1253,10 +1273,11 @@
             // ddlPresetModemRetriesCount
             // 
             this.ddlPresetModemRetriesCount.Enabled = false;
+            this.ddlPresetModemRetriesCount.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlPresetModemRetriesCount.FormattingEnabled = true;
             this.ddlPresetModemRetriesCount.Location = new System.Drawing.Point(71, 48);
             this.ddlPresetModemRetriesCount.Name = "ddlPresetModemRetriesCount";
-            this.ddlPresetModemRetriesCount.Size = new System.Drawing.Size(121, 21);
+            this.ddlPresetModemRetriesCount.Size = new System.Drawing.Size(121, 22);
             this.ddlPresetModemRetriesCount.TabIndex = 41;
             this.ddlPresetModemRetriesCount.SelectedIndexChanged += new System.EventHandler(this.ddlPresetModemRetriesCount_SelectedIndexChanged);
             // 
@@ -1272,10 +1293,11 @@
             // ddlPresetModemBaudRate
             // 
             this.ddlPresetModemBaudRate.Enabled = false;
+            this.ddlPresetModemBaudRate.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlPresetModemBaudRate.FormattingEnabled = true;
             this.ddlPresetModemBaudRate.Location = new System.Drawing.Point(71, 75);
             this.ddlPresetModemBaudRate.Name = "ddlPresetModemBaudRate";
-            this.ddlPresetModemBaudRate.Size = new System.Drawing.Size(121, 21);
+            this.ddlPresetModemBaudRate.Size = new System.Drawing.Size(121, 22);
             this.ddlPresetModemBaudRate.TabIndex = 42;
             this.ddlPresetModemBaudRate.SelectedIndexChanged += new System.EventHandler(this.ddlPresetModemBaudRate_SelectedIndexChanged);
             // 
@@ -1302,6 +1324,7 @@
             // tbRadioPresetCallsign
             // 
             this.tbRadioPresetCallsign.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRadioPresetCallsign.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRadioPresetCallsign.Location = new System.Drawing.Point(273, 30);
             this.tbRadioPresetCallsign.MaxLength = 5;
             this.tbRadioPresetCallsign.Name = "tbRadioPresetCallsign";
@@ -1321,6 +1344,7 @@
             // tbRadioPresetUnitID
             // 
             this.tbRadioPresetUnitID.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRadioPresetUnitID.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRadioPresetUnitID.Location = new System.Drawing.Point(97, 30);
             this.tbRadioPresetUnitID.MaxLength = 8;
             this.tbRadioPresetUnitID.Name = "tbRadioPresetUnitID";
@@ -1348,10 +1372,11 @@
             // 
             // ddlRadioPresetSelection
             // 
+            this.ddlRadioPresetSelection.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlRadioPresetSelection.FormattingEnabled = true;
             this.ddlRadioPresetSelection.Location = new System.Drawing.Point(97, 3);
             this.ddlRadioPresetSelection.Name = "ddlRadioPresetSelection";
-            this.ddlRadioPresetSelection.Size = new System.Drawing.Size(578, 21);
+            this.ddlRadioPresetSelection.Size = new System.Drawing.Size(578, 22);
             this.ddlRadioPresetSelection.TabIndex = 3;
             this.ddlRadioPresetSelection.SelectedIndexChanged += new System.EventHandler(this.ddlRadioPresetSelection_SelectedIndexChanged);
             // 
@@ -1389,6 +1414,7 @@
             this.nudTuneHFRXManualFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nudTuneHFRXManualFreq.DecimalPlaces = 4;
             this.nudTuneHFRXManualFreq.Enabled = false;
+            this.nudTuneHFRXManualFreq.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudTuneHFRXManualFreq.Location = new System.Drawing.Point(539, 18);
             this.nudTuneHFRXManualFreq.Maximum = new decimal(new int[] {
             2,
@@ -1415,10 +1441,11 @@
             this.ddlTuneHFPreset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ddlTuneHFPreset.Enabled = false;
+            this.ddlTuneHFPreset.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlTuneHFPreset.FormattingEnabled = true;
             this.ddlTuneHFPreset.Location = new System.Drawing.Point(151, 18);
             this.ddlTuneHFPreset.Name = "ddlTuneHFPreset";
-            this.ddlTuneHFPreset.Size = new System.Drawing.Size(330, 21);
+            this.ddlTuneHFPreset.Size = new System.Drawing.Size(330, 22);
             this.ddlTuneHFPreset.TabIndex = 3;
             this.ddlTuneHFPreset.SelectedIndexChanged += new System.EventHandler(this.ddlTuneHFPreset_SelectedIndexChanged);
             // 
@@ -1480,6 +1507,7 @@
             this.nudTuneFM2ManualFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nudTuneFM2ManualFreq.DecimalPlaces = 3;
             this.nudTuneFM2ManualFreq.Enabled = false;
+            this.nudTuneFM2ManualFreq.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudTuneFM2ManualFreq.Location = new System.Drawing.Point(539, 18);
             this.nudTuneFM2ManualFreq.Maximum = new decimal(new int[] {
             30,
@@ -1506,10 +1534,11 @@
             this.ddlTuneFM2Preset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ddlTuneFM2Preset.Enabled = false;
+            this.ddlTuneFM2Preset.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlTuneFM2Preset.FormattingEnabled = true;
             this.ddlTuneFM2Preset.Location = new System.Drawing.Point(151, 18);
             this.ddlTuneFM2Preset.Name = "ddlTuneFM2Preset";
-            this.ddlTuneFM2Preset.Size = new System.Drawing.Size(330, 21);
+            this.ddlTuneFM2Preset.Size = new System.Drawing.Size(330, 22);
             this.ddlTuneFM2Preset.TabIndex = 3;
             this.ddlTuneFM2Preset.SelectedIndexChanged += new System.EventHandler(this.ddlTuneFM2Preset_SelectedIndexChanged);
             // 
@@ -1570,6 +1599,7 @@
             this.nudTuneFM1ManualFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nudTuneFM1ManualFreq.DecimalPlaces = 3;
             this.nudTuneFM1ManualFreq.Enabled = false;
+            this.nudTuneFM1ManualFreq.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudTuneFM1ManualFreq.Location = new System.Drawing.Point(539, 18);
             this.nudTuneFM1ManualFreq.Maximum = new decimal(new int[] {
             30,
@@ -1596,10 +1626,11 @@
             this.ddlTuneFM1Preset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ddlTuneFM1Preset.Enabled = false;
+            this.ddlTuneFM1Preset.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlTuneFM1Preset.FormattingEnabled = true;
             this.ddlTuneFM1Preset.Location = new System.Drawing.Point(151, 18);
             this.ddlTuneFM1Preset.Name = "ddlTuneFM1Preset";
-            this.ddlTuneFM1Preset.Size = new System.Drawing.Size(330, 21);
+            this.ddlTuneFM1Preset.Size = new System.Drawing.Size(330, 22);
             this.ddlTuneFM1Preset.TabIndex = 3;
             this.ddlTuneFM1Preset.SelectedIndexChanged += new System.EventHandler(this.ddlTuneFM1Preset_SelectedIndexChanged);
             // 
@@ -1660,6 +1691,7 @@
             this.nudTuneUHFManualFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nudTuneUHFManualFreq.DecimalPlaces = 3;
             this.nudTuneUHFManualFreq.Enabled = false;
+            this.nudTuneUHFManualFreq.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudTuneUHFManualFreq.Location = new System.Drawing.Point(539, 18);
             this.nudTuneUHFManualFreq.Maximum = new decimal(new int[] {
             225,
@@ -1686,10 +1718,11 @@
             this.ddlTuneUHFPreset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ddlTuneUHFPreset.Enabled = false;
+            this.ddlTuneUHFPreset.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlTuneUHFPreset.FormattingEnabled = true;
             this.ddlTuneUHFPreset.Location = new System.Drawing.Point(151, 18);
             this.ddlTuneUHFPreset.Name = "ddlTuneUHFPreset";
-            this.ddlTuneUHFPreset.Size = new System.Drawing.Size(330, 21);
+            this.ddlTuneUHFPreset.Size = new System.Drawing.Size(330, 22);
             this.ddlTuneUHFPreset.TabIndex = 3;
             this.ddlTuneUHFPreset.SelectedIndexChanged += new System.EventHandler(this.ddlTuneUHFPreset_SelectedIndexChanged);
             // 
@@ -1750,10 +1783,11 @@
             this.ddlTuneVHFPreset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ddlTuneVHFPreset.Enabled = false;
+            this.ddlTuneVHFPreset.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlTuneVHFPreset.FormattingEnabled = true;
             this.ddlTuneVHFPreset.Location = new System.Drawing.Point(151, 18);
             this.ddlTuneVHFPreset.Name = "ddlTuneVHFPreset";
-            this.ddlTuneVHFPreset.Size = new System.Drawing.Size(330, 21);
+            this.ddlTuneVHFPreset.Size = new System.Drawing.Size(330, 22);
             this.ddlTuneVHFPreset.TabIndex = 3;
             this.ddlTuneVHFPreset.SelectedIndexChanged += new System.EventHandler(this.ddlTuneVHFPreset_SelectedIndexChanged);
             // 
@@ -1762,6 +1796,7 @@
             this.nudTuneVHFManualFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nudTuneVHFManualFreq.DecimalPlaces = 3;
             this.nudTuneVHFManualFreq.Enabled = false;
+            this.nudTuneVHFManualFreq.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudTuneVHFManualFreq.Location = new System.Drawing.Point(539, 18);
             this.nudTuneVHFManualFreq.Maximum = new decimal(new int[] {
             1275,
@@ -1838,6 +1873,7 @@
             // tbOwnshipSubscriberID
             // 
             this.tbOwnshipSubscriberID.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbOwnshipSubscriberID.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbOwnshipSubscriberID.Location = new System.Drawing.Point(35, 32);
             this.tbOwnshipSubscriberID.MaxLength = 2;
             this.tbOwnshipSubscriberID.Name = "tbOwnshipSubscriberID";
@@ -1866,6 +1902,7 @@
             // tbOwnshipCallsign
             // 
             this.tbOwnshipCallsign.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbOwnshipCallsign.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbOwnshipCallsign.Location = new System.Drawing.Point(35, 6);
             this.tbOwnshipCallsign.MaxLength = 5;
             this.tbOwnshipCallsign.Name = "tbOwnshipCallsign";
@@ -1910,25 +1947,28 @@
             // 
             // ddlXPNDRAntenna
             // 
+            this.ddlXPNDRAntenna.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlXPNDRAntenna.FormattingEnabled = true;
             this.ddlXPNDRAntenna.Location = new System.Drawing.Point(119, 190);
             this.ddlXPNDRAntenna.Name = "ddlXPNDRAntenna";
-            this.ddlXPNDRAntenna.Size = new System.Drawing.Size(121, 21);
+            this.ddlXPNDRAntenna.Size = new System.Drawing.Size(121, 22);
             this.ddlXPNDRAntenna.TabIndex = 208;
             this.ddlXPNDRAntenna.SelectedIndexChanged += new System.EventHandler(this.ddlXPNDRAntenna_SelectedIndexChanged);
             // 
             // ddlXPNDRReply
             // 
+            this.ddlXPNDRReply.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlXPNDRReply.FormattingEnabled = true;
             this.ddlXPNDRReply.Location = new System.Drawing.Point(119, 163);
             this.ddlXPNDRReply.Name = "ddlXPNDRReply";
-            this.ddlXPNDRReply.Size = new System.Drawing.Size(121, 21);
+            this.ddlXPNDRReply.Size = new System.Drawing.Size(121, 22);
             this.ddlXPNDRReply.TabIndex = 207;
             this.ddlXPNDRReply.SelectedIndexChanged += new System.EventHandler(this.ddlXPNDRReply_SelectedIndexChanged);
             // 
             // tbXPNDRModeSAddr
             // 
             this.tbXPNDRModeSAddr.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbXPNDRModeSAddr.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbXPNDRModeSAddr.Location = new System.Drawing.Point(119, 110);
             this.tbXPNDRModeSAddr.MaxLength = 8;
             this.tbXPNDRModeSAddr.Name = "tbXPNDRModeSAddr";
@@ -1938,16 +1978,18 @@
             // 
             // ddlXPNDRMode4Key
             // 
+            this.ddlXPNDRMode4Key.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlXPNDRMode4Key.FormattingEnabled = true;
             this.ddlXPNDRMode4Key.Location = new System.Drawing.Point(119, 136);
             this.ddlXPNDRMode4Key.Name = "ddlXPNDRMode4Key";
-            this.ddlXPNDRMode4Key.Size = new System.Drawing.Size(121, 21);
+            this.ddlXPNDRMode4Key.Size = new System.Drawing.Size(121, 22);
             this.ddlXPNDRMode4Key.TabIndex = 206;
             this.ddlXPNDRMode4Key.SelectedIndexChanged += new System.EventHandler(this.ddlXPNDRMode4Key_SelectedIndexChanged);
             // 
             // tbXPNDRMode2
             // 
             this.tbXPNDRMode2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbXPNDRMode2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbXPNDRMode2.Location = new System.Drawing.Point(119, 32);
             this.tbXPNDRMode2.MaxLength = 4;
             this.tbXPNDRMode2.Name = "tbXPNDRMode2";
@@ -1958,6 +2000,7 @@
             // tbXPNDRModeSID
             // 
             this.tbXPNDRModeSID.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbXPNDRModeSID.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbXPNDRModeSID.Location = new System.Drawing.Point(119, 84);
             this.tbXPNDRModeSID.MaxLength = 8;
             this.tbXPNDRModeSID.Name = "tbXPNDRModeSID";
@@ -1968,6 +2011,7 @@
             // tbXPNDRMode3A
             // 
             this.tbXPNDRMode3A.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbXPNDRMode3A.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbXPNDRMode3A.Location = new System.Drawing.Point(119, 58);
             this.tbXPNDRMode3A.MaxLength = 4;
             this.tbXPNDRMode3A.Name = "tbXPNDRMode3A";
@@ -1978,6 +2022,7 @@
             // tbXPNDRMode1
             // 
             this.tbXPNDRMode1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbXPNDRMode1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbXPNDRMode1.Location = new System.Drawing.Point(119, 6);
             this.tbXPNDRMode1.MaxLength = 2;
             this.tbXPNDRMode1.Name = "tbXPNDRMode1";
@@ -2080,37 +2125,41 @@
             // 
             // ddlASESalvoInterval
             // 
+            this.ddlASESalvoInterval.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlASESalvoInterval.FormattingEnabled = true;
             this.ddlASESalvoInterval.Location = new System.Drawing.Point(81, 100);
             this.ddlASESalvoInterval.Name = "ddlASESalvoInterval";
-            this.ddlASESalvoInterval.Size = new System.Drawing.Size(121, 21);
+            this.ddlASESalvoInterval.Size = new System.Drawing.Size(121, 22);
             this.ddlASESalvoInterval.TabIndex = 306;
             this.ddlASESalvoInterval.SelectedIndexChanged += new System.EventHandler(this.ddlASESalvoInterval_SelectedIndexChanged);
             // 
             // ddlASESalvoCount
             // 
+            this.ddlASESalvoCount.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlASESalvoCount.FormattingEnabled = true;
             this.ddlASESalvoCount.Location = new System.Drawing.Point(81, 73);
             this.ddlASESalvoCount.Name = "ddlASESalvoCount";
-            this.ddlASESalvoCount.Size = new System.Drawing.Size(121, 21);
+            this.ddlASESalvoCount.Size = new System.Drawing.Size(121, 22);
             this.ddlASESalvoCount.TabIndex = 305;
             this.ddlASESalvoCount.SelectedIndexChanged += new System.EventHandler(this.ddlASESalvoCount_SelectedIndexChanged);
             // 
             // ddlASEBurstInterval
             // 
+            this.ddlASEBurstInterval.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlASEBurstInterval.FormattingEnabled = true;
             this.ddlASEBurstInterval.Location = new System.Drawing.Point(81, 46);
             this.ddlASEBurstInterval.Name = "ddlASEBurstInterval";
-            this.ddlASEBurstInterval.Size = new System.Drawing.Size(121, 21);
+            this.ddlASEBurstInterval.Size = new System.Drawing.Size(121, 22);
             this.ddlASEBurstInterval.TabIndex = 304;
             this.ddlASEBurstInterval.SelectedIndexChanged += new System.EventHandler(this.ddlASEBurstInterval_SelectedIndexChanged);
             // 
             // ddlASEBurstCount
             // 
+            this.ddlASEBurstCount.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlASEBurstCount.FormattingEnabled = true;
             this.ddlASEBurstCount.Location = new System.Drawing.Point(81, 19);
             this.ddlASEBurstCount.Name = "ddlASEBurstCount";
-            this.ddlASEBurstCount.Size = new System.Drawing.Size(121, 21);
+            this.ddlASEBurstCount.Size = new System.Drawing.Size(121, 22);
             this.ddlASEBurstCount.TabIndex = 303;
             this.ddlASEBurstCount.SelectedIndexChanged += new System.EventHandler(this.ddlASEBurstCount_SelectedIndexChanged);
             // 
@@ -2152,10 +2201,11 @@
             // 
             // ddlASEAutopage
             // 
+            this.ddlASEAutopage.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlASEAutopage.FormattingEnabled = true;
             this.ddlASEAutopage.Location = new System.Drawing.Point(86, 6);
             this.ddlASEAutopage.Name = "ddlASEAutopage";
-            this.ddlASEAutopage.Size = new System.Drawing.Size(121, 21);
+            this.ddlASEAutopage.Size = new System.Drawing.Size(121, 22);
             this.ddlASEAutopage.TabIndex = 301;
             this.ddlASEAutopage.SelectedIndexChanged += new System.EventHandler(this.ddlASEAutopage_SelectedIndexChanged);
             // 
@@ -2207,6 +2257,7 @@
             // 
             // nudManRange
             // 
+            this.nudManRange.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudManRange.Increment = new decimal(new int[] {
             50,
             0,
@@ -2279,6 +2330,7 @@
             // tb_laserCodeR
             // 
             this.tb_laserCodeR.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeR.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeR.Location = new System.Drawing.Point(308, 46);
             this.tb_laserCodeR.MaxLength = 4;
             this.tb_laserCodeR.Name = "tb_laserCodeR";
@@ -2290,6 +2342,7 @@
             // tb_laserCodeQ
             // 
             this.tb_laserCodeQ.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeQ.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeQ.Location = new System.Drawing.Point(308, 72);
             this.tb_laserCodeQ.MaxLength = 4;
             this.tb_laserCodeQ.Name = "tb_laserCodeQ";
@@ -2301,6 +2354,7 @@
             // tb_laserCodeP
             // 
             this.tb_laserCodeP.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeP.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeP.Location = new System.Drawing.Point(308, 98);
             this.tb_laserCodeP.MaxLength = 4;
             this.tb_laserCodeP.Name = "tb_laserCodeP";
@@ -2312,6 +2366,7 @@
             // tb_laserCodeN
             // 
             this.tb_laserCodeN.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeN.Location = new System.Drawing.Point(308, 124);
             this.tb_laserCodeN.MaxLength = 4;
             this.tb_laserCodeN.Name = "tb_laserCodeN";
@@ -2323,6 +2378,7 @@
             // tb_laserCodeM
             // 
             this.tb_laserCodeM.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeM.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeM.Location = new System.Drawing.Point(308, 149);
             this.tb_laserCodeM.MaxLength = 4;
             this.tb_laserCodeM.Name = "tb_laserCodeM";
@@ -2334,6 +2390,7 @@
             // tb_laserCodeL
             // 
             this.tb_laserCodeL.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeL.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeL.Location = new System.Drawing.Point(308, 175);
             this.tb_laserCodeL.MaxLength = 4;
             this.tb_laserCodeL.Name = "tb_laserCodeL";
@@ -2345,6 +2402,7 @@
             // tb_laserCodeK
             // 
             this.tb_laserCodeK.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeK.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeK.Location = new System.Drawing.Point(350, 225);
             this.tb_laserCodeK.MaxLength = 4;
             this.tb_laserCodeK.Name = "tb_laserCodeK";
@@ -2356,6 +2414,7 @@
             // tb_laserCodeJ
             // 
             this.tb_laserCodeJ.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeJ.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeJ.Location = new System.Drawing.Point(244, 225);
             this.tb_laserCodeJ.MaxLength = 4;
             this.tb_laserCodeJ.Name = "tb_laserCodeJ";
@@ -2367,6 +2426,7 @@
             // tb_laserCodeH
             // 
             this.tb_laserCodeH.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeH.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeH.Location = new System.Drawing.Point(138, 225);
             this.tb_laserCodeH.MaxLength = 4;
             this.tb_laserCodeH.Name = "tb_laserCodeH";
@@ -2378,6 +2438,7 @@
             // tb_laserCodeG
             // 
             this.tb_laserCodeG.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeG.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeG.Location = new System.Drawing.Point(32, 225);
             this.tb_laserCodeG.MaxLength = 4;
             this.tb_laserCodeG.Name = "tb_laserCodeG";
@@ -2389,6 +2450,7 @@
             // tb_laserCodeF
             // 
             this.tb_laserCodeF.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeF.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeF.Location = new System.Drawing.Point(72, 179);
             this.tb_laserCodeF.MaxLength = 4;
             this.tb_laserCodeF.Name = "tb_laserCodeF";
@@ -2400,6 +2462,7 @@
             // tb_laserCodeE
             // 
             this.tb_laserCodeE.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeE.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeE.Location = new System.Drawing.Point(72, 153);
             this.tb_laserCodeE.MaxLength = 4;
             this.tb_laserCodeE.Name = "tb_laserCodeE";
@@ -2411,6 +2474,7 @@
             // tb_laserCodeD
             // 
             this.tb_laserCodeD.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeD.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeD.Location = new System.Drawing.Point(72, 127);
             this.tb_laserCodeD.MaxLength = 4;
             this.tb_laserCodeD.Name = "tb_laserCodeD";
@@ -2422,6 +2486,7 @@
             // tb_laserCodeC
             // 
             this.tb_laserCodeC.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeC.Location = new System.Drawing.Point(72, 101);
             this.tb_laserCodeC.MaxLength = 4;
             this.tb_laserCodeC.Name = "tb_laserCodeC";
@@ -2433,6 +2498,7 @@
             // tb_laserCodeB
             // 
             this.tb_laserCodeB.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeB.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeB.Location = new System.Drawing.Point(72, 72);
             this.tb_laserCodeB.MaxLength = 4;
             this.tb_laserCodeB.Name = "tb_laserCodeB";
@@ -2444,6 +2510,7 @@
             // tb_laserCodeA
             // 
             this.tb_laserCodeA.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tb_laserCodeA.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_laserCodeA.Location = new System.Drawing.Point(72, 46);
             this.tb_laserCodeA.MaxLength = 4;
             this.tb_laserCodeA.Name = "tb_laserCodeA";
@@ -2615,10 +2682,11 @@
             // ddlLaserLRST
             // 
             this.ddlLaserLRST.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlLaserLRST.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlLaserLRST.FormattingEnabled = true;
             this.ddlLaserLRST.Location = new System.Drawing.Point(72, 19);
             this.ddlLaserLRST.Name = "ddlLaserLRST";
-            this.ddlLaserLRST.Size = new System.Drawing.Size(100, 21);
+            this.ddlLaserLRST.Size = new System.Drawing.Size(100, 22);
             this.ddlLaserLRST.TabIndex = 513;
             this.ddlLaserLRST.SelectedIndexChanged += new System.EventHandler(this.ddlLaserLRST_SelectedIndexChanged);
             // 
@@ -2646,10 +2714,11 @@
             // ddlRktQty
             // 
             this.ddlRktQty.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlRktQty.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlRktQty.FormattingEnabled = true;
             this.ddlRktQty.Location = new System.Drawing.Point(61, 19);
             this.ddlRktQty.Name = "ddlRktQty";
-            this.ddlRktQty.Size = new System.Drawing.Size(94, 21);
+            this.ddlRktQty.Size = new System.Drawing.Size(94, 22);
             this.ddlRktQty.TabIndex = 511;
             this.ddlRktQty.SelectedIndexChanged += new System.EventHandler(this.ddlRktQty_SelectedIndexChanged);
             // 
@@ -2676,10 +2745,11 @@
             // ddlGunBurstLength
             // 
             this.ddlGunBurstLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlGunBurstLength.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlGunBurstLength.FormattingEnabled = true;
             this.ddlGunBurstLength.Location = new System.Drawing.Point(61, 22);
             this.ddlGunBurstLength.Name = "ddlGunBurstLength";
-            this.ddlGunBurstLength.Size = new System.Drawing.Size(94, 21);
+            this.ddlGunBurstLength.Size = new System.Drawing.Size(94, 22);
             this.ddlGunBurstLength.TabIndex = 509;
             this.ddlGunBurstLength.SelectedIndexChanged += new System.EventHandler(this.ddlGunBurstLength_SelectedIndexChanged);
             // 
@@ -2716,60 +2786,66 @@
             // ddlMslChannelAlternate
             // 
             this.ddlMslChannelAlternate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannelAlternate.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlMslChannelAlternate.FormattingEnabled = true;
             this.ddlMslChannelAlternate.Location = new System.Drawing.Point(61, 154);
             this.ddlMslChannelAlternate.Name = "ddlMslChannelAlternate";
-            this.ddlMslChannelAlternate.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannelAlternate.Size = new System.Drawing.Size(94, 22);
             this.ddlMslChannelAlternate.TabIndex = 507;
             this.ddlMslChannelAlternate.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannelAlternate_SelectedIndexChanged);
             // 
             // ddlMslChannelPriority
             // 
             this.ddlMslChannelPriority.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannelPriority.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlMslChannelPriority.FormattingEnabled = true;
             this.ddlMslChannelPriority.Location = new System.Drawing.Point(61, 127);
             this.ddlMslChannelPriority.Name = "ddlMslChannelPriority";
-            this.ddlMslChannelPriority.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannelPriority.Size = new System.Drawing.Size(94, 22);
             this.ddlMslChannelPriority.TabIndex = 506;
             this.ddlMslChannelPriority.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannelPriority_SelectedIndexChanged);
             // 
             // ddlMslChannel4
             // 
             this.ddlMslChannel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannel4.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlMslChannel4.FormattingEnabled = true;
             this.ddlMslChannel4.Location = new System.Drawing.Point(61, 100);
             this.ddlMslChannel4.Name = "ddlMslChannel4";
-            this.ddlMslChannel4.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannel4.Size = new System.Drawing.Size(94, 22);
             this.ddlMslChannel4.TabIndex = 505;
             this.ddlMslChannel4.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannel_SelectedIndexChanged);
             // 
             // ddlMslChannel3
             // 
             this.ddlMslChannel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannel3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlMslChannel3.FormattingEnabled = true;
             this.ddlMslChannel3.Location = new System.Drawing.Point(61, 73);
             this.ddlMslChannel3.Name = "ddlMslChannel3";
-            this.ddlMslChannel3.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannel3.Size = new System.Drawing.Size(94, 22);
             this.ddlMslChannel3.TabIndex = 504;
             this.ddlMslChannel3.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannel_SelectedIndexChanged);
             // 
             // ddlMslChannel2
             // 
             this.ddlMslChannel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannel2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlMslChannel2.FormattingEnabled = true;
             this.ddlMslChannel2.Location = new System.Drawing.Point(61, 46);
             this.ddlMslChannel2.Name = "ddlMslChannel2";
-            this.ddlMslChannel2.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannel2.Size = new System.Drawing.Size(94, 22);
             this.ddlMslChannel2.TabIndex = 503;
             this.ddlMslChannel2.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannel_SelectedIndexChanged);
             // 
             // ddlMslChannel1
             // 
             this.ddlMslChannel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlMslChannel1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ddlMslChannel1.FormattingEnabled = true;
             this.ddlMslChannel1.Location = new System.Drawing.Point(61, 19);
             this.ddlMslChannel1.Name = "ddlMslChannel1";
-            this.ddlMslChannel1.Size = new System.Drawing.Size(94, 21);
+            this.ddlMslChannel1.Size = new System.Drawing.Size(94, 22);
             this.ddlMslChannel1.TabIndex = 502;
             this.ddlMslChannel1.SelectedIndexChanged += new System.EventHandler(this.ddlMslChannel_SelectedIndexChanged);
             // 

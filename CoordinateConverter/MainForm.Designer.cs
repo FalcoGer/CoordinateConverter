@@ -372,6 +372,7 @@ namespace CoordinateConverter
             // 
             this.tb_Out_Bullseye.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Out_Bullseye.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Out_Bullseye.Location = new System.Drawing.Point(50, 124);
             this.tb_Out_Bullseye.Name = "tb_Out_Bullseye";
             this.tb_Out_Bullseye.ReadOnly = true;
@@ -393,6 +394,7 @@ namespace CoordinateConverter
             // 
             this.tb_Out_UTM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Out_UTM.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Out_UTM.Location = new System.Drawing.Point(50, 98);
             this.tb_Out_UTM.Name = "tb_Out_UTM";
             this.tb_Out_UTM.ReadOnly = true;
@@ -405,6 +407,7 @@ namespace CoordinateConverter
             // 
             this.tb_Out_MGRS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Out_MGRS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Out_MGRS.Location = new System.Drawing.Point(50, 72);
             this.tb_Out_MGRS.Name = "tb_Out_MGRS";
             this.tb_Out_MGRS.ReadOnly = true;
@@ -435,6 +438,7 @@ namespace CoordinateConverter
             // 
             this.tb_Out_LL_DecimalSeconds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Out_LL_DecimalSeconds.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Out_LL_DecimalSeconds.Location = new System.Drawing.Point(50, 20);
             this.tb_Out_LL_DecimalSeconds.Name = "tb_Out_LL_DecimalSeconds";
             this.tb_Out_LL_DecimalSeconds.ReadOnly = true;
@@ -447,6 +451,7 @@ namespace CoordinateConverter
             // 
             this.tb_Out_LL_DecimalMinutes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Out_LL_DecimalMinutes.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Out_LL_DecimalMinutes.Location = new System.Drawing.Point(50, 46);
             this.tb_Out_LL_DecimalMinutes.Name = "tb_Out_LL_DecimalMinutes";
             this.tb_Out_LL_DecimalMinutes.ReadOnly = true;
@@ -544,6 +549,7 @@ namespace CoordinateConverter
             // 
             this.tb_Label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Label.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Label.Location = new System.Drawing.Point(308, 218);
             this.tb_Label.MaxLength = 50;
             this.tb_Label.Name = "tb_Label";
@@ -570,6 +576,7 @@ namespace CoordinateConverter
             // tb_Altitude
             // 
             this.tb_Altitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tb_Altitude.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Altitude.Location = new System.Drawing.Point(79, 218);
             this.tb_Altitude.MaxLength = 6;
             this.tb_Altitude.Name = "tb_Altitude";
@@ -670,6 +677,7 @@ namespace CoordinateConverter
             // 
             this.tb_LL_DecimalSeconds_Longitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_LL_DecimalSeconds_Longitude.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_LL_DecimalSeconds_Longitude.Location = new System.Drawing.Point(3, 3);
             this.tb_LL_DecimalSeconds_Longitude.MaxLength = 16;
             this.tb_LL_DecimalSeconds_Longitude.Name = "tb_LL_DecimalSeconds_Longitude";
@@ -722,6 +730,7 @@ namespace CoordinateConverter
             // 
             this.tb_LL_DecimalSeconds_Latitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_LL_DecimalSeconds_Latitude.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_LL_DecimalSeconds_Latitude.Location = new System.Drawing.Point(3, 3);
             this.tb_LL_DecimalSeconds_Latitude.MaxLength = 16;
             this.tb_LL_DecimalSeconds_Latitude.Name = "tb_LL_DecimalSeconds_Latitude";
@@ -812,6 +821,7 @@ namespace CoordinateConverter
             // 
             this.tb_LL_DecimalMinutes_Longitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_LL_DecimalMinutes_Longitude.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_LL_DecimalMinutes_Longitude.Location = new System.Drawing.Point(3, 3);
             this.tb_LL_DecimalMinutes_Longitude.MaxLength = 16;
             this.tb_LL_DecimalMinutes_Longitude.Name = "tb_LL_DecimalMinutes_Longitude";
@@ -864,6 +874,7 @@ namespace CoordinateConverter
             // 
             this.tb_LL_DecimalMinutes_Latitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_LL_DecimalMinutes_Latitude.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_LL_DecimalMinutes_Latitude.Location = new System.Drawing.Point(3, 3);
             this.tb_LL_DecimalMinutes_Latitude.MaxLength = 16;
             this.tb_LL_DecimalMinutes_Latitude.Name = "tb_LL_DecimalMinutes_Latitude";
@@ -951,6 +962,7 @@ namespace CoordinateConverter
             // 
             // tb_MGRS_Digraph
             // 
+            this.tb_MGRS_Digraph.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_MGRS_Digraph.Location = new System.Drawing.Point(80, 8);
             this.tb_MGRS_Digraph.MaxLength = 2;
             this.tb_MGRS_Digraph.Name = "tb_MGRS_Digraph";
@@ -964,6 +976,7 @@ namespace CoordinateConverter
             // 
             this.tb_MGRS_Fraction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_MGRS_Fraction.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_MGRS_Fraction.Location = new System.Drawing.Point(120, 8);
             this.tb_MGRS_Fraction.MaxLength = 11;
             this.tb_MGRS_Fraction.Name = "tb_MGRS_Fraction";
@@ -976,6 +989,7 @@ namespace CoordinateConverter
             // 
             // tb_MGRS_LatZone
             // 
+            this.tb_MGRS_LatZone.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_MGRS_LatZone.Location = new System.Drawing.Point(40, 8);
             this.tb_MGRS_LatZone.MaxLength = 1;
             this.tb_MGRS_LatZone.Name = "tb_MGRS_LatZone";
@@ -987,6 +1001,7 @@ namespace CoordinateConverter
             // 
             // tb_MGRS_LongZone
             // 
+            this.tb_MGRS_LongZone.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_MGRS_LongZone.Location = new System.Drawing.Point(3, 8);
             this.tb_MGRS_LongZone.MaxLength = 2;
             this.tb_MGRS_LongZone.Name = "tb_MGRS_LongZone";
@@ -1046,6 +1061,7 @@ namespace CoordinateConverter
             // 
             // tb_UTM_LatZone
             // 
+            this.tb_UTM_LatZone.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_UTM_LatZone.Location = new System.Drawing.Point(40, 8);
             this.tb_UTM_LatZone.MaxLength = 1;
             this.tb_UTM_LatZone.Name = "tb_UTM_LatZone";
@@ -1078,6 +1094,7 @@ namespace CoordinateConverter
             // 
             this.tb_UTM_Easting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_UTM_Easting.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_UTM_Easting.Location = new System.Drawing.Point(3, 3);
             this.tb_UTM_Easting.MaxLength = 16;
             this.tb_UTM_Easting.Name = "tb_UTM_Easting";
@@ -1092,6 +1109,7 @@ namespace CoordinateConverter
             // 
             this.tb_UTM_Northing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_UTM_Northing.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_UTM_Northing.Location = new System.Drawing.Point(192, 3);
             this.tb_UTM_Northing.MaxLength = 16;
             this.tb_UTM_Northing.Name = "tb_UTM_Northing";
@@ -1104,6 +1122,7 @@ namespace CoordinateConverter
             // 
             // tb_UTM_LongZone
             // 
+            this.tb_UTM_LongZone.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_UTM_LongZone.Location = new System.Drawing.Point(3, 8);
             this.tb_UTM_LongZone.MaxLength = 2;
             this.tb_UTM_LongZone.Name = "tb_UTM_LongZone";
@@ -1181,6 +1200,7 @@ namespace CoordinateConverter
             // 
             this.tb_Bullseye_Range.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Bullseye_Range.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Bullseye_Range.Location = new System.Drawing.Point(3, 3);
             this.tb_Bullseye_Range.MaxLength = 6;
             this.tb_Bullseye_Range.Name = "tb_Bullseye_Range";
@@ -1216,6 +1236,7 @@ namespace CoordinateConverter
             // 
             this.tb_Bullseye_Bearing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Bullseye_Bearing.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Bullseye_Bearing.Location = new System.Drawing.Point(3, 3);
             this.tb_Bullseye_Bearing.MaxLength = 5;
             this.tb_Bullseye_Bearing.Name = "tb_Bullseye_Bearing";
@@ -1468,14 +1489,14 @@ namespace CoordinateConverter
             this.tsmi_Auto.Checked = true;
             this.tsmi_Auto.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmi_Auto.Name = "tsmi_Auto";
-            this.tsmi_Auto.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_Auto.Size = new System.Drawing.Size(116, 22);
             this.tsmi_Auto.Text = "Auto";
             this.tsmi_Auto.Click += new System.EventHandler(this.Tsmi_Aircraft_Auto_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
             // 
             // tsmi_A10CMenu
             // 
@@ -1483,7 +1504,7 @@ namespace CoordinateConverter
             this.tsmi_A10C,
             this.tsmi_A10C_UseMGRS});
             this.tsmi_A10CMenu.Name = "tsmi_A10CMenu";
-            this.tsmi_A10CMenu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_A10CMenu.Size = new System.Drawing.Size(116, 22);
             this.tsmi_A10CMenu.Text = "A10C";
             // 
             // tsmi_A10C
@@ -1508,41 +1529,41 @@ namespace CoordinateConverter
             this.tsmi_AH64_ClearPoints,
             this.tsmi_AH64_DTC});
             this.tsmi_AH64Menu.Name = "tsmi_AH64Menu";
-            this.tsmi_AH64Menu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AH64Menu.Size = new System.Drawing.Size(116, 22);
             this.tsmi_AH64Menu.Text = "AH64";
             // 
             // tsmi_AH64_PLT
             // 
             this.tsmi_AH64_PLT.Name = "tsmi_AH64_PLT";
-            this.tsmi_AH64_PLT.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AH64_PLT.Size = new System.Drawing.Size(162, 22);
             this.tsmi_AH64_PLT.Text = "AH64-PLT";
             this.tsmi_AH64_PLT.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_AH64_CPG
             // 
             this.tsmi_AH64_CPG.Name = "tsmi_AH64_CPG";
-            this.tsmi_AH64_CPG.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AH64_CPG.Size = new System.Drawing.Size(162, 22);
             this.tsmi_AH64_CPG.Text = "AH-64-CPG";
             this.tsmi_AH64_CPG.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_AH64_ClearPoints
             // 
             this.tsmi_AH64_ClearPoints.Name = "tsmi_AH64_ClearPoints";
-            this.tsmi_AH64_ClearPoints.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AH64_ClearPoints.Size = new System.Drawing.Size(162, 22);
             this.tsmi_AH64_ClearPoints.Text = "Clear Points...";
             this.tsmi_AH64_ClearPoints.Click += new System.EventHandler(this.Tsmi_AH64_ClearPoints_Click);
             // 
             // tsmi_AH64_DTC
             // 
             this.tsmi_AH64_DTC.Name = "tsmi_AH64_DTC";
-            this.tsmi_AH64_DTC.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AH64_DTC.Size = new System.Drawing.Size(162, 22);
             this.tsmi_AH64_DTC.Text = "DTC...";
             this.tsmi_AH64_DTC.Click += new System.EventHandler(this.Tsmi_AH64_DTC_Click);
             // 
             // tsmi_AV8B
             // 
             this.tsmi_AV8B.Name = "tsmi_AV8B";
-            this.tsmi_AV8B.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AV8B.Size = new System.Drawing.Size(116, 22);
             this.tsmi_AV8B.Text = "AV8B";
             this.tsmi_AV8B.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
@@ -1552,7 +1573,7 @@ namespace CoordinateConverter
             this.tsmi_F15E_Pilot,
             this.tsmi_F15E_WSO});
             this.tsmi_F15EMenu.Name = "tsmi_F15EMenu";
-            this.tsmi_F15EMenu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F15EMenu.Size = new System.Drawing.Size(116, 22);
             this.tsmi_F15EMenu.Text = "F15E";
             // 
             // tsmi_F15E_Pilot
@@ -1575,7 +1596,7 @@ namespace CoordinateConverter
             this.tsmi_F16,
             this.tsmi_F16_SetFirstPoint});
             this.tsmi_F16Menu.Name = "tsmi_F16Menu";
-            this.tsmi_F16Menu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F16Menu.Size = new System.Drawing.Size(116, 22);
             this.tsmi_F16Menu.Text = "F16";
             // 
             // tsmi_F16
@@ -1595,7 +1616,7 @@ namespace CoordinateConverter
             // tsmi_F18
             // 
             this.tsmi_F18.Name = "tsmi_F18";
-            this.tsmi_F18.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F18.Size = new System.Drawing.Size(116, 22);
             this.tsmi_F18.Text = "F18";
             this.tsmi_F18.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
@@ -1605,7 +1626,7 @@ namespace CoordinateConverter
             this.tsmi_JF17,
             this.tsmi_JF17_SetFirstPoint});
             this.tsmi_JF17Menu.Name = "tsmi_JF17Menu";
-            this.tsmi_JF17Menu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_JF17Menu.Size = new System.Drawing.Size(116, 22);
             this.tsmi_JF17Menu.Text = "JF17";
             // 
             // tsmi_JF17
@@ -1625,14 +1646,14 @@ namespace CoordinateConverter
             // tsmi_KA50
             // 
             this.tsmi_KA50.Name = "tsmi_KA50";
-            this.tsmi_KA50.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_KA50.Size = new System.Drawing.Size(116, 22);
             this.tsmi_KA50.Text = "KA50";
             this.tsmi_KA50.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_M2000
             // 
             this.tsmi_M2000.Name = "tsmi_M2000";
-            this.tsmi_M2000.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_M2000.Size = new System.Drawing.Size(116, 22);
             this.tsmi_M2000.Text = "M2000";
             this.tsmi_M2000.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
