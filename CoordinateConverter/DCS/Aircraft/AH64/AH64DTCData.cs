@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CoordinateConverter.DCS.Communication;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -180,7 +181,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     || UHFTuneSetting != ETuneSetting.No_Change
                     || FM1TuneSetting != ETuneSetting.No_Change
                     || FM2TuneSetting != ETuneSetting.No_Change
-                    || HFTuneSetting != ETuneSetting.No_Change;
+                    || HFTuneSetting != ETuneSetting.No_Change
+                    || UHFGuardReceiver != EUHFGuardReceiver.No_Change;
             }
         }
 
@@ -247,6 +249,33 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// The uhf tune setting.
         /// </value>
         public ETuneSetting UHFTuneSetting { get; set; } = ETuneSetting.No_Change;
+
+        /// <summary>
+        /// Whether the UHF Guard receiver is on or off
+        /// </summary>
+        public enum EUHFGuardReceiver
+        {
+            /// <summary>
+            /// Guard receiver stays in current configuration
+            /// </summary>
+            No_Change,
+            /// <summary>
+            /// Guard receiver is disabled
+            /// </summary>
+            Off,
+            /// <summary>
+            /// Guard receivr is enabled
+            /// </summary>
+            On,
+        }
+        /// <summary>
+        /// Gets or sets the guard receiver option for the UHF radio
+        /// </summary>
+        /// <value>
+        /// The guard receiver setting
+        /// </value>
+        public EUHFGuardReceiver UHFGuardReceiver { get; set; } = EUHFGuardReceiver.No_Change;
+
         /// <summary>
         /// Gets or sets the uhf tune preset.
         /// </summary>
@@ -984,7 +1013,35 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             if (ContainsTuningData)
             {
                 commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_COM));
-                // Presets first
+                // UHF Guard receiver
+                if (UHFGuardReceiver != EUHFGuardReceiver.No_Change)
+                {
+                    // get current status and press the button if not the correct one
+                    int display = (int)(IsPilot ? AH64.EDisplayCodes.PLT_EUFD : AH64.EDisplayCodes.CPG_EUFD);
+                    DCSMessage message = new DCSMessage()
+                    {
+                        GetCockpitDisplayData = new List<int>() { display }
+                    };
+                    message = DCSConnection.SendRequest(message);
+                    if (message != null && message.CockpitDisplayData.ContainsKey(display))
+                    {
+                        Dictionary<string, string> displayData = message.CockpitDisplayData[display];
+                        if (displayData.ContainsKey("Guard"))
+                        {
+                            string guardStr = displayData["Guard"];
+                            bool currentGuardStatus = !string.IsNullOrEmpty(guardStr);
+
+                            if (currentGuardStatus ^ (UHFGuardReceiver == EUHFGuardReceiver.On))
+                            {
+                                // need to press the buttons, currently on COM page
+                                commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_T4));  // UHF
+                                commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_L6));  // GUARD
+                                commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_COM)); // Reset to com page
+                            }
+                        }
+                    }
+                }
+                // Presets
                 int presetKey = -1;
                 if (VHFTuneSetting == ETuneSetting.Preset)
                 {

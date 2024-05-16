@@ -240,6 +240,8 @@
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnReset = new System.Windows.Forms.ToolStripButton();
+            this.ddlTuneUHFGuardReciever = new System.Windows.Forms.ComboBox();
+            this.label72 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabRadio.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -1382,6 +1384,8 @@
             // 
             // tabTune
             // 
+            this.tabTune.Controls.Add(this.label72);
+            this.tabTune.Controls.Add(this.ddlTuneUHFGuardReciever);
             this.tabTune.Controls.Add(this.groupBox10);
             this.tabTune.Controls.Add(this.groupBox9);
             this.tabTune.Controls.Add(this.groupBox8);
@@ -2976,6 +2980,25 @@
             this.btnReset.Text = "Reset";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
+            // ddlTuneUHFGuardReciever
+            // 
+            this.ddlTuneUHFGuardReciever.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ddlTuneUHFGuardReciever.FormattingEnabled = true;
+            this.ddlTuneUHFGuardReciever.Location = new System.Drawing.Point(76, 286);
+            this.ddlTuneUHFGuardReciever.Name = "ddlTuneUHFGuardReciever";
+            this.ddlTuneUHFGuardReciever.Size = new System.Drawing.Size(121, 22);
+            this.ddlTuneUHFGuardReciever.TabIndex = 16;
+            this.ddlTuneUHFGuardReciever.SelectedIndexChanged += new System.EventHandler(this.ddlTuneUHFGuardReciever_SelectedIndexChanged);
+            // 
+            // label72
+            // 
+            this.label72.AutoSize = true;
+            this.label72.Location = new System.Drawing.Point(9, 289);
+            this.label72.Name = "label72";
+            this.label72.Size = new System.Drawing.Size(61, 13);
+            this.label72.TabIndex = 17;
+            this.label72.Text = "UHF Guard";
+            // 
             // FormAH64DTC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3030,6 +3053,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.tabTune.ResumeLayout(false);
+            this.tabTune.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTuneHFRXManualFreq)).EndInit();
@@ -3283,5 +3307,7 @@
         private System.Windows.Forms.NumericUpDown nudTuneFM2ManualFreq;
         private System.Windows.Forms.NumericUpDown nudTuneFM1ManualFreq;
         private System.Windows.Forms.NumericUpDown nudTuneHFRXManualFreq;
+        private System.Windows.Forms.ComboBox ddlTuneUHFGuardReciever;
+        private System.Windows.Forms.Label label72;
     }
 }

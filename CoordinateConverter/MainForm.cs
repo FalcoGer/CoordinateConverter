@@ -20,7 +20,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 6, 13);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 6, 14);
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static readonly Color ERROR_COLOR = Color.Pink;
@@ -1819,8 +1819,7 @@ namespace CoordinateConverter
             get => new List<ToolStripMenuItem>()
             {
                 tsmi_A10C,
-                tsmi_AH64_CPG,
-                tsmi_AH64_PLT,
+                tsmi_AH64,
                 tsmi_AV8B,
                 tsmi_F15E_Pilot,
                 tsmi_F15E_WSO,
@@ -1837,7 +1836,7 @@ namespace CoordinateConverter
             get => new Dictionary<Type, List<ToolStripMenuItem>>()
             {
                 { typeof(A10C), new List<ToolStripMenuItem>() { tsmi_A10C, tsmi_A10C_UseMGRS } },
-                { typeof(AH64), new List<ToolStripMenuItem>() { tsmi_AH64_CPG, tsmi_AH64_PLT, tsmi_AH64_ClearPoints, tsmi_AH64_DTC } },
+                { typeof(AH64), new List<ToolStripMenuItem>() { tsmi_AH64, tsmi_AH64_ClearPoints, tsmi_AH64_DTC } },
                 { typeof(AV8B), new List<ToolStripMenuItem>() { tsmi_AV8B } },
                 { typeof(F15E), new List<ToolStripMenuItem>() { tsmi_F15E_Pilot, tsmi_F15E_WSO } },
                 { typeof(F16C), new List<ToolStripMenuItem>() { tsmi_F16, tsmi_F16_SetFirstPoint } },
@@ -1845,7 +1844,6 @@ namespace CoordinateConverter
                 { typeof(F18C), new List<ToolStripMenuItem>() { tsmi_F18 } },
                 { typeof(KA50), new List<ToolStripMenuItem>() { tsmi_KA50 } },
                 { typeof(M2000), new List<ToolStripMenuItem>() { tsmi_M2000 } },
-                
             };
         }
 
@@ -1901,8 +1899,7 @@ namespace CoordinateConverter
                     {
                         break;
                     }
-                    FormAskBinaryQuestion isPltForm = new FormAskBinaryQuestion(this, "Which station are you in?", "Pilot", "CPG");
-                    Tsmi_AircraftSelection_Click(isPltForm.Result ? tsmi_AH64_PLT : tsmi_AH64_CPG, null);
+                    Tsmi_AircraftSelection_Click(tsmi_AH64, null);
                     break;
                 case "FA-18C_hornet":
                     if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F18C))
@@ -2007,13 +2004,9 @@ namespace CoordinateConverter
         private bool SetSelectedAircraft(string ControlName)
         {
             // Remind user here: "Transfer uses MGRS instead of L/L if MGRS selected, cockpit must match"
-            if (ControlName == tsmi_AH64_PLT.Name)
+            if (ControlName == tsmi_AH64.Name)
             {
-                selectedAircraft = new AH64(true);
-            }
-            else if (ControlName == tsmi_AH64_CPG.Name)
-            {
-                selectedAircraft = new AH64(false);
+                selectedAircraft = new AH64();
             }
             else if (ControlName == tsmi_F18.Name)
             {
@@ -2834,7 +2827,7 @@ namespace CoordinateConverter
 
         private void Tsmi_AH64_DTC_Click(object sender, EventArgs e)
         {
-            var ah64DTCForm = new FormAH64DTC((selectedAircraft as AH64).IsPilot);
+            var ah64DTCForm = new FormAH64DTC((selectedAircraft as AH64).IsPilot ?? true);
             ah64DTCForm.TopMost = TopMost;
             ah64DTCForm.ShowDialog();
             pb_Transfer.Value = 0;

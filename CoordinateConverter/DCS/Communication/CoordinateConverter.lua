@@ -1,6 +1,14 @@
 -- REF: https://wiki.hoggitworld.com/view/DCS_export
 -- REF: https://wiki.hoggitworld.com/view/DCS_Export_Script
 
+--[[
+
+show_param_handles_list() to show all cockpit parameters in an interactive windows in DCS
+get_param_handle("NAME") to get a handle for that parameter. use :get() to get the value
+  for example get_param_handle("SEAT"):get() -- 0 = PLT, 1 = CPG
+
+]]--
+
 local LOG_MODNAME = "COORDINATECONVERTER"
 local DEBUGGING = false -- if true logs all the things
 local TESTING = false -- if true sends all available data, even unrequested
@@ -18,6 +26,29 @@ local upstreamLuaExportStart           = LuaExportStart
 local upstreamLuaExportStop            = LuaExportStop
 local upstreamLuaExportAfterNextFrame  = LuaExportAfterNextFrame
 local upstreamLuaExportBeforeNextFrame = LuaExportBeforeNextFrame
+
+-- function to list content of an MFD or other cockpit display
+-- from https://github.com/ciribob/DCS-SimpleRadioStandalone/blob/5542bf796ff7ba54c9641b4e222f610e6cfec53b/Scripts/DCS-SRS/Scripts/DCS-SimpleRadioStandalone.lua#L3400
+function getListIndicatorValue(IndicatorID)
+    local ListIindicator = list_indication(IndicatorID)
+    local TmpReturn = {}
+
+    if ListIindicator == "" then
+        return nil
+    end
+
+    local ListindicatorMatch = ListIindicator:gmatch("-----------------------------------------\n([^\n]+)\n([^\n]*)\n")
+    while true do
+        local Key, Value = ListindicatorMatch()
+        if not Key then
+            break
+        end
+        TmpReturn[Key] = Value
+    end
+
+    return TmpReturn
+end
+
 
 function LuaExportStop()
     if upstreamLuaExportStop ~= nil then
@@ -190,6 +221,57 @@ function LuaExportAfterNextFrame()
                         response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
                     end
 
+                end
+            end
+
+            -- handle get_handle request
+            if data["GetHandleData"] or TESTING then
+                if data["GetHandleData"] then
+                    local f = function()
+                        if DEBUGGING then
+                            log.write(LOG_MODNAME, log.INFO, "Getting handle data")
+                        end
+
+                        response["HandleData"] = {}
+
+                        for _, handleName in pairs(data["GetHandleData"]) do
+                            local handle = get_param_handle(handleName)
+							if handle then
+                                local data = handle:get()
+								response["HandleData"][handleName] = tostring(data)
+							end
+                        end
+                    end
+
+					success, errMsg = pcall(f)
+                    if not success then
+                        log.write(LOG_MODNAME, log.ERROR, "Failure to get handle data: " .. tostring(errMsg))
+                        response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
+                    end
+                end
+            end
+
+            if data["GetCockpitDisplayData"] or TESTING then
+                local f = function()
+					if DEBUGGING then
+						log.write(LOG_MODNAME, log.INFO, "Getting cockpit display data")
+					end
+
+                    response["CockpitDisplayData"] = {}
+
+                    -- loop over 0 to 100 and call getListIndicatorValue
+					for _, displayIndex in ipairs(data["GetCockpitDisplayData"]) do
+                        local data = getListIndicatorValue(displayIndex)
+                        if data then
+						    response["CockpitDisplayData"][tostring(displayIndex)] = data
+                        end
+					end
+                end
+
+				success, errMsg = pcall(f)
+                if not success then
+                    log.write(LOG_MODNAME, log.ERROR, "Failure to get cockpit display data: " .. tostring(errMsg))
+                    response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
                 end
             end
 

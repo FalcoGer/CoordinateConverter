@@ -159,6 +159,15 @@ namespace CoordinateConverter.DCS.Tools
                 ddlPresetModemBaudRate.Items.Add(item);
             }
 
+            ddlTuneUHFGuardReciever.ValueMember = "Value";
+            ddlTuneUHFGuardReciever.DisplayMember = "Text";
+            foreach (AH64DTCData.EUHFGuardReceiver guardReceiver in Enum.GetValues(typeof(AH64DTCData.EUHFGuardReceiver)))
+            {
+                string text = Enum.GetName(typeof(AH64DTCData.EUHFGuardReceiver), guardReceiver);
+                ComboItem<AH64DTCData.EUHFGuardReceiver> item = new ComboItem<AH64DTCData.EUHFGuardReceiver>(text, guardReceiver);
+                ddlTuneUHFGuardReciever.Items.Add(item);
+            }
+
             // XPNDR
 
             ddlXPNDRMode4Key.ValueMember = "Value";
@@ -421,6 +430,8 @@ namespace CoordinateConverter.DCS.Tools
             rbTuneUHFNoChange.Checked = data.UHFTuneSetting == AH64DTCData.ETuneSetting.No_Change;
             rbTuneUHFPreset.Checked = data.UHFTuneSetting == AH64DTCData.ETuneSetting.Preset;
             rbTuneUHFMan.Checked = data.UHFTuneSetting == AH64DTCData.ETuneSetting.Manual;
+
+            ddlTuneUHFGuardReciever.SelectedIndex = ComboItem<AH64DTCData.EUHFGuardReceiver>.FindValue(ddlTuneUHFGuardReciever, data.UHFGuardReceiver) ?? 0;
             // FM1
             nudTuneFM1ManualFreq.Value = data.FM1ManualFrequency;
             ddlTuneFM1Preset.SelectedIndex = ComboItem<AH64DTCData.EPreset>.FindValue(ddlTuneFM1Preset, data.FM1TunePreset) ?? 0;
@@ -1255,6 +1266,11 @@ namespace CoordinateConverter.DCS.Tools
         private void nudTuneUHFManualFreq_ValueChanged(object sender, EventArgs e)
         {
             data.UHFManualFrequency = nudTuneUHFManualFreq.Value;
+        }
+
+        private void ddlTuneUHFGuardReciever_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.UHFGuardReceiver = ComboItem<AH64DTCData.EUHFGuardReceiver>.GetSelectedValue(ddlTuneUHFGuardReciever);
         }
         #endregion
 

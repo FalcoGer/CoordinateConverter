@@ -44,6 +44,41 @@ namespace CoordinateConverter.DCS.Communication
         public string AircraftType = null;
 
         /// <summary>
+        /// Gets or sets the get handle request.
+        /// </summary>
+        /// <value>
+        /// A list of handle names for which to get the data.
+        /// </value>
+        [JsonProperty("GetHandleData")]
+        public List<string> GetHandleData { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets the handle data.
+        /// </summary>
+        /// <value>
+        /// The handle data returned by the server.
+        /// </value>
+        [JsonProperty("HandleData")]
+        public Dictionary<string, string> HandleData { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets whether to fetch cockpit display data.
+        /// </summary>
+        /// <value>
+        /// Whether cockpit display data is to be gotten
+        /// </value>
+        [JsonProperty("GetCockpitDisplayData")]
+        public List<int> GetCockpitDisplayData { get; set; } = null;
+        /// <summary>
+        /// Gets or sets the cockpit display data.
+        /// </summary>
+        /// <value>
+        /// The cockpit display data returned by the server.
+        /// </value>
+        [JsonProperty("CockpitDisplayData")]
+        public Dictionary<int, Dictionary<string, string>> CockpitDisplayData { get; set; } = null;
+
+        /// <summary>
         /// Ground elevation requests for lat/long and their responses
         /// </summary>
         [JsonProperty("Altitudes")]

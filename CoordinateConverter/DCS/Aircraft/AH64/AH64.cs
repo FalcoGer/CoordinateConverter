@@ -11,21 +11,42 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
     /// <seealso cref="DCSAircraft" />
     public class AH64 : DCSAircraft
     {
+        private bool? isPilot = null;
+
         /// <summary>
         /// Gets or sets a value indicating whether the user is in the pilot or CPG seat.
         /// </summary>
         /// <value>
         ///   <c>true</c> if this instance is pilot; otherwise, <c>false</c>.
         /// </value>
-        public bool IsPilot { get; private set; }
+        public bool? IsPilot {
+            get
+            {
+                DCSMessage message = new DCSMessage()
+                {
+                    GetHandleData = new List<string>()
+                    {
+                        "SEAT"
+                    },
+                };
+                message = DCSConnection.SendRequest(message);
+                if (message != null && message.HandleData.ContainsKey("SEAT"))
+                {
+                    isPilot = message.HandleData["SEAT"] == "0";
+                }
+
+                return isPilot;
+            } private set
+            {
+                isPilot = value;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AH64"/> class.
         /// </summary>
-        /// <param name="isPilot">if set to <c>true</c> [is pilot].</param>
-        public AH64(bool isPilot)
+        public AH64()
         {
-            IsPilot = isPilot;
         }
 
         /// <summary>
@@ -78,6 +99,42 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             /// </summary>
             TEDAC = 51
 
+        }
+
+        /// <summary>
+        /// Display codes.
+        /// </summary>
+        public enum EDisplayCodes
+        {
+            #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+            PLT_EUFD = 17,
+            PLT_HMD = 21,
+            PLT_MFD_Left = 6,
+            PLT_MFD_Right = 8,
+            PLT_CMWS = 24,
+            CPG_MFD_Left = 10,
+            CPG_MFD_Right = 12,
+            CPG_EUFD = 18,
+            #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
+        }
+
+        /// <summary>
+        /// Display characters with special meanings
+        /// </summary>
+        public enum EDisplaySpecialChars
+        {
+            #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+            IDM_Both = '~',
+            IDM_Own = '[',
+            IDM_Other = ']',
+            RTS_Own = '<',
+            RTS_Other = '>',
+            RTS_None = '=',
+            Squelch = '*',
+            MFD_Circle_Off = '}',
+            MFD_Circle_On = '{',
+            #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         }
 
         /// <summary>
@@ -442,34 +499,36 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                         throw new ArgumentException("Bad Point Type");
                 }
             }
+            bool plt = IsPilot ?? true;
+            int mfd = (int)(plt ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD);
 
             // DebugCommandList commands = new DebugCommandList
             List<DCSCommand> commands = new List<DCSCommand>
             {
                 // press ADD
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_L2),
+                new DCSCommand(mfd, (int)EKeyCode.MFD_L2),
                 // press the waypoint type button
-                extraData == null ? null : new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)keyMFDPointType),
+                extraData == null ? null : new DCSCommand(mfd, (int)keyMFDPointType),
                 // press ident
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_L1)
+                new DCSCommand(mfd, (int)EKeyCode.MFD_L1)
             };
             // enter ident
-            commands.AddRange(GetCommandsForKUText(ident, false, IsPilot));
+            commands.AddRange(GetCommandsForKUText(ident, false, plt));
             // enter free text (max 3 chars)
-            commands.AddRange(GetCommandsForKUText((coordinate.Name.Length <= 3 ? coordinate.Name : coordinate.Name.Substring(0, 3)) + '\n', false, IsPilot));
+            commands.AddRange(GetCommandsForKUText((coordinate.Name.Length <= 3 ? coordinate.Name : coordinate.Name.Substring(0, 3)) + '\n', false, plt));
             // enter MGRS coordinates
             // remove spaces and append enter
             string mgrsString = string.Join(string.Empty ,coordinate.GetCoordinateStrMGRS(4).Where(ch => ch != ' ')) + '\n';
-            commands.AddRange(GetCommandsForKUText(mgrsString, true, IsPilot));
+            commands.AddRange(GetCommandsForKUText(mgrsString, true, plt));
 
             // enter altitude
             if (coordinate.AltitudeInFt == 0 && coordinate.AltitudeIsAGL)
             {
-                commands.AddRange(GetCommandsForKUText("\n", false, IsPilot));
+                commands.AddRange(GetCommandsForKUText("\n", false, plt));
             }
             else
             {
-                commands.AddRange(GetCommandsForKUText(((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString() + "\n", true, IsPilot));
+                commands.AddRange(GetCommandsForKUText(((int)Math.Round(coordinate.GetAltitudeValue(true))).ToString() + "\n", true, plt));
             }
             return commands;
         }
@@ -520,6 +579,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <returns>The list of commands that is required to enter the text into the KU</returns>
         public static List<DCSCommand> GetCommandsForKUText(string text, bool clearFirst, bool IsPilot)
         {
+            int ku = (int)(IsPilot ? EDeviceCode.PLT_KU : EDeviceCode.CPG_KU);
             List<DCSCommand> commands = new List<DCSCommand>();
             // DebugCommandList commands = new DebugCommandList();
             if (text == null)
@@ -529,7 +589,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
 
             if (clearFirst)
             {
-                commands.Add(new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_KU : EDeviceCode.CPG_KU), (int)EKeyCode.KU_CLR));
+                commands.Add(new DCSCommand(ku, (int)EKeyCode.KU_CLR));
             }
             // type the text
             EKeyCode? prevKeyCode = null;
@@ -578,7 +638,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     {
                         commands.Last().Delay = 250;
                     }
-                    commands.Add(new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_KU : EDeviceCode.CPG_KU), (int)keyCode.Value));
+                    commands.Add(new DCSCommand(ku, (int)keyCode.Value));
                     prevKeyCode = keyCode;
                 }
             }
@@ -596,7 +656,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             return new List<DCSCommand>()
             {
                 // press TSD to reset the screen
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_TSD)
+                new DCSCommand((int)((IsPilot ?? true) ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_TSD)
             };
         }
 
@@ -608,14 +668,15 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// </returns>
         protected override List<DCSCommand> GetPreActions()
         {
+            bool plt = IsPilot ?? true;
             return new List<DCSCommand>
             {
                 // press TSD
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_TSD),
+                new DCSCommand((int)(plt ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_TSD),
                 // go to point page
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_B6),
+                new DCSCommand((int)(plt ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD), (int)EKeyCode.MFD_B6),
                 // clear KU
-                new DCSCommand((int)(IsPilot ? EDeviceCode.PLT_KU : EDeviceCode.CPG_KU), (int)EKeyCode.KU_CLR),
+                new DCSCommand((int)(plt ? EDeviceCode.PLT_KU : EDeviceCode.CPG_KU), (int)EKeyCode.KU_CLR),
             };
         }
 
@@ -662,14 +723,15 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         public int ClearPoints(EPointType pointType, int startIdx, int endIdx)
         {
             List<DCSCommand> commands = new List<DCSCommand>();
-            int deviceId = IsPilot ? (int)EDeviceCode.PLT_RMFD : (int)EDeviceCode.CPG_RMFD;
+            bool plt = IsPilot ?? true;
+            int deviceId = plt ? (int)EDeviceCode.PLT_RMFD : (int)EDeviceCode.CPG_RMFD;
 
             for (int pointIdx = startIdx; pointIdx <= endIdx ; pointIdx++)
             {
                 commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_TSD)); // Reset to TSD after every point, to avoid weirdness.
                 commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_B6)); // Point
                 commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L1)); // Point >
-                commands.AddRange(GetCommandsForKUText(pointType.ToString().First() + pointIdx.ToString() + "\n", true, IsPilot)); // Enter point identifier
+                commands.AddRange(GetCommandsForKUText(pointType.ToString().First() + pointIdx.ToString() + "\n", true, plt)); // Enter point identifier
                 commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L4)); // Del
                 commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L3)); // Yes
             }

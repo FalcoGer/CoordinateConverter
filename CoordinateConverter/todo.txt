@@ -1,6 +1,18 @@
 Unit list:
     - Filter by unit type/name
 
+AH-64 DTC:
+    - Set up map options
+    - different lrfd/lst based on cockpit display data
+
+A-10C:
+    - Auto UTM/LL detection
+
+F-18:
+    - Auto set PRECISE
+    - Smarter Weapons selection, not based on wing loadout
+    
+
 Data Entry
     - Fix spurious data entry errors for AH64 KU
 
