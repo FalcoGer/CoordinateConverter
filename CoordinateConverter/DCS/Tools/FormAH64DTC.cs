@@ -126,13 +126,15 @@ namespace CoordinateConverter.DCS.Tools
             ddlFM2CNV.DisplayMember = "Text";
             ddlHFCNV.ValueMember = "Value";
             ddlHFCNV.DisplayMember = "Text";
-            for (int cnvValue = 1; cnvValue <= 6; cnvValue++)
+            for (int cnvValue = 0; cnvValue <= 6; cnvValue++)
             {
-                AH64RadioCNVSetting cnv = new AH64RadioCNVSetting(cnvValue);
-                ddlUHFCNV.Items.Add(new ComboItem<AH64RadioCNVSetting>("CNV " + cnvValue.ToString(), cnv));
-                ddlFM1CNV.Items.Add(new ComboItem<AH64RadioCNVSetting>("CNV " + cnvValue.ToString(), cnv));
-                ddlFM2CNV.Items.Add(new ComboItem<AH64RadioCNVSetting>("CNV " + cnvValue.ToString(), cnv));
-                ddlHFCNV.Items.Add(new ComboItem<AH64RadioCNVSetting>("CNV " + cnvValue.ToString(), cnv));
+                AH64RadioCNVSetting cnv = (cnvValue != 0) ? new AH64RadioCNVSetting(cnvValue) : new AH64RadioCNVSetting(null);
+                string name = (cnvValue != 0) ? "CNV " + cnvValue.ToString() : "No Change";
+
+                ddlUHFCNV.Items.Add(new ComboItem<AH64RadioCNVSetting>(name, cnv));
+                ddlFM1CNV.Items.Add(new ComboItem<AH64RadioCNVSetting>(name, cnv));
+                ddlFM2CNV.Items.Add(new ComboItem<AH64RadioCNVSetting>(name, cnv));
+                ddlHFCNV.Items.Add(new ComboItem<AH64RadioCNVSetting>(name, cnv));
             }
 
             ddlRadioPresetModemProtocol.ValueMember = "Value";
@@ -626,9 +628,6 @@ namespace CoordinateConverter.DCS.Tools
             ddlUHFCNV.Enabled = status;
             nudUHFFreq.Enabled = status;
             nudUHFHQ.Enabled = status;
-            // Disable N/I controls
-            ddlUHFCNV.Enabled = false;
-            nudUHFHQ.Enabled = false;
 
             UpdateTuneDDLText(GetSelectedPresetIdent());
         }
@@ -680,9 +679,6 @@ namespace CoordinateConverter.DCS.Tools
             nudFM1Freq.Enabled = status;
             ddlFM1CNV.Enabled = status;
             nudFM1Hopset.Enabled = status;
-            // Disable N/I fields
-            ddlFM1CNV.Enabled = false;
-            nudFM1Hopset.Enabled = false;
 
             UpdateTuneDDLText(GetSelectedPresetIdent());
         }
@@ -735,9 +731,6 @@ namespace CoordinateConverter.DCS.Tools
             nudFM2Freq.Enabled = status;
             ddlFM2CNV.Enabled = status;
             nudFM2Hopset.Enabled = status;
-            // Disable N/I fields
-            ddlFM2CNV.Enabled = false;
-            nudFM2Hopset.Enabled = false;
 
             UpdateTuneDDLText(GetSelectedPresetIdent());
         }

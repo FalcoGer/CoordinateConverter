@@ -186,7 +186,15 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 {
                     commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R4));
                     commands.AddRange(AH64.GetCommandsForKUText(UHFFrequency.ToString() + '\n', true, IsPilot));
-                    // TODO: CNV, HQ
+                    // CNV
+                    if (UHFCNV.Value != null)
+                    {
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R2));
+                        // CNV is menu R1 - R6, luckily R1 - 1 + CNV is the correct button
+                        int button = (int)AH64.EKeyCode.MFD_R1 - 1 + UHFCNV.Value.Value;
+                        commands.Add(new DCSCommand(mfd, button));
+                    }
+                    // TODO: HQ
                 }
             }
 
@@ -198,13 +206,29 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 {
                     commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L4));
                     commands.AddRange(AH64.GetCommandsForKUText(FM1Frequency.ToString() + '\n', true, IsPilot));
-                    // TODO: CNV, HOPSET
+                    // CNV
+                    if (FM1CNV.Value != null)
+                    {
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L2));
+                        // CNV is menu L1 - L6, unfortunately the button order is reversed.
+                        int button = (int)AH64.EKeyCode.MFD_L1 - FM1CNV.Value.Value + 1;
+                        commands.Add(new DCSCommand(mfd, button));
+                    }
+                    // TODO: HOPSET
                 }
                 if (ContainsFM2Data)
                 {
                     commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R4));
                     commands.AddRange(AH64.GetCommandsForKUText(FM2Frequency.ToString() + '\n', true, IsPilot));
-                    // TODO: CNV, HOPSET
+                    // CNV
+                    if (FM2CNV.Value != null)
+                    {
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R2));
+                        // CNV is menu R1 - R6, luckily R1 - 1 + CNV is the correct button
+                        int button = (int)AH64.EKeyCode.MFD_R1 - 1 + FM2CNV.Value.Value;
+                        commands.Add(new DCSCommand(mfd, button));
+                    }
+                    // TODO: HOPSET
                 }
             }
 
@@ -523,7 +547,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <value>
         /// The uhf cnv.
         /// </value>
-        public AH64RadioCNVSetting UHFCNV { get; set; } = new AH64RadioCNVSetting(1);
+        public AH64RadioCNVSetting UHFCNV { get; set; } = new AH64RadioCNVSetting(null);
 
         [JsonIgnore]
         private RadioFrequency uhfHaveQuickNet = new RadioFrequency(0.0m, 0.0m, 99.975m, 0.005m);
@@ -626,7 +650,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <value>
         /// The FM1 CNV.
         /// </value>
-        public AH64RadioCNVSetting FM1CNV { get; set; } = new AH64RadioCNVSetting(1);
+        public AH64RadioCNVSetting FM1CNV { get; set; } = new AH64RadioCNVSetting(null);
 
         [JsonIgnore]
         private int fm1Hopset = 1;
@@ -708,7 +732,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <value>
         /// The FM2 CNV.
         /// </value>
-        public AH64RadioCNVSetting FM2CNV { get; set; } = new AH64RadioCNVSetting(1);
+        public AH64RadioCNVSetting FM2CNV { get; set; } = new AH64RadioCNVSetting(null);
 
         [JsonIgnore]
         private int fm2Hopset = 1;
@@ -790,7 +814,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <value>
         /// The HF CNV.
         /// </value>
-        public AH64RadioCNVSetting HFCNV { get; set; } = new AH64RadioCNVSetting(1);
+        public AH64RadioCNVSetting HFCNV { get; set; } = new AH64RadioCNVSetting(null);
         
         [JsonIgnore]
         private int hfPresetChannel = 1;

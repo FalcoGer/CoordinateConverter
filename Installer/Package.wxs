@@ -1,10 +1,7 @@
 ﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   <Package Name="Coordinate Converter" Manufacturer="FalcoGer" Version="$(Version)" UpgradeCode="342894a7-1466-436c-a2ff-0ee29c3a13fd" Compressed="true" InstallerVersion="200" Scope="perMachine">
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
-    <ui:WixUI
-        Id="WixUI_FeatureTree"
-        InstallDirectory="DCSFOLDER"
-        />
+    <ui:WixUI Id="WixUI_FeatureTree" InstallDirectory="DCSFOLDER" />
     <WixVariable Id="WixUILicenseRtf" Value="eula.rtf" />
     <PropertyRef Id="WIX_IS_NETFRAMEWORK_472_OR_LATER_INSTALLED" />
 
