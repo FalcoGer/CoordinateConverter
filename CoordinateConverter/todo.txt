@@ -1,17 +1,22 @@
 Unit list:
     - Filter by unit type/name
+    - don't import units already in the wp list
+        - ask user if they want to enable xfer if those units are xfer disabled
+        - ask user if they want to push those units to the bottom of the list
+        - ask user if they want to import those unit anyway or skip them
 
-AH-64 DTC:
-    - Set up map options
-    - different lrfd/lst based on cockpit display data
-
-A-10C:
-    - Auto UTM/LL detection
-
-F-18:
-    - Auto set PRECISE
-    - Smarter Weapons selection, not based on wing loadout
-    
+Settings:
+    - have a settings file next to the executable/appdata?
+    - store recently loaded files for wp list/dtc
+    - store monitor settings
+    - store saved files directory
+    - file menu add exit
+    - file menu add store recent files
+    - execute menu
+        - lua script: chunk = load (str), then check `if chunk`, then call chunk()
+        - common commands ddl
+        - save/load scripts
+        - output window with results
 
 Data Entry
     - Fix spurious data entry errors for AH64 KU
@@ -26,16 +31,14 @@ Waypoint list:
             - display that and disable xfer checkbox
             - make sure that when points are removed/unchecked for xfer, that the checkbox gets enabled again
             - make sure to skip auto increment over non enabled xfer entries
+            - make sure to skip disabled checkboxes when pressing space or clicking the header
     - Use data source instead of editing rows (see unit importer) for better performance and less maintenance
 
 Add support for remote (DCS) hosts
     - auto switch reticle to never if ip is not localhost, because that makes no sense.
 
-Fix SLAM and SLAM-ER multi (implement with weapon type remember logic, see hornet below)
-
 Make DataGridView faster
     - switch main form data grid to use a datatable (copy from unit importer)
-
 
 rewrite networking
     - one stable connection, not constant connecting and disconnecting
@@ -50,11 +53,6 @@ rewrite networking
     - lua makes connection every x (3?) seconds using the timed export function if connection is not already established
         - dcs lag?
             - if so, how to make async?
-
-
-When saving/loading, update the default location and file name
-    - add a save option that just overwrites the last file loaded/saved
-    - get the data the first time from a configuration file (appdata?)
 
 
 Add support for F10 map selection selection instead of camera position when something is selected
@@ -96,29 +94,47 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
                 - Valid range 100 - 2199.5 kHz
                 - Valid ID 1-3 alpha characters (no numbers, no other stuff)
             - Map settings (Type, Orientation, any settings that are settable)
+            - different lrfd/lst based on cockpit display data
             - A/C Set stuff (LO/HI Warn, Auto QNH)
             - Use OnKeyDown for all text boxes to block invalid inputs
-
     - F18
-        - fetch if precise is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)
-            - might be impossible, this is 9 years old
-        - if not possible use LoSetSharedTexture (Export.lua L1061) and analyze bitmap (?)
-            - test with multiple resolutions
-        - SLAM-ER
-            - STP for each station?
-        - hornet, autoswitch all to PP2 after dropping from BRU?
-        - remember which weapon station was selected last and only switch when it's different for the next point
+        - Auto set PRECISE
+        - set first point to use, don't overwrite 59 / m1-9 / 0
+            - get current point and store that
+            - calculate presses to go to the desired point
+            - enter points
+            - go back to the original point
+        - Move weapon stuff to new tool window 
+	    - Smarter Weapons selection, not based on wing loadout (read display)
+	    - remove waypoint types from wp list
+	    - enable saving/loading any weapon data on the wings
+	    - load current weapons button
+            - all settings for all weapons, incl fuze, impact angle, hptp / wplist, etc
+                - read current setting and don't re-enter if matching
+	    - auto pp switch for ripple drop from multi weapon rack
+	        - visual cue when switching/when switching is done
+            - remember which weapon station was selected last and only switch when it's different for the next point
+            - SLAM-ER
+                - STP for each station
+        - dtc
+            - comm settings all channels (1-20 + M), incl guard receiver
+            - IFF (M1 + M3 + M4 + ON)
+            - DL (ACLS + ON)
+            - TCN (CH + X/Y + TR/AA + ON)
+            - ILS (CH + ON)
+            - enable AA WP 59
+            - route / wp seq (delete and redo)
+            - set home point (fpas)
+            - sa page set sensor data
+            - radar set rws settings and save for fox2/fox3, switch tws?
+            - set hmd dl range/order
     - A10C
-        - remind user that selection MGRS will use MGRS input into CDU
-            -fetch if UTM or L/L is selected (https://www.reddit.com/r/hoggit/comments/2ao01d/so_apparently_there_was_a_way_to_get_the_text_of/)
-                - might be impossible, this is 9 years old
-                - if not possible use LoSetSharedTexture (Export.lua L1061) and analyze bitmap (?)
-                    - test with multiple resolutions
+        - Auto UTM/LL detection
         - make sure waypoints with the same names get numbered
         - make sure that waypoint max name length is 12, even with the extra numbering
         - maybe needs `LoGetRoute()` 
     - F15E
-        - Ask user for seat
+        - Auto detect seat (see AH64.IsPilot)
     - JF17
         - Check of N/S and E/W is automatically set and what the source of that information is
     - C-130 Mod Waypoint support
