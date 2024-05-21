@@ -172,6 +172,8 @@ namespace CoordinateConverter
             this.tsmi_Opacity50 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Opacity25 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
+            this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_execute = new System.Windows.Forms.ToolStripMenuItem();
             this.tmr250ms = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btn_Transfer = new System.Windows.Forms.ToolStripButton();
@@ -500,6 +502,7 @@ namespace CoordinateConverter
             this.cb_PointOption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_PointOption.AutoCompleteCustomSource.AddRange(new string[] {
             "Waypoint"});
+            this.cb_PointOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_PointOption.Enabled = false;
             this.cb_PointOption.FormattingEnabled = true;
             this.cb_PointOption.Location = new System.Drawing.Point(308, 191);
@@ -523,6 +526,7 @@ namespace CoordinateConverter
             this.cb_PointType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cb_PointType.AutoCompleteCustomSource.AddRange(new string[] {
             "Waypoint"});
+            this.cb_PointType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_PointType.Enabled = false;
             this.cb_PointType.FormattingEnabled = true;
             this.cb_PointType.Items.AddRange(new object[] {
@@ -531,7 +535,6 @@ namespace CoordinateConverter
             this.cb_PointType.Name = "cb_PointType";
             this.cb_PointType.Size = new System.Drawing.Size(179, 21);
             this.cb_PointType.TabIndex = 10;
-            this.cb_PointType.Text = "Waypoint";
             this.cb_PointType.SelectedIndexChanged += new System.EventHandler(this.Cb_pointType_SelectedIndexChanged);
             // 
             // label17
@@ -1395,7 +1398,8 @@ namespace CoordinateConverter
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmi_FileMenu,
             this.tsmi_DCSMenu,
-            this.settingsToolStripMenuItem});
+            this.settingsToolStripMenuItem,
+            this.miscToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1189, 24);
@@ -1488,14 +1492,14 @@ namespace CoordinateConverter
             this.tsmi_Auto.Checked = true;
             this.tsmi_Auto.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmi_Auto.Name = "tsmi_Auto";
-            this.tsmi_Auto.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_Auto.Size = new System.Drawing.Size(116, 22);
             this.tsmi_Auto.Text = "Auto";
             this.tsmi_Auto.Click += new System.EventHandler(this.Tsmi_Aircraft_Auto_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
             // 
             // tsmi_A10CMenu
             // 
@@ -1503,7 +1507,7 @@ namespace CoordinateConverter
             this.tsmi_A10C,
             this.tsmi_A10C_UseMGRS});
             this.tsmi_A10CMenu.Name = "tsmi_A10CMenu";
-            this.tsmi_A10CMenu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_A10CMenu.Size = new System.Drawing.Size(116, 22);
             this.tsmi_A10CMenu.Text = "A10C";
             // 
             // tsmi_A10C
@@ -1527,34 +1531,34 @@ namespace CoordinateConverter
             this.tsmi_AH64_ClearPoints,
             this.tsmi_AH64_DTC});
             this.tsmi_AH64Menu.Name = "tsmi_AH64Menu";
-            this.tsmi_AH64Menu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AH64Menu.Size = new System.Drawing.Size(116, 22);
             this.tsmi_AH64Menu.Text = "AH64";
             // 
             // tsmi_AH64
             // 
             this.tsmi_AH64.Name = "tsmi_AH64";
-            this.tsmi_AH64.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AH64.Size = new System.Drawing.Size(162, 22);
             this.tsmi_AH64.Text = "AH64";
             this.tsmi_AH64.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_AH64_ClearPoints
             // 
             this.tsmi_AH64_ClearPoints.Name = "tsmi_AH64_ClearPoints";
-            this.tsmi_AH64_ClearPoints.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AH64_ClearPoints.Size = new System.Drawing.Size(162, 22);
             this.tsmi_AH64_ClearPoints.Text = "Clear Points...";
             this.tsmi_AH64_ClearPoints.Click += new System.EventHandler(this.Tsmi_AH64_ClearPoints_Click);
             // 
             // tsmi_AH64_DTC
             // 
             this.tsmi_AH64_DTC.Name = "tsmi_AH64_DTC";
-            this.tsmi_AH64_DTC.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AH64_DTC.Size = new System.Drawing.Size(162, 22);
             this.tsmi_AH64_DTC.Text = "DTC...";
             this.tsmi_AH64_DTC.Click += new System.EventHandler(this.Tsmi_AH64_DTC_Click);
             // 
             // tsmi_AV8B
             // 
             this.tsmi_AV8B.Name = "tsmi_AV8B";
-            this.tsmi_AV8B.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AV8B.Size = new System.Drawing.Size(116, 22);
             this.tsmi_AV8B.Text = "AV8B";
             this.tsmi_AV8B.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
@@ -1564,7 +1568,7 @@ namespace CoordinateConverter
             this.tsmi_F15E_Pilot,
             this.tsmi_F15E_WSO});
             this.tsmi_F15EMenu.Name = "tsmi_F15EMenu";
-            this.tsmi_F15EMenu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F15EMenu.Size = new System.Drawing.Size(116, 22);
             this.tsmi_F15EMenu.Text = "F15E";
             // 
             // tsmi_F15E_Pilot
@@ -1587,7 +1591,7 @@ namespace CoordinateConverter
             this.tsmi_F16,
             this.tsmi_F16_SetFirstPoint});
             this.tsmi_F16Menu.Name = "tsmi_F16Menu";
-            this.tsmi_F16Menu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F16Menu.Size = new System.Drawing.Size(116, 22);
             this.tsmi_F16Menu.Text = "F16";
             // 
             // tsmi_F16
@@ -1607,7 +1611,7 @@ namespace CoordinateConverter
             // tsmi_F18
             // 
             this.tsmi_F18.Name = "tsmi_F18";
-            this.tsmi_F18.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F18.Size = new System.Drawing.Size(116, 22);
             this.tsmi_F18.Text = "F18";
             this.tsmi_F18.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
@@ -1617,7 +1621,7 @@ namespace CoordinateConverter
             this.tsmi_JF17,
             this.tsmi_JF17_SetFirstPoint});
             this.tsmi_JF17Menu.Name = "tsmi_JF17Menu";
-            this.tsmi_JF17Menu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_JF17Menu.Size = new System.Drawing.Size(116, 22);
             this.tsmi_JF17Menu.Text = "JF17";
             // 
             // tsmi_JF17
@@ -1637,14 +1641,14 @@ namespace CoordinateConverter
             // tsmi_KA50
             // 
             this.tsmi_KA50.Name = "tsmi_KA50";
-            this.tsmi_KA50.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_KA50.Size = new System.Drawing.Size(116, 22);
             this.tsmi_KA50.Text = "KA50";
             this.tsmi_KA50.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_M2000
             // 
             this.tsmi_M2000.Name = "tsmi_M2000";
-            this.tsmi_M2000.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_M2000.Size = new System.Drawing.Size(116, 22);
             this.tsmi_M2000.Text = "M2000";
             this.tsmi_M2000.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
@@ -1777,6 +1781,21 @@ namespace CoordinateConverter
             this.tsmi_CheckForUpdates.Size = new System.Drawing.Size(215, 22);
             this.tsmi_CheckForUpdates.Text = "Check for Updates";
             this.tsmi_CheckForUpdates.Click += new System.EventHandler(this.Tsmi_CheckForUpdates_Click);
+            // 
+            // miscToolStripMenuItem
+            // 
+            this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_execute});
+            this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.miscToolStripMenuItem.Text = "Misc";
+            // 
+            // tsmi_execute
+            // 
+            this.tsmi_execute.Name = "tsmi_execute";
+            this.tsmi_execute.Size = new System.Drawing.Size(136, 22);
+            this.tsmi_execute.Text = "Execute...";
+            this.tsmi_execute.Click += new System.EventHandler(this.Tsmi_execute_Click);
             // 
             // tmr250ms
             // 
@@ -2158,6 +2177,8 @@ namespace CoordinateConverter
         private DataGridViewCheckBoxColumn colXFer;
         private DataGridViewButtonColumn colDelete;
         private ToolStripMenuItem tsmi_AH64_DTC;
+        private ToolStripMenuItem miscToolStripMenuItem;
+        private ToolStripMenuItem tsmi_execute;
     }
 }
 

@@ -1,9 +1,14 @@
+Fixme:
+    - save shows "open"
+
+lua file log version of lua file to log file
+compare versions with coordinate converter on connect
+
 Unit list:
     - Filter by unit type/name
 
-AH-64 DTC:
-    - Set up map options
-    - different lrfd/lst based on cockpit display data
+Execute:
+    - ScintillaNET for code syntax highlighting and autocompletion
 
 A-10C:
     - Auto UTM/LL detection
@@ -11,6 +16,7 @@ A-10C:
 F-18:
     - Auto set PRECISE
     - Smarter Weapons selection, not based on wing loadout
+    - slam / slam-er efuze setting (is toggle, needs reading)
     
 
 Data Entry

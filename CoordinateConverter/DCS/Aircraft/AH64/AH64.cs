@@ -115,6 +115,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             CPG_MFD_Left = 10,
             CPG_MFD_Right = 12,
             CPG_EUFD = 18,
+            TEDAC = 19,
             #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         }

@@ -62,6 +62,15 @@ namespace CoordinateConverter.DCS.Communication
         public Dictionary<string, string> HandleData { get; set; } = null;
 
         /// <summary>
+        /// sets a string to be executed, or gets the result of the execution.
+        /// </summary>
+        /// <value>
+        /// Data for execution in LUA.
+        /// </value>
+        [JsonProperty("Execute")]
+        public string Execute { get; set; } = null;
+
+        /// <summary>
         /// Gets or sets whether to fetch cockpit display data.
         /// </summary>
         /// <value>
@@ -118,10 +127,16 @@ namespace CoordinateConverter.DCS.Communication
         public List<string> ServerErrors { get; set; } = null;
 
         /// <summary>
-        /// The current command index
+        /// The current command index returned by dcs
         /// </summary>
         [JsonProperty("CmdIdx")]
         public int? CurrentCommandIndex = null;
+
+        /// <summary>
+        /// The total command count returned by dcs
+        /// </summary>
+        [JsonProperty("CmdCnt")]
+        public int? TotalCommandCount = null;
 
         /// <summary>
         /// if true, ask the server to send weapon station information

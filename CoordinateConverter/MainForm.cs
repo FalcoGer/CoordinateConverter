@@ -2545,13 +2545,17 @@ namespace CoordinateConverter
 
                 if (message.CurrentCommandIndex.HasValue)
                 {
-                    if (message.CurrentCommandIndex.Value <= pb_Transfer.Maximum)
+                    lock (lockObjProgressBar)
                     {
-                        lock (lockObjProgressBar)
+                        if (message.CurrentCommandIndex.HasValue)
+                        {
+                            pb_Transfer.Maximum = message.CurrentCommandIndex.Value;
+                        }
+                        if (message.CurrentCommandIndex.Value <= pb_Transfer.Maximum)
                         {
                             pb_Transfer.Value = message.CurrentCommandIndex.Value;
-                            pb_Transfer.Visible = true;
                         }
+                        pb_Transfer.Visible = true;
                     }
                 }
                 else
@@ -2832,6 +2836,11 @@ namespace CoordinateConverter
             ah64DTCForm.ShowDialog();
             pb_Transfer.Value = 0;
             pb_Transfer.Maximum = ah64DTCForm.CommandsSentCount;
+        }
+
+        private void Tsmi_execute_Click(object sender, EventArgs e)
+        {
+            FormExecute formExecute = new FormExecute(this);
         }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace CoordinateConverter.DCS.Aircraft.AH64
 {
@@ -443,7 +444,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         {
             get
             {
-                return mode1Value.HasValue ? Convert.ToString(mode1Value.Value, 8) : string.Empty;
+                return mode1Value.HasValue ? Convert.ToString(mode1Value.Value, 8).PadLeft(2, '0') : string.Empty;
             }
             set
             {
@@ -497,7 +498,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         {
             get
             {
-                return mode2Value.HasValue ? Convert.ToString(mode2Value.Value, 8) : string.Empty;
+                return mode2Value.HasValue ? Convert.ToString(mode2Value.Value, 8).PadLeft(4, '0') : string.Empty;
             }
             set
             {
@@ -551,7 +552,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         {
             get
             {
-                return mode3AValue.HasValue ? Convert.ToString(mode3AValue.Value, 8) : string.Empty;
+                return mode3AValue.HasValue ? Convert.ToString(mode3AValue.Value, 8).PadLeft(4, '0') : string.Empty;
             }
             set
             {
@@ -605,7 +606,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         {
             get
             {
-                return modeSFlightAddressValue.HasValue ? Convert.ToString(modeSFlightAddressValue.Value, 8) : string.Empty;
+                return modeSFlightAddressValue.HasValue ? Convert.ToString(modeSFlightAddressValue.Value, 8).PadLeft(8, '0') : string.Empty;
             }
             set
             {
@@ -752,6 +753,16 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// The iff antenna.
         /// </value>
         public EIFFAntenna IFFAntenna { get; set; } = EIFFAntenna.No_Change;
+        #endregion
+
+        #region TSDData                
+        /// <summary>
+        /// Gets or sets the TSD data.
+        /// </summary>
+        /// <value>
+        /// The TSD data.
+        /// </value>
+        public AH64TSDOptionData TSDData { get; set; } = new AH64TSDOptionData();
         #endregion
 
         #region CommandGeneration
@@ -1254,20 +1265,36 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_B3));
                 }
 
-                if (LrfdAndLstLaserChannel != ELaserChannel.No_Change
+                if (LrfdLaserChannel != ELaserChannel.No_Change
+                    || LstLaserChannel != ELaserChannel.No_Change
                     || ContainsLaserCodeFrequencyData)
                 {
+                    ELaserCodeProgrammSelector laserCodeProgrammSelector = CurrentLaserCodeProgrammSelector;
+
                     commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_T4)); // CODE
 
-                    if (LrfdAndLstLaserChannel != ELaserChannel.No_Change)
+                    if (LrfdLaserChannel != ELaserChannel.No_Change)
                     {
-                        for (int i = 0; i < 2; i++) // 2x
+                        // switch to LRFD if required
+                        if (laserCodeProgrammSelector != ELaserCodeProgrammSelector.Lrfd)
                         {
-                            // switch LRFD / LST
                             commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_T2));
-                            // Select Channel
-                            commands.Add(new DCSCommand(DeviceRMFD, GetLaserChannelButton(LrfdAndLstLaserChannel)));
+                            laserCodeProgrammSelector = ELaserCodeProgrammSelector.Lrfd;
                         }
+                        // Select Channel
+                        commands.Add(new DCSCommand(DeviceRMFD, GetLaserChannelButton(LrfdLaserChannel)));
+                    }
+
+                    if (LstLaserChannel != ELaserChannel.No_Change)
+                    {
+                        // switch to LST if required
+                        if (laserCodeProgrammSelector != ELaserCodeProgrammSelector.Lst)
+                        {
+                            commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_T2));
+                            // laserCodeProgrammSelector = ELaserCodeProgrammSelector.Lst;
+                        }
+                        // Select Channel
+                        commands.Add(new DCSCommand(DeviceRMFD, GetLaserChannelButton(LstLaserChannel)));
                     }
 
                     if (ContainsLaserCodeFrequencyData)
@@ -1318,6 +1345,11 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     }
                     commands.Add(new DCSCommand(DeviceRMFD, (int)AH64.EKeyCode.MFD_T1)); // Deselect CHAN
                 }
+            }
+
+            if (TSDData.HasData)
+            {
+                commands.AddRange(TSDData.GenerateCommands(IsPilot));
             }
 
             // TODO: ADF
@@ -1591,6 +1623,82 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         #region WPN
 
         /// <summary>
+        /// An LST or LRFD laser code programm selector
+        /// </summary>
+        public enum ELaserCodeProgrammSelector
+        {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+            Lrfd,
+            Lst
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+        }
+
+        /// <summary>
+        /// Gets the current laser code programm selector.
+        /// </summary>
+        /// <value>
+        /// The current laser code programm selector.
+        /// </value>
+        [JsonIgnore]
+        public ELaserCodeProgrammSelector CurrentLaserCodeProgrammSelector
+        {
+            get
+            {
+                // read the current selected laser code for programming from the weapons page
+                List<DCSCommand> commands= new List<DCSCommand>();
+                int device = (int)(IsPilot ? AH64.EDeviceCode.PLT_LMFD : AH64.EDeviceCode.CPG_LMFD);
+                
+                // go to weapons page
+                commands.Add(new DCSCommand(device, (int)AH64.EKeyCode.MFD_WPN));
+                // go to code page
+                commands.Add(new DCSCommand(device, (int)AH64.EKeyCode.MFD_T4));
+
+                DCSMessage message = new DCSMessage()
+                {
+                    Commands = commands
+                };
+                message = DCSConnection.SendRequest(message);
+
+                if (message == null)
+                {
+                    return ELaserCodeProgrammSelector.Lrfd;
+                }
+
+                // sleep until time ellapsed for all commands
+                // time for each command is in command.delay, 20% margin for safety
+                var timeToSleep = (int)(commands.Sum(x => x.Delay) * 1.2);
+                Thread.Sleep(timeToSleep);
+
+                // read LRFD/LST status
+                int displayToRead = (int)(IsPilot ? AH64.EDisplayCodes.PLT_MFD_Left : AH64.EDisplayCodes.CPG_MFD_Left);
+                message = new DCSMessage()
+                {
+                    GetCockpitDisplayData = new List<int>() { displayToRead }
+                };
+
+                message = DCSConnection.SendRequest(message);
+
+                if (message == null
+                    || message.CockpitDisplayData == null
+                    || message.CockpitDisplayData[displayToRead].Count == 0
+                    || !message.CockpitDisplayData[displayToRead].ContainsKey("PB2_11")
+                )
+                {
+                    return ELaserCodeProgrammSelector.Lrfd;
+                }
+
+                if (message.CockpitDisplayData[displayToRead]["PB2_11"] == "LST")
+                {
+                    return ELaserCodeProgrammSelector.Lst;
+                }
+                else
+                {
+                    return ELaserCodeProgrammSelector.Lrfd;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether [contains weapon data].
         /// </summary>
         /// <value>
@@ -1605,7 +1713,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     || ContainsMissileChannelData
                     || MissilePriorityChannel != EMissileChannel.No_Change
                     || MissileAlternateChannel != EMissileChannel.No_Change
-                    || LrfdAndLstLaserChannel != ELaserChannel.No_Change
+                    || LrfdLaserChannel != ELaserChannel.No_Change
+                    || LstLaserChannel != ELaserChannel.No_Change
                     || GunBurstLength != EGunBurstLength.No_Change
                     || RocketQuantity != ERocketQuantity.No_Change
                     || ManRange.HasValue;
@@ -1746,12 +1855,20 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         }
 
         /// <summary>
-        /// Gets or sets the LRFD and LST laser channel.
+        /// Gets or sets the LRFD laser channel.
         /// </summary>
         /// <value>
-        /// The LRFD and LST laser channel.
+        /// The LRFD laser channel.
         /// </value>
-        public ELaserChannel LrfdAndLstLaserChannel { get; set; } = ELaserChannel.No_Change;
+        public ELaserChannel LrfdLaserChannel { get; set; } = ELaserChannel.No_Change;
+
+        /// <summary>
+        /// Gets or sets the LST laser channel.
+        /// </summary>
+        /// <value>
+        /// The LST laser channel.
+        /// </value>
+        public ELaserChannel LstLaserChannel { get; set; } = ELaserChannel.No_Change;
 
         /// <summary>
         /// Gets a value indicating whether this instance has laser code data.

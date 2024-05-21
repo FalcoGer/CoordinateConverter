@@ -49,6 +49,52 @@ function getListIndicatorValue(IndicatorID)
     return TmpReturn
 end
 
+-- function to turn any object into a string, including comments on the type
+function Table2String(val, indentWidth, level, tableKey)
+    if level == nil then level = 0 end
+    if indentWidth == nil then indentWidth = 4 end
+    local nl = "\r\n"
+    -- get indent for current level
+    local singleIndent = ""
+    for _ = 1, indentWidth do
+        singleIndent = singleIndent .. " "
+    end
+    local indent = ""
+    for _ = 1, level do
+        indent = indent .. singleIndent
+    end
+    -- if it isn't a table, just print the value
+    if type(val) ~= "table" then
+        if type(val) == "string" then
+            return "\"" .. val .. "\"" .. ", -- " .. type(val) .. nl
+        end
+        return tostring(val) .. ", -- " .. type(val) .. nl
+    end
+    -- Is table
+    local ret = "{" .. nl
+    for k, v in pairs(val) do
+        local keyRepr = ""
+        if type(k) == "string" then
+            keyRepr = k
+        elseif type(k) == "number" then
+            keyRepr = "[" .. tostring(k) .. "]"
+        else
+            keyRepr = tostring(k) .. " (" .. tostring(type(k)) .. ")"
+        end
+        ret = ret .. (indent .. singleIndent .. keyRepr .. " = " .. Table2String(v, indentWidth, level + 1, k))
+    end
+    ret = ret .. indent .. "}, -- " .. type(val) .. "  /" .. tostring(tableKey) .. nl
+    return ret
+end
+
+function Table2StringArray(val, indentWidth)
+    local tableString = Table2String(val, indentWidth, nil, nil)
+    local result = {}
+    for s in string.gmatch(tableString, "[^\n]+") do
+        table.insert(result, s)
+    end
+    return result
+end
 
 function LuaExportStop()
     if upstreamLuaExportStop ~= nil then
@@ -192,6 +238,7 @@ function LuaExportAfterNextFrame()
                 response["ErrorList"][#response["ErrorList"] + 1] = "Busy pressing buttons."
             elseif busy then
                 response["CmdIdx"] = currCommandIndex
+                response["CmdCnt"] = #commands
             end
 
             -- handle aircraft type request
@@ -320,6 +367,28 @@ function LuaExportAfterNextFrame()
                 success, errMsg = pcall(f)
                 if not success then
                     log.write(LOG_MODNAME, log.ERROR, "Failure to fetch camera position: " .. tostring(errMsg))
+                    response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
+                end
+            end
+
+            -- handle execute event
+            if data["Execute"] then
+                local f = function()
+                    if DEBUGGING then
+                        log.write(LOG_MODNAME, log.INFO, "Executing " .. data["execute"])
+                    end
+                    local func, err = loadstring(data["Execute"])
+                    if func then
+                        response["Execute"] = Table2String(func())
+                    else
+                        response["Execute"] = "Unable to load code."
+                        error(err)
+                    end
+                end
+
+                success, errMsg = pcall(f)
+                if not success then
+                    log.write(LOG_MODNAME, log.ERROR, "Failure to execute: " .. tostring(errMsg))
                     response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
                 end
             end

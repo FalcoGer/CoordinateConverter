@@ -226,7 +226,7 @@ namespace CoordinateConverter.DCS.Tools
                 ddlASESalvoInterval.Items.Add(new ComboItem<AH64DTCData.EASESalvoInterval>(option.ToString().Replace('_', ' '), option));
             }
 
-            foreach (var ddlLaserChannelSelection in new List<ComboBox>() { ddlLaserLRST, ddlMslChannel1, ddlMslChannel2, ddlMslChannel3, ddlMslChannel4 })
+            foreach (var ddlLaserChannelSelection in new List<ComboBox>() { ddlLaserLRFD, ddlLaserLST, ddlMslChannel1, ddlMslChannel2, ddlMslChannel3, ddlMslChannel4 })
             {
                 ddlLaserChannelSelection.ValueMember = "Value";
                 ddlLaserChannelSelection.DisplayMember = "Text";
@@ -276,6 +276,102 @@ namespace CoordinateConverter.DCS.Tools
                 foreach (AH64DTCData.EPreset preset in Enum.GetValues(typeof(AH64DTCData.EPreset)))
                 {
                     ddl.Items.Add(new ComboItem<AH64DTCData.EPreset>(GetPresetName(preset), preset));
+                }
+            }
+
+            // TSD
+            ddl_TSD_type.ValueMember = "Value";
+            ddl_TSD_type.DisplayMember = "Text";
+            ddl_TSD_type.Items.Add(new ComboItem<AH64TSDOptionData.EMapType>("No Change", AH64TSDOptionData.EMapType.No_Change));
+            ddl_TSD_type.Items.Add(new ComboItem<AH64TSDOptionData.EMapType>("Chart", AH64TSDOptionData.EMapType.Chart));
+            ddl_TSD_type.Items.Add(new ComboItem<AH64TSDOptionData.EMapType>("Satellite", AH64TSDOptionData.EMapType.Satellite));
+            ddl_TSD_type.Items.Add(new ComboItem<AH64TSDOptionData.EMapType>("Digital", AH64TSDOptionData.EMapType.Digital));
+            ddl_TSD_type.Items.Add(new ComboItem<AH64TSDOptionData.EMapType>("Stick", AH64TSDOptionData.EMapType.Stick));
+
+            ddl_TSD_colorBand.ValueMember = "Value";
+            ddl_TSD_colorBand.DisplayMember = "Text";
+            ddl_TSD_colorBand.Items.Add(new ComboItem<AH64TSDOptionData.EColorBand>("No Change", AH64TSDOptionData.EColorBand.No_Change));
+            ddl_TSD_colorBand.Items.Add(new ComboItem<AH64TSDOptionData.EColorBand>("None", AH64TSDOptionData.EColorBand.None));
+            ddl_TSD_colorBand.Items.Add(new ComboItem<AH64TSDOptionData.EColorBand>("A/C", AH64TSDOptionData.EColorBand.AC));
+            ddl_TSD_colorBand.Items.Add(new ComboItem<AH64TSDOptionData.EColorBand>("Elevation", AH64TSDOptionData.EColorBand.Elevation));
+
+            ddl_TSD_contours.ValueMember = "Value";
+            ddl_TSD_contours.DisplayMember = "Text";
+            ddl_TSD_contours.Items.Add(new ComboItem<AH64TSDOptionData.EContours>("No Change", AH64TSDOptionData.EContours.No_Change));
+            ddl_TSD_contours.Items.Add(new ComboItem<AH64TSDOptionData.EContours>("None", AH64TSDOptionData.EContours.Contours_None));
+            ddl_TSD_contours.Items.Add(new ComboItem<AH64TSDOptionData.EContours>("50", AH64TSDOptionData.EContours.Contours_50));
+            ddl_TSD_contours.Items.Add(new ComboItem<AH64TSDOptionData.EContours>("100", AH64TSDOptionData.EContours.Contours_100));
+            ddl_TSD_contours.Items.Add(new ComboItem<AH64TSDOptionData.EContours>("200", AH64TSDOptionData.EContours.Contours_200));
+            ddl_TSD_contours.Items.Add(new ComboItem<AH64TSDOptionData.EContours>("500", AH64TSDOptionData.EContours.Contours_500));
+            ddl_TSD_contours.Items.Add(new ComboItem<AH64TSDOptionData.EContours>("1000", AH64TSDOptionData.EContours.Contours_1000));
+
+            ddl_TSD_ffd.ValueMember = "Value";
+            ddl_TSD_ffd.DisplayMember = "Text";
+            ddl_TSD_ffd.Items.Add(new ComboItem<AH64TSDOptionData.EFfd>("No Change", AH64TSDOptionData.EFfd.No_Change));
+            ddl_TSD_ffd.Items.Add(new ComboItem<AH64TSDOptionData.EFfd>("None", AH64TSDOptionData.EFfd.FFD_None));
+            ddl_TSD_ffd.Items.Add(new ComboItem<AH64TSDOptionData.EFfd>("Both", AH64TSDOptionData.EFfd.FFD_Both));
+            ddl_TSD_ffd.Items.Add(new ComboItem<AH64TSDOptionData.EFfd>("Areas", AH64TSDOptionData.EFfd.FFD_Areas));
+            ddl_TSD_ffd.Items.Add(new ComboItem<AH64TSDOptionData.EFfd>("Lines", AH64TSDOptionData.EFfd.FFD_Lines));
+
+            ddl_TSD_gray.ValueMember = "Value";
+            ddl_TSD_gray.DisplayMember = "Text";
+            ddl_TSD_gray.Items.Add(new ComboItem<AH64TSDOptionData.EGray>("No Change", AH64TSDOptionData.EGray.No_Change));
+            ddl_TSD_gray.Items.Add(new ComboItem<AH64TSDOptionData.EGray>("Gray", AH64TSDOptionData.EGray.Gray));
+            ddl_TSD_gray.Items.Add(new ComboItem<AH64TSDOptionData.EGray>("Green/Gray", AH64TSDOptionData.EGray.Green_and_gray));
+
+            ddl_TSD_satLevel.ValueMember = "Value";
+            ddl_TSD_satLevel.DisplayMember = "Text";
+            ddl_TSD_satLevel.Items.Add(new ComboItem<AH64TSDOptionData.ESatLevel>("No Change", AH64TSDOptionData.ESatLevel.No_Change));
+            ddl_TSD_satLevel.Items.Add(new ComboItem<AH64TSDOptionData.ESatLevel>("5m", AH64TSDOptionData.ESatLevel.L5));
+            ddl_TSD_satLevel.Items.Add(new ComboItem<AH64TSDOptionData.ESatLevel>("10m", AH64TSDOptionData.ESatLevel.L10));
+
+            ddl_TSD_center.ValueMember = "Value";
+            ddl_TSD_center .DisplayMember = "Text";
+            ddl_TSD_center.Items.Add(new ComboItem<AH64TSDOptionData.ECenter>("No Change", AH64TSDOptionData.ECenter.No_Change));
+            ddl_TSD_center.Items.Add(new ComboItem<AH64TSDOptionData.ECenter>("Depressed", AH64TSDOptionData.ECenter.Depressed));
+            ddl_TSD_center.Items.Add(new ComboItem<AH64TSDOptionData.ECenter>("Centered", AH64TSDOptionData.ECenter.Center));
+
+            ddl_TSD_orient.ValueMember = "Value";
+            ddl_TSD_orient.DisplayMember = "Text";
+            ddl_TSD_orient.Items.Add(new ComboItem<AH64TSDOptionData.EOrientation>("No Change", AH64TSDOptionData.EOrientation.No_Change));
+            ddl_TSD_orient.Items.Add(new ComboItem<AH64TSDOptionData.EOrientation>("Heading Up", AH64TSDOptionData.EOrientation.HeadingUp));
+            ddl_TSD_orient.Items.Add(new ComboItem<AH64TSDOptionData.EOrientation>("Track Up", AH64TSDOptionData.EOrientation.TrackUp));
+            ddl_TSD_orient.Items.Add(new ComboItem<AH64TSDOptionData.EOrientation>("North Up", AH64TSDOptionData.EOrientation.NorthUp));
+
+            ddl_TSD_phase.ValueMember = "Value";
+            ddl_TSD_phase.DisplayMember = "Text";
+            ddl_TSD_phase.Items.Add(new ComboItem<AH64TSDOptionData.EPhase>("No Change", AH64TSDOptionData.EPhase.No_Change));
+            ddl_TSD_phase.Items.Add(new ComboItem<AH64TSDOptionData.EPhase>("Navigation", AH64TSDOptionData.EPhase.Navigation));
+            ddl_TSD_phase.Items.Add(new ComboItem<AH64TSDOptionData.EPhase>("Attack", AH64TSDOptionData.EPhase.Attack));
+
+            ddl_TSD_grid.ValueMember = "Value";
+            ddl_TSD_grid.DisplayMember = "Text";
+            ddl_TSD_grid.Items.Add(new ComboItem<AH64TSDOptionData.EGrid>("No Change", AH64TSDOptionData.EGrid.No_Change));
+            ddl_TSD_grid.Items.Add(new ComboItem<AH64TSDOptionData.EGrid>("Show Grid", AH64TSDOptionData.EGrid.Grid_Normal));
+            ddl_TSD_grid.Items.Add(new ComboItem<AH64TSDOptionData.EGrid>("Hide Grid", AH64TSDOptionData.EGrid.Grid_None));
+
+            ddl_TSD_showThreatVis.ValueMember = "Value";
+            ddl_TSD_showThreatVis.DisplayMember = "Text";
+            ddl_TSD_showThreatVis.Items.Add(new ComboItem<AH64TSDOptionData.EVis>("No Change", AH64TSDOptionData.EVis.No_Change));
+            ddl_TSD_showThreatVis.Items.Add(new ComboItem<AH64TSDOptionData.EVis>("Threat", AH64TSDOptionData.EVis.Threat));
+            ddl_TSD_showThreatVis.Items.Add(new ComboItem<AH64TSDOptionData.EVis>("Own", AH64TSDOptionData.EVis.Own));
+
+            foreach (ComboBox ddl in new List<ComboBox>()
+            { ddl_TSD_showAtkAreas, ddl_TSD_showAtkCtrlMeasures, ddl_TSD_showAtkCurrentRoute, ddl_TSD_showAtkCursor, ddl_TSD_showAtkCursorInfo
+            , ddl_TSD_showAtkEndurance, ddl_TSD_showAtkEnemyUnits, ddl_TSD_showAtkFriendlyUnits, ddl_TSD_showAtkHSI, ddl_TSD_showAtkInactiveZones, ddl_TSD_showAtkLines
+            , ddl_TSD_showAtkObstacles, ddl_TSD_showAtkShotAt, ddl_TSD_showAtkTargets, ddl_TSD_showAtkWind, ddl_TSD_showNavAreas, ddl_TSD_showNavCtrlMeasures
+            , ddl_TSD_showNavCursor, ddl_TSD_showNavCursorInfo, ddl_TSD_showNavEndurance, ddl_TSD_showNavEnemyUnits, ddl_TSD_showNavFriendlyUnits, ddl_TSD_showNavHSI
+            , ddl_TSD_showNavInactiveZones, ddl_TSD_showNavLines, ddl_TSD_showNavObstacles, ddl_TSD_showNavTargets, ddl_TSD_showNavWind, ddl_TSD_showNavWPData, ddl_TSD_showOwnGhost
+            , ddl_TSD_showOwnOwn, ddl_TSD_showOwnRings, ddl_TSD_showOwnTrnPt, ddl_TSD_showThreatACQ, ddl_TSD_showThreatASE, ddl_TSD_showThreatFCR, ddl_TSD_showThreatTargets
+            , ddl_TSD_showThreatThreats, ddl_TSD_showThreatTrnPt, ddl_TSD_showThreatVisShade})
+            {
+                ddl.ValueMember = "Value";
+                ddl.DisplayMember = "Text";
+
+                foreach (AH64TSDOptionData.EFilter filter in Enum.GetValues(typeof(AH64TSDOptionData.EFilter)))
+                {
+                    string filterName = filter == AH64TSDOptionData.EFilter.No_Change ? "No Change" : filter.ToString();
+                    ddl.Items.Add(new ComboItem<AH64TSDOptionData.EFilter>(filterName, filter));
                 }
             }
 
@@ -375,7 +471,8 @@ namespace CoordinateConverter.DCS.Tools
             ddlGunBurstLength.SelectedIndex = ComboItem<AH64DTCData.EGunBurstLength>.FindValue(ddlGunBurstLength, data.GunBurstLength) ?? 0;
             ddlRktQty.SelectedIndex = ComboItem<AH64DTCData.ERocketQuantity>.FindValue(ddlRktQty, data.RocketQuantity) ?? 0;
 
-            ddlLaserLRST.SelectedIndex = ComboItem<AH64DTCData.ELaserChannel>.FindValue(ddlLaserLRST, data.LrfdAndLstLaserChannel) ?? 0;
+            ddlLaserLRFD.SelectedIndex = ComboItem<AH64DTCData.ELaserChannel>.FindValue(ddlLaserLRFD, data.LrfdLaserChannel) ?? 0;
+            ddlLaserLST.SelectedIndex = ComboItem<AH64DTCData.ELaserChannel>.FindValue(ddlLaserLST, data.LstLaserChannel) ?? 0;
 
             cbManRange.CheckedChanged -= cbManRange_CheckedChanged;
             if (data.ManRange.HasValue)
@@ -450,6 +547,60 @@ namespace CoordinateConverter.DCS.Tools
             rbTuneHFNoChange.Checked = data.HFTuneSetting == AH64DTCData.ETuneSetting.No_Change;
             rbTuneHFPreset.Checked = data.HFTuneSetting == AH64DTCData.ETuneSetting.Preset;
             rbTuneHFMan.Checked = data.HFTuneSetting == AH64DTCData.ETuneSetting.Manual;
+
+            // TSD
+            ddl_TSD_type.SelectedIndex = ComboItem<AH64TSDOptionData.EMapType>.FindValue(ddl_TSD_type, data.TSDData.MapType) ?? 0;
+            ddl_TSD_colorBand.SelectedIndex = ComboItem<AH64TSDOptionData.EColorBand>.FindValue(ddl_TSD_colorBand, data.TSDData.ColorBand) ?? 0;
+            ddl_TSD_contours.SelectedIndex = ComboItem<AH64TSDOptionData.EContours>.FindValue(ddl_TSD_contours, data.TSDData.Contours) ?? 0;
+            ddl_TSD_ffd.SelectedIndex = ComboItem<AH64TSDOptionData.EFfd>.FindValue(ddl_TSD_ffd, data.TSDData.ffd) ?? 0;
+            ddl_TSD_gray.SelectedIndex = ComboItem<AH64TSDOptionData.EGray>.FindValue(ddl_TSD_gray, data.TSDData.Gray) ?? 0;
+            ddl_TSD_satLevel.SelectedIndex = ComboItem<AH64TSDOptionData.ESatLevel>.FindValue(ddl_TSD_satLevel,data.TSDData.SatLevel) ?? 0;
+            ddl_TSD_center.SelectedIndex = ComboItem<AH64TSDOptionData.ECenter>.FindValue(ddl_TSD_center, data.TSDData.Center) ?? 0;
+            ddl_TSD_orient.SelectedIndex = ComboItem<AH64TSDOptionData.EOrientation>.FindValue(ddl_TSD_orient, data.TSDData.Orientation) ?? 0;
+            ddl_TSD_phase.SelectedIndex = ComboItem<AH64TSDOptionData.EPhase>.FindValue(ddl_TSD_phase, data.TSDData.Phase) ?? 0;
+            ddl_TSD_grid.SelectedIndex = ComboItem<AH64TSDOptionData.EGrid>.FindValue(ddl_TSD_grid, data.TSDData.Grid) ?? 0;
+            ddl_TSD_showThreatVis.SelectedIndex = ComboItem<AH64TSDOptionData.EVis>.FindValue(ddl_TSD_showThreatVis, data.TSDData.ThreatVis) ?? 0;
+
+            ddl_TSD_showAtkAreas.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkAreas, data.TSDData.AtkAreas) ?? 0;
+            ddl_TSD_showAtkCtrlMeasures.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkCtrlMeasures, data.TSDData.AtkCtrlMeasures) ?? 0;
+            ddl_TSD_showAtkCurrentRoute.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkCurrentRoute, data.TSDData.AtkCurrentRoute) ?? 0;
+            ddl_TSD_showAtkCursor.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkCursor, data.TSDData.AtkCursor) ?? 0;
+            ddl_TSD_showAtkCursorInfo.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkCursorInfo, data.TSDData.AtkCursorInfo) ?? 0;
+            ddl_TSD_showAtkEndurance.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkEndurance, data.TSDData.AtkEndurance) ?? 0;
+            ddl_TSD_showAtkEnemyUnits.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkEnemyUnits, data.TSDData.AtkEnemyUnits) ?? 0;
+            ddl_TSD_showAtkFriendlyUnits.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkFriendlyUnits, data.TSDData.AtkFriendlyUnits) ?? 0;
+            ddl_TSD_showAtkHSI.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkHSI, data.TSDData.AtkHSI) ?? 0;
+            ddl_TSD_showAtkInactiveZones.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkInactiveZones, data.TSDData.AtkInactiveZones) ?? 0;
+            ddl_TSD_showAtkLines.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkLines, data.TSDData.AtkLines) ?? 0;
+            ddl_TSD_showAtkObstacles.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkObstacles, data.TSDData.AtkFCRObstacles) ?? 0;
+            ddl_TSD_showAtkShotAt.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkShotAt, data.TSDData.AtkShotAt) ?? 0;
+            ddl_TSD_showAtkTargets.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkTargets, data.TSDData.AtkTargets) ?? 0;
+            ddl_TSD_showAtkWind.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showAtkWind, data.TSDData.AtkWind) ?? 0;
+            ddl_TSD_showNavAreas.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavAreas, data.TSDData.NavAreas) ?? 0;
+            ddl_TSD_showNavCtrlMeasures.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavCtrlMeasures, data.TSDData.NavCtrlMeasures) ?? 0;
+            ddl_TSD_showNavCursor.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavCursor, data.TSDData.NavCursor) ?? 0;
+            ddl_TSD_showNavCursorInfo.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavCursorInfo, data.TSDData.NavCursorInfo) ?? 0;
+            ddl_TSD_showNavEndurance.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavEndurance, data.TSDData.NavEndurance) ?? 0;
+            ddl_TSD_showNavEnemyUnits.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavEnemyUnits, data.TSDData.NavEnemyUnits) ?? 0;
+            ddl_TSD_showNavFriendlyUnits.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavFriendlyUnits, data.TSDData.NavFriendlyUnits) ?? 0;
+            ddl_TSD_showNavHSI.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavHSI, data.TSDData.NavHSI) ?? 0;
+            ddl_TSD_showNavInactiveZones.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavInactiveZones, data.TSDData.NavInactiveZones) ?? 0;
+            ddl_TSD_showNavLines.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavLines, data.TSDData.NavLines) ?? 0;
+            ddl_TSD_showNavObstacles.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavObstacles, data.TSDData.NavObstacles) ?? 0;
+            ddl_TSD_showNavTargets.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavTargets, data.TSDData.NavTargets) ?? 0;
+            ddl_TSD_showNavWind.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavWind, data.TSDData.NavWind) ?? 0;
+            ddl_TSD_showNavWPData.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showNavWPData, data.TSDData.NavWpData) ?? 0;
+            ddl_TSD_showOwnGhost.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showOwnGhost, data.TSDData.VisOwnGhost) ?? 0;
+            ddl_TSD_showOwnOwn.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showOwnOwn, data.TSDData.VisOwnOwn) ?? 0;
+            ddl_TSD_showOwnRings.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showOwnRings, data.TSDData.VisOwnRings) ?? 0;
+            ddl_TSD_showOwnTrnPt.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showOwnTrnPt, data.TSDData.VisOwnTrnPt) ?? 0;
+            ddl_TSD_showThreatACQ.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showThreatACQ, data.TSDData.VisThreatACQ) ?? 0;
+            ddl_TSD_showThreatASE.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showThreatASE, data.TSDData.AseThreats) ?? 0;
+            ddl_TSD_showThreatFCR.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showThreatFCR, data.TSDData.VisThreatFCR) ?? 0;
+            ddl_TSD_showThreatTargets.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showThreatTargets, data.TSDData.visThreatTargets) ?? 0;
+            ddl_TSD_showThreatThreats.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showThreatThreats, data.TSDData.VisThreatThreats) ?? 0;
+            ddl_TSD_showThreatTrnPt.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showThreatTrnPt, data.TSDData.VisThreatTrnPt) ?? 0;
+            ddl_TSD_showThreatVisShade.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl_TSD_showThreatVisShade, data.TSDData.VisShade) ?? 0;
         }
 
         #region PresetGeneral
@@ -513,6 +664,31 @@ namespace CoordinateConverter.DCS.Tools
                 ?? 0;
             ddlPresetModemRetriesCount.SelectedIndex = ComboItem<AH64RadioPresetData.ERetries>.FindValue(ddlPresetModemRetriesCount, selectedPreset.Retries) ?? 0;
             ddlPresetModemBaudRate.SelectedIndex = ComboItem<AH64RadioPresetData.EBaudRate>.FindValue(ddlPresetModemBaudRate, selectedPreset.BaudRate) ?? 0;
+
+            // TSD
+            ddl_TSD_type.SelectedIndex = ComboItem<AH64TSDOptionData.EMapType>.FindValue(ddl_TSD_type, AH64TSDOptionData.EMapType.No_Change) ?? 0;
+            ddl_TSD_colorBand.SelectedIndex = ComboItem<AH64TSDOptionData.EColorBand>.FindValue(ddl_TSD_colorBand, AH64TSDOptionData.EColorBand.No_Change) ?? 0;
+            ddl_TSD_contours.SelectedIndex = ComboItem<AH64TSDOptionData.EContours>.FindValue(ddl_TSD_contours, AH64TSDOptionData.EContours.No_Change) ?? 0;            
+            ddl_TSD_ffd.SelectedIndex = ComboItem<AH64TSDOptionData.EFfd>.FindValue(ddl_TSD_ffd, AH64TSDOptionData.EFfd.No_Change) ?? 0;
+            ddl_TSD_gray.SelectedIndex = ComboItem<AH64TSDOptionData.EGray>.FindValue(ddl_TSD_gray, AH64TSDOptionData.EGray.No_Change) ?? 0;
+            ddl_TSD_satLevel.SelectedIndex = ComboItem<AH64TSDOptionData.ESatLevel>.FindValue(ddl_TSD_satLevel, AH64TSDOptionData.ESatLevel.No_Change) ?? 0;
+            ddl_TSD_center.SelectedIndex = ComboItem<AH64TSDOptionData.ECenter>.FindValue(ddl_TSD_center, AH64TSDOptionData.ECenter.No_Change) ?? 0;
+            ddl_TSD_orient.SelectedIndex = ComboItem<AH64TSDOptionData.EOrientation>.FindValue(ddl_TSD_orient, AH64TSDOptionData.EOrientation.No_Change) ?? 0;
+            ddl_TSD_phase.SelectedIndex = ComboItem<AH64TSDOptionData.EPhase>.FindValue(ddl_TSD_phase, AH64TSDOptionData.EPhase.No_Change) ?? 0;
+            ddl_TSD_grid.SelectedIndex = ComboItem<AH64TSDOptionData.EGrid>.FindValue(ddl_TSD_grid, AH64TSDOptionData.EGrid.No_Change) ?? 0;
+            ddl_TSD_showThreatVis.SelectedIndex = ComboItem<AH64TSDOptionData.EVis>.FindValue(ddl_TSD_showThreatVis, AH64TSDOptionData.EVis.No_Change) ?? 0;
+
+            foreach (ComboBox ddl in new List<ComboBox>()
+                { ddl_TSD_showAtkAreas, ddl_TSD_showAtkCtrlMeasures, ddl_TSD_showAtkCurrentRoute, ddl_TSD_showAtkCursor, ddl_TSD_showAtkCursorInfo
+                , ddl_TSD_showAtkEndurance, ddl_TSD_showAtkEnemyUnits, ddl_TSD_showAtkFriendlyUnits, ddl_TSD_showAtkHSI, ddl_TSD_showAtkInactiveZones, ddl_TSD_showAtkLines
+                , ddl_TSD_showAtkObstacles, ddl_TSD_showAtkShotAt, ddl_TSD_showAtkTargets, ddl_TSD_showAtkWind, ddl_TSD_showNavAreas, ddl_TSD_showNavCtrlMeasures
+                , ddl_TSD_showNavCursor, ddl_TSD_showNavCursorInfo, ddl_TSD_showNavEndurance, ddl_TSD_showNavEnemyUnits, ddl_TSD_showNavFriendlyUnits, ddl_TSD_showNavHSI
+                , ddl_TSD_showNavInactiveZones, ddl_TSD_showNavLines, ddl_TSD_showNavObstacles, ddl_TSD_showNavTargets, ddl_TSD_showNavWind, ddl_TSD_showNavWPData, ddl_TSD_showOwnGhost
+                , ddl_TSD_showOwnOwn, ddl_TSD_showOwnRings, ddl_TSD_showOwnTrnPt, ddl_TSD_showThreatACQ, ddl_TSD_showThreatASE, ddl_TSD_showThreatFCR, ddl_TSD_showThreatTargets
+                , ddl_TSD_showThreatThreats, ddl_TSD_showThreatTrnPt, ddl_TSD_showThreatVisShade})
+            {
+                ddl.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl, AH64TSDOptionData.EFilter.No_Change) ?? 0;
+            }
         }
 
         /// <summary>
@@ -1609,7 +1785,12 @@ namespace CoordinateConverter.DCS.Tools
 
         private void ddlLaserLRST_SelectedIndexChanged(object sender, EventArgs e)
         {
-            data.LrfdAndLstLaserChannel = ComboItem<AH64DTCData.ELaserChannel>.GetSelectedValue(sender as ComboBox);
+            data.LrfdLaserChannel = ComboItem<AH64DTCData.ELaserChannel>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddlLaserLST_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.LstLaserChannel = ComboItem<AH64DTCData.ELaserChannel>.GetSelectedValue(sender as ComboBox);
         }
 
         private void tb_laserCode_KeyPress(object objsender, KeyPressEventArgs e)
@@ -1686,6 +1867,270 @@ namespace CoordinateConverter.DCS.Tools
         private void nudManRange_ValueChanged(object sender, EventArgs e)
         {
             data.ManRange = cbManRange.Checked ? (int?)(sender as NumericUpDown).Value : null;
+        }
+        #endregion
+
+        #region TSD
+        private void btn_getMapSettings_Click(object sender, EventArgs e)
+        {
+            data.TSDData = AH64TSDOptionData.ReadFromAC(IsPilot);
+            RefreshControls();
+        }
+
+        private void ddl_TSD_type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.MapType = ComboItem<AH64TSDOptionData.EMapType>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_colorBand_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            data.TSDData.ColorBand = ComboItem<AH64TSDOptionData.EColorBand>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_contours_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.Contours = ComboItem<AH64TSDOptionData.EContours>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_ffd_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.ffd = ComboItem<AH64TSDOptionData.EFfd>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_gray_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.Gray = ComboItem<AH64TSDOptionData.EGray>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_satLevel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.SatLevel = ComboItem<AH64TSDOptionData.ESatLevel>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_center_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.Center = ComboItem<AH64TSDOptionData.ECenter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_orient_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.Orientation = ComboItem<AH64TSDOptionData.EOrientation>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_grid_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.Grid = ComboItem<AH64TSDOptionData.EGrid>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_phase_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.Phase = ComboItem<AH64TSDOptionData.EPhase>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavWPData_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavWpData = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavInactiveZones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavInactiveZones = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavObstacles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavObstacles = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavCursor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavCursor = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavCursorInfo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavCursorInfo = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavHSI_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavHSI = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavEndurance_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavEndurance = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavWind_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavWind = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavCtrlMeasures_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavCtrlMeasures = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavFriendlyUnits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavFriendlyUnits = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavEnemyUnits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavEnemyUnits = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavTargets_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavTargets = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavLines_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavLines = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showNavAreas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.NavAreas = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkCurrentRoute_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkCurrentRoute = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkInactiveZones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkInactiveZones = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkObstacles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkFCRObstacles = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkCursor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkCursor = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkCursorInfo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkCursorInfo = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkHSI_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkHSI = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkEndurance_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkEndurance = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkWind_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkWind = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkCtrlMeasures_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkCtrlMeasures = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkFriendlyUnits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkFriendlyUnits = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkEnemyUnits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkEnemyUnits = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkTargets_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkTargets = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkLines_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkLines = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkAreas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkAreas = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showAtkShotAt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AtkShotAt = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showThreatVis_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.ThreatVis = ComboItem<AH64TSDOptionData.EVis>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showThreatVisShade_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.VisShade = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showThreatASE_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.AseThreats = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showThreatACQ_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.VisThreatACQ = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showThreatTrnPt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.VisThreatTrnPt = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showThreatFCR_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.VisThreatFCR = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showThreatThreats_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.VisThreatThreats = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showThreatTargets_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.visThreatTargets = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showOwnOwn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.VisOwnOwn = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showOwnTrnPt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.VisOwnTrnPt = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showOwnGhost_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.VisOwnGhost = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
+        }
+
+        private void ddl_TSD_showOwnRings_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data.TSDData.VisOwnRings = ComboItem<AH64TSDOptionData.EFilter>.GetSelectedValue(sender as ComboBox);
         }
         #endregion
 
