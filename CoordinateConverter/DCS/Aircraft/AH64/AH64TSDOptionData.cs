@@ -1219,6 +1219,10 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         public List<DCSCommand> GenerateCommands(bool isPilot)
         {
             AH64TSDOptionData startingCondition = ReadFromAC(isPilot);
+            if (startingCondition == null)
+            {
+                return new List<DCSCommand>();
+            }
             EPhase currentPhase = startingCondition.Phase;
             int mfd = isPilot ? (int)AH64.EDeviceCode.PLT_RMFD : (int)AH64.EDeviceCode.CPG_RMFD;
 

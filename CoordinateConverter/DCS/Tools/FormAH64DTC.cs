@@ -1873,7 +1873,11 @@ namespace CoordinateConverter.DCS.Tools
         #region TSD
         private void btn_getMapSettings_Click(object sender, EventArgs e)
         {
-            data.TSDData = AH64TSDOptionData.ReadFromAC(IsPilot);
+            var newTsdData = AH64TSDOptionData.ReadFromAC(IsPilot);
+            if (newTsdData != null)
+            {
+                data.TSDData = newTsdData;
+            }
             RefreshControls();
         }
 
