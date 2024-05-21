@@ -3153,7 +3153,7 @@
             this.btn_TSD_getMapSettings.Name = "btn_TSD_getMapSettings";
             this.btn_TSD_getMapSettings.Size = new System.Drawing.Size(139, 23);
             this.btn_TSD_getMapSettings.TabIndex = 14;
-            this.btn_TSD_getMapSettings.Text = "Get Current MAP Settings";
+            this.btn_TSD_getMapSettings.Text = "Get Current TSD Settings";
             this.btn_TSD_getMapSettings.UseVisualStyleBackColor = true;
             this.btn_TSD_getMapSettings.Click += new System.EventHandler(this.btn_getMapSettings_Click);
             // 
