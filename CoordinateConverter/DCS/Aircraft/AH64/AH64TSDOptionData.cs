@@ -1238,7 +1238,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B4));
                 if (Center != ECenter.No_Change && startingCondition.Center != Center)
                 {
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T5));
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R3));
                 }
                 if (Orientation != EOrientation.No_Change && startingCondition.Orientation != Orientation)
                 {
