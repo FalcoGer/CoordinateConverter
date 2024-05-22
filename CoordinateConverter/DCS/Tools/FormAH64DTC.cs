@@ -15,6 +15,7 @@ namespace CoordinateConverter.DCS.Tools
     public partial class FormAH64DTC : Form
     {
         private AH64DTCData data = null;
+
         private readonly ToolTip toolTip = new ToolTip()
         {
             IsBalloon = false,
@@ -664,31 +665,6 @@ namespace CoordinateConverter.DCS.Tools
                 ?? 0;
             ddlPresetModemRetriesCount.SelectedIndex = ComboItem<AH64RadioPresetData.ERetries>.FindValue(ddlPresetModemRetriesCount, selectedPreset.Retries) ?? 0;
             ddlPresetModemBaudRate.SelectedIndex = ComboItem<AH64RadioPresetData.EBaudRate>.FindValue(ddlPresetModemBaudRate, selectedPreset.BaudRate) ?? 0;
-
-            // TSD
-            ddl_TSD_type.SelectedIndex = ComboItem<AH64TSDOptionData.EMapType>.FindValue(ddl_TSD_type, AH64TSDOptionData.EMapType.No_Change) ?? 0;
-            ddl_TSD_colorBand.SelectedIndex = ComboItem<AH64TSDOptionData.EColorBand>.FindValue(ddl_TSD_colorBand, AH64TSDOptionData.EColorBand.No_Change) ?? 0;
-            ddl_TSD_contours.SelectedIndex = ComboItem<AH64TSDOptionData.EContours>.FindValue(ddl_TSD_contours, AH64TSDOptionData.EContours.No_Change) ?? 0;            
-            ddl_TSD_ffd.SelectedIndex = ComboItem<AH64TSDOptionData.EFfd>.FindValue(ddl_TSD_ffd, AH64TSDOptionData.EFfd.No_Change) ?? 0;
-            ddl_TSD_gray.SelectedIndex = ComboItem<AH64TSDOptionData.EGray>.FindValue(ddl_TSD_gray, AH64TSDOptionData.EGray.No_Change) ?? 0;
-            ddl_TSD_satLevel.SelectedIndex = ComboItem<AH64TSDOptionData.ESatLevel>.FindValue(ddl_TSD_satLevel, AH64TSDOptionData.ESatLevel.No_Change) ?? 0;
-            ddl_TSD_center.SelectedIndex = ComboItem<AH64TSDOptionData.ECenter>.FindValue(ddl_TSD_center, AH64TSDOptionData.ECenter.No_Change) ?? 0;
-            ddl_TSD_orient.SelectedIndex = ComboItem<AH64TSDOptionData.EOrientation>.FindValue(ddl_TSD_orient, AH64TSDOptionData.EOrientation.No_Change) ?? 0;
-            ddl_TSD_phase.SelectedIndex = ComboItem<AH64TSDOptionData.EPhase>.FindValue(ddl_TSD_phase, AH64TSDOptionData.EPhase.No_Change) ?? 0;
-            ddl_TSD_grid.SelectedIndex = ComboItem<AH64TSDOptionData.EGrid>.FindValue(ddl_TSD_grid, AH64TSDOptionData.EGrid.No_Change) ?? 0;
-            ddl_TSD_showThreatVis.SelectedIndex = ComboItem<AH64TSDOptionData.EVis>.FindValue(ddl_TSD_showThreatVis, AH64TSDOptionData.EVis.No_Change) ?? 0;
-
-            foreach (ComboBox ddl in new List<ComboBox>()
-                { ddl_TSD_showAtkAreas, ddl_TSD_showAtkCtrlMeasures, ddl_TSD_showAtkCurrentRoute, ddl_TSD_showAtkCursor, ddl_TSD_showAtkCursorInfo
-                , ddl_TSD_showAtkEndurance, ddl_TSD_showAtkEnemyUnits, ddl_TSD_showAtkFriendlyUnits, ddl_TSD_showAtkHSI, ddl_TSD_showAtkInactiveZones, ddl_TSD_showAtkLines
-                , ddl_TSD_showAtkObstacles, ddl_TSD_showAtkShotAt, ddl_TSD_showAtkTargets, ddl_TSD_showAtkWind, ddl_TSD_showNavAreas, ddl_TSD_showNavCtrlMeasures
-                , ddl_TSD_showNavCursor, ddl_TSD_showNavCursorInfo, ddl_TSD_showNavEndurance, ddl_TSD_showNavEnemyUnits, ddl_TSD_showNavFriendlyUnits, ddl_TSD_showNavHSI
-                , ddl_TSD_showNavInactiveZones, ddl_TSD_showNavLines, ddl_TSD_showNavObstacles, ddl_TSD_showNavTargets, ddl_TSD_showNavWind, ddl_TSD_showNavWPData, ddl_TSD_showOwnGhost
-                , ddl_TSD_showOwnOwn, ddl_TSD_showOwnRings, ddl_TSD_showOwnTrnPt, ddl_TSD_showThreatACQ, ddl_TSD_showThreatASE, ddl_TSD_showThreatFCR, ddl_TSD_showThreatTargets
-                , ddl_TSD_showThreatThreats, ddl_TSD_showThreatTrnPt, ddl_TSD_showThreatVisShade})
-            {
-                ddl.SelectedIndex = ComboItem<AH64TSDOptionData.EFilter>.FindValue(ddl, AH64TSDOptionData.EFilter.No_Change) ?? 0;
-            }
         }
 
         /// <summary>
@@ -2161,7 +2137,7 @@ namespace CoordinateConverter.DCS.Tools
             Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
             FileName = "AH64_DTC.json",
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-            CheckFileExists = true,
+            CheckFileExists = false,
         };
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -2176,6 +2152,8 @@ namespace CoordinateConverter.DCS.Tools
             }
             string filePath = ofd.FileName;
             FileInfo fi = new FileInfo(filePath);
+            ofd.FileName = fi.Name;
+            ofd.InitialDirectory = fi.DirectoryName;
             sfd.FileName = fi.Name;
             sfd.InitialDirectory = fi.DirectoryName;
             if (!fi.Exists)
@@ -2216,14 +2194,8 @@ namespace CoordinateConverter.DCS.Tools
             FileInfo fi = new FileInfo(filePath);
             ofd.FileName = fi.Name;
             ofd.InitialDirectory = fi.DirectoryName;
-            if (fi.Exists)
-            {
-                FormAskBinaryQuestion overwriteFile = new FormAskBinaryQuestion(this, "Overwrite file?", "Overwrite", "Preserve file", "You are about to overwrite this file.");
-                if (!overwriteFile.Result)
-                {
-                    return;
-                }
-            }
+            sfd.FileName = fi.Name;
+            sfd.InitialDirectory = fi.DirectoryName;
 
             try
             {

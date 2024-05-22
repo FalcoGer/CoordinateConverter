@@ -755,7 +755,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         public EIFFAntenna IFFAntenna { get; set; } = EIFFAntenna.No_Change;
         #endregion
 
-        #region TSDData                
+        #region TSDData
         /// <summary>
         /// Gets or sets the TSD data.
         /// </summary>

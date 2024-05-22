@@ -20,7 +20,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 8, 1);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 8, 2);
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static readonly Color ERROR_COLOR = Color.Pink;
@@ -1741,6 +1741,8 @@ namespace CoordinateConverter
             FileInfo fi = new FileInfo(filePath);
             ofd.FileName = fi.Name;
             ofd.InitialDirectory = fi.DirectoryName;
+            sfd.FileName = fi.Name;
+            sfd.InitialDirectory = fi.DirectoryName;
 
             try
             {
@@ -1768,6 +1770,8 @@ namespace CoordinateConverter
             }
             string filePath = ofd.FileName;
             FileInfo fi = new FileInfo(filePath);
+            ofd.FileName = fi.Name;
+            ofd.InitialDirectory = fi.DirectoryName;
             sfd.FileName = fi.Name;
             sfd.InitialDirectory = fi.DirectoryName;
             if (!fi.Exists)
