@@ -1236,6 +1236,10 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             {
                 EMapType currentMapType = startingCondition.MapType;
                 commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B4));
+                if (Center != ECenter.No_Change && startingCondition.Center != Center)
+                {
+                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T5));
+                }
                 if (Orientation != EOrientation.No_Change && startingCondition.Orientation != Orientation)
                 {
                     commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R5));
