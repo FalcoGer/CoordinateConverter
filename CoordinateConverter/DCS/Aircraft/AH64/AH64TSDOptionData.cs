@@ -1340,6 +1340,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B2));
                     currentPhase = EPhase.Navigation;
                 }
+
                 if (HasNavPhaseData)
                 {
                     if (NavWpData != EFilter.No_Change && startingCondition.NavWpData != NavWpData)
@@ -1377,6 +1378,9 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
 
                     if (HasNavCoordData)
                     {
+                        // coord show page
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T6));
+
                         if (NavCtrlMeasures != EFilter.No_Change && startingCondition.NavCtrlMeasures != NavCtrlMeasures)
                         {
                             commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L2));
@@ -1401,18 +1405,19 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                         {
                             commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R2));
                         }
-                        // back to show page
+                        // back to main show page
                         commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T6));
                     }
                 }
 
-                if (currentPhase == EPhase.Navigation && HasAtkPhaseData)
-                {
-                    commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B2));
-                    currentPhase = EPhase.Attack;
-                }
                 if (HasAtkPhaseData)
                 {
+                    if (currentPhase == EPhase.Navigation)
+                    {
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B2));
+                        currentPhase = EPhase.Attack;
+                    }
+
                     if (AtkCurrentRoute != EFilter.No_Change && startingCondition.AtkCurrentRoute != AtkCurrentRoute)
                     {
                         commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L2));
@@ -1448,6 +1453,9 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
 
                     if (HasAtkCoordData)
                     {
+                        // go to coord show page
+                        commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T6));
+
                         if (AtkCtrlMeasures != EFilter.No_Change && startingCondition.AtkCtrlMeasures != AtkCtrlMeasures)
                         {
                             commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_L2));
@@ -1481,7 +1489,9 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
 
                 if (HasVisData)
                 {
+                    // Go to threat show page
                     commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T5));
+
                     EVis currentVis = startingCondition.ThreatVis;
                     // enter generic vis data
                     if (AseThreats != EFilter.No_Change && startingCondition.AseThreats != AseThreats)
@@ -1500,6 +1510,11 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                         {
                             commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R1));
                             currentVis = EVis.Own;
+                        }
+
+                        if (VisOwnOwn != EFilter.No_Change && startingCondition.VisOwnOwn != VisOwnOwn)
+                        {
+                            commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R2));
                         }
                         if (VisOwnTrnPt != EFilter.No_Change && startingCondition.VisOwnTrnPt != VisOwnTrnPt)
                         {
