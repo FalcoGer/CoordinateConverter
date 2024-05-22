@@ -1226,7 +1226,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             EPhase currentPhase = startingCondition.Phase;
             int mfd = isPilot ? (int)AH64.EDeviceCode.PLT_RMFD : (int)AH64.EDeviceCode.CPG_RMFD;
 
-            List<DCSCommand> commands = new List<DCSCommand>()
+            var commands = new List<DCSCommand>()
+            // var commands = new DebugCommandList()
             {
                 new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_TSD)
             };
@@ -1331,6 +1332,9 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
 
             if (HasNavPhaseData || HasAtkPhaseData || HasVisData)
             {
+                // Show page
+                commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_T3));
+
                 if (currentPhase == EPhase.Attack && HasNavPhaseData)
                 {
                     commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B2));
