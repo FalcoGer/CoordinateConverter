@@ -2149,7 +2149,19 @@ namespace CoordinateConverter.DCS.Tools
             FileName = "AH64_DTC.json",
             Multiselect = false,
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-            ShowReadOnly = false
+            ShowReadOnly = true,
+            CheckFileExists = true,
+        };
+
+        private readonly SaveFileDialog sfd = new SaveFileDialog()
+        {
+            Title = "Open AH64 DTC Data File",
+            AddExtension = true,
+            DefaultExt = "json",
+            Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
+            FileName = "AH64_DTC.json",
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+            CheckFileExists = true,
         };
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -2164,6 +2176,8 @@ namespace CoordinateConverter.DCS.Tools
             }
             string filePath = ofd.FileName;
             FileInfo fi = new FileInfo(filePath);
+            sfd.FileName = fi.Name;
+            sfd.InitialDirectory = fi.DirectoryName;
             if (!fi.Exists)
             {
                 toolTip.Show("File does not exist.", toolStrip1, 0, toolStrip1.Height, 5000);
@@ -2192,15 +2206,16 @@ namespace CoordinateConverter.DCS.Tools
         private void btnSave_Click(object sender, EventArgs e)
         {
             toolTip.Hide(this);
-            ofd.CheckFileExists = false;
 
-            DialogResult result = ofd.ShowDialog();
+            DialogResult result = sfd.ShowDialog();
             if (result != DialogResult.OK)
             {
                 return;
             }
-            string filePath = ofd.FileName;
+            string filePath = sfd.FileName;
             FileInfo fi = new FileInfo(filePath);
+            ofd.FileName = fi.Name;
+            ofd.InitialDirectory = fi.DirectoryName;
             if (fi.Exists)
             {
                 FormAskBinaryQuestion overwriteFile = new FormAskBinaryQuestion(this, "Overwrite file?", "Overwrite", "Preserve file", "You are about to overwrite this file.");

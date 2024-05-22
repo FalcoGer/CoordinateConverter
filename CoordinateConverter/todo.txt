@@ -1,6 +1,3 @@
-Fixme:
-    - save shows "open"
-
 lua file log version of lua file to log file
 compare versions with coordinate converter on connect
 
@@ -15,14 +12,6 @@ Execute:
     - ScintillaNET for code syntax highlighting and autocompletion
     - Load/Save scripts
     - common commands ddl?
-
-A-10C:
-    - Auto UTM/LL detection
-
-F-18:
-    - Auto set PRECISE
-    - Smarter Weapons selection, not based on wing loadout
-    - slam / slam-er efuze setting (is toggle, needs reading)
 
 Settings:
     - have a settings file next to the executable/appdata?
@@ -107,9 +96,8 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
             - ADF Presets (Needs ADF to be in predetermined state)
                 - Valid range 100 - 2199.5 kHz
                 - Valid ID 1-3 alpha characters (no numbers, no other stuff)
-            - Map settings (Type, Orientation, any settings that are settable)
-            - different lrfd/lst based on cockpit display data
             - A/C Set stuff (LO/HI Warn, Auto QNH)
+            - XPNDR on/off for different modes
             - Use OnKeyDown for all text boxes to block invalid inputs
     - F18
         - Auto set PRECISE
@@ -118,7 +106,7 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
             - calculate presses to go to the desired point
             - enter points
             - go back to the original point
-        - Move weapon stuff to new tool window 
+        - Move weapon stuff to new tool window
 	    - Smarter Weapons selection, not based on wing loadout (read display)
 	    - remove waypoint types from wp list
 	    - enable saving/loading any weapon data on the wings

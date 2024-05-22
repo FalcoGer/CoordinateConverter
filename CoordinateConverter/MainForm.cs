@@ -1713,29 +1713,34 @@ namespace CoordinateConverter
             FileName = "coordinates.json",
             Multiselect = false,
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-            ShowReadOnly = false
+            ShowReadOnly = false,
+            CheckFileExists = true
+        };
+
+        private readonly SaveFileDialog sfd = new SaveFileDialog()
+        {
+            Title = "Save Coordinate List",
+            AddExtension = true,
+            DefaultExt = "json",
+            Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
+            FileName = "coordinates.json",
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+            CheckFileExists = false
         };
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
-            ofd.CheckFileExists = false;
 
-            DialogResult result = ofd.ShowDialog();
+            DialogResult result = sfd.ShowDialog();
             if (result != DialogResult.OK)
             {
                 return;
             }
-            string filePath = ofd.FileName;
+            string filePath = sfd.FileName;
             FileInfo fi = new FileInfo(filePath);
-            if (fi.Exists)
-            {
-                FormAskBinaryQuestion overwriteFile = new FormAskBinaryQuestion(this, "Overwrite file?", "Overwrite", "Preserve file", "You are about to overwrite this file.");
-                if (!overwriteFile.Result)
-                {
-                    return;
-                }
-            }
+            ofd.FileName = fi.Name;
+            ofd.InitialDirectory = fi.DirectoryName;
 
             try
             {
@@ -1756,8 +1761,6 @@ namespace CoordinateConverter
         private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lbl_Error.Visible = false;
-
-            ofd.CheckFileExists = true;
             DialogResult result = ofd.ShowDialog();
             if (result != DialogResult.OK)
             {
@@ -1765,6 +1768,8 @@ namespace CoordinateConverter
             }
             string filePath = ofd.FileName;
             FileInfo fi = new FileInfo(filePath);
+            sfd.FileName = fi.Name;
+            sfd.InitialDirectory = fi.DirectoryName;
             if (!fi.Exists)
             {
                 lbl_Error.Visible = true;
