@@ -32,6 +32,11 @@ namespace CoordinateConverter.DCS.Tools
             };
             message = DCSConnection.SendRequest(message);
 
+            if (message == null)
+            {
+                return;
+            }
+
             var newtonsoftSettings = new Newtonsoft.Json.JsonSerializerSettings
             {
                 NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
