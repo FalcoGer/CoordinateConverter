@@ -5,13 +5,23 @@ using System.Windows.Forms;
 
 namespace CoordinateConverter.DCS.Tools
 {
+    /// <summary>
+    /// A form for executing custom lua code.
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FormExecute : Form
     {
-        public FormExecute(Form parent)
+        private MainForm parent;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormExecute"/> class.
+        /// </summary>
+        /// <param name="parent">The parent.</param>
+        public FormExecute(MainForm parent)
         {
+            this.parent = parent;
             InitializeComponent();
 
-            ShowDialog(parent);
+            ShowDialog(this.parent);
         }
 
         private void btn_run_Click(object sender, EventArgs e)
@@ -27,7 +37,7 @@ namespace CoordinateConverter.DCS.Tools
                 NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
                 Formatting = Newtonsoft.Json.Formatting.Indented,
                 Culture = System.Globalization.CultureInfo.InvariantCulture,
-                TypeNameHandling = Newtonsoft.Json.TypeNameHandling.All,
+                TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Objects,
                 StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.Default,
             };
 

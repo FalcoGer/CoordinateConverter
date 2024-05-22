@@ -34,11 +34,15 @@ namespace CoordinateConverter.DCS.Tools
         /// </value>
         public bool IsPilot { get; private set; }
 
+        private readonly MainForm parent;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FormAH64DTC"/> class.
         /// </summary>
-        public FormAH64DTC(bool isPilot)
+        public FormAH64DTC(MainForm parent, bool isPilot)
         {
+            this.parent = parent ?? throw new ArgumentNullException(nameof(parent));
+            
             IsPilot = isPilot;
             InitializeComponent();
 
@@ -375,6 +379,30 @@ namespace CoordinateConverter.DCS.Tools
                     ddl.Items.Add(new ComboItem<AH64TSDOptionData.EFilter>(filterName, filter));
                 }
             }
+
+            ofd = new OpenFileDialog()
+            {
+                Title = "Open AH64 DTC Data File",
+                AddExtension = true,
+                DefaultExt = "json",
+                Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
+                FileName = "AH64_DTC.json",
+                Multiselect = false,
+                InitialDirectory = parent.SettingsData.GetDirectory(Settings.ELastFileSource.AH64DTC).FullName,
+                ShowReadOnly = true,
+                CheckFileExists = true,
+            };
+
+            sfd = new SaveFileDialog()
+            {
+                Title = "Open AH64 DTC Data File",
+                AddExtension = true,
+                DefaultExt = "json",
+                Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
+                FileName = "AH64_DTC.json",
+                InitialDirectory = parent.SettingsData.GetDirectory(Settings.ELastFileSource.AH64DTC).FullName,
+                CheckFileExists = false,
+            };
 
             // Call reset
             btnReset_Click(null, null);
@@ -2116,29 +2144,8 @@ namespace CoordinateConverter.DCS.Tools
 
         #region File management
 
-        private readonly OpenFileDialog ofd = new OpenFileDialog()
-        {
-            Title = "Open AH64 DTC Data File",
-            AddExtension = true,
-            DefaultExt = "json",
-            Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
-            FileName = "AH64_DTC.json",
-            Multiselect = false,
-            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-            ShowReadOnly = true,
-            CheckFileExists = true,
-        };
-
-        private readonly SaveFileDialog sfd = new SaveFileDialog()
-        {
-            Title = "Open AH64 DTC Data File",
-            AddExtension = true,
-            DefaultExt = "json",
-            Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
-            FileName = "AH64_DTC.json",
-            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-            CheckFileExists = false,
-        };
+        private readonly OpenFileDialog ofd;
+        private readonly SaveFileDialog sfd;
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
@@ -2152,6 +2159,11 @@ namespace CoordinateConverter.DCS.Tools
             }
             string filePath = ofd.FileName;
             FileInfo fi = new FileInfo(filePath);
+            LoadFile(fi);
+        }
+
+        private void LoadFile(FileInfo fi)
+        {
             ofd.FileName = fi.Name;
             ofd.InitialDirectory = fi.DirectoryName;
             sfd.FileName = fi.Name;
@@ -2166,6 +2178,7 @@ namespace CoordinateConverter.DCS.Tools
             {
                 using (FileStream fileHandle = fi.Open(FileMode.Open, FileAccess.Read))
                 {
+                    parent.SettingsData.AddFile(Settings.ELastFileSource.AH64DTC, fi.FullName);
                     using (StreamReader sr = new StreamReader(fileHandle, System.Text.Encoding.UTF8))
                     {
                         string data = sr.ReadToEnd();
@@ -2192,6 +2205,11 @@ namespace CoordinateConverter.DCS.Tools
             }
             string filePath = sfd.FileName;
             FileInfo fi = new FileInfo(filePath);
+            SaveFile(fi);
+        }
+
+        private void SaveFile(FileInfo fi)
+        {
             ofd.FileName = fi.Name;
             ofd.InitialDirectory = fi.DirectoryName;
             sfd.FileName = fi.Name;
@@ -2201,6 +2219,7 @@ namespace CoordinateConverter.DCS.Tools
             {
                 using (FileStream fileHandle = fi.Open(FileMode.Create, FileAccess.Write))
                 {
+                    parent.SettingsData.AddFile(Settings.ELastFileSource.AH64DTC, fi.FullName);
                     string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(this.data, MainForm.JsonSerializerSettings);
                     byte[] data = new UTF8Encoding(true).GetBytes(jsonData);
                     fileHandle.Write(data, 0, data.Length);

@@ -126,8 +126,12 @@ namespace CoordinateConverter
             this.colDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsmi_FileMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_recentFiles = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Load = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmi_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmi_exit = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_DCSMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Transfer = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_StopTransfer = new System.Windows.Forms.ToolStripMenuItem();
@@ -172,6 +176,7 @@ namespace CoordinateConverter
             this.tsmi_Opacity50 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Opacity25 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_AutoCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_execute = new System.Windows.Forms.ToolStripMenuItem();
             this.tmr250ms = new System.Windows.Forms.Timer(this.components);
@@ -191,6 +196,12 @@ namespace CoordinateConverter
             this.btn_MoveDown = new System.Windows.Forms.ToolStripButton();
             this.btn_MoveUp = new System.Windows.Forms.ToolStripButton();
             this.label19 = new System.Windows.Forms.Label();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmi_changeBaseDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalMinutes_Precision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalSeconds_Precision)).BeginInit();
@@ -1409,33 +1420,62 @@ namespace CoordinateConverter
             // tsmi_FileMenu
             // 
             this.tsmi_FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_recentFiles,
             this.tsmi_Load,
-            this.tsmi_SaveAs});
+            this.toolStripSeparator7,
+            this.tsmi_SaveAs,
+            this.toolStripSeparator6,
+            this.tsmi_exit});
             this.tsmi_FileMenu.Name = "tsmi_FileMenu";
             this.tsmi_FileMenu.Size = new System.Drawing.Size(40, 20);
             this.tsmi_FileMenu.Text = "File";
             // 
+            // tsmi_recentFiles
+            // 
+            this.tsmi_recentFiles.Name = "tsmi_recentFiles";
+            this.tsmi_recentFiles.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_recentFiles.Text = "Recent Files";
+            // 
             // tsmi_Load
             // 
             this.tsmi_Load.Name = "tsmi_Load";
-            this.tsmi_Load.Size = new System.Drawing.Size(139, 22);
+            this.tsmi_Load.Size = new System.Drawing.Size(180, 22);
             this.tsmi_Load.Text = "Load file...";
             this.tsmi_Load.Click += new System.EventHandler(this.LoadToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmi_SaveAs
             // 
             this.tsmi_SaveAs.Name = "tsmi_SaveAs";
-            this.tsmi_SaveAs.Size = new System.Drawing.Size(139, 22);
+            this.tsmi_SaveAs.Size = new System.Drawing.Size(180, 22);
             this.tsmi_SaveAs.Text = "Save As...";
             this.tsmi_SaveAs.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(177, 6);
+            // 
+            // tsmi_exit
+            // 
+            this.tsmi_exit.Name = "tsmi_exit";
+            this.tsmi_exit.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_exit.Text = "Exit";
+            this.tsmi_exit.Click += new System.EventHandler(this.tsmi_exit_Click);
             // 
             // tsmi_DCSMenu
             // 
             this.tsmi_DCSMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmi_Transfer,
             this.tsmi_StopTransfer,
+            this.toolStripSeparator8,
             this.tsmi_FetchCoordinates,
             this.tsmi_ImportUnits,
+            this.toolStripSeparator9,
             this.tsmi_AircraftMenu});
             this.tsmi_DCSMenu.Name = "tsmi_DCSMenu";
             this.tsmi_DCSMenu.Size = new System.Drawing.Size(45, 20);
@@ -1658,9 +1698,14 @@ namespace CoordinateConverter
             this.tsmi_DCSMainScreenMenu,
             this.tsmi_ReticleSetting,
             this.tsmi_CameraPositionModeMenu,
+            this.toolStripSeparator10,
             this.tsmi_AlwaysOnTop,
             this.tsmi_TransparencyMenu,
-            this.tsmi_CheckForUpdates});
+            this.toolStripSeparator11,
+            this.tsmi_CheckForUpdates,
+            this.tsmi_AutoCheckForUpdates,
+            this.toolStripSeparator12,
+            this.tsmi_changeBaseDirectory});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -1668,7 +1713,7 @@ namespace CoordinateConverter
             // tsmi_DCSMainScreenMenu
             // 
             this.tsmi_DCSMainScreenMenu.Name = "tsmi_DCSMainScreenMenu";
-            this.tsmi_DCSMainScreenMenu.Size = new System.Drawing.Size(215, 22);
+            this.tsmi_DCSMainScreenMenu.Size = new System.Drawing.Size(229, 22);
             this.tsmi_DCSMainScreenMenu.Text = "DCS Main Screen";
             // 
             // tsmi_ReticleSetting
@@ -1678,7 +1723,7 @@ namespace CoordinateConverter
             this.tsmi_Reticle_Always,
             this.tsmi_Reticle_Never});
             this.tsmi_ReticleSetting.Name = "tsmi_ReticleSetting";
-            this.tsmi_ReticleSetting.Size = new System.Drawing.Size(215, 22);
+            this.tsmi_ReticleSetting.Size = new System.Drawing.Size(229, 22);
             this.tsmi_ReticleSetting.Text = "Reticle Setting";
             // 
             // tsmi_Reticle_WhenInF10Map
@@ -1708,7 +1753,7 @@ namespace CoordinateConverter
             this.tsmi_TerrainElevationUnderCamera,
             this.tsmi_CameraAltitude});
             this.tsmi_CameraPositionModeMenu.Name = "tsmi_CameraPositionModeMenu";
-            this.tsmi_CameraPositionModeMenu.Size = new System.Drawing.Size(215, 22);
+            this.tsmi_CameraPositionModeMenu.Size = new System.Drawing.Size(229, 22);
             this.tsmi_CameraPositionModeMenu.Text = "Camera Position Mode";
             // 
             // tsmi_TerrainElevationUnderCamera
@@ -1730,7 +1775,7 @@ namespace CoordinateConverter
             // tsmi_AlwaysOnTop
             // 
             this.tsmi_AlwaysOnTop.Name = "tsmi_AlwaysOnTop";
-            this.tsmi_AlwaysOnTop.Size = new System.Drawing.Size(215, 22);
+            this.tsmi_AlwaysOnTop.Size = new System.Drawing.Size(229, 22);
             this.tsmi_AlwaysOnTop.Text = "Always on top";
             this.tsmi_AlwaysOnTop.Click += new System.EventHandler(this.Control_AlwaysOnTop_Click);
             // 
@@ -1742,7 +1787,7 @@ namespace CoordinateConverter
             this.tsmi_Opacity50,
             this.tsmi_Opacity25});
             this.tsmi_TransparencyMenu.Name = "tsmi_TransparencyMenu";
-            this.tsmi_TransparencyMenu.Size = new System.Drawing.Size(215, 22);
+            this.tsmi_TransparencyMenu.Size = new System.Drawing.Size(229, 22);
             this.tsmi_TransparencyMenu.Text = "Transparency";
             // 
             // tsmi_opaque
@@ -1778,9 +1823,16 @@ namespace CoordinateConverter
             // tsmi_CheckForUpdates
             // 
             this.tsmi_CheckForUpdates.Name = "tsmi_CheckForUpdates";
-            this.tsmi_CheckForUpdates.Size = new System.Drawing.Size(215, 22);
+            this.tsmi_CheckForUpdates.Size = new System.Drawing.Size(229, 22);
             this.tsmi_CheckForUpdates.Text = "Check for Updates";
             this.tsmi_CheckForUpdates.Click += new System.EventHandler(this.Tsmi_CheckForUpdates_Click);
+            // 
+            // tsmi_AutoCheckForUpdates
+            // 
+            this.tsmi_AutoCheckForUpdates.Name = "tsmi_AutoCheckForUpdates";
+            this.tsmi_AutoCheckForUpdates.Size = new System.Drawing.Size(229, 22);
+            this.tsmi_AutoCheckForUpdates.Text = "Autocheck for Updates";
+            this.tsmi_AutoCheckForUpdates.Click += new System.EventHandler(this.tsmi_AutoCheckForUpdates_Click);
             // 
             // miscToolStripMenuItem
             // 
@@ -1955,6 +2007,38 @@ namespace CoordinateConverter
             this.label19.Size = new System.Drawing.Size(616, 26);
             this.label19.TabIndex = 33;
             this.label19.Text = resources.GetString("label19.Text");
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(186, 6);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(186, 6);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(226, 6);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(226, 6);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(226, 6);
+            // 
+            // tsmi_changeBaseDirectory
+            // 
+            this.tsmi_changeBaseDirectory.Name = "tsmi_changeBaseDirectory";
+            this.tsmi_changeBaseDirectory.Size = new System.Drawing.Size(229, 22);
+            this.tsmi_changeBaseDirectory.Text = "Change Base Directory...";
+            this.tsmi_changeBaseDirectory.Click += new System.EventHandler(this.tsmi_changeBaseDirectory_Click);
             // 
             // MainForm
             // 
@@ -2179,6 +2263,17 @@ namespace CoordinateConverter
         private ToolStripMenuItem tsmi_AH64_DTC;
         private ToolStripMenuItem miscToolStripMenuItem;
         private ToolStripMenuItem tsmi_execute;
+        private ToolStripMenuItem tsmi_AutoCheckForUpdates;
+        private ToolStripMenuItem tsmi_recentFiles;
+        private ToolStripMenuItem tsmi_exit;
+        private ToolStripSeparator toolStripSeparator7;
+        private ToolStripSeparator toolStripSeparator6;
+        private ToolStripSeparator toolStripSeparator8;
+        private ToolStripSeparator toolStripSeparator9;
+        private ToolStripSeparator toolStripSeparator10;
+        private ToolStripSeparator toolStripSeparator11;
+        private ToolStripSeparator toolStripSeparator12;
+        private ToolStripMenuItem tsmi_changeBaseDirectory;
     }
 }
 

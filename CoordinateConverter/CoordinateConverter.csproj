@@ -161,6 +161,7 @@
       <DependentUpon>FormReticle.cs</DependentUpon>
     </Compile>
     <Compile Include="GitHub\Version.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="DCS\Tools\FormAH64DTC.resx">
       <DependentUpon>FormAH64DTC.cs</DependentUpon>
       <SubType>Designer</SubType>

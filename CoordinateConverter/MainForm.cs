@@ -20,7 +20,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 8, 2);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 9, 0);
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static readonly Color ERROR_COLOR = Color.Pink;
@@ -1704,29 +1704,43 @@ namespace CoordinateConverter
 
         #region File management
 
-        private readonly OpenFileDialog ofd = new OpenFileDialog()
-        {
-            Title = "Open Coordinate List",
-            AddExtension = true,
-            DefaultExt = "json",
-            Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
-            FileName = "coordinates.json",
-            Multiselect = false,
-            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-            ShowReadOnly = false,
-            CheckFileExists = true
-        };
+        private readonly OpenFileDialog ofd;
+        private readonly SaveFileDialog sfd;
 
-        private readonly SaveFileDialog sfd = new SaveFileDialog()
+        private void UpdateRecentFiles()
         {
-            Title = "Save Coordinate List",
-            AddExtension = true,
-            DefaultExt = "json",
-            Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
-            FileName = "coordinates.json",
-            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-            CheckFileExists = false
-        };
+            tsmi_recentFiles.DropDownItems.Clear();
+            foreach (string file in SettingsData.RecentFiles[Settings.ELastFileSource.Points])
+            {
+                FileInfo fi = new FileInfo(file);
+
+                if (!fi.Exists)
+                {
+                    continue;
+                }
+
+                ToolStripMenuItem tsmi = new ToolStripMenuItem()
+                {
+                    Name = fi.FullName,
+                    Text = fi.FullName
+                };
+                tsmi.Click += tsmi_RecentFile_Click;
+                tsmi_recentFiles.DropDownItems.Add(tsmi);
+            }
+        }
+
+        private void tsmi_RecentFile_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            FileInfo fi = new FileInfo(tsmi.Name);
+
+            ofd.FileName = fi.Name;
+            ofd.InitialDirectory = fi.DirectoryName;
+            sfd.FileName = fi.Name;
+            sfd.InitialDirectory = fi.DirectoryName;
+
+            LoadFile(fi);
+        }
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1739,25 +1753,8 @@ namespace CoordinateConverter
             }
             string filePath = sfd.FileName;
             FileInfo fi = new FileInfo(filePath);
-            ofd.FileName = fi.Name;
-            ofd.InitialDirectory = fi.DirectoryName;
-            sfd.FileName = fi.Name;
-            sfd.InitialDirectory = fi.DirectoryName;
 
-            try
-            {
-                using (FileStream fileHandle = fi.Open(FileMode.Create, FileAccess.Write))
-                {
-                    string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dataEntries, JsonSerializerSettings);
-                    byte[] data = new UTF8Encoding(true).GetBytes(jsonData);
-                    fileHandle.Write(data, 0, data.Length);
-                }
-            }
-            catch (Exception ex)
-            {
-                lbl_Error.Visible = true;
-                lbl_Error.Text = ex.Message;
-            }
+            SaveFile(fi);
         }
 
         private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1770,10 +1767,12 @@ namespace CoordinateConverter
             }
             string filePath = ofd.FileName;
             FileInfo fi = new FileInfo(filePath);
-            ofd.FileName = fi.Name;
-            ofd.InitialDirectory = fi.DirectoryName;
-            sfd.FileName = fi.Name;
-            sfd.InitialDirectory = fi.DirectoryName;
+            
+            LoadFile(fi);
+        }
+
+        private void LoadFile(FileInfo fi)
+        {
             if (!fi.Exists)
             {
                 lbl_Error.Visible = true;
@@ -1781,18 +1780,54 @@ namespace CoordinateConverter
                 return;
             }
 
+            ofd.FileName = fi.Name;
+            ofd.InitialDirectory = fi.DirectoryName;
+            sfd.FileName = fi.Name;
+            sfd.InitialDirectory = fi.DirectoryName;
+
             try
             {
                 using (FileStream fileHandle = fi.Open(FileMode.Open, FileAccess.Read))
                 {
                     using (StreamReader sr = new StreamReader(fileHandle, System.Text.Encoding.UTF8))
                     {
+                        SettingsData.AddFile(Settings.ELastFileSource.Points, fi.FullName);
+                        SettingsData.Save();
+                        UpdateRecentFiles();
+
                         string data = sr.ReadToEnd();
                         dataEntries = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CoordinateDataEntry>>(data, JsonSerializerSettings);
                         StartEdit(null);
                         ResetIDs();
                         RefreshDataGrid(EDataGridUpdateType.UpdateGrid);
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = ex.Message;
+            }
+        }
+
+        private void SaveFile(FileInfo fi)
+        {
+            ofd.FileName = fi.Name;
+            ofd.InitialDirectory = fi.DirectoryName;
+            sfd.FileName = fi.Name;
+            sfd.InitialDirectory = fi.DirectoryName;
+
+            try
+            {
+                using (FileStream fileHandle = fi.Open(FileMode.Create, FileAccess.Write))
+                {
+                    SettingsData.AddFile(Settings.ELastFileSource.Points, fi.FullName);
+                    SettingsData.Save();
+                    UpdateRecentFiles();
+
+                    string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dataEntries, JsonSerializerSettings);
+                    byte[] data = new UTF8Encoding(true).GetBytes(jsonData);
+                    fileHandle.Write(data, 0, data.Length);
                 }
             }
             catch (Exception ex)
@@ -2519,7 +2554,7 @@ namespace CoordinateConverter
                     lbl_DCS_Status.Text = "Not connected";
                     lbl_DCS_Status.BackColor = DCS_ERROR_COLOR;
                     wasConnected = false;
-                    if (eReticleSetting == EReticleSetting.WhenF10)
+                    if (SettingsData.ReticleSetting == Settings.EReticleSetting.WhenF10)
                     {
                         reticleForm.Hide();
                     }
@@ -2572,7 +2607,7 @@ namespace CoordinateConverter
                     pb_Transfer.Visible = false;
                 }
 
-                if (eReticleSetting == EReticleSetting.WhenF10)
+                if (SettingsData.ReticleSetting == Settings.EReticleSetting.WhenF10)
                 {
                     if (message.IsF10View ?? false)
                     {
@@ -2597,8 +2632,8 @@ namespace CoordinateConverter
                 }
 
                 var coordinate = new CoordinateSharp.Coordinate(message.CameraPosition.Lat, message.CameraPosition.Lon);
-                var altitudeInM = cameraPosMode == ECameraPosMode.TerrainElevation ? 0 : message.CameraPosition.Alt ?? 0;
-                bool altitudeIsAGL = cameraPosMode == ECameraPosMode.TerrainElevation;
+                var altitudeInM = SettingsData.CameraPosMode == Settings.ECameraPosMode.TerrainElevation ? 0 : message.CameraPosition.Alt ?? 0;
+                bool altitudeIsAGL = SettingsData.CameraPosMode == Settings.ECameraPosMode.TerrainElevation;
                 dcsCoordinate = new CoordinateDataEntry(-1, coordinate, altitudeInM, altitudeIsAGL)
                 {
                     GroundElevationInM = message.CameraPosition.Elevation,
@@ -2640,43 +2675,38 @@ namespace CoordinateConverter
 
         #region Settings
 
-        private enum ECameraPosMode
-        {
-            CameraAltitude,
-            TerrainElevation
-        }
+        /// <summary>
+        /// Gets the settings.
+        /// </summary>
+        /// <value>
+        /// The settings.
+        /// </value>
+        public Settings SettingsData { get; private set; }
 
-        private ECameraPosMode cameraPosMode;
         private void Tsmi_TerrainElevationUnderCamera_Click(object sender, EventArgs e)
         {
-            cameraPosMode = ECameraPosMode.TerrainElevation;
+            SettingsData.CameraPosMode = Settings.ECameraPosMode.TerrainElevation;
+            SettingsData.Save();
             tsmi_TerrainElevationUnderCamera.Checked = true;
             tsmi_CameraAltitude.Checked = false;
         }
 
         private void Tsmi_CameraAltitude_Click(object sender, EventArgs e)
         {
-            cameraPosMode = ECameraPosMode.CameraAltitude;
+            SettingsData.CameraPosMode = Settings.ECameraPosMode.CameraAltitude;
+            SettingsData.Save();
             tsmi_TerrainElevationUnderCamera.Checked = false;
             tsmi_CameraAltitude.Checked = true;
         }
 
         #region ReticleSettings
-        enum EReticleSetting
-        {
-            Never,
-            Always,
-            WhenF10
-        }
-
-        private EReticleSetting eReticleSetting = EReticleSetting.WhenF10;
-
-        private int selectedScreenIndex = 0;
+        
         private void Tsmi_Screen_Click(object objSender, EventArgs e)
         {
             // Gets the screen associated with the menu item and sets the reticle to the center of that screen
             ToolStripMenuItem sender = objSender as ToolStripMenuItem;
-            selectedScreenIndex = int.Parse(sender.Name.Split('_').Last());
+            SettingsData.DCSMonitor = int.Parse(sender.Name.Split('_').Last());
+            SettingsData.Save();
             
             // Unsets all checkboxes except the one clicked
             foreach (ToolStripMenuItem mi in tsmi_DCSMainScreenMenu.DropDownItems)
@@ -2689,35 +2719,38 @@ namespace CoordinateConverter
 
         private void CenterReticle()
         {
-            Rectangle screen = Screen.AllScreens[selectedScreenIndex].Bounds;
+            Rectangle screen = Screen.AllScreens[SettingsData.DCSMonitor].Bounds;
             Point screenCenter = new Point(screen.X + (screen.Width / 2), screen.Y + (screen.Height / 2));
             reticleForm.Location = new Point(screenCenter.X - (reticleForm.Width / 2), screenCenter.Y - (reticleForm.Height / 2));
         }
         private void Tsmi_Reticle_WhenInF10Map_Click(object sender, EventArgs e)
         {
-            eReticleSetting = EReticleSetting.WhenF10;
+            SettingsData.ReticleSetting = Settings.EReticleSetting.WhenF10;
+            SettingsData.Save();
             SetReticleSettingsCheckmarks();
         }
 
         private void Tsmi_Reticle_Always_Click(object sender, EventArgs e)
         {
-            eReticleSetting = EReticleSetting.Always;
+            SettingsData.ReticleSetting = Settings.EReticleSetting.Always;
+            SettingsData.Save();
             SetReticleSettingsCheckmarks();
         }
 
         private void Tsmi_Reticle_Never_Click(object sender, EventArgs e)
         {
-            eReticleSetting = EReticleSetting.Never;
+            SettingsData.ReticleSetting = Settings.EReticleSetting.Never;
+            SettingsData.Save();
             SetReticleSettingsCheckmarks();
         }
 
         private void SetReticleSettingsCheckmarks()
         {
-            tsmi_Reticle_WhenInF10Map.Checked = eReticleSetting == EReticleSetting.WhenF10;
-            tsmi_Reticle_Always.Checked = eReticleSetting == EReticleSetting.Always;
-            tsmi_Reticle_Never.Checked = eReticleSetting == EReticleSetting.Never;
+            tsmi_Reticle_WhenInF10Map.Checked = SettingsData.ReticleSetting == Settings.EReticleSetting.WhenF10;
+            tsmi_Reticle_Always.Checked = SettingsData.ReticleSetting == Settings.EReticleSetting.Always;
+            tsmi_Reticle_Never.Checked = SettingsData.ReticleSetting == Settings.EReticleSetting.Never;
 
-            if (eReticleSetting == EReticleSetting.Always)
+            if (SettingsData.ReticleSetting == Settings.EReticleSetting.Always)
             {
                 reticleForm.Show();
             }
@@ -2776,6 +2809,8 @@ namespace CoordinateConverter
         /// </summary>
         public MainForm()
         {
+            SettingsData = Settings.Load();
+
             InitializeComponent();
 
             Text = Text + " - " + VERSION.ToString();
@@ -2790,7 +2825,34 @@ namespace CoordinateConverter
             SetReticleSettingsCheckmarks();
 
             // Set correct camera position mode
-            cameraPosMode = tsmi_TerrainElevationUnderCamera.Checked ? ECameraPosMode.TerrainElevation : ECameraPosMode.CameraAltitude;
+            tsmi_TerrainElevationUnderCamera.Checked = SettingsData.CameraPosMode == Settings.ECameraPosMode.TerrainElevation;
+            tsmi_CameraAltitude.Checked = SettingsData.CameraPosMode == Settings.ECameraPosMode.CameraAltitude;
+
+            tsmi_AutoCheckForUpdates.Checked = SettingsData.AutoCheckForUpdates;
+
+            ofd = new OpenFileDialog()
+            {
+                Title = "Open Coordinate List",
+                AddExtension = true,
+                DefaultExt = "json",
+                Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
+                FileName = "coordinates.json",
+                Multiselect = false,
+                InitialDirectory = SettingsData.GetDirectory(Settings.ELastFileSource.Points).FullName,
+                ShowReadOnly = false,
+                CheckFileExists = true
+            };
+
+            sfd = new SaveFileDialog()
+            {
+                Title = "Save Coordinate List",
+                AddExtension = true,
+                DefaultExt = "json",
+                Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
+                FileName = "coordinates.json",
+                InitialDirectory = SettingsData.GetDirectory(Settings.ELastFileSource.Points).FullName,
+                CheckFileExists = false
+            };
 
             // Create screen selection menu
             int idx = 0;
@@ -2800,7 +2862,7 @@ namespace CoordinateConverter
                 ToolStripMenuItem screenMenuItem = new ToolStripMenuItem()
                 {
                     Text = idx.ToString() + ": " + screen.DeviceName + " [" + bounds.Width + "x" + bounds.Height + "]",
-                    Checked = screen.Primary,
+                    Checked = SettingsData.DCSMonitor == idx,
                     Name = string.Format("ScreenToolStripMenuItem_{0}", idx),
                 };
                 screenMenuItem.Click += Tsmi_Screen_Click;
@@ -2814,6 +2876,13 @@ namespace CoordinateConverter
 
             // Based on the auto setting, make aircraft selection available or unavailable
             UpdateAircraftSelectionItemsBasedOnAutoSetting();
+
+            UpdateRecentFiles();
+
+            if (SettingsData.AutoCheckForUpdates)
+            {
+                Tsmi_CheckForUpdates_Click(null, null);
+            }
 
             // Start the timer last
             tmr250ms.Start();
@@ -2831,16 +2900,24 @@ namespace CoordinateConverter
                     System.Diagnostics.Process.Start(GitHub.Version.RELEASES_URL);
                 }
             }
-            else
+            else if (sender != null) // don't display on auto updates
             {
                 string message = string.Format("You are using the latest version.\nYour version: {0}\nLatest version: {1}", VERSION.ToString(), latest.ToString());
                 new FormMessage(this, "Up to date!", "OK", message).Dispose();
             }
         }
 
+        private void tsmi_AutoCheckForUpdates_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            tsmi.Checked = !tsmi.Checked;
+            SettingsData.AutoCheckForUpdates = tsmi.Checked;
+            SettingsData.Save();
+        }
+
         private void Tsmi_AH64_DTC_Click(object sender, EventArgs e)
         {
-            var ah64DTCForm = new FormAH64DTC((selectedAircraft as AH64).IsPilot ?? true);
+            var ah64DTCForm = new FormAH64DTC(this, (selectedAircraft as AH64).IsPilot ?? true);
             ah64DTCForm.TopMost = TopMost;
             ah64DTCForm.ShowDialog();
             pb_Transfer.Value = 0;
@@ -2850,6 +2927,32 @@ namespace CoordinateConverter
         private void Tsmi_execute_Click(object sender, EventArgs e)
         {
             FormExecute formExecute = new FormExecute(this);
+        }
+
+        private void tsmi_exit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void tsmi_changeBaseDirectory_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog()
+            {
+                Description = "Select the folder where the JSON files are located.",
+                SelectedPath = SettingsData.GetDirectory(Settings.ELastFileSource.Points).FullName,
+                ShowNewFolderButton = true
+            })
+            {
+                fbd.ShowDialog(this);
+
+                if (fbd.SelectedPath != null)
+                {
+                    SettingsData.BaseDirectory = new DirectoryInfo(fbd.SelectedPath);
+                    SettingsData.Save();
+                    sfd.InitialDirectory = SettingsData.GetDirectory(Settings.ELastFileSource.Points).FullName;
+                    ofd.InitialDirectory = SettingsData.GetDirectory(Settings.ELastFileSource.Points).FullName;
+                }
+            }
         }
     }
 }
