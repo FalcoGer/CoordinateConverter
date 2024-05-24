@@ -20,7 +20,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 9, 3);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 9, 4);
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static readonly Color ERROR_COLOR = Color.Pink;
@@ -2591,9 +2591,9 @@ namespace CoordinateConverter
                 {
                     lock (lockObjProgressBar)
                     {
-                        if (message.CurrentCommandIndex.HasValue)
+                        if (message.TotalCommandCount.HasValue)
                         {
-                            pb_Transfer.Maximum = message.CurrentCommandIndex.Value;
+                            pb_Transfer.Maximum = message.TotalCommandCount.Value;
                         }
                         if (message.CurrentCommandIndex.Value <= pb_Transfer.Maximum)
                         {
