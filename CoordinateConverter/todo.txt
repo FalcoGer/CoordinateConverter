@@ -1,6 +1,23 @@
 lua file log version of lua file to log file
 compare versions with coordinate converter on connect
 
+VR support:
+    - global keyboard handles (configurable)
+        - store point
+        - transfer
+        - load preset dtc data
+    - dcs ui similar to srs, shows coordinate list
+        - toggle ui button
+        - up/down
+        - toggle transfer
+        - move up/down
+        - delete
+        - user input like scratchpad?
+    - read waypoints from circle markers created by the user?
+        - use circle markers to import units within a range? (settings in circle marker text?)
+        - delete when added to the list
+        - label in the circle marker text
+
 Unit list:
     - Filter by unit type/name
     - don't import units already in the wp list
@@ -77,6 +94,7 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
     - general
         - determine keycodes with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\clickabledata.lua`
         - determine device ids with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\devices.lua`
+        - get inspired by https://github.com/the-paid-actor/dcs-dtc?tab=readme-ov-file#features
     - AH64
         - route building
         - force is pilot/is cpg option
@@ -118,7 +136,7 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
                 - STP for each station
         - dtc
             - comm settings all channels (1-20 + M), incl guard receiver
-            - IFF (M1 + M3 + M4 + ON)
+            - IFF (M1 + M3 + M4 + ON) and auto iff
             - DL (ACLS + ON)
             - TCN (CH + X/Y + TR/AA + ON)
             - ILS (CH + ON)
@@ -128,6 +146,12 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
             - sa page set sensor data
             - radar set rws settings and save for fox2/fox3, switch tws?
             - set hmd dl range/order
+            - tgp lst and lrfd codes
+            - bingo fuel setting
+            - hmd settings
+            - countermeasures settings
+            - hsi map visibility
+            - SA page stuff
     - A10C
         - Auto UTM/LL detection
         - make sure waypoints with the same names get numbered
