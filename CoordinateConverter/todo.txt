@@ -33,6 +33,10 @@ Execute:
 Data Entry
     - Fix spurious data entry errors for AH64 KU
 
+Settings
+    - ask user if they want to move old files when changing base directory
+    - make it not require admin privs when installed in program files
+
 Waypoint list:
     - A point number field, showing where the point is in the aircraft's list
         - information only for some A/C where it can't be specifically picked (ex. AH64, F18C)
@@ -47,6 +51,8 @@ Waypoint list:
     - Use data source instead of editing rows (see unit importer) for better performance and less maintenance
     - put aircraft specific data in a special region for editing
         - aircraft special data should change for each aircraft and include things like ToT for F16, etc
+    - next waypoint bearing/range/deltaAltitude column
+
 
 Add support for remote (DCS) hosts
     - auto switch reticle to never if ip is not localhost, because that makes no sense.
@@ -179,4 +185,3 @@ Allow users to do tedious setups, perhaps save a sequence of commands to be play
         - TACAN
         - ILS
 
-next waypoint bearing/range/deltaAltitude column
