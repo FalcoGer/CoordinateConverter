@@ -80,6 +80,7 @@
     <Compile Include="DCS\Aircraft\DCSCommandsPackage.cs" />
     <Compile Include="DCS\Aircraft\F15E.cs" />
     <Compile Include="DCS\Aircraft\M2000.cs" />
+    <Compile Include="DCS\Aircraft\OH58D.cs" />
     <Compile Include="DCS\Aircraft\RadioFrequency.cs" />
     <Compile Include="DCS\Tools\FormAH64DTC.cs">
       <SubType>Form</SubType>
