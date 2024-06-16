@@ -1871,7 +1871,8 @@ namespace CoordinateConverter
                 tsmi_JF17,
                 tsmi_F18,
                 tsmi_KA50,
-                tsmi_M2000
+                tsmi_M2000,
+                tsmi_OH58D,
             };
         }
 
@@ -1888,6 +1889,7 @@ namespace CoordinateConverter
                 { typeof(F18C), new List<ToolStripMenuItem>() { tsmi_F18 } },
                 { typeof(KA50), new List<ToolStripMenuItem>() { tsmi_KA50 } },
                 { typeof(M2000), new List<ToolStripMenuItem>() { tsmi_M2000 } },
+                { typeof(OH58D), new List<ToolStripMenuItem>() {tsmi_OH58D} },
             };
         }
 
@@ -1981,6 +1983,13 @@ namespace CoordinateConverter
                         break;
                     }
                     Tsmi_AircraftSelection_Click(tsmi_JF17, null);
+                    break;
+                case "OH58D":
+                    if (selectedAircraft != null && selectedAircraft.GetType() == typeof(OH58D))
+                    {
+                        break;
+                    }
+                    Tsmi_AircraftSelection_Click(tsmi_OH58D, null);
                     break;
                 default:
                     lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";
