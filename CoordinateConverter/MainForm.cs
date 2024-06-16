@@ -5,6 +5,7 @@ using CoordinateConverter.DCS.Tools;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -1889,7 +1890,7 @@ namespace CoordinateConverter
                 { typeof(F18C), new List<ToolStripMenuItem>() { tsmi_F18 } },
                 { typeof(KA50), new List<ToolStripMenuItem>() { tsmi_KA50 } },
                 { typeof(M2000), new List<ToolStripMenuItem>() { tsmi_M2000 } },
-                { typeof(OH58D), new List<ToolStripMenuItem>() {tsmi_OH58D} },
+                { typeof(OH58D), new List<ToolStripMenuItem>() { tsmi_OH58D } },
             };
         }
 
@@ -2101,6 +2102,12 @@ namespace CoordinateConverter
             else if (ControlName == tsmi_A10C.Name)
             {
                 Tsmi_A10C_UseMGRS_Click(tsmi_A10C_UseMGRS, null);
+            }
+            else if (ControlName == tsmi_OH58D.Name)
+            {
+                selectedAircraft = new OH58D();
+                Debug.Print(((OH58D) selectedAircraft).IsPilot.ToString());
+                //MIght have to add this Tsmi_OH58D_SetFirstPoint_Click(tsmi_OH58D)
             }
             else
             {

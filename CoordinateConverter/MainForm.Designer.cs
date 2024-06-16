@@ -161,7 +161,6 @@ namespace CoordinateConverter
             this.tsmi_JF17_SetFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_KA50 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_M2000 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmi_OH58D = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_DCSMainScreenMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_ReticleSetting = new System.Windows.Forms.ToolStripMenuItem();
@@ -202,6 +201,8 @@ namespace CoordinateConverter
             this.btn_MoveDown = new System.Windows.Forms.ToolStripButton();
             this.btn_MoveUp = new System.Windows.Forms.ToolStripButton();
             this.label19 = new System.Windows.Forms.Label();
+            this.tsmi_OH58DMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_OH58D = new System.Windows.Forms.ToolStripMenuItem();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalMinutes_Precision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalSeconds_Precision)).BeginInit();
@@ -1474,7 +1475,7 @@ namespace CoordinateConverter
             // 
             this.tsmi_AircraftMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
             {
-                this.tsmi_Auto, this.toolStripSeparator1, this.tsmi_A10CMenu, this.tsmi_AH64Menu, this.tsmi_AV8B, this.tsmi_F15EMenu, this.tsmi_F16Menu, this.tsmi_F18, this.tsmi_JF17Menu, this.tsmi_KA50, this.tsmi_M2000, this.tsmi_OH58D
+                this.tsmi_Auto, this.toolStripSeparator1, this.tsmi_A10CMenu, this.tsmi_AH64Menu, this.tsmi_AV8B, this.tsmi_F15EMenu, this.tsmi_F16Menu, this.tsmi_F18, this.tsmi_JF17Menu, this.tsmi_KA50, this.tsmi_M2000, this.tsmi_OH58DMenu
             });
             this.tsmi_AircraftMenu.Name = "tsmi_AircraftMenu";
             this.tsmi_AircraftMenu.Size = new System.Drawing.Size(170, 22);
@@ -1648,12 +1649,6 @@ namespace CoordinateConverter
             this.tsmi_M2000.Size = new System.Drawing.Size(152, 22);
             this.tsmi_M2000.Text = "M2000";
             this.tsmi_M2000.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
-            // 
-            // tsmi_OH58D
-            // 
-            this.tsmi_OH58D.Name = "tsmi_OH58D";
-            this.tsmi_OH58D.Size = new System.Drawing.Size(152, 22);
-            this.tsmi_OH58D.Text = "OH58D";
             // 
             // settingsToolStripMenuItem
             // 
@@ -1976,6 +1971,22 @@ namespace CoordinateConverter
             this.label19.TabIndex = 33;
             this.label19.Text = resources.GetString("label19.Text");
             // 
+            // tsmi_OH58DMenu
+            // 
+            this.tsmi_OH58DMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                this.tsmi_OH58D
+            });
+            this.tsmi_OH58DMenu.Name = "tsmi_OH58DMenu";
+            this.tsmi_OH58DMenu.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_OH58DMenu.Text = "OH58D";
+            // 
+            // tsmi_OH58D
+            // 
+            this.tsmi_OH58D.Name = "tsmi_OH58D";
+            this.tsmi_OH58D.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_OH58D.Text = "OH58D";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2038,6 +2049,7 @@ namespace CoordinateConverter
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem tsmi_OH58DMenu;
         private System.Windows.Forms.ToolStripMenuItem tsmi_OH58D;
         #endregion
         private System.Windows.Forms.GroupBox GrpBox_Output;
@@ -2116,9 +2128,9 @@ namespace CoordinateConverter
         private TextBox tb_Label;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem tsmi_FileMenu;
-        private ToolStripMenuItem tsmi_DCSMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmi_DCSMenu;
         private System.Windows.Forms.ToolStripMenuItem tsmi_AircraftMenu;
-        private ToolStripMenuItem tsmi_Auto;
+        private System.Windows.Forms.ToolStripMenuItem tsmi_Auto;
         private ToolStripMenuItem tsmi_A10CMenu;
         private ToolStripMenuItem tsmi_Transfer;
         private ToolStripMenuItem tsmi_AV8B;
