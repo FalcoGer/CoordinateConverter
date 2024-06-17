@@ -161,6 +161,8 @@ namespace CoordinateConverter
             this.tsmi_JF17_SetFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_KA50 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_M2000 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_OH58DMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_OH58D = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_DCSMainScreenMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_ReticleSetting = new System.Windows.Forms.ToolStripMenuItem();
@@ -201,8 +203,6 @@ namespace CoordinateConverter
             this.btn_MoveDown = new System.Windows.Forms.ToolStripButton();
             this.btn_MoveUp = new System.Windows.Forms.ToolStripButton();
             this.label19 = new System.Windows.Forms.Label();
-            this.tsmi_OH58DMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmi_OH58D = new System.Windows.Forms.ToolStripMenuItem();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalMinutes_Precision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalSeconds_Precision)).BeginInit();
@@ -1650,6 +1650,22 @@ namespace CoordinateConverter
             this.tsmi_M2000.Text = "M2000";
             this.tsmi_M2000.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
+            // tsmi_OH58DMenu
+            // 
+            this.tsmi_OH58DMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                this.tsmi_OH58D
+            });
+            this.tsmi_OH58DMenu.Name = "tsmi_OH58DMenu";
+            this.tsmi_OH58DMenu.Size = new System.Drawing.Size(112, 22);
+            this.tsmi_OH58DMenu.Text = "OH58D";
+            // 
+            // tsmi_OH58D
+            // 
+            this.tsmi_OH58D.Name = "tsmi_OH58D";
+            this.tsmi_OH58D.Size = new System.Drawing.Size(112, 22);
+            this.tsmi_OH58D.Text = "OH58D";
+            // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
@@ -1970,22 +1986,6 @@ namespace CoordinateConverter
             this.label19.Size = new System.Drawing.Size(616, 26);
             this.label19.TabIndex = 33;
             this.label19.Text = resources.GetString("label19.Text");
-            // 
-            // tsmi_OH58DMenu
-            // 
-            this.tsmi_OH58DMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_OH58D
-            });
-            this.tsmi_OH58DMenu.Name = "tsmi_OH58DMenu";
-            this.tsmi_OH58DMenu.Size = new System.Drawing.Size(152, 22);
-            this.tsmi_OH58DMenu.Text = "OH58D";
-            // 
-            // tsmi_OH58D
-            // 
-            this.tsmi_OH58D.Name = "tsmi_OH58D";
-            this.tsmi_OH58D.Size = new System.Drawing.Size(152, 22);
-            this.tsmi_OH58D.Text = "OH58D";
             // 
             // MainForm
             // 
