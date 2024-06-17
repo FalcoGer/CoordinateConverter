@@ -1129,6 +1129,11 @@ namespace CoordinateConverter
                         cb_PointType.SelectedIndex = ComboItem<JF17.EPointType>.FindValue(cb_PointType, extraData.PointType) ?? 0;
                         Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
                     }
+                    else if (selectedAircraft.GetType() == typeof(OH58D))
+                    {
+                        OH58DSpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as OH58DSpecificData;
+                        cb_PointType.SelectedIndex = ComboItem<OH58D.EPointType>.FindValue(cb_PointType, extraData.PointType) ?? 0;
+                    }
 
                     cb_PointType.SelectedIndexChanged += Cb_pointType_SelectedIndexChanged;
                     cb_PointOption.SelectedIndexChanged += Cb_PointOption_SelectedIndexChanged;
@@ -2154,6 +2159,15 @@ namespace CoordinateConverter
                     }
                 ).ToArray());
             }
+            else if (selectedAircraft.GetType() == typeof(OH58D))
+            {
+                cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
+                    x =>
+                    {
+                        OH58D.EPointType pt = (OH58D.EPointType)Enum.Parse(typeof(OH58D.EPointType), x);
+                        return new ComboItem<OH58D.EPointType>(x, pt);
+                    }).ToArray());
+            }
             else
             {
                 cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(x => new ComboItem<string>(x, x)).ToArray());
@@ -2359,6 +2373,22 @@ namespace CoordinateConverter
                     else
                     {
                         entry.AircraftSpecificData[selectedAircraft.GetType()] = new JF17SpecificData(pt);
+                    }
+                }
+            }
+            else if (selectedAircraft.GetType() == typeof(OH58D))
+            {
+                OH58D.EPointType pt = ComboItem<OH58D.EPointType>.GetSelectedValue(cb_PointType);
+                cb_PointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pt.ToString()).Select(x => new ComboItem<string>(x, x)).ToArray());
+                foreach (CoordinateDataEntry entry in entries)
+                {
+                    if (!entry.AircraftSpecificData.ContainsKey(typeof(OH58D)))
+                    {
+                        entry.AircraftSpecificData.Add(selectedAircraft.GetType(), new OH58DSpecificData(pt));
+                    }
+                    else
+                    {
+                        entry.AircraftSpecificData[selectedAircraft.GetType()] = new OH58DSpecificData(pt);
                     }
                 }
             }
