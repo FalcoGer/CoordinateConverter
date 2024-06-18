@@ -220,7 +220,7 @@ namespace CoordinateConverter.DCS.Aircraft
             //Possible "PREPOINT" should be here
             return new List<string>
             {
-                ""
+                "Point"
             };
         }
 
