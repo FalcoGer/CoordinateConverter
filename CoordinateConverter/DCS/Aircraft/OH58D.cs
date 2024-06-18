@@ -140,11 +140,12 @@ namespace CoordinateConverter.DCS.Aircraft
         /// </returns>
         protected override List<DCSCommand> GetPreActions()
         {
-            //This resets the display to the HSD and then to the NAV setup page
+            //Resets the display to the HSD by first going to COMM page and then HSD page
+            //pressing HSD while already on the HSD page toggles HSD+ which we don't want to do.
             List<DCSCommand> commands = new List<DCSCommand>
             {
-                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B4),
-                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B2)
+                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B4), //COMM
+                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B2) //HSD
             };
             return commands;
         }
