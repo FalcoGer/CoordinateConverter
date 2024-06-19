@@ -144,8 +144,8 @@ namespace CoordinateConverter.DCS.Aircraft
             //pressing HSD while already on the HSD page toggles HSD+ which we don't want to do.
             List<DCSCommand> commands = new List<DCSCommand>
             {
-                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B4), //COMM
-                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B2) //HSD
+                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B4, delay), //COMM
+                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B2, delay) //HSD
             };
             return commands;
         }
