@@ -10,7 +10,7 @@ namespace CoordinateConverter.DCS.Aircraft
     /// <seealso cref="DCSAircraft" />
     public class OH58D : DCSAircraft
     {
-        private int delay = 100;
+        private readonly int delay = 100;
         private bool? isPilot;
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <returns>A list of names for point options.</returns>
         public override List<string> GetPointOptionsForType(string pointTypeStr)
         {
-            //Possible "PREPOINT" should be here
+            //Possible "PREPOINT" should be here, unsupported for now.
             return new List<string>
             {
                 "Point"
@@ -229,7 +229,7 @@ namespace CoordinateConverter.DCS.Aircraft
             List<DCSCommand> commands = new List<DCSCommand>();
             foreach (char c in text.ToUpper())
             {
-                EKeyCode? keyCode = null;
+                EKeyCode? keyCode;
                 switch (c)
                 {
                     case '\n':
