@@ -22,37 +22,7 @@ namespace CoordinateConverter.DCS.Aircraft
             delay = 1000;
 #endif
         }
-        /// <summary>
-        /// Gets or sets a value indicating whether the user is in the pilot or CPG seat.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is pilot; otherwise, <c>false</c>.
-        /// </value>
-        public bool? IsPilot
-        {
-            //I don't think this is going to work
-            get
-            {
-                DCSMessage message = new DCSMessage()
-                {
-                    GetHandleData = new List<string>()
-                    {
-                        "SEAT"
-                    },
-                };
-                message = DCSConnection.SendRequest(message);
-                if (message != null && message.HandleData.TryGetValue("SEAT", out string value))
-                {
-                    isPilot = value == "0";
-                }
-                return isPilot;
-            }
-            private set
-            {
-                isPilot = value;
-            }
-
-        }
+        
         private enum EDeviceCode
         {
             RMFD = 11,

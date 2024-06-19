@@ -2111,8 +2111,6 @@ namespace CoordinateConverter
             else if (ControlName == tsmi_OH58D.Name)
             {
                 selectedAircraft = new OH58D();
-                Debug.Print(((OH58D) selectedAircraft).IsPilot.ToString());
-                //MIght have to add this Tsmi_OH58D_SetFirstPoint_Click(tsmi_OH58D)
             }
             else
             {
