@@ -227,12 +227,17 @@ namespace CoordinateConverter.DCS.Aircraft
         private static List<DCSCommand> GetCommandsForMFKText(string text)
         {
             List<DCSCommand> commands = new List<DCSCommand>();
-            foreach (char c in text)
+            foreach (char c in text.ToUpper())
             {
                 EKeyCode? keyCode = null;
                 switch (c)
                 {
-                    //Add special characters
+                    case '\n':
+                        keyCode = EKeyCode.MFK_ENTER;
+                        break;
+                    case '.':
+                        keyCode = EKeyCode.MFK_DOT;
+                        break;
                     default:
                         keyCode = (EKeyCode)Enum.Parse(typeof(EKeyCode), "MFK_" + c, true);
                         break;
