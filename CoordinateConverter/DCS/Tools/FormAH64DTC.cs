@@ -46,8 +46,9 @@ namespace CoordinateConverter.DCS.Tools
             IsPilot = isPilot;
             InitializeComponent();
 
-            data = new AH64DTCData(isPilot);
+            UpdateFileList();
 
+            data = new AH64DTCData(isPilot);
             {
                 // Adjust Frequency NumericUpDowns
                 var preset = data.GetAH64RadioPreset(AH64DTCData.EPreset.Preset1);
@@ -2192,6 +2193,7 @@ namespace CoordinateConverter.DCS.Tools
             {
                 toolTip.Show(ex.Message, toolStrip1, 0, toolStrip1.Height, 5000);
             }
+            UpdateFileList();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -2229,8 +2231,33 @@ namespace CoordinateConverter.DCS.Tools
             {
                 toolTip.Show(ex.Message, toolStrip1, 0, toolStrip1.Height, 5000);
             }
+            UpdateFileList();
         }
 
+        void UpdateFileList()
+        {
+            btnLoad.DropDownItems.Clear();
+            var files = parent.SettingsData.RecentFiles[Settings.ELastFileSource.AH64DTC];
+            
+            if (files == null)
+            {
+                return;
+            }
+
+            foreach (string file in files)
+            {
+                var fi = new FileInfo(file);
+                if (!fi.Exists)
+                {
+                    continue;
+                }
+
+                var tsmi = new ToolStripMenuItem(fi.FullName);
+                tsmi.Click += (s, e) => LoadFile(fi);
+
+                btnLoad.DropDownItems.Add(tsmi);
+            }
+        }
         #endregion
     }
 }

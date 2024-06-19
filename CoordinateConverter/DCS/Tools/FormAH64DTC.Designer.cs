@@ -360,10 +360,10 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnXfer = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnLoad = new System.Windows.Forms.ToolStripButton();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnReset = new System.Windows.Forms.ToolStripButton();
+            this.btnLoad = new System.Windows.Forms.ToolStripSplitButton();
             this.tabControl1.SuspendLayout();
             this.tabRadio.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -4532,16 +4532,6 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
             // 
-            // btnLoad
-            // 
-            this.btnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLoad.Image = ((System.Drawing.Image)(resources.GetObject("btnLoad.Image")));
-            this.btnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(36, 36);
-            this.btnLoad.Text = "Load";
-            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
-            // 
             // btnSave
             // 
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -4566,6 +4556,16 @@
             this.btnReset.Size = new System.Drawing.Size(36, 36);
             this.btnReset.Text = "Reset";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // btnLoad
+            // 
+            this.btnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnLoad.Image = ((System.Drawing.Image)(resources.GetObject("btnLoad.Image")));
+            this.btnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(48, 36);
+            this.btnLoad.Text = "Load";
+            this.btnLoad.ButtonClick += new System.EventHandler(this.btnLoad_Click);
             // 
             // FormAH64DTC
             // 
@@ -4697,7 +4697,6 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnXfer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton btnLoad;
         private System.Windows.Forms.ToolStripButton btnSave;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox ddlRadioPresetSelection;
@@ -5027,5 +5026,6 @@
         private System.Windows.Forms.Label label125;
         private System.Windows.Forms.ComboBox ddl_TSD_grid;
         private System.Windows.Forms.Button btn_TSD_getMapSettings;
+        private System.Windows.Forms.ToolStripSplitButton btnLoad;
     }
 }
