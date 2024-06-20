@@ -10,7 +10,7 @@ namespace CoordinateConverter.DCS.Aircraft
     /// <seealso cref="DCSAircraft" />
     public class OH58D : DCSAircraft
     {
-        private readonly int delay = 100;
+        private const int DELAY = 100;
         private bool? isPilot;
 
         /// <summary>
@@ -18,9 +18,7 @@ namespace CoordinateConverter.DCS.Aircraft
         /// </summary>
         public OH58D()
         {
-#if DEBUG
-            delay = 1000;
-#endif
+            // empty
         }
         
         private enum EDeviceCode
@@ -114,8 +112,8 @@ namespace CoordinateConverter.DCS.Aircraft
             //pressing HSD while already on the HSD page toggles HSD+ which we don't want to do.
             List<DCSCommand> commands = new List<DCSCommand>
             {
-                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B4, delay), //COMM
-                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B2, delay) //HSD
+                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B4, DELAY), //COMM
+                new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_B2, DELAY) //HSD
             };
             return commands;
         }
@@ -134,26 +132,26 @@ namespace CoordinateConverter.DCS.Aircraft
             CoordinateDataEntry coordinate = (CoordinateDataEntry)item;
 
             OH58DSpecificData extraData = (OH58DSpecificData)coordinate.AircraftSpecificData[typeof(OH58D)];
-            commands.Add(new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_R2, delay)); //Nav Setup
+            commands.Add(new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_R2, DELAY)); //Nav Setup
             switch (extraData.PointType)
             {
                 case EPointType.Waypoint:
-                    commands.Add(new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_L4, delay));
+                    commands.Add(new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_L4, DELAY));
                     break;
                 case EPointType.Target:
-                    commands.Add(new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_R4, delay));
+                    commands.Add(new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_R4, DELAY));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(extraData.PointType.ToString());
             }
             //TODO: Could allow overriding existing points here, but for now will always add to the end of the list
-            commands.Add(new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_L2, delay)); //POS
-            commands.Add(new DCSCommand((int)EDeviceCode.MFK, (int)EKeyCode.MFK_CLR, delay));
+            commands.Add(new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_L2, DELAY)); //POS
+            commands.Add(new DCSCommand((int)EDeviceCode.MFK, (int)EKeyCode.MFK_CLR, DELAY));
             string strMgrs = RemoveWhitespace(coordinate.GetCoordinateStrMGRS(4));
             commands.AddRange(GetCommandsForMFKText(strMgrs));
-            commands.Add(new DCSCommand((int)EDeviceCode.MFK, (int)EKeyCode.MFK_ENTER, delay)); //Accept position
-            commands.Add(new DCSCommand((int)EDeviceCode.MFK, (int)EKeyCode.MFK_ENTER, delay)); //Accept altitude
-            commands.Add(new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_R5, delay));   //Store
+            commands.Add(new DCSCommand((int)EDeviceCode.MFK, (int)EKeyCode.MFK_ENTER, DELAY)); //Accept position
+            commands.Add(new DCSCommand((int)EDeviceCode.MFK, (int)EKeyCode.MFK_ENTER, DELAY)); //Accept altitude
+            commands.Add(new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_R5, DELAY));   //Store
             commands.AddRange(GetPreActions());
             return commands;
         }
@@ -212,7 +210,7 @@ namespace CoordinateConverter.DCS.Aircraft
                         keyCode = (EKeyCode)Enum.Parse(typeof(EKeyCode), "MFK_" + c, true);
                         break;
                 }
-                commands.Add(new DCSCommand((int)EDeviceCode.MFK, (int)keyCode));
+                commands.Add(new DCSCommand((int)EDeviceCode.MFK, (int)keyCode), DELAY);
             }
             return commands;
         }
