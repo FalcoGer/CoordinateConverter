@@ -210,7 +210,7 @@ namespace CoordinateConverter.DCS.Aircraft
                         keyCode = (EKeyCode)Enum.Parse(typeof(EKeyCode), "MFK_" + c, true);
                         break;
                 }
-                commands.Add(new DCSCommand((int)EDeviceCode.MFK, (int)keyCode), DELAY);
+                commands.Add(new DCSCommand((int)EDeviceCode.MFK, (int)keyCode, DELAY));
             }
             return commands;
         }
