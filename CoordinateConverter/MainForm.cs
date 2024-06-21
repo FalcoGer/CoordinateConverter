@@ -5,6 +5,7 @@ using CoordinateConverter.DCS.Tools;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -1128,6 +1129,11 @@ namespace CoordinateConverter
                         cb_PointType.SelectedIndex = ComboItem<JF17.EPointType>.FindValue(cb_PointType, extraData.PointType) ?? 0;
                         Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
                     }
+                    else if (selectedAircraft.GetType() == typeof(OH58D))
+                    {
+                        OH58DSpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as OH58DSpecificData;
+                        cb_PointType.SelectedIndex = ComboItem<OH58D.EPointType>.FindValue(cb_PointType, extraData.PointType) ?? 0;
+                    }
 
                     cb_PointType.SelectedIndexChanged += Cb_pointType_SelectedIndexChanged;
                     cb_PointOption.SelectedIndexChanged += Cb_PointOption_SelectedIndexChanged;
@@ -1871,7 +1877,8 @@ namespace CoordinateConverter
                 tsmi_JF17,
                 tsmi_F18,
                 tsmi_KA50,
-                tsmi_M2000
+                tsmi_M2000,
+                tsmi_OH58D,
             };
         }
 
@@ -1888,6 +1895,7 @@ namespace CoordinateConverter
                 { typeof(F18C), new List<ToolStripMenuItem>() { tsmi_F18 } },
                 { typeof(KA50), new List<ToolStripMenuItem>() { tsmi_KA50 } },
                 { typeof(M2000), new List<ToolStripMenuItem>() { tsmi_M2000 } },
+                { typeof(OH58D), new List<ToolStripMenuItem>() { tsmi_OH58D } },
             };
         }
 
@@ -1981,6 +1989,13 @@ namespace CoordinateConverter
                         break;
                     }
                     Tsmi_AircraftSelection_Click(tsmi_JF17, null);
+                    break;
+                case "OH58D":
+                    if (selectedAircraft != null && selectedAircraft.GetType() == typeof(OH58D))
+                    {
+                        break;
+                    }
+                    Tsmi_AircraftSelection_Click(tsmi_OH58D, null);
                     break;
                 default:
                     lbl_DCS_Status.Text = "Unknown aircraft: \"" + model + "\"";
@@ -2093,6 +2108,10 @@ namespace CoordinateConverter
             {
                 Tsmi_A10C_UseMGRS_Click(tsmi_A10C_UseMGRS, null);
             }
+            else if (ControlName == tsmi_OH58D.Name)
+            {
+                selectedAircraft = new OH58D();
+            }
             else
             {
                 return false;
@@ -2137,6 +2156,15 @@ namespace CoordinateConverter
                         return new ComboItem<JF17.EPointType>(x, pt);
                     }
                 ).ToArray());
+            }
+            else if (selectedAircraft.GetType() == typeof(OH58D))
+            {
+                cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
+                    x =>
+                    {
+                        OH58D.EPointType pt = (OH58D.EPointType)Enum.Parse(typeof(OH58D.EPointType), x);
+                        return new ComboItem<OH58D.EPointType>(x, pt);
+                    }).ToArray());
             }
             else
             {
@@ -2343,6 +2371,22 @@ namespace CoordinateConverter
                     else
                     {
                         entry.AircraftSpecificData[selectedAircraft.GetType()] = new JF17SpecificData(pt);
+                    }
+                }
+            }
+            else if (selectedAircraft.GetType() == typeof(OH58D))
+            {
+                OH58D.EPointType pt = ComboItem<OH58D.EPointType>.GetSelectedValue(cb_PointType);
+                cb_PointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pt.ToString()).Select(x => new ComboItem<string>(x, x)).ToArray());
+                foreach (CoordinateDataEntry entry in entries)
+                {
+                    if (!entry.AircraftSpecificData.ContainsKey(typeof(OH58D)))
+                    {
+                        entry.AircraftSpecificData.Add(selectedAircraft.GetType(), new OH58DSpecificData(pt));
+                    }
+                    else
+                    {
+                        entry.AircraftSpecificData[selectedAircraft.GetType()] = new OH58DSpecificData(pt);
                     }
                 }
             }

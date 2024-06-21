@@ -80,6 +80,8 @@
     <Compile Include="DCS\Aircraft\DCSCommandsPackage.cs" />
     <Compile Include="DCS\Aircraft\F15E.cs" />
     <Compile Include="DCS\Aircraft\M2000.cs" />
+    <Compile Include="DCS\Aircraft\OH58D.cs" />
+    <Compile Include="DCS\Aircraft\OH58DSpecificData.cs" />
     <Compile Include="DCS\Aircraft\RadioFrequency.cs" />
     <Compile Include="DCS\Tools\FormAH64DTC.cs">
       <SubType>Form</SubType>
@@ -230,7 +232,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files\7-Zip\7z.exe" a -y -mx9 "$(TargetDir)Release.zip" "$(TargetDir)$(TargetFileName)" "$(TargetDir)Resources\Installation.txt" "$(TargetDir)Resources\Crosshair.png" "$(TargetDir)DCS\Communication\CoordinateConverter.lua" "$(TargetDir)*.dll"</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Release ("C:\Program Files\7-Zip\7z.exe" a -y -mx9 "$(TargetDir)Release.zip" "$(TargetDir)$(TargetFileName)" "$(TargetDir)Resources\Installation.txt" "$(TargetDir)Resources\Crosshair.png" "$(TargetDir)DCS\Communication\CoordinateConverter.lua" "$(TargetDir)*.dll")</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
