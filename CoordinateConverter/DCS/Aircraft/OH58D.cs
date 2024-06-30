@@ -131,7 +131,12 @@ namespace CoordinateConverter.DCS.Aircraft
             List<DCSCommand> commands = new List<DCSCommand>();
             CoordinateDataEntry coordinate = (CoordinateDataEntry)item;
 
-            OH58DSpecificData extraData = (OH58DSpecificData)coordinate.AircraftSpecificData[typeof(OH58D)];
+            if (!coordinate.AircraftSpecificData.ContainsKey(typeof(OH58D)))
+            {
+                coordinate.AircraftSpecificData[typeof(OH58D)] = new OH58DSpecificData(EPointType.Waypoint);
+            }
+            OH58DSpecificData extraData = new OH58DSpecificData(EPointType.Waypoint);
+            
             commands.Add(new DCSCommand((int)EDeviceCode.LMFD, (int)EKeyCode.MFD_R2, DELAY)); //Nav Setup
             switch (extraData.PointType)
             {
