@@ -107,15 +107,15 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         public enum EDisplayCodes
         {
             #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-            PLT_EUFD = 17,
-            PLT_HMD = 21,
-            PLT_MFD_Left = 6,
-            PLT_MFD_Right = 8,
-            PLT_CMWS = 24,
-            CPG_MFD_Left = 10,
-            CPG_MFD_Right = 12,
-            CPG_EUFD = 18,
-            TEDAC = 19,
+            PLT_EUFD = 18,
+            PLT_HMD = 22,
+            PLT_MFD_Left = 7,
+            PLT_MFD_Right = 9,
+            PLT_CMWS = 25,
+            CPG_MFD_Left = 11,
+            CPG_MFD_Right = 13,
+            CPG_EUFD = 19,
+            TEDAC = 20,
             #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         }
