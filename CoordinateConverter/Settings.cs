@@ -45,7 +45,7 @@ namespace CoordinateConverter
         /// The settings file.
         /// </value>
         [JsonIgnore]
-        public static FileInfo SettingsFile { get; private set; } = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json"));
+        public static FileInfo SettingsFile { get; private set; } = new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CoordinateConverter", "settings.json"));
 
         /// <summary>
         /// The source for the last files directory
@@ -245,6 +245,13 @@ namespace CoordinateConverter
         /// </summary>
         static public Settings Load()
         {
+            DirectoryInfo settingsDirectory = SettingsFile.Directory;
+
+            if (!settingsDirectory.Exists)
+            {
+                settingsDirectory.Create();
+            }
+
             if (!SettingsFile.Exists)
             {
                 Settings settings = new Settings();

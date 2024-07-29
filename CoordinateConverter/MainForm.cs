@@ -21,7 +21,7 @@ namespace CoordinateConverter
     /// <seealso cref="Form" />
     public partial class MainForm : Form
     {
-        private readonly GitHub.Version VERSION = new GitHub.Version(0, 10, 2);
+        private readonly GitHub.Version VERSION = new GitHub.Version(0, 10, 3);
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static readonly Color ERROR_COLOR = Color.Pink;
@@ -2729,36 +2729,61 @@ namespace CoordinateConverter
 
         private void Tsmi_TerrainElevationUnderCamera_Click(object sender, EventArgs e)
         {
-            SettingsData.CameraPosMode = Settings.ECameraPosMode.TerrainElevation;
-            SettingsData.Save();
-            tsmi_TerrainElevationUnderCamera.Checked = true;
-            tsmi_CameraAltitude.Checked = false;
+            try
+            {
+
+                SettingsData.CameraPosMode = Settings.ECameraPosMode.TerrainElevation;
+                SettingsData.Save();
+                tsmi_TerrainElevationUnderCamera.Checked = true;
+                tsmi_CameraAltitude.Checked = false;
+            }
+            catch (Exception ex)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = ex.Message;
+            }
         }
 
         private void Tsmi_CameraAltitude_Click(object sender, EventArgs e)
         {
-            SettingsData.CameraPosMode = Settings.ECameraPosMode.CameraAltitude;
-            SettingsData.Save();
-            tsmi_TerrainElevationUnderCamera.Checked = false;
-            tsmi_CameraAltitude.Checked = true;
+            try
+            {
+                SettingsData.CameraPosMode = Settings.ECameraPosMode.CameraAltitude;
+                SettingsData.Save();
+                tsmi_TerrainElevationUnderCamera.Checked = false;
+                tsmi_CameraAltitude.Checked = true;
+            }
+            catch (Exception ex)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = ex.Message;
+            }
         }
 
         #region ReticleSettings
         
         private void Tsmi_Screen_Click(object objSender, EventArgs e)
         {
-            // Gets the screen associated with the menu item and sets the reticle to the center of that screen
-            ToolStripMenuItem sender = objSender as ToolStripMenuItem;
-            SettingsData.DCSMonitor = int.Parse(sender.Name.Split('_').Last());
-            SettingsData.Save();
-            
-            // Unsets all checkboxes except the one clicked
-            foreach (ToolStripMenuItem mi in tsmi_DCSMainScreenMenu.DropDownItems)
+            try
             {
-                mi.Checked = mi.Name == sender.Name;
-            }
+                // Gets the screen associated with the menu item and sets the reticle to the center of that screen
+                ToolStripMenuItem sender = objSender as ToolStripMenuItem;
+                SettingsData.DCSMonitor = int.Parse(sender.Name.Split('_').Last());
+                SettingsData.Save();
 
-            CenterReticle();
+                // Unsets all checkboxes except the one clicked
+                foreach (ToolStripMenuItem mi in tsmi_DCSMainScreenMenu.DropDownItems)
+                {
+                    mi.Checked = mi.Name == sender.Name;
+                }
+
+                CenterReticle();
+            }
+            catch (Exception ex)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = ex.Message;
+            }
         }
 
         private void CenterReticle()
@@ -2769,23 +2794,47 @@ namespace CoordinateConverter
         }
         private void Tsmi_Reticle_WhenInF10Map_Click(object sender, EventArgs e)
         {
-            SettingsData.ReticleSetting = Settings.EReticleSetting.WhenF10;
-            SettingsData.Save();
-            SetReticleSettingsCheckmarks();
+            try
+            {
+                SettingsData.ReticleSetting = Settings.EReticleSetting.WhenF10;
+                SettingsData.Save();
+                SetReticleSettingsCheckmarks();
+            }
+            catch (Exception ex)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = ex.Message;
+            }
         }
 
         private void Tsmi_Reticle_Always_Click(object sender, EventArgs e)
         {
-            SettingsData.ReticleSetting = Settings.EReticleSetting.Always;
-            SettingsData.Save();
-            SetReticleSettingsCheckmarks();
+            try
+            {
+                SettingsData.ReticleSetting = Settings.EReticleSetting.Always;
+                SettingsData.Save();
+                SetReticleSettingsCheckmarks();
+            }
+            catch (Exception ex)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = ex.Message;
+            }
         }
 
         private void Tsmi_Reticle_Never_Click(object sender, EventArgs e)
         {
-            SettingsData.ReticleSetting = Settings.EReticleSetting.Never;
-            SettingsData.Save();
-            SetReticleSettingsCheckmarks();
+            try
+            {
+                SettingsData.ReticleSetting = Settings.EReticleSetting.Never;
+                SettingsData.Save();
+                SetReticleSettingsCheckmarks();
+            }
+            catch (Exception ex)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = ex.Message;
+            }
         }
 
         private void SetReticleSettingsCheckmarks()
@@ -2853,7 +2902,15 @@ namespace CoordinateConverter
         /// </summary>
         public MainForm()
         {
-            SettingsData = Settings.Load();
+            try
+            {
+                SettingsData = Settings.Load();
+            }
+            catch (Exception ex)
+            {
+                string exText = @"Could not load settings.\n{ex.Message}\n\n{ex.StackTrace}";
+                MessageBox.Show(text: exText, caption: ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             InitializeComponent();
 
@@ -2953,10 +3010,18 @@ namespace CoordinateConverter
 
         private void tsmi_AutoCheckForUpdates_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
-            tsmi.Checked = !tsmi.Checked;
-            SettingsData.AutoCheckForUpdates = tsmi.Checked;
-            SettingsData.Save();
+            try
+            {
+                ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+                tsmi.Checked = !tsmi.Checked;
+                SettingsData.AutoCheckForUpdates = tsmi.Checked;
+                SettingsData.Save();
+            }
+            catch (Exception ex)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = ex.Message;
+            }
         }
 
         private void Tsmi_AH64_DTC_Click(object sender, EventArgs e)
@@ -2980,22 +3045,30 @@ namespace CoordinateConverter
 
         private void tsmi_changeBaseDirectory_Click(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog fbd = new FolderBrowserDialog()
+            try
             {
-                Description = "Select the folder where the JSON files are located.",
-                SelectedPath = SettingsData.GetDirectory(Settings.ELastFileSource.Points).FullName,
-                ShowNewFolderButton = true
-            })
-            {
-                fbd.ShowDialog(this);
-
-                if (fbd.SelectedPath != null)
+                using (FolderBrowserDialog fbd = new FolderBrowserDialog()
                 {
-                    SettingsData.BaseDirectory = new DirectoryInfo(fbd.SelectedPath);
-                    SettingsData.Save();
-                    sfd.InitialDirectory = SettingsData.GetDirectory(Settings.ELastFileSource.Points).FullName;
-                    ofd.InitialDirectory = SettingsData.GetDirectory(Settings.ELastFileSource.Points).FullName;
+                    Description = "Select the folder where the JSON files are located.",
+                    SelectedPath = SettingsData.GetDirectory(Settings.ELastFileSource.Points).FullName,
+                    ShowNewFolderButton = true
+                })
+                {
+                    fbd.ShowDialog(this);
+
+                    if (fbd.SelectedPath != null)
+                    {
+                        SettingsData.BaseDirectory = new DirectoryInfo(fbd.SelectedPath);
+                        SettingsData.Save();
+                        sfd.InitialDirectory = SettingsData.GetDirectory(Settings.ELastFileSource.Points).FullName;
+                        ofd.InitialDirectory = SettingsData.GetDirectory(Settings.ELastFileSource.Points).FullName;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                lbl_Error.Visible = true;
+                lbl_Error.Text = ex.Message;
             }
         }
     }
