@@ -33,10 +33,6 @@ Execute:
 Data Entry
     - Fix spurious data entry errors for AH64 KU
 
-Settings
-    - ask user if they want to move old files when changing base directory
-    - make it not require admin privs when installed in program files
-
 Waypoint list:
     - A point number field, showing where the point is in the aircraft's list
         - information only for some A/C where it can't be specifically picked (ex. AH64, F18C)
@@ -101,8 +97,8 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
         - determine keycodes with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\clickabledata.lua`
         - determine device ids with `Eagle Dynamics\DCS World OpenBeta\Mods\aircraft\<type>\Cockpit\Scripts\devices.lua`
         - get inspired by https://github.com/the-paid-actor/dcs-dtc?tab=readme-ov-file#features
+        - Import current WPs from A/C
     - AH64
-        - route building
         - force is pilot/is cpg option
         - DTC
             - Radio Presets
@@ -122,8 +118,12 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
             - Use OnKeyDown for all text boxes to block invalid input
             - route building
             - point deleter smart (read coord page)
+        - When transferring points check coord page first
+            - update point labels with their number (special field for ah64 special data for display)
+            - find duplicates already in the aircraft and don't transfer them (adjust point labels)
+            - Don't transfer points when database full
     - F18
-        - Auto set PRECISE
+        - Auto set PRECISE and get coordinate format
         - route building
         - set first point to use, don't overwrite 59 / m1-9 / 0
             - get current point and store that
@@ -131,19 +131,22 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
             - enter points
             - go back to the original point
         - Move weapon stuff to new tool window
-	    - Smarter Weapons selection, not based on wing loadout (read display)
-	    - remove waypoint types from wp list
-	    - enable saving/loading any weapon data on the wings
-	    - load current weapons button
-            - all settings for all weapons, incl fuze, impact angle, hptp / wplist, etc
-                - read current setting and don't re-enter if matching
-	    - auto pp switch for ripple drop from multi weapon rack
-	        - visual cue when switching/when switching is done
-            - remember which weapon station was selected last and only switch when it's different for the next point
-            - SLAM-ER
+            - Weapon selection manually or with get weapon from aircraft button
+            - Remove all point types and options, replace with WP and Weapon Reference Point
+            - Set each station PP1 - PP6 coordinate manually or to an item from the list (WP or WRP)
+            - Set each station PP setting (Impact angle, speed, heading)
+            - Set HPTP / Slam-ER waypoint list, incl altitude, POP/SKIM, Cruise altitude, etc
+            - Read weapon settings and don't re-enter if already correct
+            - Set each station Fuze setting
+            - Read display when entering the data (check if weapon is already selected, check which buttons)
+            - Save/Load weapon data
+        - auto pp switch for ripple drop from multi weapon rack
+            - visual/audio cue when switching/when switching is done
+              - remember which weapon station was selected last and only switch when it's different for the next point
+              - SLAM-ER
                 - STP for each station
         - dtc
-            - comm settings all channels (1-20 + M), incl guard receiver
+            - comm settings all channels (1-20 + M), incl guard receiver, incl MIDS
             - IFF (M1 + M3 + M4 + ON) and auto iff
             - DL (ACLS + ON)
             - TCN (CH + X/Y + TR/AA + ON)
@@ -170,6 +173,7 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
     - JF17
         - Check of N/S and E/W is automatically set and what the source of that information is
     - C-130 Mod Waypoint support
+    - CH-47
 
 
 Allow users to do tedious setups, perhaps save a sequence of commands to be played back later (low priority)
