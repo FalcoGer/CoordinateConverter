@@ -476,30 +476,63 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             CoordinateDataEntry coordinate = item as CoordinateDataEntry;
             AH64SpecificData extraData = null;
             EKeyCode keyMFDPointType = EKeyCode.MFD_L3; // assume waypoint
-            string ident = "\n"; // assume default ident
             if (coordinate.AircraftSpecificData.ContainsKey(typeof(AH64)) && coordinate.AircraftSpecificData[typeof(AH64)] != null)
             {
                 extraData = coordinate.AircraftSpecificData[typeof(AH64)] as AH64SpecificData;
-                ident = extraData.Ident.ToString().Substring(3) + '\n';
-
-                switch (extraData.PointType)
-                {
-                    case EPointType.Waypoint:
-                        keyMFDPointType = EKeyCode.MFD_L3;
-                        break;
-                    case EPointType.Hazard:
-                        keyMFDPointType = EKeyCode.MFD_L4;
-                        break;
-                    case EPointType.ControlMeasure:
-                        keyMFDPointType = EKeyCode.MFD_L5;
-                        break;
-                    case EPointType.Target:
-                        keyMFDPointType = EKeyCode.MFD_L6;
-                        break;
-                    default:
-                        throw new ArgumentException("Bad Point Type");
-                }
             }
+            else
+            {
+                extraData = new AH64SpecificData();
+            }
+
+            string ident = extraData.Ident.ToString().Substring(3) + '\n';
+
+            switch (extraData.PointType)
+            {
+                case EPointType.Waypoint:
+                    keyMFDPointType = EKeyCode.MFD_L3;
+                    break;
+                case EPointType.Hazard:
+                    keyMFDPointType = EKeyCode.MFD_L4;
+                    break;
+                case EPointType.ControlMeasure:
+                    keyMFDPointType = EKeyCode.MFD_L5;
+                    break;
+                case EPointType.Target:
+                    keyMFDPointType = EKeyCode.MFD_L6;
+                    break;
+                default:
+                    throw new ArgumentException("Bad Point Type");
+            }
+
+            // check if point is already in the aircraft, skip entry if so
+            if (points != null)
+            {
+                foreach (var point in points[extraData.PointType])
+                {
+                    // check if our current point is already in the list.
+                    if (Math.Round(point.GetAltitudeValue(true)) == Math.Round(coordinate.GetAltitudeValue(true)) &&
+                        point.GetCoordinateStrMGRS(4) == coordinate.GetCoordinateStrMGRS(4) &&
+                        (point.Name.Substring(0, Math.Min(3, point.Name.Length)) == coordinate.Name.Substring(0, Math.Min(3, coordinate.Name.Length)) || string.IsNullOrEmpty(coordinate.Name)) &&
+                        extraData.Ident == (point.AircraftSpecificData[typeof(AH64)] as AH64SpecificData).Ident
+                    )
+                    {
+                        return null; // skip the rest
+                    }
+                    if (points[extraData.PointType].Count >= 50)
+                    {
+                        return null; // database full, skip this point
+                    }
+                }
+
+                // the new point should be added to the points list so it won't be added again later if it's a duplicate
+                if (!points.ContainsKey(extraData.PointType))
+                {
+                    points.Add(extraData.PointType, new List<CoordinateDataEntry>());
+                }
+                points[extraData.PointType].Add(coordinate);
+            }
+
             bool plt = IsPilot ?? true;
             int mfd = (int)(plt ? EDeviceCode.PLT_RMFD : EDeviceCode.CPG_RMFD);
 
@@ -661,6 +694,233 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             };
         }
 
+        private Dictionary<EPointType, List<CoordinateDataEntry>> points = null;
+
+        /// <summary>
+        /// Reads the points from the aircraft.
+        /// </summary>
+        /// <param name="pointType">Type of the points to read.</param>
+        /// <returns>A list of points already in the aircraft</returns>
+        public List<CoordinateDataEntry> ReadPointsFromAC(EPointType pointType)
+        {
+            var points = new List<CoordinateDataEntry>();
+
+            int mfdDevice = (isPilot ?? true) ? (int)EDeviceCode.PLT_RMFD : (int)EDeviceCode.CPG_RMFD;
+            int mfdDisplay = (isPilot ?? true) ? (int)EDisplayCodes.PLT_MFD_Right : (int)EDisplayCodes.CPG_MFD_Right;
+
+            var commands = new List<DCSCommand>()
+            {
+                // Coord page on RMFD<
+                new DCSCommand(mfdDevice, (int)EKeyCode.MFD_TSD),
+                new DCSCommand(mfdDevice, (int)EKeyCode.MFD_T5)
+            };
+
+            if (!DCSCommand.RunAndSleep(commands))
+            {
+                return null;
+            }
+
+            // Check if we are on the correct page already
+            var message = new DCSMessage
+            {
+                GetCockpitDisplayData = new List<int>() { mfdDisplay }
+            };
+            var displayData = DCSConnection.SendRequest(message).CockpitDisplayData[mfdDisplay];
+
+            switch (pointType)
+            {
+                case EPointType.Waypoint:
+                case EPointType.Hazard:
+                    if (!displayData.ContainsKey("PB1_1_b")) // we are not on the WPT/HZ page
+                    {
+                        // go to the WPT/HZ page
+                        commands = new List<DCSCommand>()
+                        {
+                            new DCSCommand(mfdDevice, (int)EKeyCode.MFD_T1)
+                        };
+                    }
+                    break;
+                case EPointType.ControlMeasure:
+                    if (!displayData.ContainsKey("PB2_3_b")) // we are not on the CTRLM page
+                    {
+                        // go to the CTRLM page
+                        commands = new List<DCSCommand>()
+                        {
+                            new DCSCommand(mfdDevice, (int)EKeyCode.MFD_T2)
+                        };
+                    }
+                    break;
+                case EPointType.Target:
+                    if (!displayData.ContainsKey("PB5_9_b")) // we are not on the COORD (TGT/THRT) page
+                    {
+                        // go to the COORD (TGT/THRT) page
+                        commands = new List<DCSCommand>()
+                        {
+                            new DCSCommand(mfdDevice, (int)EKeyCode.MFD_T5)
+                        };
+                    }
+                    break;
+                default:
+                    throw new Exception("Unknown point type");
+            }
+
+            if (!DCSCommand.RunAndSleep(commands))
+            {
+                return null;
+            }
+
+
+            // Check how many pages we need to check
+            message = new DCSMessage
+            {
+                GetCockpitDisplayData = new List<int>() { mfdDisplay }
+            };
+            displayData = DCSConnection.SendRequest(message).CockpitDisplayData[mfdDisplay];
+            string pageData = displayData["COORDS_B2B3_Paging_text_lbl"];
+
+            int pageCount = int.Parse(pageData.Split('/')[1]);
+            int page = int.Parse(pageData.Split('/')[0].Split('\n')[1]);
+
+            if (page != 1)
+            {
+                // go to the first page by pressing left on B2 that many times
+                commands = new List<DCSCommand>();
+                for (int i = page; i > 1; i--)
+                {
+                    commands.Add(new DCSCommand(mfdDevice, (int)EKeyCode.MFD_B2));
+                }
+                if (!DCSCommand.RunAndSleep(commands))
+                {
+                    return null;
+                }
+            }
+
+            // we are on page 1 for the relevant points.
+            // go through each page and add the points to the dictionary
+            for (page = 1; page <= pageCount; page++)
+            {
+                // read page
+                message = new DCSMessage
+                {
+                    GetCockpitDisplayData = new List<int>() { mfdDisplay }
+                };
+                displayData = DCSConnection.SendRequest(message).CockpitDisplayData[mfdDisplay];
+
+                // go through all the lines, if they exist and add the point.
+
+                Dictionary<int, List<string>> displayDataKeysForLine = new Dictionary<int, List<string>>()
+                {
+                    { 1, new List<string>() { "PB24_21", "LABEL 1",  "LABEL 2",  "LABEL 5",  "LABEL 6"  } },
+                    { 2, new List<string>() { "PB23_23", "LABEL 21", "LABEL 22", "LABEL 25", "LABEL 26" } },
+                    { 3, new List<string>() { "PB22_25", "LABEL 41", "LABEL 42", "LABEL 45", "LABEL 46" } },
+                    { 4, new List<string>() { "PB21_27", "LABEL 61", "LABEL 62", "LABEL 65", "LABEL 66" } },
+                    { 5, new List<string>() { "PB20_29", "LABEL 81", "LABEL 82", "LABEL 85", "LABEL 86" } },
+                    { 6, new List<string>() { "PB19_31", "LABEL 101", "LABEL 102", "LABEL 105", "LABEL 106" } }
+                };
+
+                for (int line = 1; line <= 6; line++)
+                {
+                    var keys = displayDataKeysForLine[line];
+                    if (!displayData.ContainsKey(keys[0]))
+                    {
+                        break; // page done
+                    }
+
+                    string pointIdStr = displayData[keys[0]];        // "W18", "H04", "T49", "C52"
+
+                    string pointIdentStr;
+
+                    switch (pointIdStr[0])
+                    {
+                        case 'W':
+                            if (pointType == EPointType.Hazard) // WP and HZ are mixed in the same page
+                            {
+                                continue;
+                            }
+                            pointIdentStr = "WP_";
+                            break;
+                        case 'H':
+                            if (pointType == EPointType.Waypoint) // WP and HZ are mixed in the same page
+                            {
+                                continue;
+                            }
+                            pointIdentStr = "HZ_";
+                            break;
+                        case 'T':
+                            pointIdentStr = "TG_";
+                            break;
+                        case 'C':
+                            pointIdentStr = "CM_";
+                            break;
+                        default:
+                            throw new Exception("Unknown point type");
+                    }
+
+                    pointIdentStr += displayData[keys[1]];           // "LZ",  "TU",  "ZU",  "AE"
+                    string pointFreetextStr = displayData[keys[2]];  // "W18", "TWR", "Z23", "T90"
+                    string pointMGRSStr = displayData[keys[3]];      // "37T DL 0192 5672"
+                    string pointElevationStr = displayData[keys[4]]; // "17 FT"
+
+                    // parse the data
+                    EPointIdent pointIdent = (EPointIdent)Enum.Parse(typeof(EPointIdent), pointIdentStr);
+                    int longitudeZone = int.Parse(pointMGRSStr.Substring(0, 2));
+                    string latitudeZone = pointMGRSStr.Substring(2, 1);
+                    string digraph = pointMGRSStr.Substring(4, 2);
+                    double easting = int.Parse(pointMGRSStr.Substring(7, 4)) * 10;
+                    double northing = int.Parse(pointMGRSStr.Substring(12, 4)) * 10;
+
+                    double altitude = int.Parse(pointElevationStr.Trim().Split(' ')[0]);
+
+                    // create point from this data
+                    CoordinateSharp.MilitaryGridReferenceSystem mgrs = new CoordinateSharp.MilitaryGridReferenceSystem(latz: latitudeZone, longz: longitudeZone, d: digraph, e: easting, n: northing);
+                    CoordinateSharp.Coordinate coordinate = CoordinateSharp.MilitaryGridReferenceSystem.MGRStoLatLong(mgrs);
+
+                    var point = new CoordinateDataEntry(int.Parse(pointIdStr.Substring(1, 2)), coordinate)
+                    {
+                        AltitudeIsAGL = false,
+                        Name = pointFreetextStr,
+                        AltitudeInFt = altitude
+                    };
+
+                    if (!point.AircraftSpecificData.ContainsKey(typeof(AH64)))
+                    {
+                        point.AircraftSpecificData.Add(typeof(AH64), new AH64SpecificData() { PointType = pointType, Ident = pointIdent });
+                    }
+                    else
+                    {
+                        point.AircraftSpecificData[typeof(AH64)] = new AH64SpecificData() { PointType = pointType, Ident = pointIdent };
+                    }
+                    points.Add(point);
+                }
+
+                // next page
+                commands = new List<DCSCommand>()
+                {
+                    new DCSCommand(mfdDevice, (int)EKeyCode.MFD_B3)
+                };
+                if (!DCSCommand.RunAndSleep(commands))
+                {
+                    return null;
+                }
+            }
+            return points;
+        }
+
+        /// <summary>
+        /// Reads the points from the aircraft.
+        /// </summary>
+        /// <returns>lists of points already in the aircraft as a dictionary of point types</returns>
+        protected Dictionary<EPointType, List<CoordinateDataEntry>> ReadPointsFromAC()
+        {
+            return new Dictionary<EPointType, List<CoordinateDataEntry>>()
+            {
+                { EPointType.Waypoint, ReadPointsFromAC(EPointType.Waypoint) },
+                { EPointType.Hazard, ReadPointsFromAC(EPointType.Hazard) },
+                { EPointType.ControlMeasure, ReadPointsFromAC(EPointType.ControlMeasure) },
+                { EPointType.Target, ReadPointsFromAC(EPointType.Target) }
+            };
+        }
+
         /// <summary>
         /// Gets the actions to be added before any points are added.
         /// </summary>
@@ -670,6 +930,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         protected override List<DCSCommand> GetPreActions()
         {
             bool plt = IsPilot ?? true;
+            points = ReadPointsFromAC();
+
             return new List<DCSCommand>
             {
                 // press TSD
@@ -727,15 +989,26 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             bool plt = IsPilot ?? true;
             int deviceId = plt ? (int)EDeviceCode.PLT_RMFD : (int)EDeviceCode.CPG_RMFD;
 
-            for (int pointIdx = startIdx; pointIdx <= endIdx ; pointIdx++)
+            var points = ReadPointsFromAC(pointType);
+            if (pointType == EPointType.Waypoint)
             {
-                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_TSD)); // Reset to TSD after every point, to avoid weirdness.
-                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_B6)); // Point
-                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L1)); // Point >
-                commands.AddRange(GetCommandsForKUText(pointType.ToString().First() + pointIdx.ToString() + "\n", true, plt)); // Enter point identifier
-                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L4)); // Del
-                commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L3)); // Yes
+                points.AddRange(ReadPointsFromAC(EPointType.Hazard));
             }
+
+            foreach (var point in points)
+            {
+                var ah64data = point.AircraftSpecificData[typeof(AH64)] as AH64SpecificData;
+                if (point.Id >= startIdx && point.Id <= endIdx)
+                {
+                    commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_TSD)); // Reset to TSD after every point, to avoid weirdness.
+                    commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_B6)); // Point
+                    commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L1)); // Point >
+                    commands.AddRange(GetCommandsForKUText(pointType.ToString().First() + point.Id.ToString() + "\n", true, plt)); // Enter point identifier
+                    commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L4)); // Del
+                    commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_L3)); // Yes
+                }
+            }
+
             commands.Add(new DCSCommand(deviceId, (int)EKeyCode.MFD_TSD)); // reset to TSD
             DCSMessage message = new DCSMessage() { Commands = commands };
             _ = DCSConnection.SendRequest(message);

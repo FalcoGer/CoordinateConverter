@@ -120,8 +120,6 @@ Add aircraft support (https://github.com/aronCiucu/DCSTheWay/tree/main/src/modul
             - point deleter smart (read coord page)
         - When transferring points check coord page first
             - update point labels with their number (special field for ah64 special data for display)
-            - find duplicates already in the aircraft and don't transfer them (adjust point labels)
-            - Don't transfer points when database full
     - F18
         - Auto set PRECISE and get coordinate format
         - route building

@@ -897,15 +897,6 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             TSD_SHOW_THREAT
         }
 
-        static private void SleepForCommands(List<DCSCommand> commands)
-        {
-            int totalDelay = (int)(commands.Sum(c => c.Delay) * 1.2);
-            if (totalDelay > 0)
-            {
-                Thread.Sleep(totalDelay);
-            }
-        }
-
         /// <summary>
         /// Reads the current map settings from DCS.
         /// </summary>
@@ -974,14 +965,10 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             {
                 // execute the navigation commands
                 commands = kvp.Value;
-                message = new DCSMessage() { Commands = commands };
-                message = DCSConnection.SendRequest(message);
-
-                if (message == null)
+                if (!DCSCommand.RunAndSleep(commands))
                 {
                     return null;
                 }
-                SleepForCommands(commands);
 
                 // Read the display
                 message = new DCSMessage()
@@ -1051,15 +1038,10 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
 
                         if (commands.Count > 0)
                         {
-                            message = DCSConnection.SendRequest(new DCSMessage()
-                            {
-                                Commands = commands
-                            });
-                            if (message == null)
+                            if (!DCSCommand.RunAndSleep(commands))
                             {
                                 return null;
                             }
-                            SleepForCommands(commands);
                         }
                         break;
                     case EScreens.TSD_SHOW_NAV:
@@ -1111,15 +1093,10 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                             {
                                 new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R1)
                             };
-                            message = DCSConnection.SendRequest(new DCSMessage()
-                            {
-                                Commands = commands
-                            });
-                            if (message == null)
+                            if (!DCSCommand.RunAndSleep(commands))
                             {
                                 return null;
                             }
-                            SleepForCommands(commands);
 
                             message = DCSConnection.SendRequest(new DCSMessage()
                             {
@@ -1148,15 +1125,10 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                         {
                             new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_R1)
                         };
-                        message = DCSConnection.SendRequest(new DCSMessage()
-                        {
-                            Commands = commands
-                        });
-                        if (message == null)
+                        if (!DCSCommand.RunAndSleep(commands))
                         {
                             return null;
                         }
-                        SleepForCommands(commands);
 
                         message = DCSConnection.SendRequest(new DCSMessage()
                         {
@@ -1198,15 +1170,10 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 commands.Add(new DCSCommand(mfd, (int)AH64.EKeyCode.MFD_B2));
             }
 
-            message = DCSConnection.SendRequest(new DCSMessage()
-            {
-                Commands = commands
-            });
-            if (message == null)
+            if (!DCSCommand.RunAndSleep(commands))
             {
                 return null;
             }
-            SleepForCommands(commands);
 
             return result;
         }

@@ -1,4 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoordinateConverter.DCS.Aircraft
 {
@@ -9,6 +12,43 @@ namespace CoordinateConverter.DCS.Aircraft
     /// </summary>
     public class DCSCommand
     {
+
+        /// <summary>
+        /// Sleeps for commands to finish.
+        /// </summary>
+        /// <param name="commands">The commands to wait for.</param>
+        static public void SleepForCommands(List<DCSCommand> commands)
+        {
+            int totalDelay = (int)(commands.Sum(c => c.Delay) * 1.2);
+            if (totalDelay > 0)
+            {
+                Thread.Sleep(totalDelay);
+            }
+        }
+
+        /// <summary>
+        /// Runs the commands and sleep.
+        /// </summary>
+        /// <param name="commands">The commands to run.</param>
+        /// <returns>true if it succeeded, false if it failed.</returns>
+        static public bool RunAndSleep(List<DCSCommand> commands)
+        {
+            if ((commands?.Count ?? 0) == 0)
+            {
+                return true; // don't do anything for empty command list
+            }
+
+            var message = new Communication.DCSMessage() { Commands = commands };
+            message = DCSConnection.SendRequest(message);
+
+            if (message == null)
+            {
+                return false;
+            }
+            DCSCommand.SleepForCommands(commands);
+            return true;
+        }
+
         /// <summary>
         /// Empty default constructor for newtonsoft
         /// </summary>

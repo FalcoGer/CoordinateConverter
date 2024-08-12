@@ -7,20 +7,20 @@ show_param_handles_list() to show all cockpit parameters in an interactive windo
 get_param_handle("NAME") to get a handle for that parameter. use :get() to get the value
   for example get_param_handle("SEAT"):get() -- 0 = PLT, 1 = CPG
 
-]]--
+]]
 
 local LOG_MODNAME = "COORDINATECONVERTER"
-local DEBUGGING = false -- if true logs all the things
-local TESTING = false -- if true sends all available data, even unrequested
+local DEBUGGING   = false -- if true logs all the things
+local TESTING     = false -- if true sends all available data, even unrequested
 
 log.write(LOG_MODNAME, log.INFO, "Initializing...")
---Version 3
-local tcpServer                        = nil
-package.path                           = package.path .. ";" .. lfs.currentdir() .. "/LuaSocket/?.lua"
-package.cpath                          = package.cpath .. ";" .. lfs.currentdir() .. "/LuaSocket/?.dll"
-package.path                           = package.path .. ";" .. lfs.currentdir() .. "/Scripts/?.lua"
-local socket                           = require("socket")
-local JSON                             = loadfile("Scripts\\JSON.lua")()
+--Version 4
+local tcpServer = nil
+package.path    = package.path .. ";" .. lfs.currentdir() .. "/LuaSocket/?.lua"
+package.cpath   = package.cpath .. ";" .. lfs.currentdir() .. "/LuaSocket/?.dll"
+package.path    = package.path .. ";" .. lfs.currentdir() .. "/Scripts/?.lua"
+local socket    = require("socket")
+local JSON      = loadfile("Scripts\\JSON.lua")()
 
 local upstreamLuaExportStart           = LuaExportStart
 local upstreamLuaExportStop            = LuaExportStop
@@ -30,29 +30,57 @@ local upstreamLuaExportBeforeNextFrame = LuaExportBeforeNextFrame
 -- function to list content of an MFD or other cockpit display
 -- from https://github.com/ciribob/DCS-SimpleRadioStandalone/blob/5542bf796ff7ba54c9641b4e222f610e6cfec53b/Scripts/DCS-SRS/Scripts/DCS-SimpleRadioStandalone.lua#L3400
 function getListIndicatorValue(IndicatorID)
-    local ListIindicator = list_indication(IndicatorID)
-    local TmpReturn = {}
+    local ListIndicator = list_indication(IndicatorID)
+    local DisplayData = {}
 
-    if ListIindicator == "" then
+    if ListIndicator == "" then
         return nil
     end
 
-    local ListindicatorMatch = ListIindicator:gmatch("-----------------------------------------\n([^\n]+)\n([^\n]*)\n")
-    while true do
-        local Key, Value = ListindicatorMatch()
-        if not Key then
-            break
-        end
-        TmpReturn[Key] = Value
-    end
+	local delim = "-----------------------------------------"
 
-    return TmpReturn
+    local lineNo = 0
+    local key = ""
+    local val = ""
+
+    -- using regex for this shit is cancer. I'll do it myself manually.
+
+    for line in ListIndicator:gmatch("[^\n]+") do
+        if line == delim then
+			if key ~= "" then
+				DisplayData[key] = val
+			end
+			key = ""
+			val = ""
+			lineNo = 0
+		end
+
+        if lineNo == 1 then
+			key = line
+        elseif lineNo == 2 then
+            if line ~= "children are {" and line ~= "}" then
+                val = line
+            end
+        elseif lineNo > 2 then
+            if line ~= "children are {" and line ~= "}" then
+			    val = val .. "\n" .. line
+            end
+	    end
+
+        lineNo = lineNo + 1
+	end
+
+    return DisplayData
 end
 
 -- function to turn any object into a string, including comments on the type
 function Table2String(val, indentWidth, level, tableKey)
-    if level == nil then level = 0 end
-    if indentWidth == nil then indentWidth = 4 end
+    if level == nil then
+        level = 0
+    end
+    if indentWidth == nil then
+        indentWidth = 4
+    end
     local nl = "\r\n"
     -- get indent for current level
     local singleIndent = ""
@@ -66,7 +94,7 @@ function Table2String(val, indentWidth, level, tableKey)
     -- if it isn't a table, just print the value
     if type(val) ~= "table" then
         if type(val) == "string" then
-            return "\"" .. val .. "\"" .. ", -- " .. type(val) .. nl
+            return '"' .. val .. '"' .. ", -- " .. type(val) .. nl
         end
         return tostring(val) .. ", -- " .. type(val) .. nl
     end
@@ -140,7 +168,7 @@ function LuaExportBeforeNextFrame()
     end
     -- executed before the frame is rendered.
     -- put stuff into the frame here
-    
+
     if busy then
         local f = function()
             if isPressed then
@@ -163,7 +191,17 @@ function LuaExportBeforeNextFrame()
                     local delay = tonumber(commands[currCommandIndex]["delay"])
                     local value = tonumber(commands[currCommandIndex]["value"])
                     if (DEBUGGING) then
-                        log.write(LOG_MODNAME, log.INFO, "Pressing button\n  Device: " .. tostring(lastDevice) .. "\n  Code: " .. tostring(lastCode) .. "\n  AddDepress: " .. tostring(lastNeedDepress) .. "\n  Delay:" .. tostring(delay) .. "\n  Value: " .. tostring(value))
+                        log.write(
+                            LOG_MODNAME,
+                            log.INFO,
+                            "Pressing button\n  Device: " ..
+                                tostring(lastDevice) ..
+                                    "\n  Code: " ..
+                                        tostring(lastCode) ..
+                                            "\n  AddDepress: " ..
+                                                tostring(lastNeedDepress) ..
+                                                    "\n  Delay:" .. tostring(delay) .. "\n  Value: " .. tostring(value)
+                        )
                     end
                     -- Push the button
                     GetDevice(lastDevice):performClickableAction(lastCode, value)
@@ -179,7 +217,11 @@ function LuaExportBeforeNextFrame()
         end
         success, errMsg = pcall(f)
         if not success then
-            log.write(LOG_MODNAME, log.ERROR, "Error at entering command at index " .. tostring(currCommandIndex) .. ": " .. err)
+            log.write(
+                LOG_MODNAME,
+                log.ERROR,
+                "Error at entering command at index " .. tostring(currCommandIndex) .. ": " .. err
+            )
         end
     end
 end
@@ -199,7 +241,7 @@ function LuaExportAfterNextFrame()
         client:settimeout(10)
         local data = nil
         local err = nil
-        
+
         data, err = client:receive()
         if err then
             log.write(LOG_MODNAME, log.ERROR, "Error at receiving: " .. err)
@@ -267,7 +309,6 @@ function LuaExportAfterNextFrame()
                         log.write(LOG_MODNAME, log.ERROR, "Failure to fetch aircraft type: " .. tostring(errMsg))
                         response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
                     end
-
                 end
             end
 
@@ -283,14 +324,14 @@ function LuaExportAfterNextFrame()
 
                         for _, handleName in pairs(data["GetHandleData"]) do
                             local handle = get_param_handle(handleName)
-							if handle then
+                            if handle then
                                 local data = handle:get()
-								response["HandleData"][handleName] = tostring(data)
-							end
+                                response["HandleData"][handleName] = tostring(data)
+                            end
                         end
                     end
 
-					success, errMsg = pcall(f)
+                    success, errMsg = pcall(f)
                     if not success then
                         log.write(LOG_MODNAME, log.ERROR, "Failure to get handle data: " .. tostring(errMsg))
                         response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
@@ -300,22 +341,22 @@ function LuaExportAfterNextFrame()
 
             if data["GetCockpitDisplayData"] or TESTING then
                 local f = function()
-					if DEBUGGING then
-						log.write(LOG_MODNAME, log.INFO, "Getting cockpit display data")
-					end
+                    if DEBUGGING then
+                        log.write(LOG_MODNAME, log.INFO, "Getting cockpit display data")
+                    end
 
                     response["CockpitDisplayData"] = {}
 
                     -- loop over 0 to 100 and call getListIndicatorValue
-					for _, displayIndex in ipairs(data["GetCockpitDisplayData"]) do
+                    for _, displayIndex in ipairs(data["GetCockpitDisplayData"]) do
                         local data = getListIndicatorValue(displayIndex)
                         if data then
-						    response["CockpitDisplayData"][tostring(displayIndex)] = data
+                            response["CockpitDisplayData"][tostring(displayIndex)] = data
                         end
-					end
+                    end
                 end
 
-				success, errMsg = pcall(f)
+                success, errMsg = pcall(f)
                 if not success then
                     log.write(LOG_MODNAME, log.ERROR, "Failure to get cockpit display data: " .. tostring(errMsg))
                     response["ErrorList"][#response["ErrorList"] + 1] = tostring(errMsg)
@@ -328,16 +369,16 @@ function LuaExportAfterNextFrame()
                     if DEBUGGING then
                         log.write(LOG_MODNAME, log.INFO, "Getting camera position")
                     end
-                    
+
                     local camPos = LoGetCameraPosition()
 
                     if camPos then
-                        local loX = camPos['p']['x'] -- game coordinate x
-                        local loY = camPos['p']['y'] -- altitude in m ASL
-                        local loZ = camPos['p']['z'] -- game coordinate y
+                        local loX = camPos["p"]["x"] -- game coordinate x
+                        local loY = camPos["p"]["y"] -- altitude in m ASL
+                        local loZ = camPos["p"]["z"] -- game coordinate y
 
-                        local elevation = LoGetAltitude(loX, loZ)                   -- ground elevation
-                        local coords = LoLoCoordinatesToGeoCoordinates(loX, loZ)    -- geo coordinates in L/L decimal degrees
+                        local elevation = LoGetAltitude(loX, loZ) -- ground elevation
+                        local coords = LoLoCoordinatesToGeoCoordinates(loX, loZ) -- geo coordinates in L/L decimal degrees
 
                         response["CameraPosition"] = {}
                         response["CameraPosition"]["Lat"] = tostring(coords.latitude)
@@ -346,21 +387,32 @@ function LuaExportAfterNextFrame()
                         response["CameraPosition"]["Elev"] = tostring(elevation)
 
                         -- Find out if we are in F10 map mode
-                        local xRot = camPos['x']
-                        local yRot = camPos['y']
-                        local zRot = camPos['z']
+                        local xRot = camPos["x"]
+                        local yRot = camPos["y"]
+                        local zRot = camPos["z"]
 
-                        local isF10 = (
-                            xRot['x'] == 0 and xRot['y'] == -1 and xRot['z'] == 0 and
-                            yRot['x'] == 1 and yRot['y'] == 0 and yRot['z'] == 0 and
-                            zRot['x'] == 0 and zRot['y'] == 0 and zRot['z'] == 1
-                        )
+                        local isF10 =
+                            (xRot["x"] == 0 and xRot["y"] == -1 and xRot["z"] == 0 and yRot["x"] == 1 and yRot["y"] == 0 and
+                            yRot["z"] == 0 and
+                            zRot["x"] == 0 and
+                            zRot["y"] == 0 and
+                            zRot["z"] == 1)
 
                         response["isF10"] = isF10
                     end
 
                     if DEBUGGING then
-                        log.write(LOG_MODNAME, log.INFO, "Got " .. response["CameraPosition"]["Lat"] .. " / " .. response["CameraPosition"]["Long"] .. " / " .. response["CameraPosition"]["Alt"] .. " / " .. response["CameraPosition"]["Elev"] )
+                        log.write(
+                            LOG_MODNAME,
+                            log.INFO,
+                            "Got " ..
+                                response["CameraPosition"]["Lat"] ..
+                                    " / " ..
+                                        response["CameraPosition"]["Long"] ..
+                                            " / " ..
+                                                response["CameraPosition"]["Alt"] ..
+                                                    " / " .. response["CameraPosition"]["Elev"]
+                        )
                     end
                 end
 
@@ -398,14 +450,14 @@ function LuaExportAfterNextFrame()
                 local f = function()
                     local pointsToProcess = data["Altitudes"]
                     -- lua arrays start with 1
-                    for idx=1,#pointsToProcess,1 do
+                    for idx = 1, #pointsToProcess, 1 do
                         local point = pointsToProcess[idx]
                         if DEBUGGING then
                             log.write(LOG_MODNAME, log.INFO, "Fetching point altitudes for: " .. JSON:encode(point))
                         end
                         local loLo = LoGeoCoordinatesToLoCoordinates(point["Long"], point["Lat"]) -- longitude first
-                        local loX = loLo['x']
-                        local loZ = loLo['z']
+                        local loX = loLo["x"]
+                        local loZ = loLo["z"]
                         local elevation = LoGetAltitude(loX, loZ)
                         point["Elev"] = elevation
                         pointsToProcess[idx] = point
@@ -425,7 +477,7 @@ function LuaExportAfterNextFrame()
                     local payloadInfo = LoGetPayloadInfo()
                     if payloadInfo then
                         response["Stations"] = payloadInfo["Stations"]
-                        for idx=1,#payloadInfo["Stations"],1 do
+                        for idx = 1, #payloadInfo["Stations"], 1 do
                             response["Stations"][idx]["number"] = idx
                         end
                     end
@@ -447,7 +499,7 @@ function LuaExportAfterNextFrame()
                     local units = LoGetWorldObjects("units")
                     if units then
                         local idx = 1
-                        for id,unit in pairs(units) do
+                        for id, unit in pairs(units) do
                             if unit then
                                 -- add the object identifier
                                 unit["ObjectId"] = id
@@ -462,7 +514,7 @@ function LuaExportAfterNextFrame()
                                 local point = unit["LatLongAlt"]
                                 if point then
                                     local loLo = LoGeoCoordinatesToLoCoordinates(point["Long"], point["Lat"]) -- longitude first
-                                    local elevation = LoGetAltitude(loLo['x'], loLo['z'])
+                                    local elevation = LoGetAltitude(loLo["x"], loLo["z"])
                                     point["Elev"] = tostring(elevation)
                                     unit["LatLongAlt"] = point
                                 end
@@ -492,7 +544,7 @@ function LuaExportAfterNextFrame()
 
             -- Send response
             local responseData = JSON:encode(response)
-            
+
             if unitsData then
                 responseData = responseData:sub(1, -2) -- remove trailing }
             end
@@ -502,13 +554,13 @@ function LuaExportAfterNextFrame()
             end
 
             client:send(responseData)
-            
+
             -- Send units separately because of string size constraints for both JSON and socket
             if unitsData then
                 local f = function()
-                    for idx=1,#unitsData,1 do
+                    for idx = 1, #unitsData, 1 do
                         local unitDataStr = JSON:encode(unitsData[idx])
-                        
+
                         if idx == 1 then
                             -- add the units array to the output if it's the first element'
                             unitDataStr = ",Units:[" .. unitDataStr .. ","
@@ -521,7 +573,7 @@ function LuaExportAfterNextFrame()
                             unitDataStr = unitDataStr .. "]}"
                         end
                         if DEBUGGING then
-                            log.write(LOG_MODNAME, log.INFO, "sending unitDataStr: \n" ..unitDataStr .. "\n")
+                            log.write(LOG_MODNAME, log.INFO, "sending unitDataStr: \n" .. unitDataStr .. "\n")
                         end
                         client:send(unitDataStr)
                     end

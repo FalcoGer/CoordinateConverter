@@ -25,7 +25,13 @@ namespace CoordinateConverter.DCS.Aircraft
             List<DCSCommand> commands = GetPreActions();
             foreach (CoordinateDataEntry entry in coordinateList)
             {
-                commands.AddRange(GetActions(entry).Where(x => x != null));
+                var actions = GetActions(entry);
+                if (actions == null)
+                {
+                    continue;
+                }
+
+                commands.AddRange(actions.Where(x => x != null));
             }
             commands.AddRange(GetPostActions());
             return commands;
