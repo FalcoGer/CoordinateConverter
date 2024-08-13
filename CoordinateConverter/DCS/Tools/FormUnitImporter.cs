@@ -1,5 +1,6 @@
 ﻿using CoordinateConverter.DCS.Aircraft;
 using CoordinateConverter.DCS.Aircraft.AH64;
+using CoordinateConverter.DCS.Aircraft.F18C;
 using CoordinateConverter.DCS.Communication;
 using Newtonsoft.Json;
 using System;

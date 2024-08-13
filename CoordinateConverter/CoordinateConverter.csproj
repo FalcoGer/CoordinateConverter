@@ -8,12 +8,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>CoordinateConverter</RootNamespace>
     <AssemblyName>CoordinateConverter</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -79,6 +80,7 @@
     <Compile Include="DCS\Aircraft\DCSAircraft.cs" />
     <Compile Include="DCS\Aircraft\DCSCommandsPackage.cs" />
     <Compile Include="DCS\Aircraft\F15E.cs" />
+    <Compile Include="DCS\Aircraft\F18C\F18WeaponInfo.cs" />
     <Compile Include="DCS\Aircraft\M2000.cs" />
     <Compile Include="DCS\Aircraft\OH58D.cs" />
     <Compile Include="DCS\Aircraft\OH58DSpecificData.cs" />
@@ -103,8 +105,8 @@
     <Compile Include="ComboItem.cs" />
     <Compile Include="CoordinateDataEntry.cs" />
     <Compile Include="DCS\Aircraft\F16C.cs" />
-    <Compile Include="DCS\Aircraft\F18C.cs" />
-    <Compile Include="DCS\Aircraft\F18CSpecificData.cs" />
+    <Compile Include="DCS\Aircraft\F18C\F18C.cs" />
+    <Compile Include="DCS\Aircraft\F18C\F18CSpecificData.cs" />
     <Compile Include="DCS\Aircraft\JF17.cs" />
     <Compile Include="DCS\Aircraft\JF17SpecificData.cs" />
     <Compile Include="DCS\Aircraft\KA50.cs" />
@@ -199,6 +201,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="DCS\Tools\FormReticle.resx">
       <DependentUpon>FormReticle.cs</DependentUpon>

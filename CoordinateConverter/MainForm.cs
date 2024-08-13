@@ -1,5 +1,6 @@
 ﻿using CoordinateConverter.DCS.Aircraft;
 using CoordinateConverter.DCS.Aircraft.AH64;
+using CoordinateConverter.DCS.Aircraft.F18C;
 using CoordinateConverter.DCS.Communication;
 using CoordinateConverter.DCS.Tools;
 using System;
@@ -1090,31 +1091,17 @@ namespace CoordinateConverter
                     }
                     else if (selectedAircraft.GetType() == typeof(F18C))
                     {
-                        cb_PointType.SelectedIndex = 0;
-                        if (!(input.AircraftSpecificData[selectedAircraft.GetType()] is F18CSpecificData extraData) || extraData.WeaponType == null)
+                        F18CSpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as F18CSpecificData;
+                        if (extraData == null)
                         {
-                            Cb_pointType_SelectedIndexChanged(cb_PointType, null);
-                            Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
+                            cb_PointType.SelectedIndex = 0;
                         }
-                        else if (extraData.WeaponType != null)
+                        else
                         {
-                            // not a waypoint, waypoint handled by default above (extraData == null)
-                            if (!extraData.PreplanPointIdx.HasValue)
-                            {
-                                // SLAM-ER STP
-                                cb_PointType.SelectedIndex = ComboItem<string>.FindValue(cb_PointType, F18C.SLAMER_STP_STR) ?? 0;
-                                Cb_pointType_SelectedIndexChanged(cb_PointType, null);
-                                Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
-                            }
-                            else
-                            {
-                                // PP
-                                cb_PointType.SelectedIndex = ComboItem<string>.FindValue(cb_PointType, F18C.GetPointTypePPStrForWeaponType(extraData.WeaponType.Value)) ?? 0;
-                                Cb_pointType_SelectedIndexChanged(cb_PointType, null);
-                                cb_PointOption.SelectedIndex = ComboItem<string>.FindValue(cb_PointOption, string.Format("PP {0} - {1}", extraData.PreplanPointIdx.Value, extraData.StationSetting.ToString())) ?? 0;
-                                Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
-                            }
+                            cb_PointType.SelectedIndex = ComboItem<F18C.EPointType>.FindValue(cb_PointType, extraData.PointType) ?? 0;
                         }
+                        Cb_pointType_SelectedIndexChanged(cb_PointType, null);
+                        Cb_PointOption_SelectedIndexChanged(cb_PointOption, null);
                     }
                     else if (selectedAircraft.GetType() == typeof(KA50))
                     {
@@ -2068,14 +2055,7 @@ namespace CoordinateConverter
             }
             else if (ControlName == tsmi_F18.Name)
             {
-                selectedAircraft = new F18C();
-                string message = "Make sure PRECISE mode is selected in HSI->Data.\n" +
-                    "Make sure waypoint sequence is not selected before putting in waypoints.\n" +
-                    "The next waypoint number and up from the currently selected one will be overwritten\n" +
-                    "Make sure aircraft is in L/L Decimal mode (default). Check in HSI -> Data -> Aircraft -> Bottom right\n" +
-                    "Make sure no weapon is selected prior to entering weapon data\n" +
-                    "Maximum number SLAM-ER of steer points is 5.";
-                new FormMessage(this, "Reminder", "OK", message).Dispose();
+                Tsmi_F18_SetFirstPoint_Click(tsmi_F18_SetFirstPoint, null);
             }
             else if (ControlName == tsmi_F16.Name)
             {
@@ -2151,6 +2131,17 @@ namespace CoordinateConverter
                         return new ComboItem<OH58D.EPointType>(x, pt);
                     }).ToArray());
             }
+            else if (selectedAircraft.GetType() == typeof(F18C))
+            {
+                cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(
+                    x =>
+                    {
+                        F18C.EPointType pt = (F18C.EPointType)Enum.Parse(typeof(F18C.EPointType), x);
+                        string str = F18C.PointTypeStrings[pt];
+                        return new ComboItem<F18C.EPointType>(str, pt);
+                    }
+                ).ToArray());
+            }
             else
             {
                 cb_PointType.Items.AddRange(selectedAircraft.GetPointTypes().Select(x => new ComboItem<string>(x, x)).ToArray());
@@ -2191,26 +2182,8 @@ namespace CoordinateConverter
                 if (input != null && input.AircraftSpecificData.ContainsKey(selectedAircraft.GetType()))
                 {
                     F18CSpecificData extraData = input.AircraftSpecificData[selectedAircraft.GetType()] as F18CSpecificData;
-                    if (extraData.WeaponType.HasValue) // if no value, is a standard waypoint
-                    {
-                        F18C.EWeaponType pwt = extraData.WeaponType.Value;
-                        if (extraData.PreplanPointIdx.HasValue)
-                        {
-                            // GPS PP Target
-                            cb_PointType.SelectedIndex = ComboItem<string>.FindValue(cb_PointType, F18C.GetPointTypePPStrForWeaponType(pwt)) ?? 0;
-                            cb_PointOption.SelectedIndex = extraData.PreplanPointIdx.Value;
-                        }
-                        else
-                        {
-                            // SLAM-ER STP
-                            cb_PointType.SelectedIndex = cb_PointType.Items.Count - 1;
-                        }
-                    }
-                    else
-                    {
-                        // Standard waypoint
-                        cb_PointType.SelectedIndex = 0;
-                    }
+                    cb_PointType.SelectedIndex = ComboItem<F18C.EPointType>.FindValue(cb_PointType, extraData.PointType) ?? 0;
+                    cb_PointOption.SelectedIndex = 0;
                 }
                 else if (input != null) // otherwise we add it.
                 {
@@ -2375,6 +2348,22 @@ namespace CoordinateConverter
                     }
                 }
             }
+            else if (selectedAircraft.GetType() == typeof(F18C))
+            {
+                F18C.EPointType pt = ComboItem<F18C.EPointType>.GetSelectedValue(cb_PointType);
+                cb_PointOption.Items.AddRange(selectedAircraft.GetPointOptionsForType(pt.ToString()).Select(x => new ComboItem<string>(F18C.PointTypeStrings[pt], x)).ToArray());
+                foreach (CoordinateDataEntry entry in entries)
+                {
+                    if (!entry.AircraftSpecificData.ContainsKey(typeof(F18C)))
+                    {
+                        entry.AircraftSpecificData.Add(selectedAircraft.GetType(), new F18CSpecificData(pt));
+                    }
+                    else
+                    {
+                        entry.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData(pt);
+                    }
+                }
+            }
             else
             {
                 string pointTypeStr = ComboItem<string>.GetSelectedValue(cb_PointType);
@@ -2422,28 +2411,9 @@ namespace CoordinateConverter
                 {
                     if (!entry.AircraftSpecificData.ContainsKey(typeof(F18C)))
                     {
-                        entry.AircraftSpecificData.Add(selectedAircraft.GetType(), null);
+                        entry.AircraftSpecificData.Add(selectedAircraft.GetType(), new F18CSpecificData());
                     }
-
-                    string pointType = ComboItem<string>.GetSelectedValue(cb_PointType);
-                    if (pointType == F18C.WAYPOINT_STR)
-                    {
-                        entry.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData();
-                    }
-                    else if (pointType == F18C.SLAMER_STP_STR)
-                    {
-                        // SLAM-ER Steer point
-                        entry.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData(true);
-                    }
-                    else
-                    {
-                        // PrePlanned Target
-                        F18C.EWeaponType pwt = (F18C.EWeaponType)Enum.Parse(typeof(F18C.EWeaponType), pointType.Split(' ').First());
-                        string pointOption = ComboItem<string>.GetSelectedValue(cb_PointOption);
-                        int ppIdx = int.Parse(pointOption.Substring("PP ".Length, 1));
-                        F18CSpecificData.EStationSetting stationSetting = (F18CSpecificData.EStationSetting)Enum.Parse(typeof(F18CSpecificData.EStationSetting), pointOption.Substring("PP # - ".Length));
-                        entry.AircraftSpecificData[selectedAircraft.GetType()] = new F18CSpecificData(pwt, ppIdx, stationSetting);
-                    }
+                    // F18C.EPointType pointType = ComboItem<F18C.EPointType>.GetSelectedValue(cb_PointType);
                 }
             }
             RefreshDataGrid(EDataGridUpdateType.UpdateCells);
@@ -2501,6 +2471,13 @@ namespace CoordinateConverter
             FormStartingWaypoint startingWaypointForm = new FormStartingWaypoint(this, 1, 699, 200);
             int startingWaypoint = startingWaypointForm.StartingWaypoint;
             selectedAircraft = new F16C(startingWaypoint);
+        }
+
+        private void Tsmi_F18_SetFirstPoint_Click(object sender, EventArgs e)
+        {
+            FormStartingWaypoint startingWaypointForm = new FormStartingWaypoint(this, 1, 58, 20);
+            int startingWaypoint = startingWaypointForm.StartingWaypoint;
+            selectedAircraft = new F18C(startingWaypoint);
         }
 
         private void Tsmi_JF17_SetFirstPoint_Click(object sender, EventArgs e)
@@ -2561,8 +2538,7 @@ namespace CoordinateConverter
                 DCSMessage message = new DCSMessage()
                 {
                     FetchCameraPosition = true,
-                    FetchAircraftType = tsmi_Auto.Checked,
-                    FetchWeaponStations = selectedAircraft != null && selectedAircraft.GetType() == typeof(F18C)
+                    FetchAircraftType = tsmi_Auto.Checked
                 };
                 message = DCSConnection.SendRequest(message);
 
@@ -2635,11 +2611,6 @@ namespace CoordinateConverter
                     {
                         reticleForm.Hide();
                     }
-                }
-
-                if (selectedAircraft != null && selectedAircraft.GetType() == typeof(F18C) && message.WeaponStations != null)
-                {
-                    (selectedAircraft as F18C).UpdateWeaponStations(message.WeaponStations);
                 }
 
                 // Update display
