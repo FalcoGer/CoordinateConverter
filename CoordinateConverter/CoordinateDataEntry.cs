@@ -496,7 +496,7 @@ namespace CoordinateConverter
             else if (AircraftType == typeof(F16C))
             {
                 F16C ac = selectedAircraft as F16C;
-                appendix = $" [WP {idx}]";
+                appendix = $" [WP {idx + ac.StartingWaypoint}]";
             }
             else if (AircraftType == typeof(F18C))
             {
