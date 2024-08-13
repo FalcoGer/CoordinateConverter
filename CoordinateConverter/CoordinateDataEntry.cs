@@ -525,13 +525,40 @@ namespace CoordinateConverter
                 string ptNumStr = (pointIdxAsPerType >= 59 && pt == F18C.EPointType.WAYPOINT) ? "N/A" : pointIdxAsPerType.ToString();
                 appendix = $" [{ptShortStr} {ptNumStr}]";
             }
+            else if (AircraftType == typeof(KA50))
+            {
+                KA50 ac = selectedAircraft as KA50;
+                KA50SpecificData extraData = AircraftSpecificData.ContainsKey(AircraftType) ? AircraftSpecificData[AircraftType] as KA50SpecificData : new KA50SpecificData(KA50.EPointType.Waypoint);
+
+                int pointIdxAsPerType = 1;
+                int maxNumberOfPoints = KA50.GetMaxPointsForType(extraData.PointType);
+                foreach (var item in list.Take(idx))
+                {
+                    KA50SpecificData extraDataForCurrentPoint = item.AircraftSpecificData.ContainsKey(AircraftType) ? item.AircraftSpecificData[AircraftType] as KA50SpecificData : new KA50SpecificData(KA50.EPointType.Waypoint);
+                    if (extraDataForCurrentPoint.PointType == extraData.PointType)
+                    {
+                        pointIdxAsPerType++;
+                    }
+                }
+                appendix = $"[{extraData.ToString()} ";
+                if (pointIdxAsPerType > maxNumberOfPoints)
+                {
+                    appendix += "N/A";
+                }
+                else
+                {
+                    int num = pointIdxAsPerType == 10 ? 0 : pointIdxAsPerType;
+                    appendix += $"{num}";
+                }
+                appendix += "]";
+            }
 
             else if (AircraftSpecificData.ContainsKey(AircraftType))
             {
                 appendix = " [" + AircraftSpecificData[AircraftType].ToString() + "]";
             }
 
-            return Name + appendix;
+            return (Name + appendix).Trim();
         }
     }
 }

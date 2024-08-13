@@ -41,7 +41,19 @@
         /// </returns>
         public override string ToString()
         {
-            return PointType.ToString();
+            switch (PointType)
+            {
+                case KA50.EPointType.Waypoint:
+                    return "WPT";
+                case KA50.EPointType.ReferencePoint:
+                    return "FixPT";
+                case KA50.EPointType.Airfield:
+                    return "AirFld";
+                case KA50.EPointType.TargetPoint:
+                    return "NavTGT";
+                default:
+                    return PointType.ToString();
+            }
         }
     }
 }

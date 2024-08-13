@@ -199,7 +199,13 @@ namespace CoordinateConverter.DCS.Aircraft
             };
         }
 
-        private int GetMaxPointsForType(EPointType pointType)
+        /// <summary>
+        /// Gets the maximum number of the points for the given type.
+        /// </summary>
+        /// <param name="pointType">Type of the point.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException">Unknown Point Type</exception>
+        public static int GetMaxPointsForType(EPointType pointType)
         {
             switch (pointType)
             {
