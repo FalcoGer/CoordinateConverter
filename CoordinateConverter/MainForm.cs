@@ -1885,7 +1885,7 @@ namespace CoordinateConverter
         {
             get => new Dictionary<Type, List<ToolStripMenuItem>>()
             {
-                { typeof(A10C), new List<ToolStripMenuItem>() { tsmi_A10C, tsmi_A10C_UseMGRS } },
+                { typeof(A10C), new List<ToolStripMenuItem>() { tsmi_A10C } },
                 { typeof(AH64), new List<ToolStripMenuItem>() { tsmi_AH64, tsmi_AH64_ClearPoints, tsmi_AH64_DTC } },
                 { typeof(AV8B), new List<ToolStripMenuItem>() { tsmi_AV8B } },
                 { typeof(F15E), new List<ToolStripMenuItem>() { tsmi_F15E_Pilot, tsmi_F15E_WSO } },
@@ -2083,17 +2083,7 @@ namespace CoordinateConverter
             }
             else if (ControlName == tsmi_A10C.Name)
             {
-                // Ask if user wants to use MGRS or LL
-                string questionText = "Do you wish to use MGRS/UTM or L/L?\n" +
-                    "The correct setting must be set in the CDU before points are entered.";
-                FormAskBinaryQuestion mgrsQuestion = new FormAskBinaryQuestion(this, "Use MGRS or L/L?", "Use L/L", "Use MGRS/UTM", questionText);
-                bool useLL = mgrsQuestion.Result;
-
-                // Set checkmark
-                tsmi_A10C_UseMGRS.Checked = !useLL;
-
-                // Select aircraft
-                selectedAircraft = new A10C(!useLL);
+                selectedAircraft = new A10C();
             }
             else if (ControlName == tsmi_JF17.Name)
             {
@@ -2102,10 +2092,6 @@ namespace CoordinateConverter
             else if (ControlName == tsmi_KA50.Name)
             {
                 selectedAircraft = new KA50();
-            }
-            else if (ControlName == tsmi_A10C.Name)
-            {
-                Tsmi_A10C_UseMGRS_Click(tsmi_A10C_UseMGRS, null);
             }
             else if (ControlName == tsmi_OH58D.Name)
             {
@@ -2522,18 +2508,6 @@ namespace CoordinateConverter
             FormStartingWaypoint startingWaypointForm = new FormStartingWaypoint(this, 1, 29, 10);
             int startingWaypoint = startingWaypointForm.StartingWaypoint;
             selectedAircraft = new JF17(startingWaypoint);
-        }
-
-        private void Tsmi_A10C_UseMGRS_Click(object sender, EventArgs e)
-        {
-            if (selectedAircraft == null || selectedAircraft.GetType() != typeof(A10C))
-            {
-                tsmi_A10C_UseMGRS.Checked = false;
-                return;
-            }
-            bool useMGRS = !(selectedAircraft as A10C).UsingMGRS;
-            selectedAircraft = new A10C(usingMGRS: useMGRS);
-            tsmi_A10C_UseMGRS.Checked = useMGRS;
         }
 
         private void FetchCoordinatesControl_Click(object sender, EventArgs e)

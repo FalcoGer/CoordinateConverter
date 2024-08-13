@@ -16,16 +16,45 @@ namespace CoordinateConverter.DCS.Aircraft
         /// <value>
         ///   <c>true</c> if MGRS format is used; otherwise, <c>false</c> for L/L.
         /// </value>
-        public bool UsingMGRS { get; private set; }
+        private bool UsingMGRS { get; set; }
+
+        private void readIsMGRSFromAircraft()
+        {
+            // set CDU mode
+            var commands = new List<DCSCommand>
+            {
+                // Clear any previous scratchpad input)
+                new DCSCommand((int)EDevices.CDU, (int)EKeyCodes.CDU_Key_Clear),
+                // Switch CDU to Page to Other
+                new DCSCommand((int)EDevices.AAP, (int)EKeyCodes.AAP_Knob_PageSelect, 100, ((int)ECDUPageSelectPositions.Other) / 10.0, false),
+                // Switch the CDU SteerPt to Mission
+                new DCSCommand((int)EDevices.AAP, (int)EKeyCodes.AAP_Knob_SteerPt, 100, ((int)ECDUSteerPtSelectPositions.MissionPoints) / 10.0, false),
+                // Press the WP button
+                new DCSCommand((int)EDevices.CDU, (int)EKeyCodes.CDU_WP),
+                // Press the Waypoint option on R1
+                new DCSCommand((int)EDevices.CDU, (int)EKeyCodes.CDU_LSK_Line3_R1)
+            };
+
+            DCSCommand.RunAndSleep(commands);
+
+            int cdu = (int)EDisplays.CDU;
+
+            var message = new DCSMessage()
+            {
+                GetCockpitDisplayData = new List<int>() { cdu }
+            };
+
+            message = DCSConnection.SendRequest(message);
+
+            var displayData = message.CockpitDisplayData[cdu];
+
+            UsingMGRS = displayData.ContainsKey("WAYPTCoordFormat1"); // "WAYPTCoordFormat" when L/L
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="A10C"/> class.
         /// </summary>
-        /// <param name="usingMGRS">if set to <c>true</c> use MGRS as input method.</param>
-        public A10C(bool usingMGRS)
-        {
-            UsingMGRS = usingMGRS;
-        }
+        public A10C() {}
 
         /// <summary>
         /// Gets the type of the point options for point types. <see cref="GetPointTypes" />.
@@ -60,7 +89,8 @@ namespace CoordinateConverter.DCS.Aircraft
         protected override List<DCSCommand> GetActions(object item)
         {
             CoordinateDataEntry coordinate = item as CoordinateDataEntry;
-            List<DCSCommand> commands = new List<DCSCommand>();
+            var commands = new List<DCSCommand>();
+            // var commands = new DebugCommandList();
             string label = GetLabelForPoint(coordinate.Name, coordinate.Id);
             if (firstPointEnteredLabel == null)
             {
@@ -71,41 +101,23 @@ namespace CoordinateConverter.DCS.Aircraft
             commands.AddRange(EnterIntoCDU(label));
             // Create a new point with that label or select the point that exists with that label
             commands.Add(new DCSCommand(cdu, (int)EKeyCodes.CDU_LSK_Line7_R3));
-            if (UsingMGRS)
-            {
-                // Enter UTM Grid
-                CoordinateSharp.MilitaryGridReferenceSystem mgrs = coordinate.Coordinate.MGRS;
-                string utmGrid = mgrs.LongZone.ToString().PadLeft(2, '0') + mgrs.LatZone;
-                commands.AddRange(EnterIntoCDU(utmGrid));
-                commands.Add(new DCSCommand(cdu, (int)EKeyCodes.CDU_LSK_Line7_L3));
 
-                // Enter digraph and easting/northing
-                string diagraphAndEastingAndNorthing =
-                    mgrs.Digraph +
-                    ((int)Math.Round(mgrs.Easting)).ToString().PadLeft(5, '0') +
-                    ((int)Math.Round(mgrs.Northing)).ToString().PadLeft(5, '0');
-                commands.AddRange(EnterIntoCDU(diagraphAndEastingAndNorthing));
-                commands.Add(new DCSCommand(cdu, (int)EKeyCodes.CDU_LSK_Line9_L4));
-            }
-            else
-            {
-                CoordinateSharp.CoordinateFormatOptions formattingOptions = new CoordinateSharp.CoordinateFormatOptions()
-                {
-                    Display_Symbols = false,
-                    Display_Hyphens = false,
-                    Display_Leading_Zeros = true,
-                    Display_Trailing_Zeros = true,
-                    Position_First = true,
-                    Round = 3,
-                    Format = CoordinateSharp.CoordinateFormatType.Degree_Decimal_Minutes
-                };
-                string latStr = coordinate.Coordinate.Latitude.ToString(formattingOptions);
-                string lonStr = coordinate.Coordinate.Longitude.ToString(formattingOptions);
-                commands.AddRange(EnterIntoCDU(latStr));
-                commands.Add(new DCSCommand(cdu, (int)EKeyCodes.CDU_LSK_Line7_L3));
-                commands.AddRange(EnterIntoCDU(lonStr));
-                commands.Add(new DCSCommand(cdu, (int)EKeyCodes.CDU_LSK_Line9_L4));
-            }
+            // Always using MGRS for data entry, since it is faster.
+
+            // Enter UTM Grid
+            CoordinateSharp.MilitaryGridReferenceSystem mgrs = coordinate.Coordinate.MGRS;
+            string utmGrid = mgrs.LongZone.ToString().PadLeft(2, '0') + mgrs.LatZone;
+            commands.AddRange(EnterIntoCDU(utmGrid));
+            commands.Add(new DCSCommand(cdu, (int)EKeyCodes.CDU_LSK_Line7_L3));
+
+            // Enter digraph and easting/northing
+            string diagraphAndEastingAndNorthing =
+                mgrs.Digraph +
+                ((int)Math.Round(mgrs.Easting)).ToString().PadLeft(5, '0') +
+                ((int)Math.Round(mgrs.Northing)).ToString().PadLeft(5, '0');
+            commands.AddRange(EnterIntoCDU(diagraphAndEastingAndNorthing));
+            commands.Add(new DCSCommand(cdu, (int)EKeyCodes.CDU_LSK_Line9_L4));
+            
             // Enter altitude
             if (!coordinate.AltitudeIsAGL || coordinate.AltitudeInFt != 0)
             {
@@ -131,19 +143,16 @@ namespace CoordinateConverter.DCS.Aircraft
         protected override List<DCSCommand> GetPreActions()
         {
             firstPointEnteredLabel = null;
-            var commands = new List<DCSCommand>
+
+            readIsMGRSFromAircraft();
+
+            var commands = new List<DCSCommand>(){};
+
+            if (!UsingMGRS)
             {
-                // Clear any previous scratchpad input)
-                new DCSCommand((int)EDevices.CDU, (int)EKeyCodes.CDU_Key_Clear),
-                // Switch CDU to Page to Other
-                new DCSCommand((int)EDevices.AAP, (int)EKeyCodes.AAP_Knob_PageSelect, 100, ((int)ECDUPageSelectPositions.Other) / 10.0, false),
-                // Switch the CDU SteerPt to Mission
-                new DCSCommand((int)EDevices.AAP, (int)EKeyCodes.AAP_Knob_SteerPt, 100, ((int)ECDUSteerPtSelectPositions.MissionPoints) / 10.0, false),
-                // Press the WP button
-                new DCSCommand((int)EDevices.CDU, (int)EKeyCodes.CDU_WP),
-                // Press the Waypoint option on R1
-                new DCSCommand((int)EDevices.CDU, (int)EKeyCodes.CDU_LSK_Line3_R1)
-            };
+                // put it temporarily into MGRS mode
+                commands.Add(new DCSCommand((int)EDevices.CDU, (int)EKeyCodes.CDU_LSK_Line9_R4));
+            }
 
             return commands;
         }
@@ -156,11 +165,17 @@ namespace CoordinateConverter.DCS.Aircraft
         /// </returns>
         protected override List<DCSCommand> GetPostActions()
         {
-            List<DCSCommand> commands = new List<DCSCommand>
+            List<DCSCommand> commands = new List<DCSCommand>(){};
+
+            // Set MGRS back to user preference
+            if (!UsingMGRS)
             {
-                // Put the page selector into steer point
-                new DCSCommand((int)EDevices.AAP, (int)EKeyCodes.AAP_Knob_PageSelect, 100, ((int)ECDUPageSelectPositions.SteerPoint) / 10.0, false)
-            };
+                commands.Add(new DCSCommand((int)EDevices.CDU, (int)EKeyCodes.CDU_LSK_Line9_R4));
+            }
+
+            // Put the page selector into steer point
+            commands.Add(new DCSCommand((int)EDevices.AAP, (int)EKeyCodes.AAP_Knob_PageSelect, 100, ((int)ECDUPageSelectPositions.SteerPoint) / 10.0, false));
+            
             // enter the first label
             commands.AddRange(EnterIntoCDU(firstPointEnteredLabel));
             // hit R1 to make that point the selected steer point
@@ -239,6 +254,19 @@ namespace CoordinateConverter.DCS.Aircraft
         }
 
         private string firstPointEnteredLabel = null;
+
+        private enum EDisplays
+        {
+            MFCDLeft = 1,
+            MFCDRight = 2,
+            CDU = 3,
+            DigitalClock = 4,
+            HUD = 5,
+            EW_CMDS = 7,
+            EW_UFC = 8,
+            HMCD = 17,
+            ARC210 = 18
+        }
 
         private enum EDevices
         {

@@ -141,9 +141,6 @@ namespace CoordinateConverter
             this.tsmi_AircraftMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Auto = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsmi_A10CMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmi_A10C = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmi_A10C_UseMGRS = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AH64Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AH64 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AH64_ClearPoints = new System.Windows.Forms.ToolStripMenuItem();
@@ -203,6 +200,7 @@ namespace CoordinateConverter
             this.btn_MoveDown = new System.Windows.Forms.ToolStripButton();
             this.btn_MoveUp = new System.Windows.Forms.ToolStripButton();
             this.label19 = new System.Windows.Forms.Label();
+            this.tsmi_A10C = new System.Windows.Forms.ToolStripMenuItem();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalMinutes_Precision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalSeconds_Precision)).BeginInit();
@@ -260,49 +258,55 @@ namespace CoordinateConverter
             // nud_LL_DecimalMinutes_Precision
             // 
             this.nud_LL_DecimalMinutes_Precision.Location = new System.Drawing.Point(446, 46);
-            this.nud_LL_DecimalMinutes_Precision.Maximum = new decimal(new int[]
-            {
-                8, 0, 0, 0
-            });
+            this.nud_LL_DecimalMinutes_Precision.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
             this.nud_LL_DecimalMinutes_Precision.Name = "nud_LL_DecimalMinutes_Precision";
             this.nud_LL_DecimalMinutes_Precision.Size = new System.Drawing.Size(27, 20);
             this.nud_LL_DecimalMinutes_Precision.TabIndex = 12;
-            this.nud_LL_DecimalMinutes_Precision.Value = new decimal(new int[]
-            {
-                4, 0, 0, 0
-            });
+            this.nud_LL_DecimalMinutes_Precision.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
             this.nud_LL_DecimalMinutes_Precision.ValueChanged += new System.EventHandler(this.Nud_LL_DecimalMinutes_Precision_ValueChanged);
             // 
             // nud_LL_DecimalSeconds_Precision
             // 
             this.nud_LL_DecimalSeconds_Precision.Location = new System.Drawing.Point(446, 20);
-            this.nud_LL_DecimalSeconds_Precision.Maximum = new decimal(new int[]
-            {
-                8, 0, 0, 0
-            });
+            this.nud_LL_DecimalSeconds_Precision.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
             this.nud_LL_DecimalSeconds_Precision.Name = "nud_LL_DecimalSeconds_Precision";
             this.nud_LL_DecimalSeconds_Precision.Size = new System.Drawing.Size(27, 20);
             this.nud_LL_DecimalSeconds_Precision.TabIndex = 10;
-            this.nud_LL_DecimalSeconds_Precision.Value = new decimal(new int[]
-            {
-                2, 0, 0, 0
-            });
+            this.nud_LL_DecimalSeconds_Precision.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.nud_LL_DecimalSeconds_Precision.ValueChanged += new System.EventHandler(this.Nud_LL_DecimalSeconds_Precision_ValueChanged);
             // 
             // nud_MGRS_Precision
             // 
             this.nud_MGRS_Precision.Location = new System.Drawing.Point(446, 72);
-            this.nud_MGRS_Precision.Maximum = new decimal(new int[]
-            {
-                5, 0, 0, 0
-            });
+            this.nud_MGRS_Precision.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.nud_MGRS_Precision.Name = "nud_MGRS_Precision";
             this.nud_MGRS_Precision.Size = new System.Drawing.Size(27, 20);
             this.nud_MGRS_Precision.TabIndex = 14;
-            this.nud_MGRS_Precision.Value = new decimal(new int[]
-            {
-                5, 0, 0, 0
-            });
+            this.nud_MGRS_Precision.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.nud_MGRS_Precision.ValueChanged += new System.EventHandler(this.Nud_MGRS_Precision_ValueChanged);
             // 
             // rb_Format_Bullseye
@@ -377,7 +381,8 @@ namespace CoordinateConverter
             // 
             // tb_Out_Bullseye
             // 
-            this.tb_Out_Bullseye.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Out_Bullseye.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_Out_Bullseye.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Out_Bullseye.Location = new System.Drawing.Point(50, 124);
             this.tb_Out_Bullseye.Name = "tb_Out_Bullseye";
@@ -398,7 +403,8 @@ namespace CoordinateConverter
             // 
             // tb_Out_UTM
             // 
-            this.tb_Out_UTM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Out_UTM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_Out_UTM.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Out_UTM.Location = new System.Drawing.Point(50, 98);
             this.tb_Out_UTM.Name = "tb_Out_UTM";
@@ -410,7 +416,8 @@ namespace CoordinateConverter
             // 
             // tb_Out_MGRS
             // 
-            this.tb_Out_MGRS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Out_MGRS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_Out_MGRS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Out_MGRS.Location = new System.Drawing.Point(50, 72);
             this.tb_Out_MGRS.Name = "tb_Out_MGRS";
@@ -440,7 +447,8 @@ namespace CoordinateConverter
             // 
             // tb_Out_LL_DecimalSeconds
             // 
-            this.tb_Out_LL_DecimalSeconds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Out_LL_DecimalSeconds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_Out_LL_DecimalSeconds.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Out_LL_DecimalSeconds.Location = new System.Drawing.Point(50, 20);
             this.tb_Out_LL_DecimalSeconds.Name = "tb_Out_LL_DecimalSeconds";
@@ -452,7 +460,8 @@ namespace CoordinateConverter
             // 
             // tb_Out_LL_DecimalMinutes
             // 
-            this.tb_Out_LL_DecimalMinutes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Out_LL_DecimalMinutes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_Out_LL_DecimalMinutes.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Out_LL_DecimalMinutes.Location = new System.Drawing.Point(50, 46);
             this.tb_Out_LL_DecimalMinutes.Name = "tb_Out_LL_DecimalMinutes";
@@ -464,7 +473,8 @@ namespace CoordinateConverter
             // 
             // GrpBox_Input
             // 
-            this.GrpBox_Input.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
+            this.GrpBox_Input.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.GrpBox_Input.Controls.Add(this.cb_AltitudeIsAGL);
             this.GrpBox_Input.Controls.Add(this.cb_PointOption);
             this.GrpBox_Input.Controls.Add(this.label18);
@@ -500,10 +510,8 @@ namespace CoordinateConverter
             // cb_PointOption
             // 
             this.cb_PointOption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cb_PointOption.AutoCompleteCustomSource.AddRange(new string[]
-            {
-                "Waypoint"
-            });
+            this.cb_PointOption.AutoCompleteCustomSource.AddRange(new string[] {
+            "Waypoint"});
             this.cb_PointOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_PointOption.Enabled = false;
             this.cb_PointOption.FormattingEnabled = true;
@@ -526,17 +534,13 @@ namespace CoordinateConverter
             // cb_PointType
             // 
             this.cb_PointType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cb_PointType.AutoCompleteCustomSource.AddRange(new string[]
-            {
-                "Waypoint"
-            });
+            this.cb_PointType.AutoCompleteCustomSource.AddRange(new string[] {
+            "Waypoint"});
             this.cb_PointType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_PointType.Enabled = false;
             this.cb_PointType.FormattingEnabled = true;
-            this.cb_PointType.Items.AddRange(new object[]
-            {
-                "Waypoint"
-            });
+            this.cb_PointType.Items.AddRange(new object[] {
+            "Waypoint"});
             this.cb_PointType.Location = new System.Drawing.Point(79, 191);
             this.cb_PointType.Name = "cb_PointType";
             this.cb_PointType.Size = new System.Drawing.Size(179, 21);
@@ -555,7 +559,8 @@ namespace CoordinateConverter
             // 
             // tb_Label
             // 
-            this.tb_Label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_Label.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Label.Location = new System.Drawing.Point(308, 218);
             this.tb_Label.MaxLength = 50;
@@ -570,10 +575,9 @@ namespace CoordinateConverter
             // 
             this.cb_AltitudeUnit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cb_AltitudeUnit.FormattingEnabled = true;
-            this.cb_AltitudeUnit.Items.AddRange(new object[]
-            {
-                "ft", "m"
-            });
+            this.cb_AltitudeUnit.Items.AddRange(new object[] {
+            "ft",
+            "m"});
             this.cb_AltitudeUnit.Location = new System.Drawing.Point(156, 218);
             this.cb_AltitudeUnit.Name = "cb_AltitudeUnit";
             this.cb_AltitudeUnit.Size = new System.Drawing.Size(36, 21);
@@ -617,7 +621,9 @@ namespace CoordinateConverter
             // 
             // TC_Input
             // 
-            this.TC_Input.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.TC_Input.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TC_Input.Controls.Add(this.TabPage_LatLon);
             this.TC_Input.Controls.Add(this.tabPage1);
             this.TC_Input.Controls.Add(this.tabPage2);
@@ -645,7 +651,9 @@ namespace CoordinateConverter
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(10, 85);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -653,7 +661,8 @@ namespace CoordinateConverter
             this.textBox1.Size = new System.Drawing.Size(454, 52);
             this.textBox1.TabIndex = 3;
             this.textBox1.TabStop = false;
-            this.textBox1.Text = "Symbols and spaces may be omitted.\r\nDecimal point is required if a decimal value " + "is used, it is not implied.\r\nLeading zeroes are also required.";
+            this.textBox1.Text = "Symbols and spaces may be omitted.\r\nDecimal point is required if a decimal value " +
+    "is used, it is not implied.\r\nLeading zeroes are also required.";
             // 
             // label7
             // 
@@ -666,7 +675,8 @@ namespace CoordinateConverter
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.tb_LL_DecimalSeconds_Longitude);
             this.panel1.Controls.Add(this.rb_LL_DecimalSeconds_W);
             this.panel1.Controls.Add(this.rb_LL_DecimalSeconds_E);
@@ -677,7 +687,8 @@ namespace CoordinateConverter
             // 
             // tb_LL_DecimalSeconds_Longitude
             // 
-            this.tb_LL_DecimalSeconds_Longitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_LL_DecimalSeconds_Longitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_LL_DecimalSeconds_Longitude.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_LL_DecimalSeconds_Longitude.Location = new System.Drawing.Point(3, 3);
             this.tb_LL_DecimalSeconds_Longitude.MaxLength = 16;
@@ -717,7 +728,8 @@ namespace CoordinateConverter
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.tb_LL_DecimalSeconds_Latitude);
             this.panel2.Controls.Add(this.rb_LL_DecimalSeconds_N);
             this.panel2.Controls.Add(this.rb_LL_DecimalSeconds_S);
@@ -728,7 +740,8 @@ namespace CoordinateConverter
             // 
             // tb_LL_DecimalSeconds_Latitude
             // 
-            this.tb_LL_DecimalSeconds_Latitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_LL_DecimalSeconds_Latitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_LL_DecimalSeconds_Latitude.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_LL_DecimalSeconds_Latitude.Location = new System.Drawing.Point(3, 3);
             this.tb_LL_DecimalSeconds_Latitude.MaxLength = 16;
@@ -782,7 +795,9 @@ namespace CoordinateConverter
             // 
             // textBox2
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox2.Location = new System.Drawing.Point(6, 85);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
@@ -790,7 +805,8 @@ namespace CoordinateConverter
             this.textBox2.Size = new System.Drawing.Size(461, 88);
             this.textBox2.TabIndex = 4;
             this.textBox2.TabStop = false;
-            this.textBox2.Text = "Symbols and spaces may be omitted.\r\nDecimal point is required if a decimal value " + "is used, it is not implied.\r\nLeading zeroes are also required.";
+            this.textBox2.Text = "Symbols and spaces may be omitted.\r\nDecimal point is required if a decimal value " +
+    "is used, it is not implied.\r\nLeading zeroes are also required.";
             // 
             // label13
             // 
@@ -803,7 +819,8 @@ namespace CoordinateConverter
             // 
             // panel3
             // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.tb_LL_DecimalMinutes_Longitude);
             this.panel3.Controls.Add(this.rb_LL_DecimalMinutes_W);
             this.panel3.Controls.Add(this.rb_LL_DecimalMinutes_E);
@@ -814,7 +831,8 @@ namespace CoordinateConverter
             // 
             // tb_LL_DecimalMinutes_Longitude
             // 
-            this.tb_LL_DecimalMinutes_Longitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_LL_DecimalMinutes_Longitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_LL_DecimalMinutes_Longitude.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_LL_DecimalMinutes_Longitude.Location = new System.Drawing.Point(3, 3);
             this.tb_LL_DecimalMinutes_Longitude.MaxLength = 16;
@@ -854,7 +872,8 @@ namespace CoordinateConverter
             // 
             // panel4
             // 
-            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.Controls.Add(this.tb_LL_DecimalMinutes_Latitude);
             this.panel4.Controls.Add(this.rb_LL_DecimalMinutes_N);
             this.panel4.Controls.Add(this.rb_LL_DecimalMinutes_S);
@@ -865,7 +884,8 @@ namespace CoordinateConverter
             // 
             // tb_LL_DecimalMinutes_Latitude
             // 
-            this.tb_LL_DecimalMinutes_Latitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_LL_DecimalMinutes_Latitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_LL_DecimalMinutes_Latitude.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_LL_DecimalMinutes_Latitude.Location = new System.Drawing.Point(3, 3);
             this.tb_LL_DecimalMinutes_Latitude.MaxLength = 16;
@@ -918,7 +938,9 @@ namespace CoordinateConverter
             // 
             // textBox7
             // 
-            this.textBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox7.Location = new System.Drawing.Point(3, 60);
             this.textBox7.Multiline = true;
             this.textBox7.Name = "textBox7";
@@ -939,7 +961,8 @@ namespace CoordinateConverter
             // 
             // panel5
             // 
-            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel5.Controls.Add(this.tb_MGRS_Digraph);
             this.panel5.Controls.Add(this.tb_MGRS_Fraction);
             this.panel5.Controls.Add(this.tb_MGRS_LatZone);
@@ -963,7 +986,8 @@ namespace CoordinateConverter
             // 
             // tb_MGRS_Fraction
             // 
-            this.tb_MGRS_Fraction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_MGRS_Fraction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_MGRS_Fraction.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_MGRS_Fraction.Location = new System.Drawing.Point(120, 8);
             this.tb_MGRS_Fraction.MaxLength = 11;
@@ -1014,7 +1038,9 @@ namespace CoordinateConverter
             // 
             // textBox9
             // 
-            this.textBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox9.Location = new System.Drawing.Point(3, 60);
             this.textBox9.Multiline = true;
             this.textBox9.Name = "textBox9";
@@ -1035,7 +1061,8 @@ namespace CoordinateConverter
             // 
             // panel8
             // 
-            this.panel8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel8.Controls.Add(this.tb_UTM_LatZone);
             this.panel8.Controls.Add(this.tableLayoutPanel1);
             this.panel8.Controls.Add(this.tb_UTM_LongZone);
@@ -1058,7 +1085,8 @@ namespace CoordinateConverter
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -1076,7 +1104,8 @@ namespace CoordinateConverter
             // 
             // tb_UTM_Easting
             // 
-            this.tb_UTM_Easting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_UTM_Easting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_UTM_Easting.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_UTM_Easting.Location = new System.Drawing.Point(3, 3);
             this.tb_UTM_Easting.MaxLength = 16;
@@ -1090,7 +1119,8 @@ namespace CoordinateConverter
             // 
             // tb_UTM_Northing
             // 
-            this.tb_UTM_Northing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_UTM_Northing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_UTM_Northing.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_UTM_Northing.Location = new System.Drawing.Point(192, 3);
             this.tb_UTM_Northing.MaxLength = 16;
@@ -1135,7 +1165,7 @@ namespace CoordinateConverter
             this.lbl_BEPosition.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_BEPosition.Location = new System.Drawing.Point(7, 99);
             this.lbl_BEPosition.Name = "lbl_BEPosition";
-            this.lbl_BEPosition.Size = new System.Drawing.Size(64, 16);
+            this.lbl_BEPosition.Size = new System.Drawing.Size(63, 16);
             this.lbl_BEPosition.TabIndex = 4;
             this.lbl_BEPosition.Text = "Not Set";
             // 
@@ -1159,7 +1189,8 @@ namespace CoordinateConverter
             // 
             // panel9
             // 
-            this.panel9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel9.Controls.Add(this.label2);
             this.panel9.Controls.Add(this.tb_Bullseye_Range);
             this.panel9.Location = new System.Drawing.Point(6, 39);
@@ -1179,7 +1210,8 @@ namespace CoordinateConverter
             // 
             // tb_Bullseye_Range
             // 
-            this.tb_Bullseye_Range.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Bullseye_Range.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_Bullseye_Range.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Bullseye_Range.Location = new System.Drawing.Point(3, 3);
             this.tb_Bullseye_Range.MaxLength = 6;
@@ -1193,7 +1225,8 @@ namespace CoordinateConverter
             // 
             // panel10
             // 
-            this.panel10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel10.Controls.Add(this.label1);
             this.panel10.Controls.Add(this.tb_Bullseye_Bearing);
             this.panel10.Location = new System.Drawing.Point(6, 6);
@@ -1213,7 +1246,8 @@ namespace CoordinateConverter
             // 
             // tb_Bullseye_Bearing
             // 
-            this.tb_Bullseye_Bearing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Bullseye_Bearing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_Bullseye_Bearing.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_Bullseye_Bearing.Location = new System.Drawing.Point(3, 3);
             this.tb_Bullseye_Bearing.MaxLength = 5;
@@ -1227,10 +1261,10 @@ namespace CoordinateConverter
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.pb_Transfer, this.lbl_DCS_Status, this.lbl_Error
-            });
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pb_Transfer,
+            this.lbl_DCS_Status,
+            this.lbl_Error});
             this.statusStrip1.Location = new System.Drawing.Point(0, 474);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1189, 22);
@@ -1250,7 +1284,7 @@ namespace CoordinateConverter
             // 
             this.lbl_DCS_Status.BackColor = System.Drawing.Color.Yellow;
             this.lbl_DCS_Status.Name = "lbl_DCS_Status";
-            this.lbl_DCS_Status.Size = new System.Drawing.Size(109, 17);
+            this.lbl_DCS_Status.Size = new System.Drawing.Size(127, 17);
             this.lbl_DCS_Status.Text = "DCS not connected";
             this.lbl_DCS_Status.BackColorChanged += new System.EventHandler(this.Lbl_DCS_Status_BackColorChanged);
             this.lbl_DCS_Status.Click += new System.EventHandler(this.FetchCoordinatesControl_Click);
@@ -1259,7 +1293,7 @@ namespace CoordinateConverter
             // 
             this.lbl_Error.BackColor = System.Drawing.Color.Tomato;
             this.lbl_Error.Name = "lbl_Error";
-            this.lbl_Error.Size = new System.Drawing.Size(59, 17);
+            this.lbl_Error.Size = new System.Drawing.Size(67, 17);
             this.lbl_Error.Text = "<ERROR>";
             this.lbl_Error.Visible = false;
             // 
@@ -1268,12 +1302,17 @@ namespace CoordinateConverter
             this.dgv_CoordinateList.AllowUserToAddRows = false;
             this.dgv_CoordinateList.AllowUserToDeleteRows = false;
             this.dgv_CoordinateList.AllowUserToResizeRows = false;
-            this.dgv_CoordinateList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgv_CoordinateList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_CoordinateList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_CoordinateList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
-            {
-                this.colId, this.colLabel, this.colCoordinates, this.colAltitude, this.colXFer, this.colDelete
-            });
+            this.dgv_CoordinateList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colId,
+            this.colLabel,
+            this.colCoordinates,
+            this.colAltitude,
+            this.colXFer,
+            this.colDelete});
             this.dgv_CoordinateList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgv_CoordinateList.Location = new System.Drawing.Point(505, 66);
             this.dgv_CoordinateList.Name = "dgv_CoordinateList";
@@ -1366,10 +1405,11 @@ namespace CoordinateConverter
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_FileMenu, this.tsmi_DCSMenu, this.settingsToolStripMenuItem, this.miscToolStripMenuItem
-            });
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_FileMenu,
+            this.tsmi_DCSMenu,
+            this.settingsToolStripMenuItem,
+            this.miscToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1189, 24);
@@ -1378,107 +1418,123 @@ namespace CoordinateConverter
             // 
             // tsmi_FileMenu
             // 
-            this.tsmi_FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_recentFiles, this.tsmi_Load, this.toolStripSeparator7, this.tsmi_SaveAs, this.toolStripSeparator6, this.tsmi_exit
-            });
+            this.tsmi_FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_recentFiles,
+            this.tsmi_Load,
+            this.toolStripSeparator7,
+            this.tsmi_SaveAs,
+            this.toolStripSeparator6,
+            this.tsmi_exit});
             this.tsmi_FileMenu.Name = "tsmi_FileMenu";
-            this.tsmi_FileMenu.Size = new System.Drawing.Size(37, 20);
+            this.tsmi_FileMenu.Size = new System.Drawing.Size(40, 20);
             this.tsmi_FileMenu.Text = "File";
             // 
             // tsmi_recentFiles
             // 
             this.tsmi_recentFiles.Name = "tsmi_recentFiles";
-            this.tsmi_recentFiles.Size = new System.Drawing.Size(136, 22);
+            this.tsmi_recentFiles.Size = new System.Drawing.Size(149, 22);
             this.tsmi_recentFiles.Text = "Recent Files";
             // 
             // tsmi_Load
             // 
             this.tsmi_Load.Name = "tsmi_Load";
-            this.tsmi_Load.Size = new System.Drawing.Size(136, 22);
+            this.tsmi_Load.Size = new System.Drawing.Size(149, 22);
             this.tsmi_Load.Text = "Load file...";
             this.tsmi_Load.Click += new System.EventHandler(this.LoadToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(133, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(146, 6);
             // 
             // tsmi_SaveAs
             // 
             this.tsmi_SaveAs.Name = "tsmi_SaveAs";
-            this.tsmi_SaveAs.Size = new System.Drawing.Size(136, 22);
+            this.tsmi_SaveAs.Size = new System.Drawing.Size(149, 22);
             this.tsmi_SaveAs.Text = "Save As...";
             this.tsmi_SaveAs.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(133, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(146, 6);
             // 
             // tsmi_exit
             // 
             this.tsmi_exit.Name = "tsmi_exit";
-            this.tsmi_exit.Size = new System.Drawing.Size(136, 22);
+            this.tsmi_exit.Size = new System.Drawing.Size(149, 22);
             this.tsmi_exit.Text = "Exit";
             this.tsmi_exit.Click += new System.EventHandler(this.tsmi_exit_Click);
             // 
             // tsmi_DCSMenu
             // 
-            this.tsmi_DCSMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_Transfer, this.tsmi_StopTransfer, this.toolStripSeparator8, this.tsmi_FetchCoordinates, this.tsmi_ImportUnits, this.toolStripSeparator9, this.tsmi_AircraftMenu
-            });
+            this.tsmi_DCSMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_Transfer,
+            this.tsmi_StopTransfer,
+            this.toolStripSeparator8,
+            this.tsmi_FetchCoordinates,
+            this.tsmi_ImportUnits,
+            this.toolStripSeparator9,
+            this.tsmi_AircraftMenu});
             this.tsmi_DCSMenu.Name = "tsmi_DCSMenu";
-            this.tsmi_DCSMenu.Size = new System.Drawing.Size(41, 20);
+            this.tsmi_DCSMenu.Size = new System.Drawing.Size(45, 20);
             this.tsmi_DCSMenu.Text = "DCS";
             // 
             // tsmi_Transfer
             // 
             this.tsmi_Transfer.Name = "tsmi_Transfer";
-            this.tsmi_Transfer.Size = new System.Drawing.Size(170, 22);
+            this.tsmi_Transfer.Size = new System.Drawing.Size(189, 22);
             this.tsmi_Transfer.Text = "Transfer";
             this.tsmi_Transfer.Click += new System.EventHandler(this.TransferControl_Click);
             // 
             // tsmi_StopTransfer
             // 
             this.tsmi_StopTransfer.Name = "tsmi_StopTransfer";
-            this.tsmi_StopTransfer.Size = new System.Drawing.Size(170, 22);
+            this.tsmi_StopTransfer.Size = new System.Drawing.Size(189, 22);
             this.tsmi_StopTransfer.Text = "Stop Transfer";
             this.tsmi_StopTransfer.Click += new System.EventHandler(this.StopTransferControl_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(186, 6);
             // 
             // tsmi_FetchCoordinates
             // 
             this.tsmi_FetchCoordinates.Name = "tsmi_FetchCoordinates";
-            this.tsmi_FetchCoordinates.Size = new System.Drawing.Size(170, 22);
+            this.tsmi_FetchCoordinates.Size = new System.Drawing.Size(189, 22);
             this.tsmi_FetchCoordinates.Text = "Fetch Coordinates";
             this.tsmi_FetchCoordinates.Click += new System.EventHandler(this.FetchCoordinatesControl_Click);
             // 
             // tsmi_ImportUnits
             // 
             this.tsmi_ImportUnits.Name = "tsmi_ImportUnits";
-            this.tsmi_ImportUnits.Size = new System.Drawing.Size(170, 22);
+            this.tsmi_ImportUnits.Size = new System.Drawing.Size(189, 22);
             this.tsmi_ImportUnits.Text = "Import Units...";
             this.tsmi_ImportUnits.Click += new System.EventHandler(this.ImportUnitsControl_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(186, 6);
             // 
             // tsmi_AircraftMenu
             // 
-            this.tsmi_AircraftMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_Auto, this.toolStripSeparator1, this.tsmi_A10CMenu, this.tsmi_AH64Menu, this.tsmi_AV8B, this.tsmi_F15EMenu, this.tsmi_F16Menu, this.tsmi_F18, this.tsmi_JF17Menu, this.tsmi_KA50, this.tsmi_M2000, this.tsmi_OH58DMenu
-            });
+            this.tsmi_AircraftMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_Auto,
+            this.toolStripSeparator1,
+            this.tsmi_A10C,
+            this.tsmi_AH64Menu,
+            this.tsmi_AV8B,
+            this.tsmi_F15EMenu,
+            this.tsmi_F16Menu,
+            this.tsmi_F18,
+            this.tsmi_JF17Menu,
+            this.tsmi_KA50,
+            this.tsmi_M2000,
+            this.tsmi_OH58DMenu});
             this.tsmi_AircraftMenu.Name = "tsmi_AircraftMenu";
-            this.tsmi_AircraftMenu.Size = new System.Drawing.Size(170, 22);
+            this.tsmi_AircraftMenu.Size = new System.Drawing.Size(189, 22);
             this.tsmi_AircraftMenu.Text = "Aircraft";
             // 
             // tsmi_Auto
@@ -1486,241 +1542,219 @@ namespace CoordinateConverter
             this.tsmi_Auto.Checked = true;
             this.tsmi_Auto.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmi_Auto.Name = "tsmi_Auto";
-            this.tsmi_Auto.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_Auto.Size = new System.Drawing.Size(180, 22);
             this.tsmi_Auto.Text = "Auto";
             this.tsmi_Auto.Click += new System.EventHandler(this.Tsmi_Aircraft_Auto_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
-            // 
-            // tsmi_A10CMenu
-            // 
-            this.tsmi_A10CMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_A10C, this.tsmi_A10C_UseMGRS
-            });
-            this.tsmi_A10CMenu.Name = "tsmi_A10CMenu";
-            this.tsmi_A10CMenu.Size = new System.Drawing.Size(152, 22);
-            this.tsmi_A10CMenu.Text = "A10C";
-            // 
-            // tsmi_A10C
-            // 
-            this.tsmi_A10C.Name = "tsmi_A10C";
-            this.tsmi_A10C.Size = new System.Drawing.Size(128, 22);
-            this.tsmi_A10C.Text = "A10C";
-            this.tsmi_A10C.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
-            // 
-            // tsmi_A10C_UseMGRS
-            // 
-            this.tsmi_A10C_UseMGRS.Name = "tsmi_A10C_UseMGRS";
-            this.tsmi_A10C_UseMGRS.Size = new System.Drawing.Size(128, 22);
-            this.tsmi_A10C_UseMGRS.Text = "Use MGRS";
-            this.tsmi_A10C_UseMGRS.Click += new System.EventHandler(this.Tsmi_A10C_UseMGRS_Click);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmi_AH64Menu
             // 
-            this.tsmi_AH64Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_AH64, this.tsmi_AH64_ClearPoints, this.tsmi_AH64_DTC
-            });
+            this.tsmi_AH64Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_AH64,
+            this.tsmi_AH64_ClearPoints,
+            this.tsmi_AH64_DTC});
             this.tsmi_AH64Menu.Name = "tsmi_AH64Menu";
-            this.tsmi_AH64Menu.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_AH64Menu.Size = new System.Drawing.Size(180, 22);
             this.tsmi_AH64Menu.Text = "AH64";
             // 
             // tsmi_AH64
             // 
             this.tsmi_AH64.Name = "tsmi_AH64";
-            this.tsmi_AH64.Size = new System.Drawing.Size(146, 22);
+            this.tsmi_AH64.Size = new System.Drawing.Size(162, 22);
             this.tsmi_AH64.Text = "AH64";
             this.tsmi_AH64.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_AH64_ClearPoints
             // 
             this.tsmi_AH64_ClearPoints.Name = "tsmi_AH64_ClearPoints";
-            this.tsmi_AH64_ClearPoints.Size = new System.Drawing.Size(146, 22);
+            this.tsmi_AH64_ClearPoints.Size = new System.Drawing.Size(162, 22);
             this.tsmi_AH64_ClearPoints.Text = "Clear Points...";
             this.tsmi_AH64_ClearPoints.Click += new System.EventHandler(this.Tsmi_AH64_ClearPoints_Click);
             // 
             // tsmi_AH64_DTC
             // 
             this.tsmi_AH64_DTC.Name = "tsmi_AH64_DTC";
-            this.tsmi_AH64_DTC.Size = new System.Drawing.Size(146, 22);
+            this.tsmi_AH64_DTC.Size = new System.Drawing.Size(162, 22);
             this.tsmi_AH64_DTC.Text = "DTC...";
             this.tsmi_AH64_DTC.Click += new System.EventHandler(this.Tsmi_AH64_DTC_Click);
             // 
             // tsmi_AV8B
             // 
             this.tsmi_AV8B.Name = "tsmi_AV8B";
-            this.tsmi_AV8B.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_AV8B.Size = new System.Drawing.Size(180, 22);
             this.tsmi_AV8B.Text = "AV8B";
             this.tsmi_AV8B.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_F15EMenu
             // 
-            this.tsmi_F15EMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_F15E_Pilot, this.tsmi_F15E_WSO
-            });
+            this.tsmi_F15EMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_F15E_Pilot,
+            this.tsmi_F15E_WSO});
             this.tsmi_F15EMenu.Name = "tsmi_F15EMenu";
-            this.tsmi_F15EMenu.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_F15EMenu.Size = new System.Drawing.Size(180, 22);
             this.tsmi_F15EMenu.Text = "F15E";
             // 
             // tsmi_F15E_Pilot
             // 
             this.tsmi_F15E_Pilot.Name = "tsmi_F15E_Pilot";
-            this.tsmi_F15E_Pilot.Size = new System.Drawing.Size(127, 22);
+            this.tsmi_F15E_Pilot.Size = new System.Drawing.Size(140, 22);
             this.tsmi_F15E_Pilot.Text = "F15E Pilot";
             this.tsmi_F15E_Pilot.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_F15E_WSO
             // 
             this.tsmi_F15E_WSO.Name = "tsmi_F15E_WSO";
-            this.tsmi_F15E_WSO.Size = new System.Drawing.Size(127, 22);
+            this.tsmi_F15E_WSO.Size = new System.Drawing.Size(140, 22);
             this.tsmi_F15E_WSO.Text = "F15E WSO";
             this.tsmi_F15E_WSO.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_F16Menu
             // 
-            this.tsmi_F16Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_F16, this.tsmi_F16_SetFirstPoint
-            });
+            this.tsmi_F16Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_F16,
+            this.tsmi_F16_SetFirstPoint});
             this.tsmi_F16Menu.Name = "tsmi_F16Menu";
-            this.tsmi_F16Menu.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_F16Menu.Size = new System.Drawing.Size(180, 22);
             this.tsmi_F16Menu.Text = "F16";
             // 
             // tsmi_F16
             // 
             this.tsmi_F16.Name = "tsmi_F16";
-            this.tsmi_F16.Size = new System.Drawing.Size(153, 22);
+            this.tsmi_F16.Size = new System.Drawing.Size(171, 22);
             this.tsmi_F16.Text = "F16";
             this.tsmi_F16.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_F16_SetFirstPoint
             // 
             this.tsmi_F16_SetFirstPoint.Name = "tsmi_F16_SetFirstPoint";
-            this.tsmi_F16_SetFirstPoint.Size = new System.Drawing.Size(153, 22);
+            this.tsmi_F16_SetFirstPoint.Size = new System.Drawing.Size(171, 22);
             this.tsmi_F16_SetFirstPoint.Text = "Set first point...";
             this.tsmi_F16_SetFirstPoint.Click += new System.EventHandler(this.Tsmi_F16_SetFirstPoint_Click);
             // 
             // tsmi_F18
             // 
             this.tsmi_F18.Name = "tsmi_F18";
-            this.tsmi_F18.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_F18.Size = new System.Drawing.Size(180, 22);
             this.tsmi_F18.Text = "F18";
             this.tsmi_F18.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_JF17Menu
             // 
-            this.tsmi_JF17Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_JF17, this.tsmi_JF17_SetFirstPoint
-            });
+            this.tsmi_JF17Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_JF17,
+            this.tsmi_JF17_SetFirstPoint});
             this.tsmi_JF17Menu.Name = "tsmi_JF17Menu";
-            this.tsmi_JF17Menu.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_JF17Menu.Size = new System.Drawing.Size(180, 22);
             this.tsmi_JF17Menu.Text = "JF17";
             // 
             // tsmi_JF17
             // 
             this.tsmi_JF17.Name = "tsmi_JF17";
-            this.tsmi_JF17.Size = new System.Drawing.Size(153, 22);
+            this.tsmi_JF17.Size = new System.Drawing.Size(171, 22);
             this.tsmi_JF17.Text = "JF17";
             this.tsmi_JF17.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_JF17_SetFirstPoint
             // 
             this.tsmi_JF17_SetFirstPoint.Name = "tsmi_JF17_SetFirstPoint";
-            this.tsmi_JF17_SetFirstPoint.Size = new System.Drawing.Size(153, 22);
+            this.tsmi_JF17_SetFirstPoint.Size = new System.Drawing.Size(171, 22);
             this.tsmi_JF17_SetFirstPoint.Text = "Set first point...";
             this.tsmi_JF17_SetFirstPoint.Click += new System.EventHandler(this.Tsmi_JF17_SetFirstPoint_Click);
             // 
             // tsmi_KA50
             // 
             this.tsmi_KA50.Name = "tsmi_KA50";
-            this.tsmi_KA50.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_KA50.Size = new System.Drawing.Size(180, 22);
             this.tsmi_KA50.Text = "KA50";
             this.tsmi_KA50.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_M2000
             // 
             this.tsmi_M2000.Name = "tsmi_M2000";
-            this.tsmi_M2000.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_M2000.Size = new System.Drawing.Size(180, 22);
             this.tsmi_M2000.Text = "M2000";
             this.tsmi_M2000.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_OH58DMenu
             // 
-            this.tsmi_OH58DMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_OH58D
-            });
+            this.tsmi_OH58DMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_OH58D});
             this.tsmi_OH58DMenu.Name = "tsmi_OH58DMenu";
-            this.tsmi_OH58DMenu.Size = new System.Drawing.Size(112, 22);
+            this.tsmi_OH58DMenu.Size = new System.Drawing.Size(180, 22);
             this.tsmi_OH58DMenu.Text = "OH58D";
             // 
             // tsmi_OH58D
             // 
             this.tsmi_OH58D.Name = "tsmi_OH58D";
-            this.tsmi_OH58D.Size = new System.Drawing.Size(112, 22);
+            this.tsmi_OH58D.Size = new System.Drawing.Size(118, 22);
             this.tsmi_OH58D.Text = "OH58D";
             // 
             // settingsToolStripMenuItem
             // 
-            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_DCSMainScreenMenu, this.tsmi_ReticleSetting, this.tsmi_CameraPositionModeMenu, this.toolStripSeparator10, this.tsmi_AlwaysOnTop, this.tsmi_TransparencyMenu, this.toolStripSeparator11, this.tsmi_CheckForUpdates, this.tsmi_AutoCheckForUpdates, this.toolStripSeparator12, this.tsmi_changeBaseDirectory
-            });
+            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_DCSMainScreenMenu,
+            this.tsmi_ReticleSetting,
+            this.tsmi_CameraPositionModeMenu,
+            this.toolStripSeparator10,
+            this.tsmi_AlwaysOnTop,
+            this.tsmi_TransparencyMenu,
+            this.toolStripSeparator11,
+            this.tsmi_CheckForUpdates,
+            this.tsmi_AutoCheckForUpdates,
+            this.toolStripSeparator12,
+            this.tsmi_changeBaseDirectory});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // tsmi_DCSMainScreenMenu
             // 
             this.tsmi_DCSMainScreenMenu.Name = "tsmi_DCSMainScreenMenu";
-            this.tsmi_DCSMainScreenMenu.Size = new System.Drawing.Size(202, 22);
+            this.tsmi_DCSMainScreenMenu.Size = new System.Drawing.Size(229, 22);
             this.tsmi_DCSMainScreenMenu.Text = "DCS Main Screen";
             // 
             // tsmi_ReticleSetting
             // 
-            this.tsmi_ReticleSetting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_Reticle_WhenInF10Map, this.tsmi_Reticle_Always, this.tsmi_Reticle_Never
-            });
+            this.tsmi_ReticleSetting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_Reticle_WhenInF10Map,
+            this.tsmi_Reticle_Always,
+            this.tsmi_Reticle_Never});
             this.tsmi_ReticleSetting.Name = "tsmi_ReticleSetting";
-            this.tsmi_ReticleSetting.Size = new System.Drawing.Size(202, 22);
+            this.tsmi_ReticleSetting.Size = new System.Drawing.Size(229, 22);
             this.tsmi_ReticleSetting.Text = "Reticle Setting";
             // 
             // tsmi_Reticle_WhenInF10Map
             // 
             this.tsmi_Reticle_WhenInF10Map.Name = "tsmi_Reticle_WhenInF10Map";
-            this.tsmi_Reticle_WhenInF10Map.Size = new System.Drawing.Size(166, 22);
+            this.tsmi_Reticle_WhenInF10Map.Size = new System.Drawing.Size(183, 22);
             this.tsmi_Reticle_WhenInF10Map.Text = "When in F10 Map";
             this.tsmi_Reticle_WhenInF10Map.Click += new System.EventHandler(this.Tsmi_Reticle_WhenInF10Map_Click);
             // 
             // tsmi_Reticle_Always
             // 
             this.tsmi_Reticle_Always.Name = "tsmi_Reticle_Always";
-            this.tsmi_Reticle_Always.Size = new System.Drawing.Size(166, 22);
+            this.tsmi_Reticle_Always.Size = new System.Drawing.Size(183, 22);
             this.tsmi_Reticle_Always.Text = "Always";
             this.tsmi_Reticle_Always.Click += new System.EventHandler(this.Tsmi_Reticle_Always_Click);
             // 
             // tsmi_Reticle_Never
             // 
             this.tsmi_Reticle_Never.Name = "tsmi_Reticle_Never";
-            this.tsmi_Reticle_Never.Size = new System.Drawing.Size(166, 22);
+            this.tsmi_Reticle_Never.Size = new System.Drawing.Size(183, 22);
             this.tsmi_Reticle_Never.Text = "Never";
             this.tsmi_Reticle_Never.Click += new System.EventHandler(this.Tsmi_Reticle_Never_Click);
             // 
             // tsmi_CameraPositionModeMenu
             // 
-            this.tsmi_CameraPositionModeMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_TerrainElevationUnderCamera, this.tsmi_CameraAltitude
-            });
+            this.tsmi_CameraPositionModeMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_TerrainElevationUnderCamera,
+            this.tsmi_CameraAltitude});
             this.tsmi_CameraPositionModeMenu.Name = "tsmi_CameraPositionModeMenu";
-            this.tsmi_CameraPositionModeMenu.Size = new System.Drawing.Size(202, 22);
+            this.tsmi_CameraPositionModeMenu.Size = new System.Drawing.Size(229, 22);
             this.tsmi_CameraPositionModeMenu.Text = "Camera Position Mode";
             // 
             // tsmi_TerrainElevationUnderCamera
@@ -1728,37 +1762,38 @@ namespace CoordinateConverter
             this.tsmi_TerrainElevationUnderCamera.Checked = true;
             this.tsmi_TerrainElevationUnderCamera.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmi_TerrainElevationUnderCamera.Name = "tsmi_TerrainElevationUnderCamera";
-            this.tsmi_TerrainElevationUnderCamera.Size = new System.Drawing.Size(238, 22);
+            this.tsmi_TerrainElevationUnderCamera.Size = new System.Drawing.Size(273, 22);
             this.tsmi_TerrainElevationUnderCamera.Text = "Terrain elevation under Camera";
             this.tsmi_TerrainElevationUnderCamera.Click += new System.EventHandler(this.Tsmi_TerrainElevationUnderCamera_Click);
             // 
             // tsmi_CameraAltitude
             // 
             this.tsmi_CameraAltitude.Name = "tsmi_CameraAltitude";
-            this.tsmi_CameraAltitude.Size = new System.Drawing.Size(238, 22);
+            this.tsmi_CameraAltitude.Size = new System.Drawing.Size(273, 22);
             this.tsmi_CameraAltitude.Text = "Camera altitude";
             this.tsmi_CameraAltitude.Click += new System.EventHandler(this.Tsmi_CameraAltitude_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(226, 6);
             // 
             // tsmi_AlwaysOnTop
             // 
             this.tsmi_AlwaysOnTop.Name = "tsmi_AlwaysOnTop";
-            this.tsmi_AlwaysOnTop.Size = new System.Drawing.Size(202, 22);
+            this.tsmi_AlwaysOnTop.Size = new System.Drawing.Size(229, 22);
             this.tsmi_AlwaysOnTop.Text = "Always on top";
             this.tsmi_AlwaysOnTop.Click += new System.EventHandler(this.Control_AlwaysOnTop_Click);
             // 
             // tsmi_TransparencyMenu
             // 
-            this.tsmi_TransparencyMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_opaque, this.tsmi_Opacity75, this.tsmi_Opacity50, this.tsmi_Opacity25
-            });
+            this.tsmi_TransparencyMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_opaque,
+            this.tsmi_Opacity75,
+            this.tsmi_Opacity50,
+            this.tsmi_Opacity25});
             this.tsmi_TransparencyMenu.Name = "tsmi_TransparencyMenu";
-            this.tsmi_TransparencyMenu.Size = new System.Drawing.Size(202, 22);
+            this.tsmi_TransparencyMenu.Size = new System.Drawing.Size(229, 22);
             this.tsmi_TransparencyMenu.Text = "Transparency";
             // 
             // tsmi_opaque
@@ -1766,76 +1801,74 @@ namespace CoordinateConverter
             this.tsmi_opaque.Checked = true;
             this.tsmi_opaque.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmi_opaque.Name = "tsmi_opaque";
-            this.tsmi_opaque.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_opaque.Size = new System.Drawing.Size(124, 22);
             this.tsmi_opaque.Text = "Opaque";
             this.tsmi_opaque.Click += new System.EventHandler(this.Tsmi_Opaque_Click);
             // 
             // tsmi_Opacity75
             // 
             this.tsmi_Opacity75.Name = "tsmi_Opacity75";
-            this.tsmi_Opacity75.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_Opacity75.Size = new System.Drawing.Size(124, 22);
             this.tsmi_Opacity75.Text = "25%";
             this.tsmi_Opacity75.Click += new System.EventHandler(this.Tsmi_Opacity75_Click);
             // 
             // tsmi_Opacity50
             // 
             this.tsmi_Opacity50.Name = "tsmi_Opacity50";
-            this.tsmi_Opacity50.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_Opacity50.Size = new System.Drawing.Size(124, 22);
             this.tsmi_Opacity50.Text = "50%";
             this.tsmi_Opacity50.Click += new System.EventHandler(this.Tsmi_Opacity50_Click);
             // 
             // tsmi_Opacity25
             // 
             this.tsmi_Opacity25.Name = "tsmi_Opacity25";
-            this.tsmi_Opacity25.Size = new System.Drawing.Size(116, 22);
+            this.tsmi_Opacity25.Size = new System.Drawing.Size(124, 22);
             this.tsmi_Opacity25.Text = "75%";
             this.tsmi_Opacity25.Click += new System.EventHandler(this.Tsmi_Opacity25_Click);
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(226, 6);
             // 
             // tsmi_CheckForUpdates
             // 
             this.tsmi_CheckForUpdates.Name = "tsmi_CheckForUpdates";
-            this.tsmi_CheckForUpdates.Size = new System.Drawing.Size(202, 22);
+            this.tsmi_CheckForUpdates.Size = new System.Drawing.Size(229, 22);
             this.tsmi_CheckForUpdates.Text = "Check for Updates";
             this.tsmi_CheckForUpdates.Click += new System.EventHandler(this.Tsmi_CheckForUpdates_Click);
             // 
             // tsmi_AutoCheckForUpdates
             // 
             this.tsmi_AutoCheckForUpdates.Name = "tsmi_AutoCheckForUpdates";
-            this.tsmi_AutoCheckForUpdates.Size = new System.Drawing.Size(202, 22);
+            this.tsmi_AutoCheckForUpdates.Size = new System.Drawing.Size(229, 22);
             this.tsmi_AutoCheckForUpdates.Text = "Autocheck for Updates";
             this.tsmi_AutoCheckForUpdates.Click += new System.EventHandler(this.tsmi_AutoCheckForUpdates_Click);
             // 
             // toolStripSeparator12
             // 
             this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator12.Size = new System.Drawing.Size(226, 6);
             // 
             // tsmi_changeBaseDirectory
             // 
             this.tsmi_changeBaseDirectory.Name = "tsmi_changeBaseDirectory";
-            this.tsmi_changeBaseDirectory.Size = new System.Drawing.Size(202, 22);
+            this.tsmi_changeBaseDirectory.Size = new System.Drawing.Size(229, 22);
             this.tsmi_changeBaseDirectory.Text = "Change Base Directory...";
             this.tsmi_changeBaseDirectory.Click += new System.EventHandler(this.tsmi_changeBaseDirectory_Click);
             // 
             // miscToolStripMenuItem
             // 
-            this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.tsmi_execute
-            });
+            this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_execute});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // tsmi_execute
             // 
             this.tsmi_execute.Name = "tsmi_execute";
-            this.tsmi_execute.Size = new System.Drawing.Size(124, 22);
+            this.tsmi_execute.Size = new System.Drawing.Size(136, 22);
             this.tsmi_execute.Text = "Execute...";
             this.tsmi_execute.Click += new System.EventHandler(this.Tsmi_execute_Click);
             // 
@@ -1847,10 +1880,21 @@ namespace CoordinateConverter
             // toolStrip1
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.btn_Transfer, this.btn_Stop, this.toolStripSeparator2, this.btn_FetchCoordinates, this.btn_ImportUnits, this.btn_SetBE, this.toolStripSeparator3, this.btn_AlwaysOnTop, this.toolStripSeparator4, this.btn_Add, this.btn_Edit, this.toolStripSeparator5, this.btn_MoveDown, this.btn_MoveUp
-            });
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btn_Transfer,
+            this.btn_Stop,
+            this.toolStripSeparator2,
+            this.btn_FetchCoordinates,
+            this.btn_ImportUnits,
+            this.btn_SetBE,
+            this.toolStripSeparator3,
+            this.btn_AlwaysOnTop,
+            this.toolStripSeparator4,
+            this.btn_Add,
+            this.btn_Edit,
+            this.toolStripSeparator5,
+            this.btn_MoveDown,
+            this.btn_MoveUp});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1189, 39);
@@ -1987,6 +2031,12 @@ namespace CoordinateConverter
             this.label19.TabIndex = 33;
             this.label19.Text = resources.GetString("label19.Text");
             // 
+            // tsmi_A10C
+            // 
+            this.tsmi_A10C.Name = "tsmi_A10C";
+            this.tsmi_A10C.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_A10C.Text = "A10C";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2048,6 +2098,7 @@ namespace CoordinateConverter
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
         private System.Windows.Forms.ToolStripMenuItem tsmi_OH58DMenu;
         private System.Windows.Forms.ToolStripMenuItem tsmi_OH58D;
@@ -2131,7 +2182,6 @@ namespace CoordinateConverter
         private System.Windows.Forms.ToolStripMenuItem tsmi_DCSMenu;
         private System.Windows.Forms.ToolStripMenuItem tsmi_AircraftMenu;
         private System.Windows.Forms.ToolStripMenuItem tsmi_Auto;
-        private ToolStripMenuItem tsmi_A10CMenu;
         private ToolStripMenuItem tsmi_Transfer;
         private ToolStripMenuItem tsmi_AV8B;
         private ToolStripMenuItem tsmi_F16Menu;
@@ -2187,8 +2237,6 @@ namespace CoordinateConverter
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton btn_FetchCoordinates;
         private ToolStripButton btn_ImportUnits;
-        private ToolStripMenuItem tsmi_A10C;
-        private ToolStripMenuItem tsmi_A10C_UseMGRS;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripButton btn_AlwaysOnTop;
         private ToolStripSeparator toolStripSeparator4;
@@ -2221,6 +2269,7 @@ namespace CoordinateConverter
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripSeparator toolStripSeparator12;
         private ToolStripMenuItem tsmi_changeBaseDirectory;
+        private ToolStripMenuItem tsmi_A10C;
     }
 }
 

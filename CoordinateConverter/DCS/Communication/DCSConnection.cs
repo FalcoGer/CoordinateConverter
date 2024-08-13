@@ -70,7 +70,8 @@ namespace CoordinateConverter.DCS.Aircraft
                         }
                         System.Threading.Thread.Sleep(50);
                     } while (!responseString.Contains("�") && DateTime.Now < timeoutTime);
-                    responseMessage = JsonConvert.DeserializeObject<DCSMessage>(responseString.Split('�').First());
+                    responseString = responseString.Split('�').First();
+                    responseMessage = JsonConvert.DeserializeObject<DCSMessage>(responseString);
                 } // close the socket
                 lastConnectionAttempt = DateTime.MinValue;
             }
