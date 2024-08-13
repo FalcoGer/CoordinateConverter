@@ -19,7 +19,13 @@ namespace CoordinateConverter.DCS.Aircraft.F18C
         private int currentWPSEQ = 0;
         private bool wpSeqActive = false;
 
-        private int startingWaypoint;
+        /// <summary>
+        /// Gets the starting waypoint.
+        /// </summary>
+        /// <value>
+        /// The starting waypoint.
+        /// </value>
+        public int StartingWaypoint { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="F18C"/> class.
@@ -27,7 +33,7 @@ namespace CoordinateConverter.DCS.Aircraft.F18C
         /// <param name="startingWaypoint">The starting waypoint.</param>
         public F18C(int startingWaypoint)
         {
-            this.startingWaypoint = startingWaypoint;
+            this.StartingWaypoint = startingWaypoint;
         }
 
         /// <summary>
@@ -40,7 +46,7 @@ namespace CoordinateConverter.DCS.Aircraft.F18C
         /// <exception cref="System.ArgumentException">SLAM-ER single STPT entry not supported</exception>
         protected override List<DCSCommand> GetActions(object item)
         {
-            if (numberOfWaypointsEntered + startingWaypoint >= 59)
+            if (numberOfWaypointsEntered + StartingWaypoint >= 59)
             {
                 // full list, don't overwrite 59 (Bullseye) or markpoints.
                 return null;
@@ -225,7 +231,7 @@ namespace CoordinateConverter.DCS.Aircraft.F18C
                 new DCSCommand((int)EDevices.UFC, (int)EKeyCodes.UFC_KB_CLR, 300)  // clear ufc
             };
             // go back to waypoint we started with (in current waypoint).
-            int waypointNumberInAC = startingWaypoint + numberOfWaypointsEntered - 1;
+            int waypointNumberInAC = StartingWaypoint + numberOfWaypointsEntered - 1;
             int buttonPresses = Math.Abs(currentWaypoint - waypointNumberInAC);
 
             for (int ctr = 0; ctr < buttonPresses; ctr++)
@@ -329,10 +335,10 @@ namespace CoordinateConverter.DCS.Aircraft.F18C
             }
 
             // Press PB_12 (Up) or PB_13 (Down) until we reach the starting waypoint
-            int buttonPresses = Math.Abs(startingWaypoint - currentWaypoint) - 1; // we advance the point by 1 first GetActions
+            int buttonPresses = Math.Abs(StartingWaypoint - currentWaypoint) - 1; // we advance the point by 1 first GetActions
             for (int cnt = 0; cnt < buttonPresses; cnt++)
             {
-                if (startingWaypoint > currentWaypoint)
+                if (StartingWaypoint > currentWaypoint)
                 {
                     commands.Add(new DCSCommand((int)EDevices.AMPCD, (int)EKeyCodes.MDI_PB12, 300)); // forward 1 point
                 }

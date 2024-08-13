@@ -477,23 +477,61 @@ namespace CoordinateConverter
         /// Gets the user friendly string representation.
         /// </summary>
         /// <param name="AircraftType">Type of the aircraft.</param>
+        /// <param name="selectedAircraft">The aircraft the player currently flies</param>
+        /// <param name="idx">The index of this entry in the list</param>
+        /// <param name="list">The whole list</param>
         /// <returns>A string representing this data entry.</returns>
-        public string GetUserFriendlyString(Type AircraftType)
+        public string GetUserFriendlyString(Type AircraftType, object selectedAircraft, int idx, List<CoordinateDataEntry> list)
         {
             if (AircraftType == null)
             {
                 return Name;
             }
+
+            string appendix = "";
             if (AircraftType == typeof(A10C))
             {
-                return Name + " [" + A10C.GetLabelForPoint(Name, Id) + "]";
+                appendix = " [" + A10C.GetLabelForPoint(Name, Id) + "]";
             }
-            if (AircraftSpecificData.ContainsKey(AircraftType))
+            else if (AircraftType == typeof(F16C))
             {
-                return Name + " [" + AircraftSpecificData[AircraftType].ToString() + "]";
+                F16C ac = selectedAircraft as F16C;
+                appendix = $" [WP {idx}]";
+            }
+            else if (AircraftType == typeof(F18C))
+            {
+                F18C ac = selectedAircraft as F18C;
+                F18C.EPointType pt = F18C.EPointType.WAYPOINT;
+                if (AircraftSpecificData.ContainsKey(AircraftType))
+                {
+                    pt = (AircraftSpecificData[AircraftType] as F18CSpecificData).PointType;
+                }
+                int pointIdxAsPerType = pt == F18C.EPointType.WAYPOINT ? ac.StartingWaypoint : 0;
+
+                // loop over the list up to the item itself
+                foreach (var item in list.Take(idx))
+                {
+                    F18C.EPointType currentItemPT = F18C.EPointType.WAYPOINT;
+                    if (item.AircraftSpecificData.ContainsKey(AircraftType))
+                    {
+                        currentItemPT = (item.AircraftSpecificData[AircraftType] as F18CSpecificData).PointType;
+                    }
+                    if (pt == currentItemPT)
+                    {
+                        pointIdxAsPerType++;
+                    }
+                }
+                string ptShortStr = pt == F18C.EPointType.WAYPOINT ? "WP" : "WRP";
+                string ptNumStr = (pointIdxAsPerType >= 59 && pt == F18C.EPointType.WAYPOINT) ? "N/A" : pointIdxAsPerType.ToString();
+                appendix = $" [{ptShortStr} {ptNumStr}]";
             }
 
-            return Name;
+            else if (AircraftSpecificData.ContainsKey(AircraftType))
+            {
+                appendix = " [" + AircraftSpecificData[AircraftType].ToString() + "]";
+            }
+
+            return Name + appendix;
         }
     }
 }

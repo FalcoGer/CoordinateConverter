@@ -1324,7 +1324,8 @@ namespace CoordinateConverter
 
                 // AddRange is faster than adding rows individually
                 List<DataGridViewRow> rows = new List<DataGridViewRow>();
-                foreach (CoordinateDataEntry entry in dataEntries.OrderBy(x => x.Id))
+                var entries = dataEntries.OrderBy(x => x.Id);
+                foreach (CoordinateDataEntry entry in entries)
                 {
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dgv_CoordinateList);
@@ -1332,7 +1333,7 @@ namespace CoordinateConverter
                     row.Cells[0].Value = entry.Id;
                     row.Cells[0].ValueType = typeof(int);
 
-                    row.Cells[1].Value = entry.GetUserFriendlyString(selectedAircraft?.GetType());
+                    row.Cells[1].Value = entry.GetUserFriendlyString(selectedAircraft?.GetType(), selectedAircraft, entry.Id, entries.ToList());
                     row.Cells[1].ValueType = typeof(string);
 
 
@@ -1356,7 +1357,7 @@ namespace CoordinateConverter
                 {
                     CoordinateDataEntry entry = dataEntries[row.Index];
                     (row.Cells[0] as DataGridViewTextBoxCell).Value = entry.Id;
-                    (row.Cells[1] as DataGridViewTextBoxCell).Value = entry.GetUserFriendlyString(selectedAircraft?.GetType());
+                    (row.Cells[1] as DataGridViewTextBoxCell).Value = entry.GetUserFriendlyString(selectedAircraft?.GetType(), selectedAircraft, entry.Id, dataEntries);
                     (row.Cells[2] as DataGridViewTextBoxCell).Value = GetEntryCoordinateStr(entry);
                     (row.Cells[3] as DataGridViewTextBoxCell).Value = entry.GetAltitudeString(cb_AltitudeUnit.Text == "ft");
                     (row.Cells[4] as DataGridViewCheckBoxCell).Value = entry.XFer;
