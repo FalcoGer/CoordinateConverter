@@ -517,7 +517,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                         extraData.Ident == (point.AircraftSpecificData[typeof(AH64)] as AH64SpecificData).Ident
                     )
                     {
-                        return null; // skip the rest
+                        return null; // skip the point, already in the aircraft database
                     }
                     if (
                         ((extraData.PointType == EPointType.Waypoint || extraData.PointType == EPointType.Hazard) &&
@@ -527,7 +527,6 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     {
                         return null; // database full, skip this point
                     }
-
                 }
 
                 // the new point should be added to the points list so it won't be added again later if it's a duplicate
