@@ -141,6 +141,9 @@ namespace CoordinateConverter
             this.tsmi_AircraftMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Auto = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmi_F18Menu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_F18 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_F18_SetFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_A10C = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AH64Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AH64 = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,8 +156,6 @@ namespace CoordinateConverter
             this.tsmi_F16Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_F16 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_F16_SetFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmi_F18 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_JF17Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_JF17 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_JF17_SetFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
@@ -202,7 +203,6 @@ namespace CoordinateConverter
             this.btn_MoveDown = new System.Windows.Forms.ToolStripButton();
             this.btn_MoveUp = new System.Windows.Forms.ToolStripButton();
             this.label19 = new System.Windows.Forms.Label();
-            this.tsmi_F18_SetFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.GrpBox_Output.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalMinutes_Precision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_LL_DecimalSeconds_Precision)).BeginInit();
@@ -1530,7 +1530,7 @@ namespace CoordinateConverter
             this.tsmi_AV8B,
             this.tsmi_F15EMenu,
             this.tsmi_F16Menu,
-            this.tsmi_F18,
+            this.tsmi_F18Menu,
             this.tsmi_JF17Menu,
             this.tsmi_KA50,
             this.tsmi_M2000,
@@ -1552,6 +1552,28 @@ namespace CoordinateConverter
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // tsmi_F18Menu
+            // 
+            this.tsmi_F18Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_F18,
+            this.tsmi_F18_SetFirstPoint});
+            this.tsmi_F18Menu.Name = "tsmi_F18Menu";
+            this.tsmi_F18Menu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F18Menu.Text = "F18";
+            // 
+            // tsmi_F18
+            // 
+            this.tsmi_F18.Name = "tsmi_F18";
+            this.tsmi_F18.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F18.Text = "F18";
+            this.tsmi_F18.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
+            // 
+            // tsmi_F18_SetFirstPoint
+            // 
+            this.tsmi_F18_SetFirstPoint.Name = "tsmi_F18_SetFirstPoint";
+            this.tsmi_F18_SetFirstPoint.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F18_SetFirstPoint.Text = "Set first point...";
             // 
             // tsmi_A10C
             // 
@@ -1632,33 +1654,16 @@ namespace CoordinateConverter
             // tsmi_F16
             // 
             this.tsmi_F16.Name = "tsmi_F16";
-            this.tsmi_F16.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F16.Size = new System.Drawing.Size(171, 22);
             this.tsmi_F16.Text = "F16";
             this.tsmi_F16.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_F16_SetFirstPoint
             // 
             this.tsmi_F16_SetFirstPoint.Name = "tsmi_F16_SetFirstPoint";
-            this.tsmi_F16_SetFirstPoint.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F16_SetFirstPoint.Size = new System.Drawing.Size(171, 22);
             this.tsmi_F16_SetFirstPoint.Text = "Set first point...";
             this.tsmi_F16_SetFirstPoint.Click += new System.EventHandler(this.Tsmi_F16_SetFirstPoint_Click);
-            // 
-            // tsmi_F18
-            // 
-            this.tsmi_F18.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.tsmi_F18_SetFirstPoint});
-            this.tsmi_F18.Name = "tsmi_F18";
-            this.tsmi_F18.Size = new System.Drawing.Size(180, 22);
-            this.tsmi_F18.Text = "F18";
-            this.tsmi_F18.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem1.Text = "F18";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_JF17Menu
             // 
@@ -2049,13 +2054,6 @@ namespace CoordinateConverter
             this.label19.TabIndex = 33;
             this.label19.Text = resources.GetString("label19.Text");
             // 
-            // tsmi_F18_SetFirstPoint
-            // 
-            this.tsmi_F18_SetFirstPoint.Name = "tsmi_F18_SetFirstPoint";
-            this.tsmi_F18_SetFirstPoint.Size = new System.Drawing.Size(180, 22);
-            this.tsmi_F18_SetFirstPoint.Text = "Set first point...";
-            this.tsmi_F18_SetFirstPoint.Click += new System.EventHandler(this.Tsmi_F18_SetFirstPoint_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2204,7 +2202,6 @@ namespace CoordinateConverter
         private ToolStripMenuItem tsmi_Transfer;
         private ToolStripMenuItem tsmi_AV8B;
         private ToolStripMenuItem tsmi_F16Menu;
-        private ToolStripMenuItem tsmi_F18;
         private ToolStripMenuItem tsmi_KA50;
         private ToolStripMenuItem tsmi_M2000;
         private ToolStripMenuItem tsmi_Load;
@@ -2289,7 +2286,8 @@ namespace CoordinateConverter
         private ToolStripSeparator toolStripSeparator12;
         private ToolStripMenuItem tsmi_changeBaseDirectory;
         private ToolStripMenuItem tsmi_A10C;
-        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem tsmi_F18Menu;
+        private ToolStripMenuItem tsmi_F18;
         private ToolStripMenuItem tsmi_F18_SetFirstPoint;
     }
 }
