@@ -1879,7 +1879,7 @@ namespace CoordinateConverter
                 { typeof(F15E), new List<ToolStripMenuItem>() { tsmi_F15E_Pilot, tsmi_F15E_WSO } },
                 { typeof(F16C), new List<ToolStripMenuItem>() { tsmi_F16, tsmi_F16_SetFirstPoint } },
                 { typeof(JF17), new List<ToolStripMenuItem>() { tsmi_JF17, tsmi_JF17_SetFirstPoint } },
-                { typeof(F18C), new List<ToolStripMenuItem>() { tsmi_F18 } },
+                { typeof(F18C), new List<ToolStripMenuItem>() { tsmi_F18, tsmi_F18_SetFirstPoint } },
                 { typeof(KA50), new List<ToolStripMenuItem>() { tsmi_KA50 } },
                 { typeof(M2000), new List<ToolStripMenuItem>() { tsmi_M2000 } },
                 { typeof(OH58D), new List<ToolStripMenuItem>() { tsmi_OH58D } },
