@@ -519,10 +519,15 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     {
                         return null; // skip the rest
                     }
-                    if (points[extraData.PointType].Count >= 50)
+                    if (
+                        ((extraData.PointType == EPointType.Waypoint || extraData.PointType == EPointType.Hazard) &&
+                        points[EPointType.Waypoint].Count + points[EPointType.Hazard].Count >= 50) ||
+                        points[extraData.PointType].Count >= 50
+                    )
                     {
                         return null; // database full, skip this point
                     }
+
                 }
 
                 // the new point should be added to the points list so it won't be added again later if it's a duplicate
