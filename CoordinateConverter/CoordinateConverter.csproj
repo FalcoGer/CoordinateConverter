@@ -130,6 +130,12 @@
     <Compile Include="DCS\Tools\FormExecute.Designer.cs">
       <DependentUpon>FormExecute.cs</DependentUpon>
     </Compile>
+    <Compile Include="DCS\Tools\FormF18WeaponConfigurator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DCS\Tools\FormF18WeaponConfigurator.Designer.cs">
+      <DependentUpon>FormF18WeaponConfigurator.cs</DependentUpon>
+    </Compile>
     <Compile Include="DCS\Tools\FormStartingWaypoint.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DCS\Tools\FormExecute.resx">
       <DependentUpon>FormExecute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DCS\Tools\FormF18WeaponConfigurator.resx">
+      <DependentUpon>FormF18WeaponConfigurator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DCS\Tools\FormMessage.resx">
       <DependentUpon>FormMessage.cs</DependentUpon>

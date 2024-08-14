@@ -141,9 +141,6 @@ namespace CoordinateConverter
             this.tsmi_AircraftMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Auto = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsmi_F18Menu = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmi_F18 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmi_F18_SetFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_A10C = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AH64Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AH64 = new System.Windows.Forms.ToolStripMenuItem();
@@ -156,6 +153,9 @@ namespace CoordinateConverter
             this.tsmi_F16Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_F16 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_F16_SetFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_F18Menu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_F18 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_F18_SetFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_JF17Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_JF17 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_JF17_SetFirstPoint = new System.Windows.Forms.ToolStripMenuItem();
@@ -1319,6 +1319,7 @@ namespace CoordinateConverter
             this.dgv_CoordinateList.Location = new System.Drawing.Point(505, 66);
             this.dgv_CoordinateList.Name = "dgv_CoordinateList";
             this.dgv_CoordinateList.ReadOnly = true;
+            this.dgv_CoordinateList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_CoordinateList.Size = new System.Drawing.Size(672, 376);
             this.dgv_CoordinateList.TabIndex = 30;
             this.dgv_CoordinateList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_CoordinateList_CellContentClick);
@@ -1544,41 +1545,19 @@ namespace CoordinateConverter
             this.tsmi_Auto.Checked = true;
             this.tsmi_Auto.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmi_Auto.Name = "tsmi_Auto";
-            this.tsmi_Auto.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_Auto.Size = new System.Drawing.Size(118, 22);
             this.tsmi_Auto.Text = "Auto";
             this.tsmi_Auto.Click += new System.EventHandler(this.Tsmi_Aircraft_Auto_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // tsmi_F18Menu
-            // 
-            this.tsmi_F18Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmi_F18,
-            this.tsmi_F18_SetFirstPoint});
-            this.tsmi_F18Menu.Name = "tsmi_F18Menu";
-            this.tsmi_F18Menu.Size = new System.Drawing.Size(180, 22);
-            this.tsmi_F18Menu.Text = "F18";
-            // 
-            // tsmi_F18
-            // 
-            this.tsmi_F18.Name = "tsmi_F18";
-            this.tsmi_F18.Size = new System.Drawing.Size(180, 22);
-            this.tsmi_F18.Text = "F18";
-            this.tsmi_F18.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
-            // 
-            // tsmi_F18_SetFirstPoint
-            // 
-            this.tsmi_F18_SetFirstPoint.Name = "tsmi_F18_SetFirstPoint";
-            this.tsmi_F18_SetFirstPoint.Size = new System.Drawing.Size(180, 22);
-            this.tsmi_F18_SetFirstPoint.Text = "Set first point...";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(115, 6);
             // 
             // tsmi_A10C
             // 
             this.tsmi_A10C.Name = "tsmi_A10C";
-            this.tsmi_A10C.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_A10C.Size = new System.Drawing.Size(118, 22);
             this.tsmi_A10C.Text = "A10C";
             // 
             // tsmi_AH64Menu
@@ -1588,7 +1567,7 @@ namespace CoordinateConverter
             this.tsmi_AH64_ClearPoints,
             this.tsmi_AH64_DTC});
             this.tsmi_AH64Menu.Name = "tsmi_AH64Menu";
-            this.tsmi_AH64Menu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AH64Menu.Size = new System.Drawing.Size(118, 22);
             this.tsmi_AH64Menu.Text = "AH64";
             // 
             // tsmi_AH64
@@ -1615,7 +1594,7 @@ namespace CoordinateConverter
             // tsmi_AV8B
             // 
             this.tsmi_AV8B.Name = "tsmi_AV8B";
-            this.tsmi_AV8B.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_AV8B.Size = new System.Drawing.Size(118, 22);
             this.tsmi_AV8B.Text = "AV8B";
             this.tsmi_AV8B.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
@@ -1625,7 +1604,7 @@ namespace CoordinateConverter
             this.tsmi_F15E_Pilot,
             this.tsmi_F15E_WSO});
             this.tsmi_F15EMenu.Name = "tsmi_F15EMenu";
-            this.tsmi_F15EMenu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F15EMenu.Size = new System.Drawing.Size(118, 22);
             this.tsmi_F15EMenu.Text = "F15E";
             // 
             // tsmi_F15E_Pilot
@@ -1648,7 +1627,7 @@ namespace CoordinateConverter
             this.tsmi_F16,
             this.tsmi_F16_SetFirstPoint});
             this.tsmi_F16Menu.Name = "tsmi_F16Menu";
-            this.tsmi_F16Menu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_F16Menu.Size = new System.Drawing.Size(118, 22);
             this.tsmi_F16Menu.Text = "F16";
             // 
             // tsmi_F16
@@ -1665,13 +1644,35 @@ namespace CoordinateConverter
             this.tsmi_F16_SetFirstPoint.Text = "Set first point...";
             this.tsmi_F16_SetFirstPoint.Click += new System.EventHandler(this.Tsmi_F16_SetFirstPoint_Click);
             // 
+            // tsmi_F18Menu
+            // 
+            this.tsmi_F18Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmi_F18,
+            this.tsmi_F18_SetFirstPoint});
+            this.tsmi_F18Menu.Name = "tsmi_F18Menu";
+            this.tsmi_F18Menu.Size = new System.Drawing.Size(118, 22);
+            this.tsmi_F18Menu.Text = "F18";
+            // 
+            // tsmi_F18
+            // 
+            this.tsmi_F18.Name = "tsmi_F18";
+            this.tsmi_F18.Size = new System.Drawing.Size(171, 22);
+            this.tsmi_F18.Text = "F18";
+            this.tsmi_F18.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
+            // 
+            // tsmi_F18_SetFirstPoint
+            // 
+            this.tsmi_F18_SetFirstPoint.Name = "tsmi_F18_SetFirstPoint";
+            this.tsmi_F18_SetFirstPoint.Size = new System.Drawing.Size(171, 22);
+            this.tsmi_F18_SetFirstPoint.Text = "Set first point...";
+            // 
             // tsmi_JF17Menu
             // 
             this.tsmi_JF17Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmi_JF17,
             this.tsmi_JF17_SetFirstPoint});
             this.tsmi_JF17Menu.Name = "tsmi_JF17Menu";
-            this.tsmi_JF17Menu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_JF17Menu.Size = new System.Drawing.Size(118, 22);
             this.tsmi_JF17Menu.Text = "JF17";
             // 
             // tsmi_JF17
@@ -1691,14 +1692,14 @@ namespace CoordinateConverter
             // tsmi_KA50
             // 
             this.tsmi_KA50.Name = "tsmi_KA50";
-            this.tsmi_KA50.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_KA50.Size = new System.Drawing.Size(118, 22);
             this.tsmi_KA50.Text = "KA50";
             this.tsmi_KA50.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
             // tsmi_M2000
             // 
             this.tsmi_M2000.Name = "tsmi_M2000";
-            this.tsmi_M2000.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_M2000.Size = new System.Drawing.Size(118, 22);
             this.tsmi_M2000.Text = "M2000";
             this.tsmi_M2000.Click += new System.EventHandler(this.Tsmi_AircraftSelection_Click);
             // 
@@ -1707,7 +1708,7 @@ namespace CoordinateConverter
             this.tsmi_OH58DMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmi_OH58D});
             this.tsmi_OH58DMenu.Name = "tsmi_OH58DMenu";
-            this.tsmi_OH58DMenu.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_OH58DMenu.Size = new System.Drawing.Size(118, 22);
             this.tsmi_OH58DMenu.Text = "OH58D";
             // 
             // tsmi_OH58D
