@@ -116,7 +116,7 @@ namespace CoordinateConverter.DCS.Tools
                     entry.AircraftSpecificData[typeof(AH64)] = new AH64SpecificData(unit);
                     entry.AircraftSpecificData[typeof(KA50)] = new KA50SpecificData(KA50.EPointType.TargetPoint);
                     entry.AircraftSpecificData[typeof(JF17)] = new JF17SpecificData(JF17.EPointType.Waypoint);
-                    entry.AircraftSpecificData[typeof(F18C)] = new F18CSpecificData();
+                    entry.AircraftSpecificData[typeof(F18C)] = new F18CSpecificData(F18C.EPointType.WPN_REF_PT);
                     entry.AircraftSpecificData[typeof(OH58D)] = new OH58DSpecificData(OH58D.EPointType.Target);
                     Coordinates.Add(entry);
                 }
