@@ -1276,11 +1276,17 @@ namespace CoordinateConverter.DCS.Tools
 
         private void lbPresetNetMembers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            AH64DataLinkMember member = ListBoxItem<AH64DataLinkMember>.GetSelectedValue(sender as ListBox);
-            tbPresetNetCS.Text = member.Callsign;
-            tbPresetNetID.Text = member.SubscriberID;
-            cbPresetNetPrimary.Checked = member.Primary;
-            cbPresetNetTeam.Checked = member.Team;
+            ListBox lb = sender as ListBox;
+            AH64DataLinkMember member = ListBoxItem<AH64DataLinkMember>.GetSelectedValue(lb);
+
+            // if deselected, member is null
+            if (!(member is null))
+            {
+                tbPresetNetCS.Text = member.Callsign;
+                tbPresetNetID.Text = member.SubscriberID;
+                cbPresetNetPrimary.Checked = member.Primary;
+                cbPresetNetTeam.Checked = member.Team;
+            }
 
             UpdateNetControlsEnableStatus();
         }
