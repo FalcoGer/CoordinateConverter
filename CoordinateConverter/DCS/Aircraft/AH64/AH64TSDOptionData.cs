@@ -985,7 +985,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 switch (kvp.Key)
                 {
                     case EScreens.TSD_MAP:
-                        result.Phase = displayData["PB17_31"] == "NAV" ? EPhase.Navigation : EPhase.Attack;
+                        result.Phase = displayData["PB17_39"] == "NAV" ? EPhase.Navigation : EPhase.Attack;
                         result.MapType = displayData["PB23_15"] == "DIG" ? EMapType.Digital
                                         : displayData["PB23_15"] == "CHART" ? EMapType.Chart
                                         : displayData["PB23_15"] == "SAT" ? EMapType.Satellite
