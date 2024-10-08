@@ -506,5 +506,51 @@ namespace CoordinateConverter.DCS.Aircraft.F18C
             EWeaponType.J84,
             EWeaponType.J109
         };
+
+        public enum EElectronicFuzeSetting
+        {
+            Off,
+            Instant,
+            Delayed_1,
+            Delayed_2,
+            VariableTiming_1,
+            VariableTiming_2,
+        }
+
+        public enum EMechanicalFuzeSetting
+        {
+            Off,
+            Nose,
+            Tail,
+            NoseAndTail,
+            Primary,
+            Optional
+        }
+
+        public enum EReleaseMode
+        {
+            // Basically everything
+            Manual,
+            // All bombs
+            Automatic,
+            // Dumb bombs/LGB
+            CCIP,
+            // Paveway III
+            CLAR_CS,
+            CLAR_LS,
+            // JDAM/JSOW
+            LOFT_15,
+            LOFT_30,
+            LOFT_45,
+            Flight_Director
+        }
+
+        public List<EElectronicFuzeSetting> ElectricalFuzeSettings
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
