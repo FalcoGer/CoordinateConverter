@@ -16,7 +16,6 @@ namespace CoordinateConverter.DCS.Aircraft.F18C
         private bool isPrecise = false;
         private bool isLLDec = false;
         private int currentWaypoint = 0;
-        private int currentWPSEQ = 0;
         private bool wpSeqActive = false;
 
         /// <summary>
@@ -313,8 +312,6 @@ namespace CoordinateConverter.DCS.Aircraft.F18C
                 currentWaypoint--;
             }
 
-            var seqData = displayData["    _1__id:20"];
-            currentWPSEQ = int.Parse(seqData.Last().ToString());
             wpSeqActive = displayData.ContainsKey("    _1_box__id:21");
 
             commands = new List<DCSCommand>();
