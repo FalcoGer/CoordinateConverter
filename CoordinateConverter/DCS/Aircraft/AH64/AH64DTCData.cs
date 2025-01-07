@@ -1686,7 +1686,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     return ELaserCodeProgrammSelector.Lrfd;
                 }
 
-                string setString = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_T4, message.CockpitDisplayData[displayToRead], 1);
+                string setString = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_T2, message.CockpitDisplayData[displayToRead], 1);
                 switch (setString)
                 {
                     case "LST":

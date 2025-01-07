@@ -1122,7 +1122,8 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         {
             var dictForPB = GetDictionaryForDisplayDataOnPB(key, displayData);
             // we need to discard the box key (ending with _b)
-            dictForPB = dictForPB.Where(kvp => !kvp.Key.EndsWith("_b")).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            // order keys by ID (as int)
+            dictForPB = dictForPB.Where(kvp => !kvp.Key.EndsWith("_b")).OrderBy(kvp => int.Parse(kvp.Key.Substring(kvp.Key.LastIndexOf('_') + 1))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
             // Keys for the lines on the displays are in the form of PB<key>_<id>
             // where key is the pushbuton internal name in DCS (starting with T1, going clockwise around the OSBs)
@@ -1133,7 +1134,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             {
                 throw new System.ArgumentException("No text at that line. number of lines: " + dictForPB.Count.ToString() + " but wanted line: " + line.ToString(), nameof(line));
             }
-            return dictForPB.OrderBy(kvp => kvp.Key).ElementAt((int)line).Value;
+            return dictForPB.ElementAt((int)line).Value;
         }
 
         /// <summary>
