@@ -1645,9 +1645,9 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             get
             {
                 // read the current selected laser code for programming from the weapons page
-                List<DCSCommand> commands= new List<DCSCommand>();
+                List<DCSCommand> commands = new List<DCSCommand>();
                 int device = (int)(IsPilot ? AH64.EDeviceCode.PLT_LMFD : AH64.EDeviceCode.CPG_LMFD);
-                
+
                 // go to weapons page
                 commands.Add(new DCSCommand(device, (int)AH64.EKeyCode.MFD_WPN));
                 // go to code page
@@ -1686,7 +1686,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     return ELaserCodeProgrammSelector.Lrfd;
                 }
 
-                string setString = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_T2, message.CockpitDisplayData[displayToRead], 1);
+                string setString = AH64.GetTextLinesForOsbForDisplayData(AH64.EKeyCode.MFD_T2, message.CockpitDisplayData[displayToRead]).ElementAt(1);
                 switch (setString)
                 {
                     case "LST":

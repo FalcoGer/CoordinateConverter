@@ -735,7 +735,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             {
                 case EPointType.Waypoint:
                 case EPointType.Hazard:
-                    if (!displayData.ContainsKey("PB1_1_b")) // we are not on the WPT/HZ page
+                    if (!CheckOsbOptionEnabledForDisplayData(EKeyCode.MFD_T1, displayData, "WPTHZ")) // we are not on the WPT/HZ page
                     {
                         // go to the WPT/HZ page
                         commands = new List<DCSCommand>()
@@ -745,7 +745,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     }
                     break;
                 case EPointType.ControlMeasure:
-                    if (!displayData.ContainsKey("PB2_3_b")) // we are not on the CTRLM page
+                    if (!CheckOsbOptionEnabledForDisplayData(EKeyCode.MFD_T2, displayData, "CTRLM")) // we are not on the CTRLM page
                     {
                         // go to the CTRLM page
                         commands = new List<DCSCommand>()
@@ -755,7 +755,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                     }
                     break;
                 case EPointType.Target:
-                    if (!displayData.ContainsKey("PB5_9_b")) // we are not on the COORD (TGT/THRT) page
+                    if (!CheckOsbOptionEnabledForDisplayData(EKeyCode.MFD_T5, displayData, "COORD")) // we are not on the COORD (TGT/THRT) page
                     {
                         // go to the COORD (TGT/THRT) page
                         commands = new List<DCSCommand>()
@@ -814,23 +814,51 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
 
                 Dictionary<int, List<string>> displayDataKeysForLine = new Dictionary<int, List<string>>()
                 {
-                    { 1, new List<string>() { "PB24_21", "LABEL 1",  "LABEL 2",  "LABEL 5",  "LABEL 6"  } },
-                    { 2, new List<string>() { "PB23_23", "LABEL 21", "LABEL 22", "LABEL 25", "LABEL 26" } },
-                    { 3, new List<string>() { "PB22_25", "LABEL 41", "LABEL 42", "LABEL 45", "LABEL 46" } },
-                    { 4, new List<string>() { "PB21_27", "LABEL 61", "LABEL 62", "LABEL 65", "LABEL 66" } },
-                    { 5, new List<string>() { "PB20_29", "LABEL 81", "LABEL 82", "LABEL 85", "LABEL 86" } },
-                    { 6, new List<string>() { "PB19_31", "LABEL 101", "LABEL 102", "LABEL 105", "LABEL 106" } }
+                    { 1, new List<string>() { "LABEL 1",  "LABEL 2",  "LABEL 5",  "LABEL 6"  } },
+                    { 2, new List<string>() { "LABEL 21", "LABEL 22", "LABEL 25", "LABEL 26" } },
+                    { 3, new List<string>() { "LABEL 41", "LABEL 42", "LABEL 45", "LABEL 46" } },
+                    { 4, new List<string>() { "LABEL 61", "LABEL 62", "LABEL 65", "LABEL 66" } },
+                    { 5, new List<string>() { "LABEL 81", "LABEL 82", "LABEL 85", "LABEL 86" } },
+                    { 6, new List<string>() { "LABEL 101", "LABEL 102", "LABEL 105", "LABEL 106" } }
                 };
 
                 for (int line = 1; line <= 6; line++)
                 {
-                    var keys = displayDataKeysForLine[line];
-                    if (!displayData.ContainsKey(keys[0]))
+                    var labelIds = displayDataKeysForLine[line];
+
+                    EKeyCode keyCode;
+                    switch (line)
+                    {
+                        case 1:
+                            keyCode = EKeyCode.MFD_L1;
+                            break;
+                        case 2:
+                            keyCode = EKeyCode.MFD_L2;
+                            break;
+                        case 3:
+                            keyCode = EKeyCode.MFD_L3;
+                            break;
+                        case 4:
+                            keyCode = EKeyCode.MFD_L4;
+                            break;
+                        case 5:
+                            keyCode = EKeyCode.MFD_L5;
+                            break;
+                        case 6:
+                            keyCode = EKeyCode.MFD_L6;
+                            break;
+                        default:
+                            throw new Exception("Unknown line number");
+                    }
+
+                    List<string> lines = GetTextLinesForOsbForDisplayData(keyCode, displayData);
+
+                    if (lines.Count == 0)
                     {
                         break; // page done
                     }
 
-                    string pointIdStr = displayData[keys[0]];        // "W18", "H04", "T49", "C52"
+                    string pointIdStr = lines.First();        // "W18", "H04", "T49", "C52"
 
                     string pointIdentStr;
 
@@ -860,10 +888,10 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                             throw new Exception("Unknown point type");
                     }
 
-                    pointIdentStr += displayData[keys[1]];           // "LZ",  "TU",  "ZU",  "AE"
-                    string pointFreetextStr = displayData[keys[2]];  // "W18", "TWR", "Z23", "T90"
-                    string pointMGRSStr = displayData[keys[3]];      // "37T DL 0192 5672"
-                    string pointElevationStr = displayData[keys[4]]; // "17 FT"
+                    pointIdentStr += displayData[labelIds[0]];           // "LZ",  "TU",  "ZU",  "AE"
+                    string pointFreetextStr = displayData[labelIds[1]];  // "W18", "TWR", "Z23", "T90"
+                    string pointMGRSStr = displayData[labelIds[2]];      // "37T DL 0192 5672"
+                    string pointElevationStr = displayData[labelIds[3]]; // "17 FT"
 
                     // parse the data
                     EPointIdent pointIdent = (EPointIdent)Enum.Parse(typeof(EPointIdent), pointIdentStr);
@@ -1026,7 +1054,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <param name="displayData">The display data for the display at the time</param>
         /// <returns>A directory of the internal dcs push button names and it's associated text.</returns>
         /// <exception cref="System.ArgumentException">Invalid key - key</exception>
-        static public Dictionary<string, string> GetDictionaryForDisplayDataOnPB(AH64.EKeyCode key, Dictionary<string, string> displayData)
+        static public Dictionary<string, string> GetDictionaryOnOsbForDisplayData(AH64.EKeyCode key, Dictionary<string, string> displayData)
         {
             string dcsInternalKeyName = "PB";
             switch (key)
@@ -1118,23 +1146,20 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <param name="line">The line number to get, 0 indexed.</param>
         /// <returns>The text for the line on that push button</returns>
         /// <exception cref=">System.ArgumentException">Not enough lines, or no text at all.</exception>
-        static public string GetLineForDisplayDataOnPB(AH64.EKeyCode key, Dictionary<string, string> displayData, uint line)
+        static public List<string> GetTextLinesForOsbForDisplayData(AH64.EKeyCode key, Dictionary<string, string> displayData)
         {
-            var dictForPB = GetDictionaryForDisplayDataOnPB(key, displayData);
-            // we need to discard the box key (ending with _b)
-            // order keys by ID (as int)
-            dictForPB = dictForPB.Where(kvp => !kvp.Key.EndsWith("_b")).OrderBy(kvp => int.Parse(kvp.Key.Substring(kvp.Key.LastIndexOf('_') + 1))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-
+            var dictForPB = GetDictionaryOnOsbForDisplayData(key, displayData);
             // Keys for the lines on the displays are in the form of PB<key>_<id>
             // where key is the pushbuton internal name in DCS (starting with T1, going clockwise around the OSBs)
             // and id is a seemingly arbitrary number, but they are strictly ordered by line number
             // and then return the line-th entry in the dictionary
             // when sorted by the id.
-            if (dictForPB.Count < line)
-            {
-                throw new System.ArgumentException("No text at that line. number of lines: " + dictForPB.Count.ToString() + " but wanted line: " + line.ToString(), nameof(line));
-            }
-            return dictForPB.ElementAt((int)line).Value;
+
+            // we need to discard the box key (ending with _b)
+            // order keys by ID (as int)
+            dictForPB = dictForPB.Where(kvp => !kvp.Key.EndsWith("_b")).OrderBy(kvp => int.Parse(kvp.Key.Substring(kvp.Key.LastIndexOf('_') + 1))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            return dictForPB.Select(kvp => kvp.Value).ToList();
         }
 
         /// <summary>
@@ -1146,9 +1171,9 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         /// <returns>
         ///   <c>true</c> if the option in display data is enabled on the push button; otherwise, <c>false</c>.
         /// </returns>
-        static public bool IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode key, Dictionary<string, string> displayData, string checkAgainst = null)
+        static public bool CheckOsbOptionEnabledForDisplayData(AH64.EKeyCode key, Dictionary<string, string> displayData, string checkAgainst = null)
         {
-            var displayDataForPB = GetDictionaryForDisplayDataOnPB(key, displayData);
+            var displayDataForPB = GetDictionaryOnOsbForDisplayData(key, displayData);
 
             // check all values if any contains the checkAgainst string
             if (!string.IsNullOrEmpty(checkAgainst))
