@@ -1020,6 +1020,158 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
         }
 
         /// <summary>
+        /// Gets the dictionary of text for display data on the push button.
+        /// </summary>
+        /// <param name="key">The push button to get the text for.</param>
+        /// <param name="displayData">The display data for the display at the time</param>
+        /// <returns>A directory of the internal dcs push button names and it's associated text.</returns>
+        /// <exception cref="System.ArgumentException">Invalid key - key</exception>
+        static public Dictionary<string, string> GetDictionaryForDisplayDataOnPB(AH64.EKeyCode key, Dictionary<string, string> displayData)
+        {
+            string dcsInternalKeyName = "PB";
+            switch (key)
+            {
+                case AH64.EKeyCode.MFD_T1:
+                    dcsInternalKeyName += "1_";
+                    break;
+                case AH64.EKeyCode.MFD_T2:
+                    dcsInternalKeyName += "2_";
+                    break;
+                case AH64.EKeyCode.MFD_T3:
+                    dcsInternalKeyName += "3_";
+                    break;
+                case AH64.EKeyCode.MFD_T4:
+                    dcsInternalKeyName += "4_";
+                    break;
+                case AH64.EKeyCode.MFD_T5:
+                    dcsInternalKeyName += "5_";
+                    break;
+                case AH64.EKeyCode.MFD_T6:
+                    dcsInternalKeyName += "6_";
+                    break;
+                case AH64.EKeyCode.MFD_R1:
+                    dcsInternalKeyName += "7_";
+                    break;
+                case AH64.EKeyCode.MFD_R2:
+                    dcsInternalKeyName += "8_";
+                    break;
+                case AH64.EKeyCode.MFD_R3:
+                    dcsInternalKeyName += "9_";
+                    break;
+                case AH64.EKeyCode.MFD_R4:
+                    dcsInternalKeyName += "10_";
+                    break;
+                case AH64.EKeyCode.MFD_R5:
+                    dcsInternalKeyName += "11_";
+                    break;
+                case AH64.EKeyCode.MFD_R6:
+                    dcsInternalKeyName += "12_";
+                    break;
+                case AH64.EKeyCode.MFD_B1_M:
+                    dcsInternalKeyName += "18_";
+                    break;
+                case AH64.EKeyCode.MFD_B2:
+                    dcsInternalKeyName += "17_";
+                    break;
+                case AH64.EKeyCode.MFD_B3:
+                    dcsInternalKeyName += "16_";
+                    break;
+                case AH64.EKeyCode.MFD_B4:
+                    dcsInternalKeyName += "15_";
+                    break;
+                case AH64.EKeyCode.MFD_B5:
+                    dcsInternalKeyName += "14_";
+                    break;
+                case AH64.EKeyCode.MFD_B6:
+                    dcsInternalKeyName += "13_";
+                    break;
+                case AH64.EKeyCode.MFD_L1:
+                    dcsInternalKeyName += "24_";
+                    break;
+                case AH64.EKeyCode.MFD_L2:
+                    dcsInternalKeyName += "23_";
+                    break;
+                case AH64.EKeyCode.MFD_L3:
+                    dcsInternalKeyName += "22_";
+                    break;
+                case AH64.EKeyCode.MFD_L4:
+                    dcsInternalKeyName += "21_";
+                    break;
+                case AH64.EKeyCode.MFD_L5:
+                    dcsInternalKeyName += "20_";
+                    break;
+                case AH64.EKeyCode.MFD_L6:
+                    dcsInternalKeyName += "19_";
+                    break;
+                default:
+                    throw new System.ArgumentException("Invalid key", nameof(key));
+            }
+
+            return displayData.Where(kvp => kvp.Key.StartsWith(dcsInternalKeyName)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        }
+
+        /// <summary>
+        /// Gets the text line for display data on the push button.
+        /// </summary>
+        /// <param name="key">The push button.</param>
+        /// <param name="displayData">The display data at the time.</param>
+        /// <param name="line">The line number to get, 0 indexed.</param>
+        /// <returns>The text for the line on that push button</returns>
+        /// <exception cref=">System.ArgumentException">Not enough lines, or no text at all.</exception>
+        static public string GetLineForDisplayDataOnPB(AH64.EKeyCode key, Dictionary<string, string> displayData, uint line)
+        {
+            var dictForPB = GetDictionaryForDisplayDataOnPB(key, displayData);
+            // we need to discard the box key (ending with _b)
+            dictForPB = dictForPB.Where(kvp => !kvp.Key.EndsWith("_b")).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            // Keys for the lines on the displays are in the form of PB<key>_<id>
+            // where key is the pushbuton internal name in DCS (starting with T1, going clockwise around the OSBs)
+            // and id is a seemingly arbitrary number, but they are strictly ordered by line number
+            // and then return the line-th entry in the dictionary
+            // when sorted by the id.
+            if (dictForPB.Count < line)
+            {
+                throw new System.ArgumentException("No text at that line. number of lines: " + dictForPB.Count.ToString() + " but wanted line: " + line.ToString(), nameof(line));
+            }
+            return dictForPB.OrderBy(kvp => kvp.Key).ElementAt((int)line).Value;
+        }
+
+        /// <summary>
+        /// Determines whether the option in display data is enabled on the push button, either boxed or with solid circle indicator.
+        /// </summary>
+        /// <param name="key">The push button.</param>
+        /// <param name="displayData">The display data.</param>
+        /// <param name="checkAgainst">A string to check the display text against, and throw an exception if not matched.</param>
+        /// <returns>
+        ///   <c>true</c> if the option in display data is enabled on the push button; otherwise, <c>false</c>.
+        /// </returns>
+        static public bool IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode key, Dictionary<string, string> displayData, string checkAgainst = null)
+        {
+            var displayDataForPB = GetDictionaryForDisplayDataOnPB(key, displayData);
+
+            // check all values if any contains the checkAgainst string
+            if (!string.IsNullOrEmpty(checkAgainst))
+            {
+                if (!displayDataForPB.Any(kvp => kvp.Value.Contains(checkAgainst)))
+                {
+                    string values = "[" + string.Join(", ", displayDataForPB.Select(kvp => "\"" + kvp.Value + "\"").ToArray()) + "]";
+                    throw new Exception("Expected display text on " + key.ToString() + " to be \"" + checkAgainst + "\" but found " + values);
+                }
+            }
+
+            // check if there is a box key (ending with _b)
+            if (displayDataForPB.Any(kvp => kvp.Key.EndsWith("_b")))
+            {
+                return true;
+            }
+
+            // check if this is a toggle button with a circle.
+            // hollow circle (disabled) in DCS is represented by '{', and a full circle (enabled) by '}'
+            // the circle can be either at the start or end of the value
+            return displayDataForPB.Any(kvp => kvp.Value.StartsWith("{")) || displayDataForPB.Any(kvp => kvp.Value.EndsWith("{"));
+        }
+
+        /// <summary>
         /// The valid point types for the AH64
         /// </summary>
         public enum EPointType

@@ -1681,19 +1681,20 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 if (message == null
                     || message.CockpitDisplayData == null
                     || message.CockpitDisplayData[displayToRead].Count == 0
-                    || !message.CockpitDisplayData[displayToRead].ContainsKey("PB2_11")
                 )
                 {
                     return ELaserCodeProgrammSelector.Lrfd;
                 }
 
-                if (message.CockpitDisplayData[displayToRead]["PB2_11"] == "LST")
+                string setString = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_T4, message.CockpitDisplayData[displayToRead], 1);
+                switch (setString)
                 {
-                    return ELaserCodeProgrammSelector.Lst;
-                }
-                else
-                {
-                    return ELaserCodeProgrammSelector.Lrfd;
+                    case "LST":
+                        return ELaserCodeProgrammSelector.Lst;
+                    case "LRFD":
+                        return ELaserCodeProgrammSelector.Lrfd;
+                    default:
+                        throw new Exception($"Unknown laser code programm selector: {setString}");
                 }
             }
         }

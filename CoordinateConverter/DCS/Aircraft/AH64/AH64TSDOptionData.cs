@@ -1,5 +1,6 @@
 ﻿using CoordinateConverter.DCS.Communication;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -958,7 +959,7 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
             };
 
             AH64TSDOptionData result = new AH64TSDOptionData();
-
+            string stringToCheck;
 
             // loop over navigations dictionary
             foreach (KeyValuePair<EScreens, List<DCSCommand>> kvp in navigations.OrderBy(x => x.Key))
@@ -985,35 +986,134 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                 switch (kvp.Key)
                 {
                     case EScreens.TSD_MAP:
-                        result.Phase = displayData["PB17_39"] == "NAV" ? EPhase.Navigation : EPhase.Attack;
-                        result.MapType = displayData["PB23_15"] == "DIG" ? EMapType.Digital
-                                        : displayData["PB23_15"] == "CHART" ? EMapType.Chart
-                                        : displayData["PB23_15"] == "SAT" ? EMapType.Satellite
-                                        : EMapType.Stick;
-                        result.Center = displayData.ContainsKey("PB9_1_b") ? ECenter.Center : ECenter.Depressed;
-                        result.Orientation = displayData["PB11_7"] == "TRK-UP" ? EOrientation.TrackUp
-                                        : (displayData["PB11_7"] == "HDG-UP" ? EOrientation.HeadingUp
-                                        : EOrientation.NorthUp);
-                        result.Grid = displayData.ContainsKey("PB5_23_b") ? EGrid.Grid_Normal : EGrid.Grid_None;
+                        stringToCheck = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_B2, displayData, 1);
+                        switch (stringToCheck)
+                        {
+                            case "NAV":
+                                result.Phase = EPhase.Navigation;
+                                break;
+                            case "ATK":
+                                result.Phase = EPhase.Attack;
+                                break;
+                            default:
+                                throw new System.Exception("Expected 'NAV' or 'ATK' on B2, but found \"" + stringToCheck + "\"");
+                        }
+
+                        stringToCheck = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_L2, displayData, 1);
+                        switch (stringToCheck)
+                        {
+                            case "DIG":
+                                result.MapType = EMapType.Digital;
+                                break;
+                            case "CHART":
+                                result.MapType = EMapType.Chart;
+                                break;
+                            case "SAT":
+                                result.MapType = EMapType.Satellite;
+                                break;
+                            case "STICK":
+                                result.MapType = EMapType.Stick;
+                                break;
+                            default:
+                                throw new System.Exception("Expected 'DIG', 'CHART', 'SAT' or 'STICK' on L2, but found \"" + stringToCheck + "\"");
+                        }
+
+                        result.Center = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R3, displayData, "CTR") ? ECenter.Center : ECenter.Depressed;
+
+                        stringToCheck = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_R5, displayData, 1);
+                        switch (stringToCheck)
+                        {
+                            case "TRK-UP":
+                                result.Orientation = EOrientation.TrackUp;
+                                break;
+                            case "HDG-UP":
+                                result.Orientation = EOrientation.HeadingUp;
+                                break;
+                            case "N-UP":
+                                result.Orientation = EOrientation.NorthUp;
+                                break;
+                            default:
+                                throw new System.Exception("Expected 'TRK-UP', 'HDG-UP' or 'N-UP' on R5, but found \"" + stringToCheck + "\"");
+                        }
+
+                        result.Grid = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_T5, displayData, "GRID") ? EGrid.Grid_Normal : EGrid.Grid_None;
                         break;
                     case EScreens.TSD_MAP_DIG:
-                        result.Gray = displayData.ContainsKey("PB4_21_b") ? EGray.Gray : EGray.Green_and_gray;
-                        result.ColorBand = displayData["PB21_31"] == "NONE" ? EColorBand.None
-                                        : displayData["PB21_31"] == "ELEV" ? EColorBand.Elevation
-                                        : EColorBand.AC;
-                        result.Contours = displayData["PB20_35"] == "NONE" ? EContours.Contours_None
-                                        : displayData["PB20_35"] == "50" ? EContours.Contours_50
-                                        : displayData["PB20_35"] == "100" ? EContours.Contours_100
-                                        : displayData["PB20_35"] == "200" ? EContours.Contours_200
-                                        : displayData["PB20_35"] == "500" ? EContours.Contours_500
-                                        : EContours.Contours_1000;
-                        result.ffd = displayData["PB19_39"] == "NONE" ? EFfd.FFD_None
-                                        : displayData["PB19_39"] == "BOTH" ? EFfd.FFD_Both
-                                        : displayData["PB19_39"] == "LINES" ? EFfd.FFD_Lines
-                                        : EFfd.FFD_Areas;
+                        result.Gray = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_T4, displayData, "GRAY") ? EGray.Gray : EGray.Green_and_gray;
+
+                        stringToCheck = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_L4, displayData, 1);
+                        switch (stringToCheck)
+                        {
+                            case "NONE":
+                                result.ColorBand = EColorBand.None;
+                                break;
+                            case "ELEV":
+                                result.ColorBand = EColorBand.Elevation;
+                                break;
+                            case "A/C":
+                                result.ColorBand = EColorBand.AC;
+                                break;
+                            default:
+                                throw new System.Exception("Expected 'NONE', 'ELEV' or 'A/C' on L4, but found \"" + stringToCheck + "\"");
+                        }
+                        
+                        stringToCheck = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_L5, displayData, 1);
+                        switch (stringToCheck)
+                        {
+                            case "NONE":
+                                result.Contours = EContours.Contours_None;
+                                break;
+                            case "50":
+                                result.Contours = EContours.Contours_50;
+                                break;
+                            case "100":
+                                result.Contours = EContours.Contours_100;
+                                break;
+                            case "200":
+                                result.Contours = EContours.Contours_200;
+                                break;
+                            case "500":
+                                result.Contours = EContours.Contours_500;
+                                break;
+                            case "1000":
+                                result.Contours = EContours.Contours_1000;
+                                break;
+                            default:
+                                throw new System.Exception("Expected 'NONE', '50', '100', '200', '500' or '1000' on L5, but found \"" + stringToCheck + "\"");
+                        }
+
+                        string ffdStr = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_L6, displayData, 1);
+                        switch (ffdStr)
+                        {
+                            case "NONE":
+                                result.ffd = EFfd.FFD_None;
+                                break;
+                            case "BOTH":
+                                result.ffd = EFfd.FFD_Both;
+                                break;
+                            case "LINES":
+                                result.ffd = EFfd.FFD_Lines;
+                                break;
+                            case "AREAS":
+                                result.ffd = EFfd.FFD_Areas;
+                                break;
+                            default:
+                                throw new System.Exception("Expected 'NONE', 'BOTH', 'LINES' or 'AREAS' on L6, but found \"" + ffdStr + "\"");
+                        }
                         break;
                     case EScreens.TSD_MAP_SAT:
-                        result.SatLevel = displayData["PB22_27"] == "5M" ? ESatLevel.L5 : ESatLevel.L10;
+                        string satLevelStr = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_L3, displayData, 1);
+                        switch (satLevelStr)
+                        {
+                            case "5M":
+                                result.SatLevel = ESatLevel.L5;
+                                break;
+                            case "10M":
+                                result.SatLevel = ESatLevel.L10;
+                                break;
+                            default:
+                                throw new System.Exception("Expected '5M' or '10M' on L3, but found \"" + satLevelStr + "\"");
+                        }
                         break;
                     case EScreens.TSD_MAP_CHART:
                         // result.ChartScale = displayData["PB22_23"] == "" ...;
@@ -1045,46 +1145,58 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                         }
                         break;
                     case EScreens.TSD_SHOW_NAV:
-                        result.NavWpData = displayData.ContainsKey("PB23_9_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavInactiveZones = displayData.ContainsKey("PB22_13_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavObstacles = displayData.ContainsKey("PB21_29_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavCursor = displayData.ContainsKey("PB20_15_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavCursorInfo = displayData.ContainsKey("PB19_17_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavHSI = displayData.ContainsKey("PB10_23_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavEndurance = displayData.ContainsKey("PB11_25_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavWind = displayData.ContainsKey("PB12_27_b") ? EFilter.Show : EFilter.Hide;
-                        break;
-                    case EScreens.TSD_SHOW_COORD_NAV:
-                        result.NavCtrlMeasures = displayData.ContainsKey("PB23_11_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavFriendlyUnits = displayData.ContainsKey("PB22_13_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavEnemyUnits = displayData.ContainsKey("PB21_15_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavTargets = displayData.ContainsKey("PB20_17_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavLines = displayData.ContainsKey("PB7_19_b") ? EFilter.Show : EFilter.Hide;
-                        result.NavAreas = displayData.ContainsKey("PB8_21_b") ? EFilter.Show : EFilter.Hide;
+                        result.NavWpData = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L2, displayData, "WAYPOINT DATA") ? EFilter.Show : EFilter.Hide;
+                        result.NavInactiveZones = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L3, displayData, "INACTIVE ZONES") ? EFilter.Show : EFilter.Hide;
+                        result.NavObstacles = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L4, displayData, "OBSTACLES") ? EFilter.Show : EFilter.Hide;
+                        result.NavCursor = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L5, displayData, " CURSOR") ? EFilter.Show : EFilter.Hide;
+                        result.NavCursorInfo = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L6, displayData, "CURSR\nINFO") ? EFilter.Show : EFilter.Hide;
+                        result.NavHSI = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R4, displayData, "HSI") ? EFilter.Show : EFilter.Hide;
+                        result.NavEndurance = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R5, displayData, "ENDR") ? EFilter.Show : EFilter.Hide;
+                        result.NavWind = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R6, displayData, "WIND") ? EFilter.Show : EFilter.Hide;
                         break;
                     case EScreens.TSD_SHOW_ATK:
-                        result.AtkCurrentRoute = displayData.ContainsKey("PB23_11_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkInactiveZones = displayData.ContainsKey("PB22_13_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkFCRObstacles = displayData.ContainsKey("PB21_31_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkCursor = displayData.ContainsKey("PB20_15_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkCursorInfo = displayData.ContainsKey("PB19_17_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkHSI = displayData.ContainsKey("PB10_23_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkEndurance = displayData.ContainsKey("PB11_25_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkWind = displayData.ContainsKey("PB12_27_b") ? EFilter.Show : EFilter.Hide;
+                        result.AtkCurrentRoute = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L2, displayData, "CURRENT ROUTE") ? EFilter.Show : EFilter.Hide;
+                        result.AtkInactiveZones = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L3, displayData, "INACTIVE ZONES") ? EFilter.Show : EFilter.Hide;
+                        result.AtkFCRObstacles = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L4, displayData, "FCR TGTS/OBSTACLES") ? EFilter.Show : EFilter.Hide;
+                        result.AtkCursor = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L5, displayData, " CURSOR") ? EFilter.Show : EFilter.Hide;
+                        result.AtkCursorInfo = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L6, displayData, "CURSR\nINFO") ? EFilter.Show : EFilter.Hide;
+                        result.AtkHSI = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R4, displayData, "HSI") ? EFilter.Show : EFilter.Hide;
+                        result.AtkEndurance = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R5, displayData, "ENDR") ? EFilter.Show : EFilter.Hide;
+                        result.AtkWind = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R6, displayData, "WIND") ? EFilter.Show : EFilter.Hide;
+                        break;
+                    case EScreens.TSD_SHOW_COORD_NAV:
+                        result.NavFriendlyUnits = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L2, displayData, "CONTROL MEASURES") ? EFilter.Show : EFilter.Hide;
+                        result.NavFriendlyUnits = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L3, displayData, "FRIENDLY UNITS") ? EFilter.Show : EFilter.Hide;
+                        result.NavEnemyUnits = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L4, displayData, "ENEMY UNITS") ? EFilter.Show : EFilter.Hide;
+                        result.NavTargets = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L5, displayData, "PLANNED TGTS/THREATS") ? EFilter.Show : EFilter.Hide;
+                        result.NavLines = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R1, displayData, "LINES") ? EFilter.Show : EFilter.Hide;
+                        result.NavAreas = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R2, displayData, "AREAS") ? EFilter.Show : EFilter.Hide;
                         break;
                     case EScreens.TSD_SHOW_COORD_ATK:
-                        result.AtkCtrlMeasures = displayData.ContainsKey("PB23_11_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkFriendlyUnits = displayData.ContainsKey("PB22_13_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkEnemyUnits = displayData.ContainsKey("PB21_15_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkTargets = displayData.ContainsKey("PB20_17_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkLines = displayData.ContainsKey("PB7_19_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkAreas = displayData.ContainsKey("PB8_21_b") ? EFilter.Show : EFilter.Hide;
-                        result.AtkShotAt = displayData.ContainsKey("PB9_23_b") ? EFilter.Show : EFilter.Hide;
+                        result.AtkFriendlyUnits = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L2, displayData, "CONTROL MEASURES") ? EFilter.Show : EFilter.Hide;
+                        result.AtkFriendlyUnits = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L3, displayData, "FRIENDLY UNITS") ? EFilter.Show : EFilter.Hide;
+                        result.AtkEnemyUnits = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L4, displayData, "ENEMY UNITS") ? EFilter.Show : EFilter.Hide;
+                        result.AtkTargets = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L5, displayData, "PLANNED TGTS/THREATS") ? EFilter.Show : EFilter.Hide;
+                        result.AtkLines = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R1, displayData, "LINES") ? EFilter.Show : EFilter.Hide;
+                        result.AtkAreas = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R2, displayData, "AREAS") ? EFilter.Show : EFilter.Hide;
+                        result.AtkShotAt = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R3, displayData, "SHOT") ? EFilter.Show : EFilter.Hide;
                         break;
                     case EScreens.TSD_SHOW_THREAT:
-                        result.ThreatVis = displayData["PB7_25"] == "THRT" ? EVis.Threat : EVis.Own;
-                        result.AseThreats = displayData.ContainsKey("PB23_15_b") ? EFilter.Show : EFilter.Hide;
-                        result.VisShade = displayData.ContainsKey("PB19_21_b") ? EFilter.Show : EFilter.Hide;
+                        string visStr = AH64.GetLineForDisplayDataOnPB(AH64.EKeyCode.MFD_R1, displayData, 1);
+                        switch (visStr)
+                        {
+                            case "THRT":
+                                result.ThreatVis = EVis.Threat;
+                                break;
+                            case "OWN":
+                                result.ThreatVis = EVis.Own;
+                                break;
+                            default:
+                                throw new System.Exception("Expected 'THRT' or 'OWN' on R1, but found \"" + visStr + "\"");
+                        }
+
+                        result.AseThreats = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L2, displayData, "ASE THREATS") ? EFilter.Show : EFilter.Hide;
+                        result.VisShade = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_L6, displayData, "VIS\nSHADE") ? EFilter.Show : EFilter.Hide;
 
                         // switch to OWN
                         if (result.ThreatVis == EVis.Threat)
@@ -1115,10 +1227,10 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                         }
 
                         // we are now in OWN, read data
-                        result.VisOwnOwn = displayData.ContainsKey("PB8_27_b") ? EFilter.Show : EFilter.Hide;
-                        result.VisOwnTrnPt = displayData.ContainsKey("PB9_29_b") ? EFilter.Show : EFilter.Hide;
-                        result.VisOwnGhost = displayData.ContainsKey("PB10_31_b") ? EFilter.Show : EFilter.Hide;
-                        result.VisOwnRings = displayData.ContainsKey("PB12_33_b") ? EFilter.Show : EFilter.Hide;
+                        result.VisOwnOwn = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R2, displayData, "OWN") ? EFilter.Show : EFilter.Hide;
+                        result.VisOwnTrnPt = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R3, displayData, "TRN PT") ? EFilter.Show : EFilter.Hide;
+                        result.VisOwnGhost = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R4, displayData, "GHOST") ? EFilter.Show : EFilter.Hide;
+                        result.VisOwnRings = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R6, displayData, "RINGS") ? EFilter.Show : EFilter.Hide;
 
                         // switch over to THRT
                         commands = new List<DCSCommand>()
@@ -1146,11 +1258,11 @@ namespace CoordinateConverter.DCS.Aircraft.AH64
                         displayData = message.CockpitDisplayData[displayToRead];
 
                         // read THRT
-                        result.VisThreatACQ = displayData.ContainsKey("PB8_37_b") ? EFilter.Show : EFilter.Hide;
-                        result.VisThreatTrnPt = displayData.ContainsKey("PB9_39_b") ? EFilter.Show : EFilter.Hide;
-                        result.VisThreatFCR = displayData.ContainsKey("PB10_41_b") ? EFilter.Show : EFilter.Hide;
-                        result.VisThreatThreats = displayData.ContainsKey("PB11_43_b") ? EFilter.Show : EFilter.Hide;
-                        result.visThreatTargets = displayData.ContainsKey("PB12_45_b") ? EFilter.Show : EFilter.Hide;
+                        result.VisThreatACQ = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R2, displayData, "ACQ") ? EFilter.Show : EFilter.Hide;
+                        result.VisThreatTrnPt = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R3, displayData, "TRN PT") ? EFilter.Show : EFilter.Hide;
+                        result.VisThreatFCR = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R4, displayData, "FCR/RFI") ? EFilter.Show : EFilter.Hide;
+                        result.VisThreatThreats = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R5, displayData, "THREATS") ? EFilter.Show : EFilter.Hide;
+                        result.visThreatTargets = AH64.IsOptionInDisplayDataEnabledOnPB(AH64.EKeyCode.MFD_R6, displayData, "TARGETS") ? EFilter.Show : EFilter.Hide;
                         break;
                 }
             }
